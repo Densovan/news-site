@@ -62,7 +62,7 @@ const Footer = () => {
               {/* <center> */}
               <h1 className="widget-title">informations</h1>
               <h2>Community</h2>
-              <h2>Community</h2>
+              {/* <h2>Community</h2> */}
               {/* </center> */}
             </Col>
             <Col sm={24} md={8}>
