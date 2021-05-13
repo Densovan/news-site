@@ -6,10 +6,43 @@ const TopStory = () => {
   return (
     <div className="container">
       <div>
-        <Row>
+        <Row gutter={[32, 32]}>
           <Col sm={17}>
             <br></br>
             <h1>Top Stories</h1>
+
+            {/*======================= The last news =================== */}
+
+            <Row>
+              <Col span={24}>
+                <div className="lasts-news-card">
+                  <div
+                    className="lasts-news-style"
+                    style={{
+                      backgroundImage: `url("https://cdn.decrypt.co/resize/1400/wp-content/uploads/2021/01/elon-musk-microphones-gID_4.jpg")`,
+                    }}
+                  ></div>
+                  <div className="content-lasts-news">
+                    <h1>
+                      Crypto Leaders React to Elon Musk’s Bitcoin Environment
+                      Bombshell
+                    </h1>
+                    <h1 className="status-news-topstory">
+                      News{" "}
+                      <span>
+                        <CaretRightOutlined style={{ fontSize: "10px" }} />
+                      </span>{" "}
+                      Coin
+                    </h1>
+                    <p className="data-last-news">Sovanden : 03/03/2021</p>
+                    <button className="readmore-last-news">
+                      Read More <span>&rarr;</span>
+                    </button>
+                  </div>
+                </div>
+              </Col>
+            </Row>
+            <Divider></Divider>
             <Row gutter={[12, 12]}>
               <Col xs={24} sm={9}>
                 <div
@@ -73,6 +106,66 @@ const TopStory = () => {
           <Col sm={7}>
             <br></br>
             <h1>Learn</h1>
+            <div>
+              <Row gutter={[12, 12]}>
+                <Col span={24}>
+                  <div className="learn-card">
+                    <div
+                      className="learn-style"
+                      style={{
+                        backgroundImage: `url("https://cdn.decrypt.co/resize/1400/wp-content/uploads/2021/04/Algorand-gID_5-pID_5.png")`,
+                      }}
+                    ></div>
+                    <div className="content-learn">
+                      <h3>What is Algorand? A Speedy.....</h3>
+                      <p>
+                        NEAR is a smart contract-capable blockchain that's
+                        designed...
+                      </p>
+                      <h1 className="status-news-topstory">
+                        Learn{" "}
+                        <span>
+                          <CaretRightOutlined style={{ fontSize: "10px" }} />
+                        </span>{" "}
+                        Coin
+                      </h1>
+                      <small>Sovanden : 03/03/2021</small>
+                      <button className="readmore-learn">
+                        Read More <span>&rarr;</span>
+                      </button>
+                    </div>
+                  </div>
+                </Col>
+                <Col span={24}>
+                  <div className="learn-card">
+                    <div
+                      className="learn-style"
+                      style={{
+                        backgroundImage: `url("https://cdn.decrypt.co/resize/1400/wp-content/uploads/2021/04/Algorand-gID_5-pID_5.png")`,
+                      }}
+                    ></div>
+                    <div className="content-learn">
+                      <h3>What is Algorand? A Speedy.....</h3>
+                      <p>
+                        NEAR is a smart contract-capable blockchain that's
+                        designed...
+                      </p>
+                      <h1 className="status-news-topstory">
+                        Learn{" "}
+                        <span>
+                          <CaretRightOutlined style={{ fontSize: "10px" }} />
+                        </span>{" "}
+                        Coin
+                      </h1>
+                      <small>Sovanden : 03/03/2021</small>
+                      <button className="readmore-learn">
+                        Read More <span>&rarr;</span>
+                      </button>
+                    </div>
+                  </div>
+                </Col>
+              </Row>
+            </div>
           </Col>
         </Row>
       </div>

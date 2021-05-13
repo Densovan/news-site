@@ -1,17 +1,24 @@
 import React from "react";
 import { Row, Col, Divider } from "antd";
+import { Form, Input, Button } from "antd";
 import {
   TiSocialFacebook,
   TiSocialTwitter,
   TiSocialLinkedin,
   TiRss,
+  TiMediaPlay,
 } from "react-icons/ti";
+import Link from "next/link";
 
 const Footer = () => {
+  const onFinish = (values) => {
+    console.log("Success:", values);
+  };
   return (
     <React.Fragment>
       <div className="footer-background">
         <div className="container ">
+          <br></br>
           <br></br>
           <Row>
             <Col sm={24} md={8}>
@@ -23,14 +30,14 @@ const Footer = () => {
               <center className="term">
                 <a className="link-footer">Term & Condition</a>
                 <Divider
-                  className="divider-footer"
-                  //   style={{ color: "white" }}
+                  className="divider-horizental"
+                  // style={{ color: "white" }}
                   type="vertical"
                 />
                 <a className="link-footer">Privacy Policy</a>
                 <Divider
-                  className="divider-footer"
-                  //   style={{ color: "white" }}
+                  className="divider-horizental"
+                  // style={{ color: "white" }}
                   type="vertical"
                 />
                 <a className="link-footer">Contact Us</a>
@@ -57,19 +64,65 @@ const Footer = () => {
         {/* Second Navbar */}
         <Divider className="divider-footer" style={{ color: "white" }} />
         <div className="container">
-          <Row gutter={[12, 12]}>
+          <Row gutter={[52, 12]}>
             <Col sm={24} md={8}>
-              {/* <center> */}
               <h1 className="widget-title">informations</h1>
-              <h2>Community</h2>
-              {/* <h2>Community</h2> */}
-              {/* </center> */}
-            </Col>
-            <Col sm={24} md={8}>
-              <h1 className="widget-title">Newsletter Sign Up</h1>
+              <div className="content-footer">
+                <h2>
+                  <Link href="/community">News and Events</Link>
+                </h2>
+                <h2>
+                  <Link href="/community">Ask Me Anything</Link>
+                </h2>
+                <h2>
+                  <Link href="/community">Become a contributer</Link>
+                </h2>
+              </div>
             </Col>
             <Col sm={24} md={8}>
               <h1 className="widget-title">help</h1>
+              <div className="content-footer">
+                <h2>
+                  <Link href="/community">News and Events</Link>
+                </h2>
+                <h2>
+                  <Link href="/community">Ask Me Anything</Link>
+                </h2>
+                <h2>
+                  <Link href="/community">Become a contributer</Link>
+                </h2>
+              </div>
+            </Col>
+            <Col sm={24} md={8}>
+              <h1 className="widget-title">Newsletter Sign Up</h1>
+              <div className="content-footer">
+                <p className="des-footer">
+                  Subscribe now and get exclusive news, interviews and stories.
+                </p>
+              </div>
+
+              <Form onFinish={onFinish}>
+                <Form.Item
+                  name="email"
+                  rules={[
+                    { required: true, message: "Please input your Email!" },
+                  ]}
+                >
+                  <Input
+                    className="input-form-footer"
+                    size="large"
+                    placeholder="Enter Your Email Address"
+                    type="email"
+                  />
+                </Form.Item>
+                <Form.Item>
+                  <Button htmlType="submit" className="sub-btn-footer">
+                    Subscribe {/* <span> */}
+                    <TiMediaPlay className="sub-icon-footer" />
+                    {/* </span> */}
+                  </Button>
+                </Form.Item>
+              </Form>
             </Col>
           </Row>
         </div>
