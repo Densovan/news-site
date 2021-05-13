@@ -30,21 +30,31 @@ const MainNavbar = () => {
               className="left-bar"
               // theme="dark"
               mode="horizontal"
-              defaultSelectedKeys={["2"]}
+              // defaultSelectedKeys={["2"]}
             >
-              <Menu.Item className="navbar-text" key="1">
+              <Menu.Item className="navbar-text" key="0">
                 <ActiveLink activeClassName="is-active" href="/">
+                  <a>Home</a>
+                </ActiveLink>
+              </Menu.Item>
+              <Menu.Item className="navbar-text" key="1">
+                <ActiveLink activeClassName="is-active" href="/allnews">
                   <a>News</a>
                 </ActiveLink>
               </Menu.Item>
               <Menu.Item key="2">
-                <ActiveLink activeClassName="is-active" href="/1">
+                <ActiveLink activeClassName="is-active" href="/learn">
                   <a>Learns</a>
                 </ActiveLink>
               </Menu.Item>
               <Menu.Item key="3">
                 <ActiveLink activeClassName="is-active" href="/2">
                   <a>Features</a>
+                </ActiveLink>
+              </Menu.Item>
+              <Menu.Item key="4">
+                <ActiveLink activeClassName="is-active" href="/about">
+                  <a>About Us</a>
                 </ActiveLink>
               </Menu.Item>
             </Menu>

@@ -1,6 +1,8 @@
 import React from "react";
 import { Row, Col, Button, Divider } from "antd";
 import { CaretRightOutlined } from "@ant-design/icons";
+import Link from "next/link";
+import Sound from "react-sound";
 
 const TopStory = () => {
   return (
@@ -9,7 +11,7 @@ const TopStory = () => {
         <Row gutter={[32, 32]}>
           <Col sm={17}>
             <br></br>
-            <h1>Top Stories</h1>
+            <h1 className="top-title">Top Stories</h1>
 
             {/*======================= The last news =================== */}
 
@@ -44,7 +46,7 @@ const TopStory = () => {
             </Row>
             <Divider></Divider>
             <Row gutter={[12, 12]}>
-              <Col xs={24} sm={9}>
+              <Col xs={24} sm={24} md={8} lg={9}>
                 <div
                   className="news-topstory-style"
                   style={{
@@ -52,7 +54,7 @@ const TopStory = () => {
                   }}
                 ></div>
               </Col>
-              <Col xs={24} sm={15}>
+              <Col xs={24} sm={24} md={16} lg={15}>
                 <h2>SEC Pours Cold Water on Bitcoin Futures Market</h2>
                 <p>
                   Like any other futures contract for a commodity or stock,
@@ -66,7 +68,7 @@ const TopStory = () => {
                   </span>{" "}
                   Coin
                 </h1>
-                <small>Sovanden : 03/03/2021</small>
+                <p className="date-news">Sovanden : 03/03/2021</p>
                 <button className="readmore">
                   Read More <span>&rarr;</span>
                 </button>
@@ -76,7 +78,7 @@ const TopStory = () => {
                 <div
                   className="news-topstory-style"
                   style={{
-                    backgroundImage: `url("https://cdn.decrypt.co/resize/1400/wp-content/uploads/2021/03/shutterstock_1625495629-1-gID_4.jpg")`,
+                    backgroundImage: `url("https://cdn.decrypt.co/resize/600/wp-content/uploads/2020/12/facebook-diem-gID_4.jpg")`,
                   }}
                 ></div>
               </Col>
@@ -95,17 +97,117 @@ const TopStory = () => {
                   </span>{" "}
                   Coin
                 </h1>
-                <small>Sovanden : 03/03/2021</small>
+                <p className="date-news">Sovanden : 03/03/2021</p>
                 <button className="readmore">
                   Read More <span>&rarr;</span>
                 </button>
               </Col>
+              <Divider style={{ margin: "0px" }}></Divider>
+              <Col sm={9}>
+                <div
+                  className="news-topstory-style"
+                  style={{
+                    backgroundImage: `url("https://cdn.decrypt.co/resize/600/wp-content/uploads/2021/04/Tesla-gID_4.jpg")`,
+                  }}
+                ></div>
+              </Col>
+
+              <Col sm={15}>
+                <h2>SEC Pours Cold Water on Bitcoin Futures Market</h2>
+                <p>
+                  Like any other futures contract for a commodity or stock,
+                  Bitcoin futures give investors the chance to speculate on the
+                  future price of Bitcoin. In the SEC’s statement
+                </p>
+                <h1 className="status-news-topstory">
+                  News{" "}
+                  <span>
+                    <CaretRightOutlined style={{ fontSize: "10px" }} />
+                  </span>{" "}
+                  Coin
+                </h1>
+                <p className="date-news">Sovanden : 03/03/2021</p>
+                <button className="readmore">
+                  Read More <span>&rarr;</span>
+                </button>
+              </Col>
+              <Divider style={{ margin: "0px" }}></Divider>
+              <Col sm={9}>
+                <div
+                  className="news-topstory-style"
+                  style={{
+                    backgroundImage: `url("https://cdn.decrypt.co/resize/600/wp-content/uploads/2020/02/shutterstock_6361397451-gID_2.jpg")`,
+                  }}
+                ></div>
+              </Col>
+
+              <Col sm={15}>
+                <h2>SEC Pours Cold Water on Bitcoin Futures Market</h2>
+                <p>
+                  Like any other futures contract for a commodity or stock,
+                  Bitcoin futures give investors the chance to speculate on the
+                  future price of Bitcoin. In the SEC’s statement
+                </p>
+                <h1 className="status-news-topstory">
+                  News{" "}
+                  <span>
+                    <CaretRightOutlined style={{ fontSize: "10px" }} />
+                  </span>{" "}
+                  Coin
+                </h1>
+                <p className="date-news">Sovanden : 03/03/2021</p>
+                <button className="readmore">
+                  Read More <span>&rarr;</span>
+                </button>
+              </Col>
+              <Divider style={{ margin: "0px" }}></Divider>
+              <Col sm={9}>
+                <div
+                  className="news-topstory-style"
+                  style={{
+                    backgroundImage: `url("https://cdn.decrypt.co/resize/600/wp-content/uploads/2019/11/euro-gID_1.jpg")`,
+                  }}
+                ></div>
+              </Col>
+
+              <Col sm={15}>
+                <h2>SEC Pours Cold Water on Bitcoin Futures Market</h2>
+                <p>
+                  Like any other futures contract for a commodity or stock,
+                  Bitcoin futures give investors the chance to speculate on the
+                  future price of Bitcoin. In the SEC’s statement
+                </p>
+                <h1 className="status-news-topstory">
+                  News{" "}
+                  <span>
+                    <CaretRightOutlined style={{ fontSize: "10px" }} />
+                  </span>{" "}
+                  Coin
+                </h1>
+                <p className="date-news">Sovanden : 03/03/2021</p>
+                <button className="readmore">
+                  Read More <span>&rarr;</span>
+                </button>
+              </Col>
+              <Divider style={{ margin: "0px" }}></Divider>
             </Row>
+            <br></br>
+            {/* <Link href="/" className="all-news-btn">
+              <a>All News</a>
+              <span>&rarr;</span>
+            </Link> */}
+            <h3 className="all-news-btn">
+              <Link href="/allnews">
+                <a>
+                  All News <span>&rarr;</span>
+                </a>
+              </Link>
+            </h3>
           </Col>
 
           <Col sm={7}>
             <br></br>
-            <h1>Learn</h1>
+            <h1 className="top-title">Learn</h1>
             <div>
               <Row gutter={[12, 12]}>
                 <Col span={24}>
@@ -129,7 +231,7 @@ const TopStory = () => {
                         </span>{" "}
                         Coin
                       </h1>
-                      <small>Sovanden : 03/03/2021</small>
+                      <p className="date-learn ">Sovanden : 03/03/2021</p>
                       <button className="readmore-learn">
                         Read More <span>&rarr;</span>
                       </button>
@@ -141,7 +243,7 @@ const TopStory = () => {
                     <div
                       className="learn-style"
                       style={{
-                        backgroundImage: `url("https://cdn.decrypt.co/resize/1400/wp-content/uploads/2021/04/Algorand-gID_5-pID_5.png")`,
+                        backgroundImage: `url("https://cdn.decrypt.co/resize/600/wp-content/uploads/2021/04/Padlock-gID_6-pID_6.png")`,
                       }}
                     ></div>
                     <div className="content-learn">
@@ -157,13 +259,76 @@ const TopStory = () => {
                         </span>{" "}
                         Coin
                       </h1>
-                      <small>Sovanden : 03/03/2021</small>
+                      <p className="date-learn ">Sovanden : 03/03/2021</p>
                       <button className="readmore-learn">
                         Read More <span>&rarr;</span>
                       </button>
                     </div>
                   </div>
                 </Col>
+                <Col span={24}>
+                  <div className="learn-card">
+                    <div
+                      className="learn-style"
+                      style={{
+                        backgroundImage: `url("https://cdn.decrypt.co/resize/600/wp-content/uploads/2019/11/bitcoin-investment_2-gID_1-pID_1.png")`,
+                      }}
+                    ></div>
+                    <div className="content-learn">
+                      <h3>What is Algorand? A Speedy.....</h3>
+                      <p>
+                        NEAR is a smart contract-capable blockchain that's
+                        designed...
+                      </p>
+                      <h1 className="status-news-topstory">
+                        Learn{" "}
+                        <span>
+                          <CaretRightOutlined style={{ fontSize: "10px" }} />
+                        </span>{" "}
+                        Coin
+                      </h1>
+                      <p className="date-learn ">Sovanden : 03/03/2021</p>
+                      <button className="readmore-learn">
+                        Read More <span>&rarr;</span>
+                      </button>
+                    </div>
+                  </div>
+                </Col>
+                <Col span={24}>
+                  <div className="learn-card">
+                    <div
+                      className="learn-style"
+                      style={{
+                        backgroundImage: `url("https://cdn.decrypt.co/resize/600/wp-content/uploads/2020/12/facebook-diem-gID_4.jpg")`,
+                      }}
+                    ></div>
+                    <div className="content-learn">
+                      <h3>What is Algorand? A Speedy.....</h3>
+                      <p>
+                        NEAR is a smart contract-capable blockchain that's
+                        designed...
+                      </p>
+                      <h1 className="status-news-topstory">
+                        Learn{" "}
+                        <span>
+                          <CaretRightOutlined style={{ fontSize: "10px" }} />
+                        </span>{" "}
+                        Coin
+                      </h1>
+                      <p className="date-learn ">Sovanden : 03/03/2021</p>
+                      <button className="readmore-learn">
+                        Read More <span>&rarr;</span>
+                      </button>
+                    </div>
+                  </div>
+                </Col>
+                <h3 className="all-learn-btn">
+                  <Link href="/community">
+                    <a>
+                      All Learn <span>&rarr;</span>
+                    </a>
+                  </Link>
+                </h3>
               </Row>
             </div>
           </Col>

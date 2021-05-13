@@ -69,13 +69,13 @@ const Footer = () => {
               <h1 className="widget-title">informations</h1>
               <div className="content-footer">
                 <h2>
-                  <Link href="/community">News and Events</Link>
+                  <Link href="/1">News and Events</Link>
                 </h2>
                 <h2>
-                  <Link href="/community">Ask Me Anything</Link>
+                  <Link href="/2">Ask Me Anything</Link>
                 </h2>
                 <h2>
-                  <Link href="/community">Become a contributer</Link>
+                  <Link href="/3">Become a contributer</Link>
                 </h2>
               </div>
             </Col>
@@ -83,13 +83,13 @@ const Footer = () => {
               <h1 className="widget-title">help</h1>
               <div className="content-footer">
                 <h2>
-                  <Link href="/community">News and Events</Link>
+                  <Link href="/4">News and Events</Link>
                 </h2>
                 <h2>
-                  <Link href="/community">Ask Me Anything</Link>
+                  <Link href="/5">Ask Me Anything</Link>
                 </h2>
                 <h2>
-                  <Link href="/community">Become a contributer</Link>
+                  <Link href="/6">Become a contributer</Link>
                 </h2>
               </div>
             </Col>
