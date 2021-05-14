@@ -38,17 +38,17 @@ const MainNavbar = () => {
                 </ActiveLink>
               </Menu.Item>
               <Menu.Item className="navbar-text" key="1">
-                <ActiveLink activeClassName="is-active" href="/allnews">
+                <ActiveLink activeClassName="is-active" href="/news">
                   <a>News</a>
                 </ActiveLink>
               </Menu.Item>
               <Menu.Item key="2">
-                <ActiveLink activeClassName="is-active" href="/learn">
+                <ActiveLink activeClassName="is-active" href="/learns">
                   <a>Learns</a>
                 </ActiveLink>
               </Menu.Item>
               <Menu.Item key="3">
-                <ActiveLink activeClassName="is-active" href="/2">
+                <ActiveLink activeClassName="is-active" href="/features">
                   <a>Features</a>
                 </ActiveLink>
               </Menu.Item>

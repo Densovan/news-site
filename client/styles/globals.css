@@ -233,6 +233,9 @@
   top: 99%;
   margin-bottom: 12px !important;
 }
+.top-learns {
+  margin-top: 30px;
+}
 .all-learn-btn a {
   border: none;
   border-radius: 3px;
@@ -692,4 +695,16 @@
 }
 .notfound .notfound-404 h1 > span {
   text-shadow: -8px 0 0 #fce24a;
+}
+
+/* //=============Feature============== */
+
+.all-feature-btn a {
+  color: #000;
+  font-weight: 600;
+  position: absolute;
+  left: 73%;
+}
+.all-feature-btn {
+  margin-bottom: 30px;
 }

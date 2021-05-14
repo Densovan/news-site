@@ -22,9 +22,9 @@ const Footer = () => {
           <br></br>
           <Row>
             <Col sm={24} md={8}>
-              <center>
-                <h1 className="logo-footer">LOGO COMPANY</h1>
-              </center>
+              {/* <center> */}
+              <h1 className="logo-footer">LOGO COMPANY</h1>
+              {/* </center> */}
             </Col>
             <Col sm={24} md={8}>
               <center className="term">

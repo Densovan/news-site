@@ -1,16 +1,18 @@
 import React from "react";
-import { Col, Row } from "antd";
+import { Row, Col } from "antd";
 import { CaretRightOutlined } from "@ant-design/icons";
+import Link from "next/link";
 
-const Learn = () => {
+const Feature = () => {
   return (
     <React.Fragment>
-      <div className="container top-about">
-        <center>
-          <h1 className="about-main-title">Learn</h1>
-        </center>
+      <br></br>
+
+      <h1 className="top-title">Feature</h1>
+
+      <div>
         <Row gutter={[12, 12]}>
-          <Col sm={24} md={12} lg={8}>
+          <Col sm={24} md={8}>
             <div className="learn-card">
               <div
                 className="learn-style"
@@ -24,7 +26,7 @@ const Learn = () => {
                   NEAR is a smart contract-capable blockchain that's designed...
                 </p>
                 <h1 className="status-news-topstory">
-                  Learn{" "}
+                  Feature
                   <span>
                     <CaretRightOutlined style={{ fontSize: "10px" }} />
                   </span>{" "}
@@ -37,7 +39,7 @@ const Learn = () => {
               </div>
             </div>
           </Col>
-          <Col sm={24} md={12} lg={8}>
+          <Col sm={24} md={8}>
             <div className="learn-card">
               <div
                 className="learn-style"
@@ -51,7 +53,7 @@ const Learn = () => {
                   NEAR is a smart contract-capable blockchain that's designed...
                 </p>
                 <h1 className="status-news-topstory">
-                  Learn{" "}
+                  Feature
                   <span>
                     <CaretRightOutlined style={{ fontSize: "10px" }} />
                   </span>{" "}
@@ -64,7 +66,7 @@ const Learn = () => {
               </div>
             </div>
           </Col>
-          <Col sm={24} md={12} lg={8}>
+          <Col sm={24} md={8}>
             <div className="learn-card">
               <div
                 className="learn-style"
@@ -78,7 +80,7 @@ const Learn = () => {
                   NEAR is a smart contract-capable blockchain that's designed...
                 </p>
                 <h1 className="status-news-topstory">
-                  Learn{" "}
+                  Feature
                   <span>
                     <CaretRightOutlined style={{ fontSize: "10px" }} />
                   </span>{" "}
@@ -91,7 +93,7 @@ const Learn = () => {
               </div>
             </div>
           </Col>
-          <Col sm={24} md={12} lg={8}>
+          <Col sm={24} md={8}>
             <div className="learn-card">
               <div
                 className="learn-style"
@@ -105,7 +107,7 @@ const Learn = () => {
                   NEAR is a smart contract-capable blockchain that's designed...
                 </p>
                 <h1 className="status-news-topstory">
-                  Learn{" "}
+                  Feature
                   <span>
                     <CaretRightOutlined style={{ fontSize: "10px" }} />
                   </span>{" "}
@@ -118,7 +120,7 @@ const Learn = () => {
               </div>
             </div>
           </Col>
-          <Col sm={24} md={12} lg={8}>
+          <Col sm={24} md={8}>
             <div className="learn-card">
               <div
                 className="learn-style"
@@ -132,7 +134,7 @@ const Learn = () => {
                   NEAR is a smart contract-capable blockchain that's designed...
                 </p>
                 <h1 className="status-news-topstory">
-                  Learn{" "}
+                  Feature
                   <span>
                     <CaretRightOutlined style={{ fontSize: "10px" }} />
                   </span>{" "}
@@ -145,7 +147,7 @@ const Learn = () => {
               </div>
             </div>
           </Col>
-          <Col sm={24} md={12} lg={8}>
+          <Col sm={24} md={8}>
             <div className="learn-card">
               <div
                 className="learn-style"
@@ -159,7 +161,7 @@ const Learn = () => {
                   NEAR is a smart contract-capable blockchain that's designed...
                 </p>
                 <h1 className="status-news-topstory">
-                  Learn{" "}
+                  Feature
                   <span>
                     <CaretRightOutlined style={{ fontSize: "10px" }} />
                   </span>{" "}
@@ -173,9 +175,17 @@ const Learn = () => {
             </div>
           </Col>
         </Row>
+        <br></br>
+        <h3 className="all-feature-btn">
+          <Link href="/news">
+            <a>
+              All Feature <span>&rarr;</span>
+            </a>
+          </Link>
+        </h3>
       </div>
     </React.Fragment>
   );
 };
 
-export default Learn;
+export default Feature;

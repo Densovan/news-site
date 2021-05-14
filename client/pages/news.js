@@ -39,7 +39,7 @@ const AllNews = () => {
             </button>
           </Col>
           <Divider style={{ margin: "0px" }}></Divider>
-          <Col sm={9}>
+          <Col xs={24} sm={24} md={8} lg={9}>
             <div
               className="news-topstory-style"
               style={{
@@ -48,7 +48,7 @@ const AllNews = () => {
             ></div>
           </Col>
 
-          <Col sm={15}>
+          <Col xs={24} sm={24} md={16} lg={15}>
             <h2>SEC Pours Cold Water on Bitcoin Futures Market</h2>
             <p>
               Like any other futures contract for a commodity or stock, Bitcoin
@@ -68,7 +68,7 @@ const AllNews = () => {
             </button>
           </Col>
           <Divider style={{ margin: "0px" }}></Divider>
-          <Col sm={9}>
+          <Col xs={24} sm={24} md={8} lg={9}>
             <div
               className="news-topstory-style"
               style={{
@@ -77,7 +77,7 @@ const AllNews = () => {
             ></div>
           </Col>
 
-          <Col sm={15}>
+          <Col xs={24} sm={24} md={16} lg={15}>
             <h2>SEC Pours Cold Water on Bitcoin Futures Market</h2>
             <p>
               Like any other futures contract for a commodity or stock, Bitcoin
@@ -97,7 +97,7 @@ const AllNews = () => {
             </button>
           </Col>
           <Divider style={{ margin: "0px" }}></Divider>
-          <Col sm={9}>
+          <Col xs={24} sm={24} md={8} lg={9}>
             <div
               className="news-topstory-style"
               style={{
@@ -106,7 +106,7 @@ const AllNews = () => {
             ></div>
           </Col>
 
-          <Col sm={15}>
+          <Col xs={24} sm={24} md={16} lg={15}>
             <h2>SEC Pours Cold Water on Bitcoin Futures Market</h2>
             <p>
               Like any other futures contract for a commodity or stock, Bitcoin
@@ -126,7 +126,7 @@ const AllNews = () => {
             </button>
           </Col>
           <Divider style={{ margin: "0px" }}></Divider>
-          <Col sm={9}>
+          <Col xs={24} sm={24} md={8} lg={9}>
             <div
               className="news-topstory-style"
               style={{
@@ -135,7 +135,7 @@ const AllNews = () => {
             ></div>
           </Col>
 
-          <Col sm={15}>
+          <Col xs={24} sm={24} md={16} lg={15}>
             <h2>SEC Pours Cold Water on Bitcoin Futures Market</h2>
             <p>
               Like any other futures contract for a commodity or stock, Bitcoin
