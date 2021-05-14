@@ -8,7 +8,7 @@ import Feature from "./Feature/feature";
 const Index = () => {
   return (
     <React.Fragment>
-      {/* <div className="index-banner">
+      <div className="index-banner">
         <div className="content-banner">
           <Row gutter={[32, 32]}>
             <Col sm={15}>
@@ -26,7 +26,7 @@ const Index = () => {
             </Col>
           </Row>
         </div>
-      </div> */}
+      </div>
       <div className="container">
         <Row gutter={[32, 32]}>
           <Col sm={17}>
