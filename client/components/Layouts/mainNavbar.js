@@ -25,7 +25,9 @@ const MainNavbar = () => {
       <Affix>
         <Header className="header">
           <div className="container">
-            <div className="logo">LOGO</div>
+            <div>
+              <img className="logo" src="/assets/images/logo.png" />
+            </div>
             <Menu
               className="left-bar"
               // theme="dark"

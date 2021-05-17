@@ -39,7 +39,9 @@ const About = () => {
                   Vestibulum libero nisl, porta vel, scelerisque eget, malesuada
                   at, neque.{" "}
                 </p>
-                <button className="meet-our-team-btn">Meet Our Team</button>
+                <a href="#member">
+                  <button className="meet-our-team-btn">Meet Our Team</button>
+                </a>
               </div>
             </Col>
             <Col sm={24} md={12}>
@@ -115,7 +117,7 @@ const About = () => {
       </div>
 
       {/* ================Member================= */}
-      <div className="container">
+      <div id="member" className="container">
         <div className="our-member-content">
           <center>
             <h1 className="about-main-title">Our Member</h1>

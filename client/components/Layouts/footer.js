@@ -8,6 +8,7 @@ import {
   TiRss,
   TiMediaPlay,
 } from "react-icons/ti";
+import { FaTelegramPlane } from "react-icons/fa";
 import Link from "next/link";
 
 const Footer = () => {
@@ -101,7 +102,7 @@ const Footer = () => {
                 </p>
               </div>
 
-              <Form onFinish={onFinish}>
+              {/* <Form onFinish={onFinish}>
                 <Form.Item
                   name="email"
                   rules={[
@@ -117,12 +118,21 @@ const Footer = () => {
                 </Form.Item>
                 <Form.Item>
                   <Button htmlType="submit" className="sub-btn-footer">
-                    Subscribe {/* <span> */}
+                    Subscribe
                     <TiMediaPlay className="sub-icon-footer" />
-                    {/* </span> */}
                   </Button>
                 </Form.Item>
-              </Form>
+              </Form> */}
+              <form className="form-footer">
+                <input
+                  className="input-footer"
+                  type="email"
+                  placeholder="Please Enter your email"
+                />
+                <button className="btn-footer" type="submit">
+                  <FaTelegramPlane size={20} className="icon-footer" />
+                </button>
+              </form>
             </Col>
           </Row>
         </div>
