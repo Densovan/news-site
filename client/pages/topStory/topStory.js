@@ -26,17 +26,24 @@ const TopStory = () => {
                 Crypto Leaders React to Elon Musk’s Bitcoin Environment
                 Bombshell
               </h1>
-              <h1 className="status-news-topstory">
-                News{" "}
-                <span>
-                  <CaretRightOutlined style={{ fontSize: "10px" }} />
-                </span>{" "}
-                Coin
-              </h1>
-              <p className="data-last-news">Sovanden : 03/03/2021</p>
-              <button className="readmore-last-news">
-                Read More <span>&rarr;</span>
-              </button>
+
+              <Row>
+                <Col sm={24} md={18}>
+                  <h1 className="status-news-topstory">
+                    News{" "}
+                    <span>
+                      <CaretRightOutlined style={{ fontSize: "10px" }} />
+                    </span>{" "}
+                    Coin
+                  </h1>
+                  <p className="data-last-news">Sovanden : 03/03/2021</p>
+                </Col>
+                <Col sm={24} md={6}>
+                  <button className="readmore-last-news">
+                    Read More <span>&rarr;</span>
+                  </button>
+                </Col>
+              </Row>
             </div>
           </div>
         </Col>
@@ -58,17 +65,23 @@ const TopStory = () => {
             futures give investors the chance to speculate on the future price
             of Bitcoin. In the SEC’s statement
           </p>
-          <h1 className="status-news-topstory">
-            News{" "}
-            <span>
-              <CaretRightOutlined style={{ fontSize: "10px" }} />
-            </span>{" "}
-            Coin
-          </h1>
-          <p className="date-news">Sovanden : 03/03/2021</p>
-          <button className="readmore">
-            Read More <span>&rarr;</span>
-          </button>
+          <Row>
+            <Col xs={24} md={18}>
+              <h1 className="status-news-topstory">
+                News{" "}
+                <span>
+                  <CaretRightOutlined style={{ fontSize: "10px" }} />
+                </span>{" "}
+                Coin
+              </h1>
+              <p className="date-news">Sovanden : 03/03/2021</p>
+            </Col>
+            <Col xs={24} md={6}>
+              <button className="readmore">
+                Read More <span>&rarr;</span>
+              </button>
+            </Col>
+          </Row>
         </Col>
         <Divider style={{ margin: "0px" }}></Divider>
         <Col sm={9}>
@@ -87,17 +100,23 @@ const TopStory = () => {
             futures give investors the chance to speculate on the future price
             of Bitcoin. In the SEC’s statement
           </p>
-          <h1 className="status-news-topstory">
-            News{" "}
-            <span>
-              <CaretRightOutlined style={{ fontSize: "10px" }} />
-            </span>{" "}
-            Coin
-          </h1>
-          <p className="date-news">Sovanden : 03/03/2021</p>
-          <button className="readmore">
-            Read More <span>&rarr;</span>
-          </button>
+          <Row>
+            <Col sm={24} md={18}>
+              <h1 className="status-news-topstory">
+                News{" "}
+                <span>
+                  <CaretRightOutlined style={{ fontSize: "10px" }} />
+                </span>{" "}
+                Coin
+              </h1>
+              <p className="date-news">Sovanden : 03/03/2021</p>
+            </Col>
+            <Col sm={24} md={6}>
+              <button className="readmore">
+                Read More <span>&rarr;</span>
+              </button>
+            </Col>
+          </Row>
         </Col>
         <Divider style={{ margin: "0px" }}></Divider>
         <Col sm={9}>
@@ -116,17 +135,23 @@ const TopStory = () => {
             futures give investors the chance to speculate on the future price
             of Bitcoin. In the SEC’s statement
           </p>
-          <h1 className="status-news-topstory">
-            News{" "}
-            <span>
-              <CaretRightOutlined style={{ fontSize: "10px" }} />
-            </span>{" "}
-            Coin
-          </h1>
-          <p className="date-news">Sovanden : 03/03/2021</p>
-          <button className="readmore">
-            Read More <span>&rarr;</span>
-          </button>
+          <Row>
+            <Col sm={24} md={18}>
+              <h1 className="status-news-topstory">
+                News{" "}
+                <span>
+                  <CaretRightOutlined style={{ fontSize: "10px" }} />
+                </span>{" "}
+                Coin
+              </h1>
+              <p className="date-news">Sovanden : 03/03/2021</p>
+            </Col>
+            <Col sm={24} md={6}>
+              <button className="readmore">
+                Read More <span>&rarr;</span>
+              </button>
+            </Col>
+          </Row>
         </Col>
         <Divider style={{ margin: "0px" }}></Divider>
         <Col sm={9}>
@@ -145,17 +170,23 @@ const TopStory = () => {
             futures give investors the chance to speculate on the future price
             of Bitcoin. In the SEC’s statement
           </p>
-          <h1 className="status-news-topstory">
-            News{" "}
-            <span>
-              <CaretRightOutlined style={{ fontSize: "10px" }} />
-            </span>{" "}
-            Coin
-          </h1>
-          <p className="date-news">Sovanden : 03/03/2021</p>
-          <button className="readmore">
-            Read More <span>&rarr;</span>
-          </button>
+          <Row>
+            <Col sm={24} md={18}>
+              <h1 className="status-news-topstory">
+                News{" "}
+                <span>
+                  <CaretRightOutlined style={{ fontSize: "10px" }} />
+                </span>{" "}
+                Coin
+              </h1>
+              <p className="date-news">Sovanden : 03/03/2021</p>
+            </Col>
+            <Col sm={24} md={6}>
+              <button className="readmore">
+                Read More <span>&rarr;</span>
+              </button>
+            </Col>
+          </Row>
         </Col>
         <Divider style={{ margin: "0px" }}></Divider>
         <Col sm={9}>
@@ -174,17 +205,23 @@ const TopStory = () => {
             futures give investors the chance to speculate on the future price
             of Bitcoin. In the SEC’s statement
           </p>
-          <h1 className="status-news-topstory">
-            News{" "}
-            <span>
-              <CaretRightOutlined style={{ fontSize: "10px" }} />
-            </span>{" "}
-            Coin
-          </h1>
-          <p className="date-news">Sovanden : 03/03/2021</p>
-          <button className="readmore">
-            Read More <span>&rarr;</span>
-          </button>
+          <Row>
+            <Col sm={24} md={18}>
+              <h1 className="status-news-topstory">
+                News{" "}
+                <span>
+                  <CaretRightOutlined style={{ fontSize: "10px" }} />
+                </span>{" "}
+                Coin
+              </h1>
+              <p className="date-news">Sovanden : 03/03/2021</p>
+            </Col>
+            <Col sm={24} md={6}>
+              <button className="readmore">
+                Read More <span>&rarr;</span>
+              </button>
+            </Col>
+          </Row>
         </Col>
         <Divider style={{ margin: "0px" }}></Divider>
       </Row>

@@ -23,17 +23,23 @@ const Learn = () => {
                 <p>
                   NEAR is a smart contract-capable blockchain that's designed...
                 </p>
-                <h1 className="status-news-topstory">
-                  Learn{" "}
-                  <span>
-                    <CaretRightOutlined style={{ fontSize: "10px" }} />
-                  </span>{" "}
-                  Coin
-                </h1>
-                <p className="date-learn ">Sovanden : 03/03/2021</p>
-                <button className="readmore-learn">
-                  Read More <span>&rarr;</span>
-                </button>
+                <Row>
+                  <Col xs={24} md={16}>
+                    <h1 className="status-news-topstory">
+                      Learn{" "}
+                      <span>
+                        <CaretRightOutlined style={{ fontSize: "10px" }} />
+                      </span>{" "}
+                      Coin
+                    </h1>
+                    <p className="date-learn ">Sovanden : 03/03/2021</p>
+                  </Col>
+                  <Col xs={24} md={8}>
+                    <button className="readmore-learn">
+                      Read More <span>&rarr;</span>
+                    </button>
+                  </Col>
+                </Row>
               </div>
             </div>
           </Col>
@@ -50,17 +56,23 @@ const Learn = () => {
                 <p>
                   NEAR is a smart contract-capable blockchain that's designed...
                 </p>
-                <h1 className="status-news-topstory">
-                  Learn{" "}
-                  <span>
-                    <CaretRightOutlined style={{ fontSize: "10px" }} />
-                  </span>{" "}
-                  Coin
-                </h1>
-                <p className="date-learn ">Sovanden : 03/03/2021</p>
-                <button className="readmore-learn">
-                  Read More <span>&rarr;</span>
-                </button>
+                <Row>
+                  <Col xs={24} md={16}>
+                    <h1 className="status-news-topstory">
+                      Learn{" "}
+                      <span>
+                        <CaretRightOutlined style={{ fontSize: "10px" }} />
+                      </span>{" "}
+                      Coin
+                    </h1>
+                    <p className="date-learn ">Sovanden : 03/03/2021</p>
+                  </Col>
+                  <Col xs={24} md={8}>
+                    <button className="readmore-learn">
+                      Read More <span>&rarr;</span>
+                    </button>
+                  </Col>
+                </Row>
               </div>
             </div>
           </Col>
@@ -77,17 +89,23 @@ const Learn = () => {
                 <p>
                   NEAR is a smart contract-capable blockchain that's designed...
                 </p>
-                <h1 className="status-news-topstory">
-                  Learn{" "}
-                  <span>
-                    <CaretRightOutlined style={{ fontSize: "10px" }} />
-                  </span>{" "}
-                  Coin
-                </h1>
-                <p className="date-learn ">Sovanden : 03/03/2021</p>
-                <button className="readmore-learn">
-                  Read More <span>&rarr;</span>
-                </button>
+                <Row>
+                  <Col xs={24} md={16}>
+                    <h1 className="status-news-topstory">
+                      Learn{" "}
+                      <span>
+                        <CaretRightOutlined style={{ fontSize: "10px" }} />
+                      </span>{" "}
+                      Coin
+                    </h1>
+                    <p className="date-learn ">Sovanden : 03/03/2021</p>
+                  </Col>
+                  <Col xs={24} md={8}>
+                    <button className="readmore-learn">
+                      Read More <span>&rarr;</span>
+                    </button>
+                  </Col>
+                </Row>
               </div>
             </div>
           </Col>
@@ -104,17 +122,23 @@ const Learn = () => {
                 <p>
                   NEAR is a smart contract-capable blockchain that's designed...
                 </p>
-                <h1 className="status-news-topstory">
-                  Learn{" "}
-                  <span>
-                    <CaretRightOutlined style={{ fontSize: "10px" }} />
-                  </span>{" "}
-                  Coin
-                </h1>
-                <p className="date-learn ">Sovanden : 03/03/2021</p>
-                <button className="readmore-learn">
-                  Read More <span>&rarr;</span>
-                </button>
+                <Row>
+                  <Col xs={24} md={16}>
+                    <h1 className="status-news-topstory">
+                      Learn{" "}
+                      <span>
+                        <CaretRightOutlined style={{ fontSize: "10px" }} />
+                      </span>{" "}
+                      Coin
+                    </h1>
+                    <p className="date-learn ">Sovanden : 03/03/2021</p>
+                  </Col>
+                  <Col xs={24} md={8}>
+                    <button className="readmore-learn">
+                      Read More <span>&rarr;</span>
+                    </button>
+                  </Col>
+                </Row>
               </div>
             </div>
           </Col>

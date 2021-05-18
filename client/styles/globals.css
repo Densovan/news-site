@@ -26,11 +26,16 @@ body {
   height: 50px;
   position: relative;
   top: 3px; */
-  position: absolute;
+  /* position: absolute; */
+  /* position: relative;
   width: 45px;
-  height: 45px;
-  top: 10px;
+  height: 45px; */
+  /* top: 70px; */
   /* left: 323px; */
+  float: left;
+  height: 50px;
+  position: relative;
+  top: 7px;
 }
 .logo-mobile {
   height: 55px !important;
@@ -46,6 +51,10 @@ body {
 .header {
   background-color: #262e3c;
 }
+/* .container-header {
+  margin-left: auto;
+  width: 80%;
+} */
 .ant-menu {
   background-color: transparent;
   color: white !important;
@@ -162,9 +171,10 @@ body {
   font-size: 12px;
 }
 .readmore {
-  position: absolute;
+  /* position: absolute;
   left: 76%;
-  top: 75%;
+  top: 75%; */
+  margin-top: 7px;
   font-weight: bold;
   border-radius: 3px;
   padding: 7px;
@@ -211,10 +221,11 @@ body {
   font-size: 11px;
 }
 .readmore-last-news {
-  position: absolute;
-  left: 75%;
+  /* position: absolute;
+  left: 75%; */
   width: 150px;
-  top: 90%;
+  /* top: 90%; */
+  margin-top: 12px;
   font-weight: bold;
   border-radius: 3px;
   padding: 7px;
@@ -323,7 +334,8 @@ body {
   font-size: 14px;
 }
 .logo-footer {
-  color: #fce24a;
+  /* color: #fce24a; */
+  width: 50%;
 }
 .social-footer span {
   padding-left: 20px;
@@ -448,9 +460,10 @@ body {
   padding: 15px;
 }
 .readmore-learn {
-  position: absolute;
+  /* position: absolute;
   left: 69%;
-  top: 87%;
+  top: 87%; */
+  margin-top: 4px;
   font-weight: bold;
   border-radius: 3px;
   padding: 7px;
@@ -683,7 +696,7 @@ body {
   margin-top: 30px;
 }
 .title-cat {
-  width: 300px;
+  width: 250px;
   border-radius: 5px 5px 0 0;
   background-color: gray;
   /* border: 1px solid rgba(4, 47, 130, 0.3); */
@@ -698,7 +711,7 @@ body {
   border-radius: 5px;
   overflow-y: scroll;
   height: 300px;
-  width: 300px;
+  width: 250px;
   margin-top: 1px;
   scrollbar-width: thin;
   /* border: 1px solid #262e3c; */
@@ -708,9 +721,11 @@ body {
 .listnewsCate {
   /* background-color: rgb(245, 245, 245); */
   cursor: pointer;
+  font-size: 16px;
 }
 .listnewsCate:hover {
   background-color: #f5f5f5;
+  /* color: #fce24a !important; */
 }
 
 /* =====================404===================== */
@@ -774,7 +789,7 @@ body {
   margin-bottom: 25px;
 }
 .main-404 {
-  height: 53vh;
+  height: 57vh;
   background-color: #fce24a;
   margin-bottom: -22px;
 }
@@ -792,4 +807,16 @@ body {
 }
 .all-feature-btn {
   margin-bottom: 30px;
+}
+
+/*=============== Responsive================== */
+@media only screen and (min-width: 768px) {
+  .mobile-navbar {
+    display: none;
+  }
+}
+@media only screen and (max-width: 768px) {
+  .header {
+    display: none;
+  }
 }

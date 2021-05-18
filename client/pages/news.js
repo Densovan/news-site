@@ -2,6 +2,16 @@ import React from "react";
 import { Row, Col, Divider } from "antd";
 import { CaretRightOutlined } from "@ant-design/icons";
 import Link from "next/link";
+import {
+  FaCoins,
+  FaBusinessTime,
+  FaWhmcs,
+  FaChartLine,
+  FaCommentAlt,
+  FaLinode,
+  FaRegEdit,
+  FaRegClone,
+} from "react-icons/fa";
 
 const AllNews = () => {
   return (
@@ -11,8 +21,8 @@ const AllNews = () => {
           <h1 className="top-title-allNews">All News</h1>
         </center>
         <Divider></Divider>
-        <Row>
-          <Col sm={24} md={7}>
+        <Row gutter={[32, 32]}>
+          <Col sm={24} md={6}>
             <div className="news-cat">
               <h2 className="title-cat">Categories</h2>
               <div
@@ -26,49 +36,80 @@ const AllNews = () => {
                 <div>
                   <Link href="/3">
                     <div className="listnewsCate" style={{ padding: "12px" }}>
-                      <span style={{ color: "rgba(0, 0, 0, 0.65)" }}>hehh</span>
+                      <span>
+                        {" "}
+                        <FaBusinessTime
+                          size={20}
+                          style={{ marginRight: "7px" }}
+                        />
+                        Business
+                      </span>
                     </div>
                   </Link>
                   <Link href="/3">
                     <div className="listnewsCate" style={{ padding: "12px" }}>
-                      <span style={{ color: "rgba(0, 0, 0, 0.65)" }}>hehh</span>
+                      <span>
+                        {" "}
+                        <FaCoins size={20} style={{ marginRight: "7px" }} />
+                        Coin
+                      </span>
                     </div>
                   </Link>
                   <Link href="/3">
                     <div className="listnewsCate" style={{ padding: "12px" }}>
-                      <span style={{ color: "rgba(0, 0, 0, 0.65)" }}>hehh</span>
+                      <span>
+                        {" "}
+                        <FaWhmcs size={20} style={{ marginRight: "7px" }} />
+                        Technology
+                      </span>
                     </div>
                   </Link>
                   <Link href="/3">
                     <div className="listnewsCate" style={{ padding: "12px" }}>
-                      <span style={{ color: "rgba(0, 0, 0, 0.65)" }}>hehh</span>
+                      <span>
+                        <FaChartLine size={20} style={{ marginRight: "7px" }} />
+                        Maket
+                      </span>
                     </div>
                   </Link>
                   <Link href="/3">
                     <div className="listnewsCate" style={{ padding: "12px" }}>
-                      <span style={{ color: "rgba(0, 0, 0, 0.65)" }}>hehh</span>
+                      <span>
+                        <FaCommentAlt
+                          size={18}
+                          style={{ marginRight: "7px" }}
+                        />
+                        Options
+                      </span>
                     </div>
                   </Link>
                   <Link href="/3">
                     <div className="listnewsCate" style={{ padding: "12px" }}>
-                      <span style={{ color: "rgba(0, 0, 0, 0.65)" }}>hehh</span>
+                      <span>
+                        {" "}
+                        <FaRegClone size={20} style={{ marginRight: "7px" }} />
+                        Our Company
+                      </span>
                     </div>
                   </Link>
                   <Link href="/3">
                     <div className="listnewsCate" style={{ padding: "12px" }}>
-                      <span style={{ color: "rgba(0, 0, 0, 0.65)" }}>hehh</span>
+                      <span>
+                        <FaLinode size={18} style={{ marginRight: "7px" }} />
+                        DeFi
+                      </span>
                     </div>
                   </Link>
                   <Link href="/3">
                     <div className="listnewsCate" style={{ padding: "12px" }}>
-                      <span style={{ color: "rgba(0, 0, 0, 0.65)" }}>hehh</span>
+                      <span>
+                        {" "}
+                        <FaRegEdit size={20} style={{ marginRight: "7px" }} />
+                        Editor's Pick
+                      </span>
                     </div>
                   </Link>
-                  <Link href="/3">
-                    <div className="listnewsCate" style={{ padding: "12px" }}>
-                      <span style={{ color: "rgba(0, 0, 0, 0.65)" }}>hehh</span>
-                    </div>
-                  </Link>
+
                   {/* {data.allJobCategories.map((res, index) => {
                     return (
                       <Link to={`/jobcategory/${res.id}`}>
@@ -78,7 +119,7 @@ const AllNews = () => {
                         >
                           <span
                             key={res.id}
-                            style={{ color: "rgba(0, 0, 0, 0.65)" }}
+                            
                           >
                             {res.name}
                           </span>
@@ -90,7 +131,7 @@ const AllNews = () => {
               </div>
             </div>
           </Col>
-          <Col sm={24} md={17}>
+          <Col sm={24} md={18}>
             <Row gutter={[12, 12]}>
               <Col xs={24} sm={24} md={8} lg={9}>
                 <div
@@ -107,20 +148,26 @@ const AllNews = () => {
                   Bitcoin futures give investors the chance to speculate on the
                   future price of Bitcoin. In the SEC’s statement
                 </p>
-                <h1 className="status-news-topstory">
-                  News{" "}
-                  <span>
-                    <CaretRightOutlined style={{ fontSize: "10px" }} />
-                  </span>{" "}
-                  Coin
-                </h1>
-                <p className="date-news">Sovanden : 03/03/2021</p>
-                <button className="readmore">
-                  Read More <span>&rarr;</span>
-                </button>
+                <Row>
+                  <Col xs={24} md={18}>
+                    <h1 className="status-news-topstory">
+                      News{" "}
+                      <span>
+                        <CaretRightOutlined style={{ fontSize: "10px" }} />
+                      </span>{" "}
+                      Coin
+                    </h1>
+                    <p className="date-news">Sovanden : 03/03/2021</p>
+                  </Col>
+                  <Col xs={24} md={6}>
+                    <button className="readmore">
+                      Read More <span>&rarr;</span>
+                    </button>
+                  </Col>
+                </Row>
               </Col>
               <Divider style={{ margin: "0px" }}></Divider>
-              <Col xs={24} sm={24} md={8} lg={9}>
+              <Col sm={9}>
                 <div
                   className="news-topstory-style"
                   style={{
@@ -129,27 +176,33 @@ const AllNews = () => {
                 ></div>
               </Col>
 
-              <Col xs={24} sm={24} md={16} lg={15}>
+              <Col sm={15}>
                 <h2>SEC Pours Cold Water on Bitcoin Futures Market</h2>
                 <p>
                   Like any other futures contract for a commodity or stock,
                   Bitcoin futures give investors the chance to speculate on the
                   future price of Bitcoin. In the SEC’s statement
                 </p>
-                <h1 className="status-news-topstory">
-                  News{" "}
-                  <span>
-                    <CaretRightOutlined style={{ fontSize: "10px" }} />
-                  </span>{" "}
-                  Coin
-                </h1>
-                <p className="date-news">Sovanden : 03/03/2021</p>
-                <button className="readmore">
-                  Read More <span>&rarr;</span>
-                </button>
+                <Row>
+                  <Col sm={24} md={18}>
+                    <h1 className="status-news-topstory">
+                      News{" "}
+                      <span>
+                        <CaretRightOutlined style={{ fontSize: "10px" }} />
+                      </span>{" "}
+                      Coin
+                    </h1>
+                    <p className="date-news">Sovanden : 03/03/2021</p>
+                  </Col>
+                  <Col sm={24} md={6}>
+                    <button className="readmore">
+                      Read More <span>&rarr;</span>
+                    </button>
+                  </Col>
+                </Row>
               </Col>
               <Divider style={{ margin: "0px" }}></Divider>
-              <Col xs={24} sm={24} md={8} lg={9}>
+              <Col sm={9}>
                 <div
                   className="news-topstory-style"
                   style={{
@@ -158,27 +211,33 @@ const AllNews = () => {
                 ></div>
               </Col>
 
-              <Col xs={24} sm={24} md={16} lg={15}>
+              <Col sm={15}>
                 <h2>SEC Pours Cold Water on Bitcoin Futures Market</h2>
                 <p>
                   Like any other futures contract for a commodity or stock,
                   Bitcoin futures give investors the chance to speculate on the
                   future price of Bitcoin. In the SEC’s statement
                 </p>
-                <h1 className="status-news-topstory">
-                  News{" "}
-                  <span>
-                    <CaretRightOutlined style={{ fontSize: "10px" }} />
-                  </span>{" "}
-                  Coin
-                </h1>
-                <p className="date-news">Sovanden : 03/03/2021</p>
-                <button className="readmore">
-                  Read More <span>&rarr;</span>
-                </button>
+                <Row>
+                  <Col sm={24} md={18}>
+                    <h1 className="status-news-topstory">
+                      News{" "}
+                      <span>
+                        <CaretRightOutlined style={{ fontSize: "10px" }} />
+                      </span>{" "}
+                      Coin
+                    </h1>
+                    <p className="date-news">Sovanden : 03/03/2021</p>
+                  </Col>
+                  <Col sm={24} md={6}>
+                    <button className="readmore">
+                      Read More <span>&rarr;</span>
+                    </button>
+                  </Col>
+                </Row>
               </Col>
               <Divider style={{ margin: "0px" }}></Divider>
-              <Col xs={24} sm={24} md={8} lg={9}>
+              <Col sm={9}>
                 <div
                   className="news-topstory-style"
                   style={{
@@ -187,27 +246,33 @@ const AllNews = () => {
                 ></div>
               </Col>
 
-              <Col xs={24} sm={24} md={16} lg={15}>
+              <Col sm={15}>
                 <h2>SEC Pours Cold Water on Bitcoin Futures Market</h2>
                 <p>
                   Like any other futures contract for a commodity or stock,
                   Bitcoin futures give investors the chance to speculate on the
                   future price of Bitcoin. In the SEC’s statement
                 </p>
-                <h1 className="status-news-topstory">
-                  News{" "}
-                  <span>
-                    <CaretRightOutlined style={{ fontSize: "10px" }} />
-                  </span>{" "}
-                  Coin
-                </h1>
-                <p className="date-news">Sovanden : 03/03/2021</p>
-                <button className="readmore">
-                  Read More <span>&rarr;</span>
-                </button>
+                <Row>
+                  <Col sm={24} md={18}>
+                    <h1 className="status-news-topstory">
+                      News{" "}
+                      <span>
+                        <CaretRightOutlined style={{ fontSize: "10px" }} />
+                      </span>{" "}
+                      Coin
+                    </h1>
+                    <p className="date-news">Sovanden : 03/03/2021</p>
+                  </Col>
+                  <Col sm={24} md={6}>
+                    <button className="readmore">
+                      Read More <span>&rarr;</span>
+                    </button>
+                  </Col>
+                </Row>
               </Col>
               <Divider style={{ margin: "0px" }}></Divider>
-              <Col xs={24} sm={24} md={8} lg={9}>
+              <Col sm={9}>
                 <div
                   className="news-topstory-style"
                   style={{
@@ -216,24 +281,30 @@ const AllNews = () => {
                 ></div>
               </Col>
 
-              <Col xs={24} sm={24} md={16} lg={15}>
+              <Col sm={15}>
                 <h2>SEC Pours Cold Water on Bitcoin Futures Market</h2>
                 <p>
                   Like any other futures contract for a commodity or stock,
                   Bitcoin futures give investors the chance to speculate on the
                   future price of Bitcoin. In the SEC’s statement
                 </p>
-                <h1 className="status-news-topstory">
-                  News{" "}
-                  <span>
-                    <CaretRightOutlined style={{ fontSize: "10px" }} />
-                  </span>{" "}
-                  Coin
-                </h1>
-                <p className="date-news">Sovanden : 03/03/2021</p>
-                <button className="readmore">
-                  Read More <span>&rarr;</span>
-                </button>
+                <Row>
+                  <Col sm={24} md={18}>
+                    <h1 className="status-news-topstory">
+                      News{" "}
+                      <span>
+                        <CaretRightOutlined style={{ fontSize: "10px" }} />
+                      </span>{" "}
+                      Coin
+                    </h1>
+                    <p className="date-news">Sovanden : 03/03/2021</p>
+                  </Col>
+                  <Col sm={24} md={6}>
+                    <button className="readmore">
+                      Read More <span>&rarr;</span>
+                    </button>
+                  </Col>
+                </Row>
               </Col>
               <Divider style={{ margin: "0px" }}></Divider>
             </Row>

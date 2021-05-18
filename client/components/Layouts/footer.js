@@ -24,7 +24,12 @@ const Footer = () => {
           <Row>
             <Col sm={24} md={8}>
               {/* <center> */}
-              <h1 className="logo-footer">LOGO COMPANY</h1>
+              {/* <h1 className="logo-footer"> */}
+              <img
+                className="logo-footer"
+                src="/assets/images/Koompi-White1.png"
+              />
+              {/* </h1> */}
               {/* </center> */}
             </Col>
             <Col sm={24} md={8}>
