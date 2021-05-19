@@ -22,7 +22,7 @@ const TopStory = () => {
               }}
             ></div>
             <div className="content-lasts-news">
-              <h1>
+              <h1 className="title-news">
                 Crypto Leaders React to Elon Musk’s Bitcoin Environment
                 Bombshell
               </h1>
@@ -59,19 +59,21 @@ const TopStory = () => {
           ></div>
         </Col>
         <Col xs={24} sm={24} md={16} lg={15}>
-          <h2>SEC Pours Cold Water on Bitcoin Futures Market</h2>
+          <h2 className="title-news">
+            SEC Pours Cold Water on Bitcoin Futures Market Market
+          </h2>
           <p>
             Like any other futures contract for a commodity or stock, Bitcoin
-            futures give investors the chance to speculate on the future price
-            of Bitcoin. In the SEC’s statement
+            futures give investors the chance...
           </p>
+
           <Row>
             <Col xs={24} md={18}>
               <h1 className="status-news-topstory">
                 News{" "}
                 <span>
                   <CaretRightOutlined style={{ fontSize: "10px" }} />
-                </span>{" "}
+                </span>
                 Coin
               </h1>
               <p className="date-news">Sovanden : 03/03/2021</p>
@@ -94,11 +96,12 @@ const TopStory = () => {
         </Col>
 
         <Col sm={15}>
-          <h2>SEC Pours Cold Water on Bitcoin Futures Market</h2>
+          <h2 className="title-news">
+            SEC Pours Cold Water on Bitcoin Futures Market
+          </h2>
           <p>
             Like any other futures contract for a commodity or stock, Bitcoin
-            futures give investors the chance to speculate on the future price
-            of Bitcoin. In the SEC’s statement
+            futures give investors the chance...
           </p>
           <Row>
             <Col sm={24} md={18}>
@@ -129,11 +132,12 @@ const TopStory = () => {
         </Col>
 
         <Col sm={15}>
-          <h2>SEC Pours Cold Water on Bitcoin Futures Market</h2>
+          <h2 className="title-news">
+            SEC Pours Cold Water on Bitcoin Futures Market
+          </h2>
           <p>
             Like any other futures contract for a commodity or stock, Bitcoin
-            futures give investors the chance to speculate on the future price
-            of Bitcoin. In the SEC’s statement
+            futures give investors the chance...
           </p>
           <Row>
             <Col sm={24} md={18}>
@@ -164,11 +168,12 @@ const TopStory = () => {
         </Col>
 
         <Col sm={15}>
-          <h2>SEC Pours Cold Water on Bitcoin Futures Market</h2>
+          <h2 className="title-news">
+            SEC Pours Cold Water on Bitcoin Futures Market
+          </h2>
           <p>
             Like any other futures contract for a commodity or stock, Bitcoin
-            futures give investors the chance to speculate on the future price
-            of Bitcoin. In the SEC’s statement
+            futures give investors the chance...
           </p>
           <Row>
             <Col sm={24} md={18}>
@@ -199,11 +204,12 @@ const TopStory = () => {
         </Col>
 
         <Col sm={15}>
-          <h2>SEC Pours Cold Water on Bitcoin Futures Market</h2>
+          <h2 className="title-news">
+            SEC Pours Cold Water on Bitcoin Futures Market
+          </h2>
           <p>
             Like any other futures contract for a commodity or stock, Bitcoin
-            futures give investors the chance to speculate on the future price
-            of Bitcoin. In the SEC’s statement
+            futures give investors the chance...
           </p>
           <Row>
             <Col sm={24} md={18}>

@@ -25,17 +25,23 @@ const Feature = () => {
                 <p>
                   NEAR is a smart contract-capable blockchain that's designed...
                 </p>
-                <h1 className="status-news-topstory">
-                  Feature
-                  <span>
-                    <CaretRightOutlined style={{ fontSize: "10px" }} />
-                  </span>{" "}
-                  Coin
-                </h1>
-                <p className="date-learn ">Sovanden : 03/03/2021</p>
-                <button className="readmore-learn">
-                  Read More <span>&rarr;</span>
-                </button>
+                <Row>
+                  <Col xs={24} md={18}>
+                    <h1 className="status-news-topstory">
+                      Learn{" "}
+                      <span>
+                        <CaretRightOutlined style={{ fontSize: "10px" }} />
+                      </span>{" "}
+                      Coin
+                    </h1>
+                    <p className="date-learn ">Sovanden : 03/03/2021</p>
+                  </Col>
+                  <Col xs={24} md={6}>
+                    <button className="readmore-learn">
+                      Read More <span>&rarr;</span>
+                    </button>
+                  </Col>
+                </Row>
               </div>
             </div>
           </Col>
@@ -52,17 +58,23 @@ const Feature = () => {
                 <p>
                   NEAR is a smart contract-capable blockchain that's designed...
                 </p>
-                <h1 className="status-news-topstory">
-                  Feature
-                  <span>
-                    <CaretRightOutlined style={{ fontSize: "10px" }} />
-                  </span>{" "}
-                  Coin
-                </h1>
-                <p className="date-learn ">Sovanden : 03/03/2021</p>
-                <button className="readmore-learn">
-                  Read More <span>&rarr;</span>
-                </button>
+                <Row>
+                  <Col xs={24} md={18}>
+                    <h1 className="status-news-topstory">
+                      Learn{" "}
+                      <span>
+                        <CaretRightOutlined style={{ fontSize: "10px" }} />
+                      </span>{" "}
+                      Coin
+                    </h1>
+                    <p className="date-learn ">Sovanden : 03/03/2021</p>
+                  </Col>
+                  <Col xs={24} md={6}>
+                    <button className="readmore-learn">
+                      Read More <span>&rarr;</span>
+                    </button>
+                  </Col>
+                </Row>
               </div>
             </div>
           </Col>
@@ -79,17 +91,23 @@ const Feature = () => {
                 <p>
                   NEAR is a smart contract-capable blockchain that's designed...
                 </p>
-                <h1 className="status-news-topstory">
-                  Feature
-                  <span>
-                    <CaretRightOutlined style={{ fontSize: "10px" }} />
-                  </span>{" "}
-                  Coin
-                </h1>
-                <p className="date-learn ">Sovanden : 03/03/2021</p>
-                <button className="readmore-learn">
-                  Read More <span>&rarr;</span>
-                </button>
+                <Row>
+                  <Col xs={24} md={18}>
+                    <h1 className="status-news-topstory">
+                      Learn{" "}
+                      <span>
+                        <CaretRightOutlined style={{ fontSize: "10px" }} />
+                      </span>{" "}
+                      Coin
+                    </h1>
+                    <p className="date-learn ">Sovanden : 03/03/2021</p>
+                  </Col>
+                  <Col xs={24} md={6}>
+                    <button className="readmore-learn">
+                      Read More <span>&rarr;</span>
+                    </button>
+                  </Col>
+                </Row>
               </div>
             </div>
           </Col>
@@ -106,17 +124,23 @@ const Feature = () => {
                 <p>
                   NEAR is a smart contract-capable blockchain that's designed...
                 </p>
-                <h1 className="status-news-topstory">
-                  Feature
-                  <span>
-                    <CaretRightOutlined style={{ fontSize: "10px" }} />
-                  </span>{" "}
-                  Coin
-                </h1>
-                <p className="date-learn ">Sovanden : 03/03/2021</p>
-                <button className="readmore-learn">
-                  Read More <span>&rarr;</span>
-                </button>
+                <Row>
+                  <Col xs={24} md={18}>
+                    <h1 className="status-news-topstory">
+                      Learn{" "}
+                      <span>
+                        <CaretRightOutlined style={{ fontSize: "10px" }} />
+                      </span>{" "}
+                      Coin
+                    </h1>
+                    <p className="date-learn ">Sovanden : 03/03/2021</p>
+                  </Col>
+                  <Col xs={24} md={6}>
+                    <button className="readmore-learn">
+                      Read More <span>&rarr;</span>
+                    </button>
+                  </Col>
+                </Row>
               </div>
             </div>
           </Col>
@@ -133,17 +157,23 @@ const Feature = () => {
                 <p>
                   NEAR is a smart contract-capable blockchain that's designed...
                 </p>
-                <h1 className="status-news-topstory">
-                  Feature
-                  <span>
-                    <CaretRightOutlined style={{ fontSize: "10px" }} />
-                  </span>{" "}
-                  Coin
-                </h1>
-                <p className="date-learn ">Sovanden : 03/03/2021</p>
-                <button className="readmore-learn">
-                  Read More <span>&rarr;</span>
-                </button>
+                <Row>
+                  <Col xs={24} md={18}>
+                    <h1 className="status-news-topstory">
+                      Learn{" "}
+                      <span>
+                        <CaretRightOutlined style={{ fontSize: "10px" }} />
+                      </span>{" "}
+                      Coin
+                    </h1>
+                    <p className="date-learn ">Sovanden : 03/03/2021</p>
+                  </Col>
+                  <Col xs={24} md={6}>
+                    <button className="readmore-learn">
+                      Read More <span>&rarr;</span>
+                    </button>
+                  </Col>
+                </Row>
               </div>
             </div>
           </Col>
@@ -160,24 +190,30 @@ const Feature = () => {
                 <p>
                   NEAR is a smart contract-capable blockchain that's designed...
                 </p>
-                <h1 className="status-news-topstory">
-                  Feature
-                  <span>
-                    <CaretRightOutlined style={{ fontSize: "10px" }} />
-                  </span>{" "}
-                  Coin
-                </h1>
-                <p className="date-learn ">Sovanden : 03/03/2021</p>
-                <button className="readmore-learn">
-                  Read More <span>&rarr;</span>
-                </button>
+                <Row>
+                  <Col xs={24} md={18}>
+                    <h1 className="status-news-topstory">
+                      Learn{" "}
+                      <span>
+                        <CaretRightOutlined style={{ fontSize: "10px" }} />
+                      </span>{" "}
+                      Coin
+                    </h1>
+                    <p className="date-learn ">Sovanden : 03/03/2021</p>
+                  </Col>
+                  <Col xs={24} md={6}>
+                    <button className="readmore-learn">
+                      Read More <span>&rarr;</span>
+                    </button>
+                  </Col>
+                </Row>
               </div>
             </div>
           </Col>
         </Row>
         <br></br>
         <h3 className="all-feature-btn">
-          <Link href="/news">
+          <Link href="/features">
             <a>
               All Feature <span>&rarr;</span>
             </a>

@@ -1,7 +1,8 @@
 @import "~antd/dist/antd.css";
 /* @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400&display=swap"); */
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400&display=swap");
+/* @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400&display=swap"); */
 /* @import url("https://fonts.googleapis.com/css2?family=Inter:wght00&display=swap"); */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
 * {
   font-family: "Inter", sans-serif;
 }
@@ -218,6 +219,9 @@ body {
   /* width: 1px; */
 }
 /* news */
+/* .title-news {
+  font-weight: 900;
+} */
 .news-topstory-style {
   /* width: 100%; */
   max-width: 100%;
@@ -228,7 +232,7 @@ body {
   height: 182px;
 }
 .status-news-topstory {
-  font-weight: 800;
+  font-weight: bolder;
   font-size: 12px;
 }
 .readmore {
@@ -783,11 +787,15 @@ body {
   /* background-color: rgb(245, 245, 245); */
   cursor: pointer;
   font-size: 16px;
+  /* transition: all 150ms ease-in-out 0s; */
 }
 .listnewsCate:hover {
   background-color: #f5f5f5;
-  /* color: #fce24a !important; */
 }
+/* .listnewsCate:hover::before {
+  transform: scale(1);
+  background-color: rgb(228, 244, 228);
+} */
 
 /* =====================404===================== */
 #notfound .notfound {
