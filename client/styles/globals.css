@@ -1,6 +1,7 @@
 @import "~antd/dist/antd.css";
 /* @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400&display=swap"); */
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght00&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400&display=swap");
+/* @import url("https://fonts.googleapis.com/css2?family=Inter:wght00&display=swap"); */
 * {
   font-family: "Inter", sans-serif;
 }
@@ -13,6 +14,11 @@ body {
   width: 60%;
 
   /* margin: auto; */
+}
+.navbar-container {
+  margin-right: auto !important;
+  margin-left: auto !important;
+  width: 64%;
 }
 .top-title {
   font-weight: 900;
@@ -36,6 +42,61 @@ body {
   height: 50px;
   position: relative;
   top: 7px;
+  cursor: pointer;
+}
+.navbar-top {
+  position: relative;
+  /* background-color: #252525;
+  border: 1px solid #2c2c2c; */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* padding: 13px 15%; */
+  margin-left: auto;
+  margin-right: auto;
+  width: 60%;
+  height: 40px;
+  line-height: 65px;
+  z-index: 10000 !important;
+}
+.top-nav-social {
+  margin-top: 5px;
+}
+.nav-top-container {
+  background-color: #252525;
+  border: 1px solid #2c2c2c;
+}
+.top-nav-rigth a {
+  color: #848484;
+}
+.top-nav {
+  display: flex;
+  margin-top: 12px;
+}
+.top-nav-rigth {
+  /* margin-top: 5px; */
+  display: flex;
+}
+.top-nav-social-icon {
+  color: #848484;
+  cursor: pointer;
+}
+.top-nav-social-icon:hover {
+  color: #fce24a;
+}
+.devider-top-nav {
+  border-left: 1px solid #848484 !important;
+  height: 18px;
+  margin-top: 25px;
+}
+.top-nav p {
+  padding-left: 12px;
+  color: #848484;
+}
+.gmail-top-nav {
+  margin-top: 23px;
+  font-size: 20px;
+  color: #fce24a;
 }
 .logo-mobile {
   height: 55px !important;
@@ -114,7 +175,7 @@ body {
 }
 .content-banner {
   z-index: 2 !important;
-  width: 57%;
+  width: 60%;
   margin-left: auto;
   margin-right: auto;
   /* color: white;
@@ -127,7 +188,7 @@ body {
   display: inline-block;
   padding: 18px 40px 18px;
   text-transform: capitalize;
-  font-family: "Poppins", sans-serif;
+  /* font-family: "Poppins", sans-serif; */
   transition: all 500ms ease;
   position: relative;
   border-radius: 3px;

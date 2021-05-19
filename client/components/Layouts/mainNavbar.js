@@ -25,10 +25,10 @@ const MainNavbar = () => {
     <React.Fragment>
       <Affix>
         <Header className="header">
-          <div className="container">
-            <div>
+          <div className="navbar-container">
+            <Link href="/">
               <img className="logo" src="/assets/images/logo.png" />
-            </div>
+            </Link>
             <Menu
               className="left-bar"
               // theme="dark"
@@ -60,11 +60,6 @@ const MainNavbar = () => {
                   <a>About Us</a>
                 </ActiveLink>
               </Menu.Item>
-              {/* <Menu.Item style={{ paddingLeft: "250px" }} key="4">
-                <ActiveLink activeClassName="is-active" href="/about">
-                  <a>About Us</a>
-                </ActiveLink>
-              </Menu.Item> */}
             </Menu>
           </div>
         </Header>
