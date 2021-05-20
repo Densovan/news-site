@@ -878,6 +878,21 @@ body {
   margin-bottom: 30px;
 }
 
+/* //================login and register style==================== */
+
+.register-box {
+  margin-top: 150px;
+  margin-bottom: 150px;
+  width: 500px;
+  justify-content: center;
+  box-shadow: rgba(101, 95, 95, 0.57) 0px 9px 20px -5px;
+  padding: 30px;
+  border-radius: 5px;
+  /* position: absolute;
+  top: 40%;
+  left: 40%; */
+}
+
 /*=============== Responsive================== */
 @media only screen and (min-width: 768px) {
   .mobile-navbar {

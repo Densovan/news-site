@@ -1,16 +1,17 @@
 import "../styles/globals.css";
 import MainLayout from "../components/mainLayout";
+import axios from "axios";
+import { AuthContextProvider } from "../contexts/authContext";
+
+axios.defaults.withCredentials = true;
 
 function MyApp({ Component, pageProps }) {
   return (
-    <MainLayout>
-      <Component {...pageProps} />
-      {/* <BackTop>
-        <div className="back-top">
-          <img style={{ width: "23px" }} src="/images/VA-Icon-White.png" />
-        </div>
-      </BackTop> */}
-    </MainLayout>
+    <AuthContextProvider>
+      <MainLayout>
+        <Component {...pageProps} />
+      </MainLayout>
+    </AuthContextProvider>
   );
 }
 

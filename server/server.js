@@ -9,6 +9,7 @@ const cookieSession = require("cookie-session");
 const app = express();
 app.use(express.json({ extend: false }));
 app.use(cookieParser());
+app.use(cors({ origin: ["http://localhost:3000"], credentials: true }));
 
 connectDB();
 

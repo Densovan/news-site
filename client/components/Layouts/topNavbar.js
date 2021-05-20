@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useContext } from "react";
+import AuthContext from "../../contexts/authContext";
 import { FiMail } from "react-icons/fi";
 import { Divider } from "antd";
 import {
@@ -11,8 +12,11 @@ import {
   TiUserAdd,
 } from "react-icons/ti";
 import Link from "next/link";
+import Logout from "../Layouts/logout";
 
 const TopNavbar = () => {
+  const { loggedIn } = useContext(AuthContext);
+  // console.log(loggedIn);
   return (
     <React.Fragment>
       <div className="nav-top-container">
@@ -36,7 +40,8 @@ const TopNavbar = () => {
               </span>
             </div>
           </div>
-          <div>
+          {/* <div> */}
+          {loggedIn === false && (
             <div className="top-nav-rigth">
               <TiUser className="gmail-top-nav" />
               <Link href="/signin">Sign in</Link>
@@ -44,7 +49,13 @@ const TopNavbar = () => {
               <TiUserAdd size={19} className="gmail-top-nav" />
               <Link href="/register">Register</Link>
             </div>
-          </div>
+          )}
+          {loggedIn === true && (
+            <h1>
+              <Logout />
+            </h1>
+          )}
+          {/* </div> */}
         </div>
       </div>
     </React.Fragment>
