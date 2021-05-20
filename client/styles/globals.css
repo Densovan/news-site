@@ -879,18 +879,91 @@ body {
 }
 
 /* //================login and register style==================== */
+.background-signin {
+  background-image: url("/assets/images/banner-bg.jpg");
+  /* height: 30vh; */
+  /* background-image: url(/images/VA-Header.png); */
+  background-repeat: no-repeat;
+  /* height: 600px; */
+  background-size: cover;
+  /* width: 100%; */
+  display: flex;
+  background-position: center;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.background-signin::before {
+  content: "";
+  position: absolute;
+  top: 10;
+  background: rgba(253, 194, 9, 0.95) none repeat scroll 0 0;
+  z-index: 1 !important;
+  width: 100%;
+  height: 100vh;
+}
 
 .register-box {
-  margin-top: 150px;
-  margin-bottom: 150px;
-  width: 500px;
+  z-index: 1;
+  /* margin-top: 150px;
+  margin-bottom: 150px; */
+  position: absolute;
+  top: 30%;
+  left: 38%;
+  width: 440px;
   justify-content: center;
-  box-shadow: rgba(101, 95, 95, 0.57) 0px 9px 20px -5px;
+  background-color: #252525;
+  /* box-shadow: rgba(101, 95, 95, 0.57) 0px 9px 20px -5px; */
   padding: 30px;
   border-radius: 5px;
   /* position: absolute;
   top: 40%;
   left: 40%; */
+}
+.register-box h1 {
+  color: #fce24a;
+  font-weight: 900;
+}
+.btn-login {
+  font-size: 14px;
+  line-height: 14px;
+  font-weight: 600;
+  display: inline-block;
+  padding: 18px 40px 18px;
+  text-transform: capitalize;
+  /* font-family: "Poppins", sans-serif; */
+  transition: all 500ms ease;
+  position: relative;
+  border-radius: 3px;
+  background: #252525;
+  color: #fdc209;
+  border: none;
+  cursor: pointer;
+  margin-top: 15px;
+}
+.input {
+  background: #ffffff;
+  border: 1px solid #fdc209 !important;
+  color: #848484;
+  /* display: block; */
+  font-size: 14px;
+  font-weight: 400;
+  font-style: normal;
+  /* height: 50px; */
+  padding-left: 15px;
+  padding-right: 55px;
+  position: relative;
+  -webkit-transition: all 500ms ease 0s;
+  transition: all 500ms ease 0s;
+  width: 100%;
+  border-radius: 5px;
+}
+.input:focus {
+  background: #202020;
+  color: #fff;
+  border: 1px solid #fdc209;
+  outline: none;
 }
 
 /*=============== Responsive================== */

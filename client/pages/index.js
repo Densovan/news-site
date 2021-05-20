@@ -1,13 +1,17 @@
 import React from "react";
 import { Row, Col, Button } from "antd";
-import MainNavbar from "../components/Layouts/mainNavbar";
 import TopStory from "../pages/topStory/topStory";
 import Learn from "../pages/Learn/learn";
 import Feature from "./Feature/feature";
+import TopNavbar from "../components/Layouts/topNavbar";
+import MainNavbar from "../components/Layouts/mainNavbar";
+import Footer from "../components/Layouts/footer";
 
 const Index = () => {
   return (
     <React.Fragment>
+      <TopNavbar />
+      <MainNavbar />
       <div className="index-banner">
         <div className="content-banner">
           <Row gutter={[32, 32]}>
@@ -38,6 +42,7 @@ const Index = () => {
         </Row>
         <Feature />
       </div>
+      <Footer />
     </React.Fragment>
   );
 };

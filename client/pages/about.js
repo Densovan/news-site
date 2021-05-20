@@ -8,10 +8,15 @@ import {
   TiMediaPlay,
   TiLocationArrowOutline,
 } from "react-icons/ti";
+import TopNavbar from "../components/Layouts/topNavbar";
+import MainNavbar from "../components/Layouts/mainNavbar";
+import Footer from "../components/Layouts/footer";
 
 const About = () => {
   return (
     <React.Fragment>
+      <TopNavbar />
+      <MainNavbar />
       <div className="container">
         <br></br>
         <center>
@@ -199,6 +204,8 @@ const About = () => {
           </div>
         </div>
       </div>
+      <br></br>
+      <Footer />
     </React.Fragment>
   );
 };

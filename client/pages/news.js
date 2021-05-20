@@ -12,10 +12,15 @@ import {
   FaRegEdit,
   FaRegClone,
 } from "react-icons/fa";
+import TopNavbar from "../components/Layouts/topNavbar";
+import MainNavbar from "../components/Layouts/mainNavbar";
+import Footer from "../components/Layouts/footer";
 
 const AllNews = () => {
   return (
     <React.Fragment>
+      <TopNavbar />
+      <MainNavbar />
       <div className="container">
         <center>
           <h1 className="top-title-allNews">All News</h1>
@@ -311,6 +316,7 @@ const AllNews = () => {
           </Col>
         </Row>
       </div>
+      <Footer />
     </React.Fragment>
   );
 };

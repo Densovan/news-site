@@ -8,9 +8,9 @@ axios.defaults.withCredentials = true;
 function MyApp({ Component, pageProps }) {
   return (
     <AuthContextProvider>
-      <MainLayout>
-        <Component {...pageProps} />
-      </MainLayout>
+      {/* <MainLayout> */}
+      <Component {...pageProps} />
+      {/* </MainLayout> */}
     </AuthContextProvider>
   );
 }

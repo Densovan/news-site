@@ -28,43 +28,58 @@ const Login = ({ history }) => {
     <React.Fragment>
       {loggedIn === true && window.location.replace("/")}
       {loggedIn === false && (
-        <center>
-          <div className="register-box">
-            <h1>Login</h1>
-            <Form layout="vertical" onFinish={onFinish}>
-              <Form.Item
-                label="Email"
-                name="email"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your Email!",
-                  },
-                ]}
-              >
-                <Input placeholder="Email" />
-              </Form.Item>
+        <div className="background-signin">
+          <center>
+            <div className="register-box">
+              <h1>LOGIN</h1>
+              <Form layout="vertical" onFinish={onFinish}>
+                <Form.Item
+                  // label="Email"
+                  label={
+                    <label style={{ color: "white", fontWeight: "900" }}>
+                      Email
+                    </label>
+                  }
+                  name="email"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your Email!",
+                    },
+                  ]}
+                >
+                  <Input className="input" placeholder="Email" />
+                </Form.Item>
 
-              <Form.Item
-                label="password"
-                name="password"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your Password!",
-                  },
-                ]}
-              >
-                <Input placeholder="Password" type="password" />
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Submit
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
-        </center>
+                <Form.Item
+                  label={
+                    <label style={{ color: "white", fontWeight: "900" }}>
+                      Password
+                    </label>
+                  }
+                  name="password"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your Password!",
+                    },
+                  ]}
+                >
+                  <Input
+                    className="input"
+                    placeholder="Password"
+                    type="password"
+                  />
+                </Form.Item>
+                <Form.Item>
+                  <Button className="btn-login" htmlType="submit">
+                    Submit
+                  </Button>
+                </Form.Item>
+              </Form>
+            </div>
+          </center>
+        </div>
       )}
     </React.Fragment>
   );
