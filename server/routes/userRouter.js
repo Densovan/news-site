@@ -50,7 +50,7 @@ router.post("/", async (req, res) => {
 
     const token = jwt.sign(
       {
-        user: savedUser.id,
+        id: savedUser._id,
       },
       process.env.JWTSECRET
     );
@@ -63,9 +63,12 @@ router.post("/", async (req, res) => {
     });
     // .send();
 
-    res
-      .status(200)
-      .json({ msg: "Register Successful", Newuser: savedUser, token: token });
+    res.status(200).json({
+      msg: "Register Successful",
+      Newuser: savedUser,
+      token: token,
+      _id: savedUser._id,
+    });
     // .send();
   } catch (error) {
     console.error(error);
@@ -94,7 +97,7 @@ router.post("/login", async (req, res) => {
     //=========sign token===========
     const token = jwt.sign(
       {
-        user: existingUser.id,
+        id: existingUser._id,
       },
       process.env.JWTSECRET
     );
@@ -108,7 +111,12 @@ router.post("/login", async (req, res) => {
     // .send();
     res
       .status(200)
-      .json({ msg: "Login Successful", token: token, success: true })
+      .json({
+        msg: "Login Successful",
+        token: token,
+        success: true,
+        _id: existingUser._id,
+      })
       .send();
   } catch (error) {
     console.error(error);

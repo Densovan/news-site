@@ -18,7 +18,6 @@ const GET_USER = gql`
       email
       role
       id
-      # createAt
     }
   }
 `;
