@@ -1,10 +1,15 @@
 import React from "react";
 import { Col, Row } from "antd";
 import { CaretRightOutlined } from "@ant-design/icons";
+import TopNavbar from "../components/Layouts/topNavbar";
+import MainNavbar from "../components/Layouts/mainNavbar";
+import Footer from "../components/Layouts/footer";
 
 const Learn = () => {
   return (
     <React.Fragment>
+      <TopNavbar />
+      <MainNavbar />
       <div className="container top-learns">
         <center>
           <h1 className="about-main-title">Feature</h1>
@@ -174,6 +179,8 @@ const Learn = () => {
           </Col>
         </Row>
       </div>
+      <br></br>
+      <Footer />
     </React.Fragment>
   );
 };

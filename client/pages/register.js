@@ -1,9 +1,11 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Form, Input, Button, Checkbox, message } from "antd";
 import AuthContext from "../contexts/authContext";
 import axios from "axios";
+import Link from "next/link";
 
 const Register = ({ history }) => {
+  const [loading, setLoading] = useState(false);
   const { getLoggedIn } = useContext(AuthContext);
   const { loggedIn } = useContext(AuthContext);
   const onFinish = async (values) => {
@@ -11,11 +13,19 @@ const Register = ({ history }) => {
     try {
       await axios.post("http://localhost:3500/auth/", values).then((res) => {
         if (res.status === 201) {
-          message.warning(res.data.msg);
+          setLoading(true);
+          message.error(res.data.msg);
+          setTimeout(function () {
+            setLoading(false);
+          }, 1000);
         } else if (res.status === 200) {
+          setLoading(true);
           message.success(res.data.msg);
-          getLoggedIn();
-          window.location.replace("/");
+          setTimeout(function () {
+            setLoading(false);
+            window.location.replace("/");
+          }, 2000);
+          // getLoggedIn();
         }
       });
     } catch (error) {
@@ -26,12 +36,18 @@ const Register = ({ history }) => {
     <React.Fragment>
       {loggedIn === true && window.location.replace("/")}
       {loggedIn === false && (
-        <center>
+        <div className="background-signin">
           <div className="register-box">
-            <h1>Register</h1>
+            <center>
+              <h1>Register</h1>
+            </center>
             <Form layout="vertical" onFinish={onFinish}>
               <Form.Item
-                label="Email"
+                label={
+                  <label style={{ color: "white", fontWeight: "900" }}>
+                    Email
+                  </label>
+                }
                 name="email"
                 rules={[
                   {
@@ -40,10 +56,14 @@ const Register = ({ history }) => {
                   },
                 ]}
               >
-                <Input placeholder="Email" />
+                <Input size="large" className="input" placeholder="Email" />
               </Form.Item>
               <Form.Item
-                label="Fullname"
+                label={
+                  <label style={{ color: "white", fontWeight: "900" }}>
+                    Fullname
+                  </label>
+                }
                 name="fullname"
                 rules={[
                   {
@@ -52,10 +72,14 @@ const Register = ({ history }) => {
                   },
                 ]}
               >
-                <Input placeholder="Fullname" />
+                <Input size="large" className="input" placeholder="Fullname" />
               </Form.Item>
               <Form.Item
-                label="password"
+                label={
+                  <label style={{ color: "white", fontWeight: "900" }}>
+                    Password
+                  </label>
+                }
                 name="password"
                 rules={[
                   {
@@ -64,10 +88,19 @@ const Register = ({ history }) => {
                   },
                 ]}
               >
-                <Input placeholder="Password" type="password" />
+                <Input
+                  size="large"
+                  className="input"
+                  placeholder="Password"
+                  type="password"
+                />
               </Form.Item>
               <Form.Item
-                label="Confirm Password"
+                label={
+                  <label style={{ color: "white", fontWeight: "900" }}>
+                    Confirm Password
+                  </label>
+                }
                 name="passwordVerify"
                 rules={[
                   {
@@ -76,16 +109,29 @@ const Register = ({ history }) => {
                   },
                 ]}
               >
-                <Input type="password" placeholder="Confirm Password" />
+                <Input
+                  size="large"
+                  className="input"
+                  type="password"
+                  placeholder="Confirm Password"
+                />
               </Form.Item>
               <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Submit
-                </Button>
+                <center>
+                  <Button className="btn-login" size="large" htmlType="submit">
+                    Register
+                  </Button>
+                </center>
               </Form.Item>
             </Form>
+            <center>
+              <span style={{ color: "white" }}>Have account already.</span>
+              <span style={{ paddingLeft: "8px", fontWeight: "900" }}>
+                <Link href="/signin">Sign In</Link>
+              </span>
+            </center>
           </div>
-        </center>
+        </div>
       )}
     </React.Fragment>
   );

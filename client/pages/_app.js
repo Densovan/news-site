@@ -1,16 +1,20 @@
 import "../styles/globals.css";
-import MainLayout from "../components/mainLayout";
+import { UserProvider } from "../contexts/userContext";
 import axios from "axios";
+import { ApolloProvider } from "@apollo/client";
 import { AuthContextProvider } from "../contexts/authContext";
+import client from "../apollo-client";
 
 axios.defaults.withCredentials = true;
 
 function MyApp({ Component, pageProps }) {
   return (
     <AuthContextProvider>
-      {/* <MainLayout> */}
-      <Component {...pageProps} />
-      {/* </MainLayout> */}
+      <UserProvider>
+        <ApolloProvider client={client}>
+          <Component {...pageProps} />
+        </ApolloProvider>
+      </UserProvider>
     </AuthContextProvider>
   );
 }

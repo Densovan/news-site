@@ -1,23 +1,36 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
+import Link from "next/link";
 import { Form, Input, Button, Checkbox, message } from "antd";
 import AuthContext from "../contexts/authContext";
 import axios from "axios";
+import Cookie from "js-cookie";
 
 const Login = ({ history }) => {
+  const [loading, setLoading] = useState(false);
   const { getLoggedIn } = useContext(AuthContext);
   const { loggedIn } = useContext(AuthContext);
   const onFinish = async (values) => {
-    console.log("Success:", values);
+    // console.log("Success:", values);
     try {
       await axios
         .post("http://localhost:3500/auth/login", values)
         .then((res) => {
           if (res.status === 201) {
-            message.warning(res.data.msg);
+            setLoading(true);
+            message.error(res.data.msg);
+            setTimeout(function () {
+              setLoading(false);
+            }, 1000);
           } else if (res.status === 200) {
+            setLoading(true);
+            Cookie.set("_userId", res.data._id);
             message.success(res.data.msg);
-            getLoggedIn();
-            window.location.replace("/");
+            setTimeout(function () {
+              setLoading(false);
+              window.location.replace("/");
+            }, 2000);
+            // setLoading(false);
+            // getLoggedIn();
           }
         });
     } catch (error) {
@@ -29,56 +42,82 @@ const Login = ({ history }) => {
       {loggedIn === true && window.location.replace("/")}
       {loggedIn === false && (
         <div className="background-signin">
-          <center>
-            <div className="register-box">
+          {/* <center> */}
+          <div className="register-box">
+            <center>
               <h1>LOGIN</h1>
-              <Form layout="vertical" onFinish={onFinish}>
-                <Form.Item
-                  // label="Email"
-                  label={
-                    <label style={{ color: "white", fontWeight: "900" }}>
-                      Email
-                    </label>
-                  }
-                  name="email"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your Email!",
-                    },
-                  ]}
-                >
-                  <Input className="input" placeholder="Email" />
+            </center>
+            <Form layout="vertical" onFinish={onFinish}>
+              <Form.Item
+                // label="Email"
+                label={
+                  <label style={{ color: "white", fontWeight: "900" }}>
+                    Email
+                  </label>
+                }
+                name="email"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input your Email!",
+                  },
+                ]}
+              >
+                <Input size="large" className="input" placeholder="Email" />
+              </Form.Item>
+
+              <Form.Item
+                label={
+                  <label style={{ color: "white", fontWeight: "900" }}>
+                    Password
+                  </label>
+                }
+                name="password"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input your Password!",
+                  },
+                ]}
+              >
+                <Input
+                  size="large"
+                  className="input"
+                  placeholder="Password"
+                  type="password"
+                />
+              </Form.Item>
+              <Form.Item>
+                <Form.Item name="remember" valuePropName="checked" noStyle>
+                  <Checkbox style={{ color: "white" }}>Remember me</Checkbox>
                 </Form.Item>
 
-                <Form.Item
-                  label={
-                    <label style={{ color: "white", fontWeight: "900" }}>
-                      Password
-                    </label>
-                  }
-                  name="password"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your Password!",
-                    },
-                  ]}
-                >
-                  <Input
-                    className="input"
-                    placeholder="Password"
-                    type="password"
-                  />
-                </Form.Item>
-                <Form.Item>
-                  <Button className="btn-login" htmlType="submit">
-                    Submit
+                <a className="login-form-forgot" href="">
+                  Forgot password
+                </a>
+              </Form.Item>
+              <Form.Item>
+                <center>
+                  <Button
+                    disabled={loading ? true : false}
+                    loading={loading ? true : false}
+                    className="btn-login"
+                    size="large"
+                    htmlType="submit"
+                  >
+                    Sign In
                   </Button>
-                </Form.Item>
-              </Form>
-            </div>
-          </center>
+                </center>
+              </Form.Item>
+            </Form>
+            <center>
+              <span style={{ color: "white" }}>Do not have an account?</span>
+              <span style={{ paddingLeft: "12px", fontWeight: "900" }}>
+                <Link href="/register">Create new account</Link>
+              </span>
+            </center>
+          </div>
+          {/* </center> */}
         </div>
       )}
     </React.Fragment>
