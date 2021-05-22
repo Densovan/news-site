@@ -1,15 +1,11 @@
-import React, { createContext } from "react";
-import Cookie from "js-cookie";
+// import React, { createContext } from "react";
+// import Cookie from "js-cookie";
 
-export const UserContext = createContext();
+// export const UserContext = createContext();
 
-let _id = Cookie.get("_userId");
-// console.log("eh", _id);
+// // let _id = Cookie.get("_userId");
+// // console.log("eh", _id);
 
-export const UserProvider = (props) => {
-  return (
-    <UserContext.Provider value={{ _id }}>
-      {props.children}
-    </UserContext.Provider>
-  );
-};
+// export const UserProvider = (props) => {
+//   return <UserContext.Provider>{props.children}</UserContext.Provider>;
+// };

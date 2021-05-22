@@ -10,11 +10,11 @@ axios.defaults.withCredentials = true;
 function MyApp({ Component, pageProps }) {
   return (
     <AuthContextProvider>
-      <UserProvider>
-        <ApolloProvider client={client}>
-          <Component {...pageProps} />
-        </ApolloProvider>
-      </UserProvider>
+      {/* <UserProvider> */}
+      <ApolloProvider client={client}>
+        <Component {...pageProps} />
+      </ApolloProvider>
+      {/* </UserProvider> */}
     </AuthContextProvider>
   );
 }

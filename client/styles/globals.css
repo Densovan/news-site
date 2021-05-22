@@ -70,6 +70,16 @@ body {
 .top-nav-rigth a {
   color: #848484;
 }
+.avatarAcc {
+  position: relative;
+  width: 40px;
+  top: 5px;
+  border-radius: 50%;
+}
+.popover-text {
+  font-weight: 900;
+  font-size: 15px;
+}
 .avatar {
   width: 30px;
   border-radius: 20px;

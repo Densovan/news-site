@@ -24,55 +24,7 @@ const TopNavbar = () => {
   const { loggedIn } = useContext(AuthContext);
   const { loading, data, error } = useQuery(GET_USER);
   if (loading) return "";
-  console.log(data);
-  // const { fullname } = data.get_user;
-  const content = (
-    <div className="content-popover" style={{ width: "270px" }}>
-      <Row gutter={[24, 24]}>
-        {/* <Col span={4}>
-         
-          <Avatar
-            className="navbar-avata"
-            // src={userData.user.avatar}
-            src="/assets/images/avatar.png"
-            size={55}
-          ></Avatar>
-        </Col> */}
-        <Col span={20}>
-          <div>
-            <div className="popover-text">{/* {userData.user.fullname} */}</div>
-            {/* <span>{userData.user.email}</span> */}
-          </div>
-        </Col>
-      </Row>
-      <div className="user-bottom-border"></div>
-      <Row className="accountNavbarhover">
-        <Col style={{ paddingTop: "4px" }} span={4}>
-          <HiOutlineCog style={{ fontSize: "21px" }} />
-        </Col>
 
-        <Col style={{ paddingTop: "4px" }} span={20}>
-          Setting
-        </Col>
-      </Row>
-      <Row className="accountNavbarhover">
-        <Col style={{ paddingTop: "4px" }} span={4}>
-          <HiQuestionMarkCircle style={{ fontSize: "21px" }} />
-        </Col>
-        <Col style={{ paddingTop: "4px" }} span={20}>
-          Help
-        </Col>
-      </Row>
-      <Row className="accountNavbarhover">
-        <Col style={{ paddingTop: "4px" }} span={4}>
-          <HiLogout style={{ fontSize: "21px" }} />
-        </Col>
-        <Col className="logout" style={{ paddingTop: "4px" }} span={20}>
-          <Logout />
-        </Col>
-      </Row>
-    </div>
-  );
   return (
     <React.Fragment>
       <div className="nav-top-container">
@@ -108,8 +60,62 @@ const TopNavbar = () => {
             )}
             {loggedIn === true && (
               <div style={{ cursor: "pointer" }}>
-                <Popover content={content} title="Sovanden" trigger="click">
-                  <img className="avatar" src="/assets/images/avatar.png" />
+                <Popover
+                  content={
+                    <div className="content-popover" style={{ width: "270px" }}>
+                      <Row gutter={[24, 24]}>
+                        <Col span={4}>
+                          <img
+                            className="avatarAcc"
+                            src="/assets/images/Den.png"
+                          />
+                        </Col>
+                        <Col span={20}>
+                          <div>
+                            <div className="popover-text">
+                              {data.get_user.fullname}
+                            </div>
+                            <span>{data.get_user.email}</span>
+                          </div>
+                        </Col>
+                      </Row>
+                      {/* <div className="user-bottom-border"></div> */}
+                      <br></br>
+                      <Row className="accountNavbarhover">
+                        <Col style={{ paddingTop: "4px" }} span={4}>
+                          <HiOutlineCog style={{ fontSize: "21px" }} />
+                        </Col>
+
+                        <Col style={{ paddingTop: "4px" }} span={20}>
+                          Setting
+                        </Col>
+                      </Row>
+                      <Row className="accountNavbarhover">
+                        <Col style={{ paddingTop: "4px" }} span={4}>
+                          <HiQuestionMarkCircle style={{ fontSize: "21px" }} />
+                        </Col>
+                        <Col style={{ paddingTop: "4px" }} span={20}>
+                          Help
+                        </Col>
+                      </Row>
+                      <Row className="accountNavbarhover">
+                        <Col style={{ paddingTop: "4px" }} span={4}>
+                          <HiLogout style={{ fontSize: "21px" }} />
+                        </Col>
+                        <Col
+                          className="logout"
+                          style={{ paddingTop: "4px" }}
+                          span={20}
+                        >
+                          <Logout />
+                        </Col>
+                      </Row>
+                    </div>
+                  }
+                  // title={data.get_user.fullname}
+                  trigger="click"
+                >
+                  <img className="avatar" src="/assets/images/Den.png" />
                 </Popover>
               </div>
             )}
