@@ -1060,7 +1060,9 @@ body {
   border-radius: 10px;
 }
 .container-profile {
-  padding-left: 15px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 93%;
 }
 .profile-content {
   background-color: #ffffff;
@@ -1071,6 +1073,36 @@ body {
   margin-right: auto;
   width: 93%;
   padding: 12px 0 12px 0;
+}
+.hold-info {
+  background-color: #787c8124;
+  padding: 10px 0 1px 10px;
+  border-radius: 5px;
+  line-height: 12px;
+  margin-bottom: 12px;
+}
+.hold-info h3 {
+  font-weight: bold;
+}
+.list-content-pf {
+  line-height: 40px;
+}
+.a-list-content-pf {
+  cursor: pointer;
+  padding-left: 10px;
+  transition: 0.3s;
+  margin-top: 7px;
+}
+.a-list-content-pf:hover {
+  background-color: #787c8124;
+  padding-left: 10px;
+  border-radius: 5px;
+}
+.active-list-pf {
+  background-color: #787c8124;
+  padding-left: 10px;
+  border-radius: 5px;
+  margin-top: 7px;
 }
 /*=============== Responsive================== */
 @media only screen and (min-width: 768px) {
