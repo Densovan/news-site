@@ -55,28 +55,41 @@ router.post("/", async (req, res) => {
 
     //=============log the user in=============
 
-    const token = jwt.sign(
+    const token = accessToken(savedUser._id);
+    const refreshToken = jwt.sign(
       {
         id: savedUser._id,
       },
-      process.env.JWTSECRET
+      process.env.REFRESH_TOKEN_SECRET,
+      {
+        expiresIn: maxAge,
+      }
     );
 
     //================send the token============
     res.cookie("token", token, {
       httpOnly: true,
       secure: true,
-      sameSite: "none",
+      sameSite: "strict",
+      maxAge: 1800000,
     });
-    // .send();
 
-    res.status(200).json({
-      msg: "Register Successful",
-      Newuser: savedUser,
-      token: token,
-      _id: savedUser._id,
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+      maxAge: maxAge * 1000,
     });
-    // .send();
+
+    res
+      .status(200)
+      .json({
+        msg: "Login Successful",
+        token: token,
+        success: true,
+        _id: savedUser._id,
+      })
+      .send();
   } catch (error) {
     console.error(error);
     res.status(500);
@@ -153,6 +166,7 @@ router.post("/login", async (req, res) => {
     const refreshToken = jwt.sign(
       {
         id: existingUser._id,
+        role: existingUser.role,
       },
       process.env.REFRESH_TOKEN_SECRET,
       {

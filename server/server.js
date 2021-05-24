@@ -7,6 +7,7 @@ const connectDB = require("./configs/db");
 const cookieParser = require("cookie-parser");
 const cookieSession = require("cookie-session");
 const clientSchema = require("./graphql/schema");
+const adminSchema = require("./graphql/adminSchema");
 const { graphqlHTTP } = require("express-graphql");
 const Auth = require("./middlewares/auth");
 
@@ -20,6 +21,7 @@ connectDB();
 //set up Routes
 
 app.use("/auth", require("./routes/userRouter"));
+app.use("/upload", require("./routes/uploadFile"));
 
 //===========client API================
 app.use(
@@ -33,6 +35,22 @@ app.use(
       context: user,
       graphiql: true,
       schema: clientSchema,
+    };
+  })
+);
+
+//===========admin API================
+app.use(
+  "/admin",
+  //   Auth,
+  graphqlHTTP(async (req) => {
+    const token = req.cookies.token;
+    // console.log("token", token);
+    const user = jwt.decode(token, process.env.JWTSECRET);
+    return {
+      context: user,
+      graphiql: true,
+      schema: adminSchema,
     };
   })
 );

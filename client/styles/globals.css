@@ -1037,6 +1037,41 @@ body {
   outline: none;
 }
 
+/* ============Dashboard profile image============== */
+
+.profile-img {
+  width: 180px;
+  border-radius: 50%;
+}
+.uplaod-mg-btn {
+  /* overflow: hidden; */
+  position: absolute;
+  position: absolute;
+  left: 64%;
+  top: 57%;
+  cursor: pointer;
+  background: #dfad178a;
+  padding: 6px 6px 3px 6px;
+  border: 1px solid #977b22;
+  border-radius: 54%;
+}
+.profile-bg {
+  background-color: #ffffff;
+  border-radius: 10px;
+}
+.container-profile {
+  padding-left: 15px;
+}
+.profile-content {
+  background-color: #ffffff;
+  border-radius: 10px;
+}
+.sub-pf-content {
+  margin-left: auto;
+  margin-right: auto;
+  width: 93%;
+  padding: 12px 0 12px 0;
+}
 /*=============== Responsive================== */
 @media only screen and (min-width: 768px) {
   .mobile-navbar {

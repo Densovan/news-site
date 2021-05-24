@@ -8,7 +8,7 @@ const Logout = () => {
   async function logoutButton() {
     await axios.get("http://localhost:3500/auth/logout");
     await getLoggedIn();
-    window.location.replace("/");
+    // window.location.replace("/");
   }
   return <div onClick={logoutButton}>Logout</div>;
 };
