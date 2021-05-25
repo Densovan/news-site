@@ -1,9 +1,9 @@
 import React from "react";
 import { Col, Row } from "antd";
 import { CaretRightOutlined } from "@ant-design/icons";
-import TopNavbar from "../components/Layouts/topNavbar";
-import MainNavbar from "../components/Layouts/mainNavbar";
-import Footer from "../components/Layouts/footer";
+import TopNavbar from "../../components/Layouts/topNavbar";
+import MainNavbar from "../../components/Layouts/mainNavbar";
+import Footer from "../../components/Layouts/footer";
 
 const Learn = () => {
   return (

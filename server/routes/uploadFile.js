@@ -26,7 +26,7 @@ upload;
 
 var upload = multer({ storage: storage });
 
-router.post("/images", upload.single("thumnail"), (req, res) => {
+router.post("/upload/images", upload.single("file"), (req, res) => {
   sharp("./" + req.file.path)
     .toBuffer()
     .then((data) => {
@@ -37,6 +37,24 @@ router.post("/images", upload.single("thumnail"), (req, res) => {
             data: req.file.filename,
           });
         });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+router.post("/upload/image/editorjs", upload.single("image"), (req, res) => {
+  sharp("./" + req.file.path)
+    .toBuffer()
+    .then((data) => {
+      sharp(data).toFile("./" + req.file.path, () => {
+        return res.json({
+          success: 1,
+          file: {
+            url: `http://localhost:3500/${req.file.path}`,
+          },
+        });
+      });
     })
     .catch((err) => {
       console.log(err);

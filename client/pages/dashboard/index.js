@@ -1,15 +1,18 @@
 import React, { useContext, useState } from "react";
 import { Row, Col } from "antd";
-import AuthContext from "../contexts/authContext";
-import TopNavbar from "../components/Layouts/topNavbar";
-import MainNavbar from "../components/Layouts/mainNavbar";
-import Footer from "../components/Layouts/footer";
+import AuthContext from "../../contexts/authContext";
+import TopNavbar from "../../components/Layouts/topNavbar";
+import MainNavbar from "../../components/Layouts/mainNavbar";
+import Footer from "../../components/Layouts/footer";
 import { useRouter } from "next/router";
 import { FaCamera } from "react-icons/fa";
 import Link from "next/link";
 import { useQuery } from "@apollo/client";
-import { GET_USER } from "../graphql/query";
+import { GET_USER } from "../../graphql/query";
+
 import { AiOutlineAppstoreAdd, AiOutlineEdit } from "react-icons/ai";
+import Addstory from "./addstory";
+import Allstory from "./allstory";
 
 const Dashboard = () => {
   const [change, setChange] = useState({
@@ -97,39 +100,9 @@ const Dashboard = () => {
             </Col>
             <Col sm={24} lg={16}>
               <div className="profile-content">
-                {change.value === "all-story" && (
-                  <div className="sub-pf-content">
-                    <h2>Your Stories</h2>
-                    <Row>
-                      <Col sm={24} md={8}>
-                        xzdf
-                      </Col>
-                      <Col sm={24} md={8}>
-                        xzdf
-                      </Col>
-                      <Col sm={24} md={8}>
-                        xzdf
-                      </Col>
-                    </Row>
-                  </div>
-                )}
+                {change.value === "all-story" && <Allstory />}
                 {/* =============value = add-story=========== */}
-                {change.value === "add-story" && (
-                  <div className="sub-pf-content">
-                    <h2>Add Your Story</h2>
-                    <Row>
-                      <Col sm={24} md={8}>
-                        xzdf
-                      </Col>
-                      <Col sm={24} md={8}>
-                        xzdf
-                      </Col>
-                      <Col sm={24} md={8}>
-                        xzdf
-                      </Col>
-                    </Row>
-                  </div>
-                )}
+                {change.value === "add-story" && <Addstory />}
               </div>
             </Col>
           </Row>

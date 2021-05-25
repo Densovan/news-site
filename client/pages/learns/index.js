@@ -12,9 +12,9 @@ import {
   FaRegEdit,
   FaRegClone,
 } from "react-icons/fa";
-import TopNavbar from "../components/Layouts/topNavbar";
-import MainNavbar from "../components/Layouts/mainNavbar";
-import Footer from "../components/Layouts/footer";
+import TopNavbar from "../../components/Layouts/topNavbar";
+import MainNavbar from "../../components/Layouts/mainNavbar";
+import Footer from "../../components/Layouts/footer";
 
 const Learn = () => {
   return (

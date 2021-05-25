@@ -1,6 +1,8 @@
 const graphql = require("graphql");
 
-const { GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLID } = graphql;
+const { GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLID, GraphQLList } =
+  graphql;
+const News = require("../../models/news");
 
 const userType = new GraphQLObjectType({
   name: "user",
@@ -17,7 +19,15 @@ const userType = new GraphQLObjectType({
     id: {
       type: GraphQLID,
     },
+    news: {
+      type: GraphQLList(newsType),
+      resolve: (parent, args) => {
+        return News.find({ createBy: parent.id });
+      },
+    },
   }),
 });
 
 module.exports = userType;
+
+const newsType = require("./newsType");

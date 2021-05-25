@@ -1,8 +1,8 @@
 import React from "react";
 import { Row, Col, Button } from "antd";
 import TopStory from "../pages/topStory/topStory";
-import Learn from "../pages/Learn/learn";
-import Feature from "./Feature/feature";
+import Learn from "./learns/learn";
+import Feature from "./feature/feature";
 import TopNavbar from "../components/Layouts/topNavbar";
 import MainNavbar from "../components/Layouts/mainNavbar";
 import Footer from "../components/Layouts/footer";

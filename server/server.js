@@ -10,18 +10,20 @@ const clientSchema = require("./graphql/schema");
 const adminSchema = require("./graphql/adminSchema");
 const { graphqlHTTP } = require("express-graphql");
 const Auth = require("./middlewares/auth");
+const path = require("path");
 
 const app = express();
 app.use(express.json({ extend: false }));
 app.use(cookieParser());
+
 app.use(cors({ origin: ["http://localhost:3000"], credentials: true }));
 
 connectDB();
 
 //set up Routes
-
 app.use("/auth", require("./routes/userRouter"));
-app.use("/upload", require("./routes/uploadFile"));
+app.use("/", require("./routes/uploadFile"));
+app.use("/public/", express.static(path.join(__dirname, "public")));
 
 //===========client API================
 app.use(
