@@ -17,8 +17,6 @@ import { Popover } from "antd";
 import Logout from "../Layouts/logout";
 import { useQuery } from "@apollo/client";
 import { GET_USER } from "../../graphql/query";
-import Cookie from "js-cookie";
-import jwt from "jsonwebtoken";
 
 const TopNavbar = () => {
   const { loggedIn } = useContext(AuthContext);
@@ -92,7 +90,7 @@ const TopNavbar = () => {
                         <Col span={4}>
                           <img
                             className="avatarAcc"
-                            src="/assets/images/Den.png"
+                            src={data.get_user.image}
                           />
                         </Col>
                         <Col span={20}>
@@ -106,22 +104,24 @@ const TopNavbar = () => {
                       </Row>
 
                       <br></br>
-                      <Row className="accountNavbarhover">
-                        <Col style={{ paddingTop: "4px" }} span={4}>
-                          <HiOutlineCog style={{ fontSize: "21px" }} />
-                        </Col>
-                        <Col style={{ paddingTop: "4px" }} span={20}>
-                          <Link href="/dashboard"> Dashboard</Link>
-                        </Col>
-                      </Row>
-                      <Row className="accountNavbarhover">
+                      <Link href="/dashboard">
+                        <Row className="accountNavbarhover">
+                          <Col style={{ paddingTop: "4px" }} span={4}>
+                            <HiOutlineCog style={{ fontSize: "21px" }} />
+                          </Col>
+                          <Col style={{ paddingTop: "4px" }} span={20}>
+                            Dashboard
+                          </Col>
+                        </Row>
+                      </Link>
+                      {/* <Row className="accountNavbarhover">
                         <Col style={{ paddingTop: "4px" }} span={4}>
                           <HiQuestionMarkCircle style={{ fontSize: "21px" }} />
                         </Col>
                         <Col style={{ paddingTop: "4px" }} span={20}>
                           Help
                         </Col>
-                      </Row>
+                      </Row> */}
                       {/* {data.get_user.role === "admin" && (
                         <Row className="accountNavbarhover">
                           <Col style={{ paddingTop: "4px" }} span={4}>
@@ -150,7 +150,7 @@ const TopNavbar = () => {
                   }
                   trigger="click"
                 >
-                  <img className="avatar" src="/assets/images/Den.png" />
+                  <img className="avatar" src={data.get_user.image} />
                 </Popover>
               </div>
             </div>

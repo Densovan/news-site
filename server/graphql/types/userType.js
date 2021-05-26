@@ -13,6 +13,7 @@ const userType = new GraphQLObjectType({
     token: { type: GraphQLString },
     message: { type: GraphQLString },
     role: { type: GraphQLString },
+    image: { type: GraphQLString },
     createdAt: {
       type: GraphQLString,
     },

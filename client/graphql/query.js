@@ -4,6 +4,7 @@ const GET_USERS = gql`
   query {
     get_users {
       fullname
+      image
       email
       role
       id
@@ -14,6 +15,7 @@ const GET_USERS = gql`
 const GET_USER = gql`
   query {
     get_user {
+      image
       fullname
       email
       role
@@ -88,6 +90,29 @@ const GET_NEWS = gql`
   }
 `;
 
+const GET_ALL_NEWS = gql`
+  query ($limit: Int!, $offset: Int!) {
+    get_all_news(limit: $limit, offset: $offset) {
+      title
+      createdAt
+      id
+      category
+      thumnail
+      type
+      des
+      user {
+        fullname
+      }
+      types {
+        name
+      }
+      categories {
+        name
+      }
+    }
+  }
+`;
+
 export {
   GET_USERS,
   GET_USER,
@@ -95,4 +120,5 @@ export {
   GET_TYPES,
   GET_OWN_NEWS,
   GET_NEWS,
+  GET_ALL_NEWS,
 };

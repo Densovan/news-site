@@ -18,6 +18,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "user",
     },
+    image: {
+      type: String,
+      default: "https://salabackend.koompi.com/public/uploads/avatar.png",
+    },
   },
   {
     timestamps: true,

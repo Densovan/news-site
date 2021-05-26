@@ -149,10 +149,7 @@ const Dashboard = ({ value }) => {
               <div className="profile-bg">
                 <center>
                   <br></br>
-                  <img
-                    className="profile-img"
-                    src="/assets/images/Den.png"
-                  ></img>
+                  <img className="profile-img" src={data.get_user.image}></img>
                   <h1>{data.get_user.fullname}</h1>
                 </center>
                 <div className="container-profile">

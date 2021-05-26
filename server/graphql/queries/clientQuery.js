@@ -47,7 +47,7 @@ const RootQuery = new GraphQLObjectType({
         return NewsModel.find({})
           .limit(limit)
           .skip(offset)
-          .sort({ CreateAt: -1 });
+          .sort({ createdAt: -1 });
       },
     },
     get_news: {

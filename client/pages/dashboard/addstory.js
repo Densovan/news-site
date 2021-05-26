@@ -165,7 +165,7 @@ const Addstory = () => {
       },
     }).then(async (res) => {
       setLoading(true);
-      await message.success("sucessful");
+      await message.success("Created successfull");
       form.resetFields();
       setState({
         imageUrl: null,
@@ -257,6 +257,8 @@ const Addstory = () => {
             <Button
               onClick={handleSave}
               className="btn-submit"
+              disabled={loading ? true : false}
+              loading={loading ? true : false}
               // type="primary"
               htmlType="submit"
               size="large"

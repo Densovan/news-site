@@ -169,7 +169,7 @@ const Editstory = ({ id, type, category, des, thumnail, title, history }) => {
     }).then(async (res) => {
       setLoading(true);
       await refetch();
-      await message.success("sucessful");
+      await message.success("update successfull");
       await window.location.replace("/dashboard");
       // form.resetFields();
       // setState({
@@ -278,6 +278,8 @@ const Editstory = ({ id, type, category, des, thumnail, title, history }) => {
             <Button
               onClick={handleSave}
               className="btn-submit"
+              disabled={loading ? true : false}
+              loading={loading ? true : false}
               // type="primary"
               htmlType="submit"
               size="large"
