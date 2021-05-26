@@ -26,6 +26,11 @@ const newsSchema = new mongoose.Schema(
       type: String, // foreign key ID from User
       required: true,
     },
+    slug: {
+      type: String,
+      require: true,
+      unique: true,
+    },
   },
   {
     timestamps: true,

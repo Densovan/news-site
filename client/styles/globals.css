@@ -1151,7 +1151,7 @@ body {
 }
 .input-pf:focus {
   /* background: #202020; */
-  color: #fff;
+  /* color: #fff; */
   border: 1px solid #262e3c !important;
   outline: none;
 }
@@ -1219,6 +1219,27 @@ body {
 }
 .readmore-pf:hover {
   box-shadow: 0px 7px 7px 0px rgba(75, 77, 82, 0.164);
+}
+.edit-pf {
+  float: right !important;
+}
+.delete-button {
+  background-color: #fff1f1;
+  cursor: pointer;
+  border-radius: 50% !important;
+  border: none !important;
+}
+.delete-button:hover {
+  background-color: #f3c9c9;
+}
+.edit-button {
+  background-color: #e0f2e0;
+  cursor: pointer;
+  border-radius: 50% !important;
+  border: none !important;
+}
+.edit-button:hover {
+  background-color: #c9f8c9;
 }
 /*=============== Responsive================== */
 @media only screen and (min-width: 768px) {

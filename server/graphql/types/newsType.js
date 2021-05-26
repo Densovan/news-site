@@ -16,6 +16,7 @@ const NewsType = new GraphQLObjectType({
     thumnail: { type: GraphQLString },
     type: { type: GraphQLString },
     message: { type: GraphQLString },
+    slug: { type: GraphQLString },
     createBy: { type: GraphQLID },
     createdAt: {
       type: GraphQLString,

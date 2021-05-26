@@ -52,7 +52,7 @@ const RootQuery = new GraphQLObjectType({
     },
     get_news: {
       type: NewsType,
-      args: { id: { type: GraphQLString } },
+      args: { id: { type: GraphQLID } },
       resolve(parent, args) {
         return NewsModel.findOne({ _id: args.id });
       },
@@ -118,6 +118,16 @@ const RootQuery = new GraphQLObjectType({
           .limit(limit)
           .skip(offset)
           .sort({ createdAt: -1 });
+      },
+    },
+
+    get_own_news_by_id: {
+      type: new GraphQLList(NewsType),
+      args: {
+        id: { type: GraphQLID },
+      },
+      resolve: (parent, args, context) => {
+        return NewsModel.findById({ _id: args.id });
       },
     },
 
