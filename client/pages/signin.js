@@ -63,7 +63,12 @@ const Login = ({ history }) => {
                   },
                 ]}
               >
-                <Input size="large" className="input" placeholder="Email" />
+                <Input
+                  size="large"
+                  className="input"
+                  placeholder="Email"
+                  type="email"
+                />
               </Form.Item>
 
               <Form.Item

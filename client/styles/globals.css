@@ -1048,8 +1048,7 @@ body {
   width: 180px;
   border-radius: 50%;
 }
-.uplaod-mg-btn {
-  /* overflow: hidden; */
+/* .uplaod-mg-btn {
   position: absolute;
   position: absolute;
   left: 64%;
@@ -1059,15 +1058,81 @@ body {
   padding: 6px 6px 3px 6px;
   border: 1px solid #977b22;
   border-radius: 54%;
+} */
+.laoding-pf {
+  background-color: rgba(236, 230, 230, 0.66);
+  width: 181px;
+  height: 182px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  left: 10px;
+  top: 0px;
 }
+.icon-loading {
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  left: 87px;
+  top: 80px;
+}
+.editUserPhotoAvatar {
+  height: 35px;
+  width: 35px;
+  background-color: #262e3c87;
+  /* color: #0f73ee; */
+  color: #fdc209;
+  border-radius: 50%;
+  position: absolute;
+  padding: 4px;
+  border: 3px solid transparent;
+  cursor: pointer;
+}
+.button-upload {
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  left: 140px;
+  top: 120px;
+}
+.userPhoto {
+  width: 200px;
+  position: relative;
+  cursor: pointer;
+}
+
 .profile-bg {
   background-color: #ffffff;
   border-radius: 10px;
 }
-.container-profile {
+.container-pf {
   margin-left: auto;
   margin-right: auto;
   width: 93%;
+}
+/* .edit-pf-icon {
+  float: right;
+  margin-top: 12px;
+} */
+
+.btn-edit-pf {
+  height: 35px;
+  width: 35px;
+  background-color: #262e3cc0;
+  color: #fdc209;
+  border-radius: 50%;
+  /* position: absolute; */
+  margin-top: 11px;
+  padding: 4px;
+  border: 3px solid transparent;
+  cursor: pointer;
+  float: right !important;
+}
+.container-profile {
+  margin-left: auto;
+  margin-right: auto;
+  /* width: 93%; */
 }
 .profile-content {
   background-color: #ffffff;

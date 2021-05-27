@@ -50,4 +50,26 @@ const EDIT_NEWS = gql`
   }
 `;
 
-export { ADD_NEWS, DELETE_NEWS, EDIT_NEWS };
+const UPDATE_USER = gql`
+  mutation (
+    $fullname: String
+    $passwordHash: String
+    $confirmPassword: String
+    $newPassword: String
+    $email: String
+    $image: String
+  ) {
+    update_user(
+      fullname: $fullname
+      passwordHash: $passwordHash
+      confirmPassword: $confirmPassword
+      newPassword: $newPassword
+      email: $email
+      image: $image
+    ) {
+      message
+    }
+  }
+`;
+
+export { ADD_NEWS, DELETE_NEWS, EDIT_NEWS, UPDATE_USER };

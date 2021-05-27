@@ -86,35 +86,34 @@ const RootMutation = new GraphQLObjectType({
     update_user: {
       type: userType,
       args: {
+        // id:{type:GraphQLID},
         fullname: { type: GraphQLString },
-        email: { type: GraphQLString },
-        newPassword: { type: GraphQLString },
-        Password: { type: GraphQLString },
-        image: { type: GraphQLString },
+        passwordHash: { type: GraphQLString },
         confirmPassword: { type: GraphQLString },
+        newPassword: { type: GraphQLString },
+        email: { type: GraphQLString },
+        image: { type: GraphQLString },
       },
-      resolve: async (parent, args, context) => {
-        const {
-          email,
-          password,
-          newPassword,
-          confirmPassword,
-          fullname,
-          password,
-        } = args;
+      resolve: async (root, args, context) => {
+        const { email, passwordHash, newPassword, confirmPassword } = args;
         try {
           const user = await UserModel.findOne({ email });
-          if (password) {
-            const isPassword = await bcrypt.compare(password, user.password);
+          if (passwordHash) {
+            const isPassword = await bcrypt.compare(
+              passwordHash,
+              user.passwordHash
+            );
             if (isPassword) {
               if (newPassword === confirmPassword) {
-                const salt = 10;
-                const hashpassword = await bcrypt.hash(newPassword, salt);
+                const saltRounds = 10;
+                const hashPassword = await bcrypt.hash(newPassword, saltRounds);
                 await UserModel.findByIdAndUpdate(
-                  { ...args, password: hashpassword },
-                  { _id: context.id }
+                  { _id: context.id },
+                  { ...args, passwordHash: hashPassword }
                 );
-                return { message: "changed profile successful" };
+                return {
+                  message: "The user info updated with successfully.",
+                };
               }
               return {
                 message: "The password does not match!",
@@ -126,7 +125,7 @@ const RootMutation = new GraphQLObjectType({
           } else {
             await UserModel.findByIdAndUpdate(
               { _id: context.id },
-              { ...args, password: user.password }
+              { ...args, passwordHash: user.passwordHash }
             );
             return {
               message: "The user info update with successfully.",

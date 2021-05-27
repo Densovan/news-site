@@ -43,6 +43,23 @@ router.post("/upload/images", upload.single("file"), (req, res) => {
     });
 });
 
+router.post("/upload/profile", upload.single("file"), (req, res) => {
+  sharp("./" + req.file.path)
+    .toBuffer()
+    .then((data) => {
+      sharp(data)
+        // .resize(104, 104)
+        .toFile("./" + req.file.path, () => {
+          return res.json({
+            data: `http://localhost:3500/public/uploads/${req.file.filename}`,
+          });
+        });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
 router.post("/upload/image/editorjs", upload.single("image"), (req, res) => {
   sharp("./" + req.file.path)
     .toBuffer()
