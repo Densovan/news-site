@@ -1027,8 +1027,8 @@ body {
   font-weight: 400;
   font-style: normal;
   /* height: 50px; */
-  padding-left: 15px;
-  padding-right: 55px;
+  /* padding-left: 15px;
+  padding-right: 55px; */
   position: relative;
   -webkit-transition: all 500ms ease 0s;
   transition: all 500ms ease 0s;
@@ -1211,12 +1211,12 @@ body {
   font-weight: 400;
   font-style: normal;
   /* height: 50px; */
-  padding-left: 15px;
-  padding-right: 55px;
+  /* padding-left: 15px;
+  padding-right: 55px; */
   position: relative;
   -webkit-transition: all 500ms ease 0s;
   transition: all 500ms ease 0s;
-  width: 100%;
+  /* width: 100%; */
   border-radius: 5px;
 }
 .input-pf:focus {

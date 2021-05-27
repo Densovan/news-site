@@ -133,7 +133,7 @@ const ChangeProfilePicture = () => {
             <h3>Password</h3>
           </Divider>
           <Form.Item name="passwordHash" label="Old Password">
-            <Input
+            <Input.Password
               className="input-pf"
               size="large"
               placeholder="Old Password"
@@ -142,7 +142,7 @@ const ChangeProfilePicture = () => {
           <Row gutter={[12, 12]}>
             <Col sm={24} md={12}>
               <Form.Item name="newPassword" label="New Password">
-                <Input
+                <Input.Password
                   className="input-pf"
                   size="large"
                   placeholder="New Password"
@@ -151,7 +151,7 @@ const ChangeProfilePicture = () => {
             </Col>
             <Col sm={24} md={12}>
               <Form.Item name="confirmPassword" label="Confirm Password">
-                <Input
+                <Input.Password
                   className="input-pf"
                   size="large"
                   placeholder="Confirm Password"

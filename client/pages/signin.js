@@ -85,7 +85,7 @@ const Login = ({ history }) => {
                   },
                 ]}
               >
-                <Input
+                <Input.Password
                   size="large"
                   className="input"
                   placeholder="Password"

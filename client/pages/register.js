@@ -88,7 +88,7 @@ const Register = ({ history }) => {
                   },
                 ]}
               >
-                <Input
+                <Input.Password
                   size="large"
                   className="input"
                   placeholder="Password"
@@ -109,7 +109,7 @@ const Register = ({ history }) => {
                   },
                 ]}
               >
-                <Input
+                <Input.Password
                   size="large"
                   className="input"
                   type="password"
