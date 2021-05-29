@@ -4,6 +4,7 @@ import { GET_CATEGORIES, GET_TYPES, GET_OWN_NEWS } from "../../graphql/query";
 import { ADD_NEWS } from "../../graphql/mutation";
 import { useQuery, useMutation } from "@apollo/client";
 import dynamic from "next/dynamic";
+// import { EDITOR_JS_TOOLS } from "../../components/Layouts/tools";
 let CustomEditor;
 let EDITOR_JS_TOOLS;
 if (typeof window !== "undefined") {
@@ -259,10 +260,8 @@ const Addstory = () => {
               className="btn-submit"
               disabled={loading ? true : false}
               loading={loading ? true : false}
-              // type="primary"
               htmlType="submit"
               size="large"
-              // className="standard-btn"
             >
               {loading ? <small>loading...</small> : <small>SUMBIT</small>}
             </Button>

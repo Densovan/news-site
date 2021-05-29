@@ -113,6 +113,87 @@ const GET_ALL_NEWS = gql`
   }
 `;
 
+const GET_ALL_NEWS_BY_TYPE_NEWS = gql`
+  query ($limit: Int!, $offset: Int!) {
+    get_allnews_by_type(
+      limit: $limit
+      offset: $offset
+      id: "60b125935b23dcef7bea2dad"
+    ) {
+      title
+      createdAt
+      id
+      category
+      thumnail
+      type
+      des
+      user {
+        fullname
+      }
+      types {
+        name
+      }
+      categories {
+        name
+      }
+    }
+  }
+`;
+
+const GET_ALL_NEWS_BY_TYPE_LEARN = gql`
+  query ($limit: Int!, $offset: Int!) {
+    get_allnews_by_type(
+      limit: $limit
+      offset: $offset
+      id: "60ab9d4a314c8a3b207849e6"
+    ) {
+      title
+      createdAt
+      id
+      category
+      thumnail
+      type
+      des
+      user {
+        fullname
+      }
+      types {
+        name
+      }
+      categories {
+        name
+      }
+    }
+  }
+`;
+
+const GET_ALL_NEWS_BY_TYPE_FEATURE = gql`
+  query ($limit: Int!, $offset: Int!) {
+    get_allnews_by_type(
+      limit: $limit
+      offset: $offset
+      id: "60ab789315cdbd63c5d57fa0"
+    ) {
+      title
+      createdAt
+      id
+      category
+      thumnail
+      type
+      des
+      user {
+        fullname
+      }
+      types {
+        name
+      }
+      categories {
+        name
+      }
+    }
+  }
+`;
+
 export {
   GET_USERS,
   GET_USER,
@@ -121,4 +202,7 @@ export {
   GET_OWN_NEWS,
   GET_NEWS,
   GET_ALL_NEWS,
+  GET_ALL_NEWS_BY_TYPE_NEWS,
+  GET_ALL_NEWS_BY_TYPE_LEARN,
+  GET_ALL_NEWS_BY_TYPE_FEATURE,
 };

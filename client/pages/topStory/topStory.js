@@ -2,7 +2,7 @@ import React from "react";
 import { Row, Col, Button, Divider } from "antd";
 import { CaretRightOutlined } from "@ant-design/icons";
 import { useQuery } from "@apollo/client";
-import { GET_ALL_NEWS } from "../../graphql/query";
+import { GET_ALL_NEWS_BY_TYPE_NEWS } from "../../graphql/query";
 import Link from "next/link";
 import moment from "moment";
 import Output from "editorjs-react-renderer";
@@ -10,19 +10,19 @@ import Output from "editorjs-react-renderer";
 const TopStory = () => {
   //=============get last News===========
   const { loading: loadingLastNews, data: dataLastNews } = useQuery(
-    GET_ALL_NEWS,
+    GET_ALL_NEWS_BY_TYPE_NEWS,
     {
       variables: { limit: 8, offset: 0 },
     }
   );
   if (loadingLastNews) return null;
-  console.log(dataLastNews);
+
   const LastNews = () => {
     return (
       <div>
         <Row>
           <Col sm={24}>
-            {dataLastNews.get_all_news.slice(0, 1).map((res) => {
+            {dataLastNews.get_allnews_by_type.slice(0, 1).map((res) => {
               return (
                 <div className="lasts-news-card">
                   <div
@@ -77,7 +77,7 @@ const TopStory = () => {
       {/*======================= The last news =================== */}
       <LastNews />
 
-      {dataLastNews.get_all_news.slice(1, 5).map((res) => {
+      {dataLastNews.get_allnews_by_type.slice(1, 5).map((res) => {
         const result = <Output data={JSON.parse(res.des)} />;
         return (
           <div style={{ marginTop: "12px" }}>
@@ -133,13 +133,13 @@ const TopStory = () => {
       })}
       <br></br>
       <br></br>
-      <h3 className="all-news-btn">
+      {/* <h3 className="all-news-btn">
         <Link href="/news">
           <a>
             All News <span>&rarr;</span>
           </a>
         </Link>
-      </h3>
+      </h3> */}
     </div>
   );
 };

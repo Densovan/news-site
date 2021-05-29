@@ -2,7 +2,7 @@ import React from "react";
 import { Row, Col, Button } from "antd";
 import TopStory from "../pages/topStory/topStory";
 import Learn from "./learns/learn";
-import Feature from "./feature/feature";
+import Feature from "./features/feature";
 import TopNavbar from "../components/Layouts/topNavbar";
 import MainNavbar from "../components/Layouts/mainNavbar";
 import Footer from "../components/Layouts/footer";

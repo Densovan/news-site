@@ -17,7 +17,7 @@ import SimpleImage from "@editorjs/simple-image";
 import Paragraph from "@editorjs/paragraph";
 import EditorJs from "react-editor-js";
 
-const Editor = ({ placeholder, instanceRef, name }) => {
+const Editor = ({ placeholder, instanceRef, handleSave }) => {
   // const instanceRef = React.useRef(null);
   const EDITOR_JS_TOOLS = {
     image: {
@@ -52,7 +52,7 @@ const Editor = ({ placeholder, instanceRef, name }) => {
         // placeholder="Please Input Description"
         tools={EDITOR_JS_TOOLS}
         instanceRef={instanceRef}
-        name={name}
+        handleSave={handleSave}
       />
     </div>
   );

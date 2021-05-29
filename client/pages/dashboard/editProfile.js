@@ -162,14 +162,14 @@ const ChangeProfilePicture = () => {
           <Form.Item>
             <Button
               className="btn-submit"
-              disabled={loading ? true : false}
-              loading={loading ? true : false}
+              disabled={isLoading ? true : false}
+              loading={isLoading ? true : false}
               // type="primary"
               htmlType="submit"
               size="large"
               // className="standard-btn"
             >
-              {loading ? <small>loading...</small> : <small>SUMBIT</small>}
+              {isLoading ? <small>loading...</small> : <small>SUMBIT</small>}
             </Button>
           </Form.Item>
         </Form>

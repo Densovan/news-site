@@ -15,8 +15,17 @@ import {
 import TopNavbar from "../../components/Layouts/topNavbar";
 import MainNavbar from "../../components/Layouts/mainNavbar";
 import Footer from "../../components/Layouts/footer";
+import { GET_ALL_NEWS_BY_TYPE_LEARN } from "../../graphql/query";
+import { useQuery } from "@apollo/client";
+import Output from "editorjs-react-renderer";
+import moment from "moment";
 
 const Learn = () => {
+  const { loading, data } = useQuery(GET_ALL_NEWS_BY_TYPE_LEARN, {
+    variables: { limit: 8, offset: 0 },
+  });
+  if (loading) return null;
+  console.log(data);
   return (
     <React.Fragment>
       <TopNavbar />
@@ -29,14 +38,7 @@ const Learn = () => {
           <Col sm={24} md={6}>
             <div className="news-cat">
               <h2 className="title-cat">Categories</h2>
-              <div
-                className="scroll-newscate"
-                // style={{
-                //   width: "300px",
-                //   border: "1px solid rgba(4, 47, 130, 0.3)",
-                //   padding: "0 !important",
-                // }}
-              >
+              <div className="scroll-newscate">
                 <div>
                   <Link href="/3">
                     <div className="listnewsCate" style={{ padding: "12px" }}>
@@ -137,210 +139,58 @@ const Learn = () => {
           </Col>
           <Col sm={24} md={18}>
             <Row gutter={[12, 12]}>
-              <Col sm={24} md={12} lg={8}>
-                <div className="learn-card">
-                  <div
-                    className="learn-style"
-                    style={{
-                      backgroundImage: `url("https://cdn.decrypt.co/resize/1400/wp-content/uploads/2021/04/Algorand-gID_5-pID_5.png")`,
-                    }}
-                  ></div>
-                  <div className="content-learn">
-                    <h3>What is Algorand? A Speedy.....</h3>
-                    <p>
-                      NEAR is a smart contract-capable blockchain that's
-                      designed...
-                    </p>
-                    <Row>
-                      <Col xs={24} md={16}>
-                        <h1 className="status-news-topstory">
-                          Learn{" "}
-                          <span>
-                            <CaretRightOutlined style={{ fontSize: "10px" }} />
-                          </span>{" "}
-                          Coin
-                        </h1>
-                        <p className="date-learn ">Sovanden : 03/03/2021</p>
-                      </Col>
-                      <Col xs={24} md={8}>
-                        <button className="readmore-learn">
-                          Read More <span>&rarr;</span>
-                        </button>
-                      </Col>
-                    </Row>
-                  </div>
-                </div>
-              </Col>
-              <Col sm={24} md={12} lg={8}>
-                <div className="learn-card">
-                  <div
-                    className="learn-style"
-                    style={{
-                      backgroundImage: `url("https://cdn.decrypt.co/resize/600/wp-content/uploads/2021/04/Padlock-gID_6-pID_6.png")`,
-                    }}
-                  ></div>
-                  <div className="content-learn">
-                    <h3>What is Algorand? A Speedy.....</h3>
-                    <p>
-                      NEAR is a smart contract-capable blockchain that's
-                      designed...
-                    </p>
-                    <Row>
-                      <Col xs={24} md={16}>
-                        <h1 className="status-news-topstory">
-                          Learn{" "}
-                          <span>
-                            <CaretRightOutlined style={{ fontSize: "10px" }} />
-                          </span>{" "}
-                          Coin
-                        </h1>
-                        <p className="date-learn ">Sovanden : 03/03/2021</p>
-                      </Col>
-                      <Col xs={24} md={8}>
-                        <button className="readmore-learn">
-                          Read More <span>&rarr;</span>
-                        </button>
-                      </Col>
-                    </Row>
-                  </div>
-                </div>
-              </Col>
-              <Col sm={24} md={12} lg={8}>
-                <div className="learn-card">
-                  <div
-                    className="learn-style"
-                    style={{
-                      backgroundImage: `url("https://cdn.decrypt.co/resize/600/wp-content/uploads/2021/04/Padlock-gID_6-pID_6.png")`,
-                    }}
-                  ></div>
-                  <div className="content-learn">
-                    <h3>What is Algorand? A Speedy.....</h3>
-                    <p>
-                      NEAR is a smart contract-capable blockchain that's
-                      designed...
-                    </p>
-                    <Row>
-                      <Col xs={24} md={16}>
-                        <h1 className="status-news-topstory">
-                          Learn{" "}
-                          <span>
-                            <CaretRightOutlined style={{ fontSize: "10px" }} />
-                          </span>{" "}
-                          Coin
-                        </h1>
-                        <p className="date-learn ">Sovanden : 03/03/2021</p>
-                      </Col>
-                      <Col xs={24} md={8}>
-                        <button className="readmore-learn">
-                          Read More <span>&rarr;</span>
-                        </button>
-                      </Col>
-                    </Row>
-                  </div>
-                </div>
-              </Col>
-              <Col sm={24} md={12} lg={8}>
-                <div className="learn-card">
-                  <div
-                    className="learn-style"
-                    style={{
-                      backgroundImage: `url("https://cdn.decrypt.co/resize/600/wp-content/uploads/2021/04/Padlock-gID_6-pID_6.png")`,
-                    }}
-                  ></div>
-                  <div className="content-learn">
-                    <h3>What is Algorand? A Speedy.....</h3>
-                    <p>
-                      NEAR is a smart contract-capable blockchain that's
-                      designed...
-                    </p>
-                    <Row>
-                      <Col xs={24} md={16}>
-                        <h1 className="status-news-topstory">
-                          Learn{" "}
-                          <span>
-                            <CaretRightOutlined style={{ fontSize: "10px" }} />
-                          </span>{" "}
-                          Coin
-                        </h1>
-                        <p className="date-learn ">Sovanden : 03/03/2021</p>
-                      </Col>
-                      <Col xs={24} md={8}>
-                        <button className="readmore-learn">
-                          Read More <span>&rarr;</span>
-                        </button>
-                      </Col>
-                    </Row>
-                  </div>
-                </div>
-              </Col>
-              <Col sm={24} md={12} lg={8}>
-                <div className="learn-card">
-                  <div
-                    className="learn-style"
-                    style={{
-                      backgroundImage: `url("https://cdn.decrypt.co/resize/600/wp-content/uploads/2021/04/Padlock-gID_6-pID_6.png")`,
-                    }}
-                  ></div>
-                  <div className="content-learn">
-                    <h3>What is Algorand? A Speedy.....</h3>
-                    <p>
-                      NEAR is a smart contract-capable blockchain that's
-                      designed...
-                    </p>
-                    <Row>
-                      <Col xs={24} md={16}>
-                        <h1 className="status-news-topstory">
-                          Learn{" "}
-                          <span>
-                            <CaretRightOutlined style={{ fontSize: "10px" }} />
-                          </span>{" "}
-                          Coin
-                        </h1>
-                        <p className="date-learn ">Sovanden : 03/03/2021</p>
-                      </Col>
-                      <Col xs={24} md={8}>
-                        <button className="readmore-learn">
-                          Read More <span>&rarr;</span>
-                        </button>
-                      </Col>
-                    </Row>
-                  </div>
-                </div>
-              </Col>
-              <Col sm={24} md={12} lg={8}>
-                <div className="learn-card">
-                  <div
-                    className="learn-style"
-                    style={{
-                      backgroundImage: `url("https://cdn.decrypt.co/resize/600/wp-content/uploads/2021/04/Padlock-gID_6-pID_6.png")`,
-                    }}
-                  ></div>
-                  <div className="content-learn">
-                    <h3>What is Algorand? A Speedy.....</h3>
-                    <p>
-                      NEAR is a smart contract-capable blockchain that's
-                      designed...
-                    </p>
-                    <Row>
-                      <Col xs={24} md={16}>
-                        <h1 className="status-news-topstory">
-                          Learn{" "}
-                          <span>
-                            <CaretRightOutlined style={{ fontSize: "10px" }} />
-                          </span>{" "}
-                          Coin
-                        </h1>
-                        <p className="date-learn ">Sovanden : 03/03/2021</p>
-                      </Col>
-                      <Col xs={24} md={8}>
-                        <button className="readmore-learn">
-                          Read More <span>&rarr;</span>
-                        </button>
-                      </Col>
-                    </Row>
-                  </div>
-                </div>
-              </Col>
+              {data.get_allnews_by_type.map((res) => {
+                const result = <Output data={JSON.parse(res.des)} />;
+                return (
+                  <Col sm={24} md={12} lg={8}>
+                    <div className="learn-card">
+                      <div
+                        className="learn-style"
+                        style={{
+                          backgroundImage: `url("http://localhost:3500/public/uploads//${res.thumnail}")`,
+                        }}
+                      ></div>
+                      <div className="content-learn">
+                        <h3>
+                          {res.title.length <= 50
+                            ? res.title
+                            : res.title.substring(0, 50) + " ..."}
+                        </h3>
+                        <p>
+                          {`${result.props.data.blocks[0].data.text.substring(
+                            0,
+                            50
+                          )}...`}
+                        </p>
+                        <Row>
+                          <Col xs={24} md={16}>
+                            <h1 className="status-news-topstory">
+                              {res.types.name}
+                              <span>
+                                <CaretRightOutlined
+                                  style={{ fontSize: "10px" }}
+                                />
+                              </span>{" "}
+                              {res.categories.name}
+                            </h1>
+                            <p className="date-learn ">
+                              {res.user.fullname} :{" "}
+                              {moment
+                                .unix(res.createdAt / 1000)
+                                .format("DD-MM-YYYY")}
+                            </p>
+                          </Col>
+                          <Col xs={24} md={8}>
+                            {/* <button className="readmore-learn">
+                              Read More <span>&rarr;</span>
+                            </button> */}
+                          </Col>
+                        </Row>
+                      </div>
+                    </div>
+                  </Col>
+                );
+              })}
             </Row>
           </Col>
         </Row>

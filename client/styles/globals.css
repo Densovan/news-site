@@ -346,7 +346,7 @@ body {
 }
 .date-news {
   font-size: 12px;
-  margin-top: -10px;
+  margin-top: -5px;
 }
 .all-news-btn a {
   border: none;
@@ -587,7 +587,7 @@ body {
 }
 .date-learn {
   font-size: 11px;
-  margin-top: -10px;
+  margin-top: -5px;
 }
 
 /* ==============About Us ========= */
@@ -1177,13 +1177,13 @@ body {
 .ant-upload-text img {
   width: 130px;
 }
-.codex-editor.codex-editor--empty {
+/* .codex-editor.codex-editor--empty {
   border: 1px solid #262e3c;
   border-radius: 5px;
 }
 .ce-toolbar__actions-buttons {
   padding-right: 12px;
-}
+} */
 
 .ant-select:not(.ant-select-customize-input) .ant-select-selector {
   background: #ffffff;

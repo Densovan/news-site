@@ -1,27 +1,30 @@
 import React from "react";
-import { Row, Col, Button, Divider } from "antd";
+import { Row, Col } from "antd";
 import { CaretRightOutlined } from "@ant-design/icons";
-import { GET_ALL_NEWS_BY_TYPE_LEARN } from "../../graphql/query";
+import Link from "next/link";
+import { GET_ALL_NEWS_BY_TYPE_FEATURE } from "../../graphql/query";
 import { useQuery } from "@apollo/client";
 import Output from "editorjs-react-renderer";
 import moment from "moment";
-import Link from "next/link";
 
-const Learn = () => {
-  const { loading, data } = useQuery(GET_ALL_NEWS_BY_TYPE_LEARN, {
-    variables: { limit: 8, offset: 0 },
+const Feature = () => {
+  const { loading, data } = useQuery(GET_ALL_NEWS_BY_TYPE_FEATURE, {
+    variables: { limit: 6, offset: 0 },
   });
   if (loading) return null;
+
   return (
     <React.Fragment>
       <br></br>
-      <h1 className="top-title">Learn</h1>
+
+      <h1 className="top-title">Feature</h1>
+
       <div>
         <Row gutter={[12, 12]}>
-          {data.get_allnews_by_type.slice(0, 4).map((res) => {
+          {data.get_allnews_by_type.slice(0, 6).map((res) => {
             const result = <Output data={JSON.parse(res.des)} />;
             return (
-              <Col span={24}>
+              <Col sm={24} md={8}>
                 <div className="learn-card">
                   <div
                     className="learn-style"
@@ -31,6 +34,7 @@ const Learn = () => {
                   ></div>
                   <div className="content-learn">
                     <h3>
+                      {" "}
                       {res.title.length <= 50
                         ? res.title
                         : res.title.substring(0, 50) + " ..."}
@@ -42,7 +46,7 @@ const Learn = () => {
                       )}...`}
                     </p>
                     <Row>
-                      <Col xs={24} md={16}>
+                      <Col xs={24} md={18}>
                         <h1 className="status-news-topstory">
                           {res.types.name}
                           <span>
@@ -57,7 +61,7 @@ const Learn = () => {
                             .format("DD-MM-YYYY")}
                         </p>
                       </Col>
-                      <Col xs={24} md={8}>
+                      <Col xs={24} md={6}>
                         <button className="readmore-learn">
                           Read More <span>&rarr;</span>
                         </button>
@@ -68,17 +72,18 @@ const Learn = () => {
               </Col>
             );
           })}
-          {/* <h3 className="all-learn-btn">
-            <Link href="/learns">
-              <a>
-                All Learn <span>&rarr;</span>
-              </a>
-            </Link>
-          </h3> */}
         </Row>
+        <br></br>
+        {/* <h3 className="all-feature-btn">
+          <Link href="/features">
+            <a>
+              All Feature <span>&rarr;</span>
+            </a>
+          </Link>
+        </h3> */}
       </div>
     </React.Fragment>
   );
 };
 
-export default Learn;
+export default Feature;

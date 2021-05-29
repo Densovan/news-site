@@ -15,8 +15,17 @@ import {
 import TopNavbar from "../components/Layouts/topNavbar";
 import MainNavbar from "../components/Layouts/mainNavbar";
 import Footer from "../components/Layouts/footer";
+import { useQuery } from "@apollo/client";
+import { GET_ALL_NEWS_BY_TYPE_NEWS } from "../graphql/query";
+import moment from "moment";
+import Output from "editorjs-react-renderer";
 
 const AllNews = () => {
+  //=============get last News===========
+  const { loading, data } = useQuery(GET_ALL_NEWS_BY_TYPE_NEWS, {
+    variables: { limit: 8, offset: 0 },
+  });
+  if (loading) return null;
   return (
     <React.Fragment>
       <TopNavbar />
@@ -114,207 +123,68 @@ const AllNews = () => {
                       </span>
                     </div>
                   </Link>
-
-                  {/* {data.allJobCategories.map((res, index) => {
-                    return (
-                      <Link to={`/jobcategory/${res.id}`}>
-                        <div
-                          className="listJobCate"
-                          style={{ padding: "12px" }}
-                        >
-                          <span
-                            key={res.id}
-                            
-                          >
-                            {res.name}
-                          </span>
-                        </div>
-                      </Link>
-                    );
-                  })} */}
                 </div>
               </div>
             </div>
           </Col>
           <Col sm={24} md={18}>
-            <Row gutter={[12, 12]}>
-              <Col xs={24} sm={24} md={8} lg={9}>
-                <div
-                  className="news-topstory-style"
-                  style={{
-                    backgroundImage: `url("https://cdn.decrypt.co/resize/1400/wp-content/uploads/2021/03/shutterstock_1625495629-1-gID_4.jpg")`,
-                  }}
-                ></div>
-              </Col>
-              <Col xs={24} sm={24} md={16} lg={15}>
-                <h2>SEC Pours Cold Water on Bitcoin Futures Market</h2>
-                <p>
-                  Like any other futures contract for a commodity or stock,
-                  Bitcoin futures give investors the chance to speculate on the
-                  future price of Bitcoin. In the SEC’s statement
-                </p>
-                <Row>
-                  <Col xs={24} md={18}>
-                    <h1 className="status-news-topstory">
-                      News{" "}
-                      <span>
-                        <CaretRightOutlined style={{ fontSize: "10px" }} />
-                      </span>{" "}
-                      Coin
-                    </h1>
-                    <p className="date-news">Sovanden : 03/03/2021</p>
+            {data.get_allnews_by_type.map((res) => {
+              const result = <Output data={JSON.parse(res.des)} />;
+              return (
+                <Row gutter={[12, 12]}>
+                  <Col xs={24} sm={24} md={8} lg={9}>
+                    <div
+                      className="news-topstory-style"
+                      style={{
+                        backgroundImage: `url("http://localhost:3500/public/uploads//${res.thumnail}")`,
+                      }}
+                    ></div>
                   </Col>
-                  <Col xs={24} md={6}>
-                    <button className="readmore">
-                      Read More <span>&rarr;</span>
-                    </button>
+                  <Col xs={24} sm={24} md={16} lg={15}>
+                    <h2 className="title-news">
+                      {res.title.length <= 70
+                        ? res.title
+                        : res.title.substring(0, 70) + " ..."}
+                    </h2>
+                    <p>
+                      {`${result.props.data.blocks[0].data.text.substring(
+                        0,
+                        120
+                      )}...`}
+                    </p>
+                    <Row>
+                      <Col xs={24} md={18}>
+                        <h1 className="status-news-topstory">
+                          {res.types.name}
+                          <span>
+                            <CaretRightOutlined style={{ fontSize: "10px" }} />
+                          </span>{" "}
+                          {res.categories.name}
+                        </h1>
+                        <p className="date-news">
+                          {res.user.fullname}:{" "}
+                          {moment
+                            .unix(res.createdAt / 1000)
+                            .format("DD-MM-YYYY")}
+                        </p>
+                      </Col>
+                      <Col xs={24} md={6}>
+                        <button className="readmore">
+                          Read More <span>&rarr;</span>
+                        </button>
+                      </Col>
+                    </Row>
                   </Col>
+                  <Divider
+                    style={{ marginTop: "0px", marginBottom: "10px" }}
+                  ></Divider>
                 </Row>
-              </Col>
-              <Divider style={{ margin: "0px" }}></Divider>
-              <Col sm={9}>
-                <div
-                  className="news-topstory-style"
-                  style={{
-                    backgroundImage: `url("https://cdn.decrypt.co/resize/600/wp-content/uploads/2020/12/facebook-diem-gID_4.jpg")`,
-                  }}
-                ></div>
-              </Col>
-
-              <Col sm={15}>
-                <h2>SEC Pours Cold Water on Bitcoin Futures Market</h2>
-                <p>
-                  Like any other futures contract for a commodity or stock,
-                  Bitcoin futures give investors the chance to speculate on the
-                  future price of Bitcoin. In the SEC’s statement
-                </p>
-                <Row>
-                  <Col sm={24} md={18}>
-                    <h1 className="status-news-topstory">
-                      News{" "}
-                      <span>
-                        <CaretRightOutlined style={{ fontSize: "10px" }} />
-                      </span>{" "}
-                      Coin
-                    </h1>
-                    <p className="date-news">Sovanden : 03/03/2021</p>
-                  </Col>
-                  <Col sm={24} md={6}>
-                    <button className="readmore">
-                      Read More <span>&rarr;</span>
-                    </button>
-                  </Col>
-                </Row>
-              </Col>
-              <Divider style={{ margin: "0px" }}></Divider>
-              <Col sm={9}>
-                <div
-                  className="news-topstory-style"
-                  style={{
-                    backgroundImage: `url("https://cdn.decrypt.co/resize/600/wp-content/uploads/2021/04/Tesla-gID_4.jpg")`,
-                  }}
-                ></div>
-              </Col>
-
-              <Col sm={15}>
-                <h2>SEC Pours Cold Water on Bitcoin Futures Market</h2>
-                <p>
-                  Like any other futures contract for a commodity or stock,
-                  Bitcoin futures give investors the chance to speculate on the
-                  future price of Bitcoin. In the SEC’s statement
-                </p>
-                <Row>
-                  <Col sm={24} md={18}>
-                    <h1 className="status-news-topstory">
-                      News{" "}
-                      <span>
-                        <CaretRightOutlined style={{ fontSize: "10px" }} />
-                      </span>{" "}
-                      Coin
-                    </h1>
-                    <p className="date-news">Sovanden : 03/03/2021</p>
-                  </Col>
-                  <Col sm={24} md={6}>
-                    <button className="readmore">
-                      Read More <span>&rarr;</span>
-                    </button>
-                  </Col>
-                </Row>
-              </Col>
-              <Divider style={{ margin: "0px" }}></Divider>
-              <Col sm={9}>
-                <div
-                  className="news-topstory-style"
-                  style={{
-                    backgroundImage: `url("https://cdn.decrypt.co/resize/600/wp-content/uploads/2020/02/shutterstock_6361397451-gID_2.jpg")`,
-                  }}
-                ></div>
-              </Col>
-
-              <Col sm={15}>
-                <h2>SEC Pours Cold Water on Bitcoin Futures Market</h2>
-                <p>
-                  Like any other futures contract for a commodity or stock,
-                  Bitcoin futures give investors the chance to speculate on the
-                  future price of Bitcoin. In the SEC’s statement
-                </p>
-                <Row>
-                  <Col sm={24} md={18}>
-                    <h1 className="status-news-topstory">
-                      News{" "}
-                      <span>
-                        <CaretRightOutlined style={{ fontSize: "10px" }} />
-                      </span>{" "}
-                      Coin
-                    </h1>
-                    <p className="date-news">Sovanden : 03/03/2021</p>
-                  </Col>
-                  <Col sm={24} md={6}>
-                    <button className="readmore">
-                      Read More <span>&rarr;</span>
-                    </button>
-                  </Col>
-                </Row>
-              </Col>
-              <Divider style={{ margin: "0px" }}></Divider>
-              <Col sm={9}>
-                <div
-                  className="news-topstory-style"
-                  style={{
-                    backgroundImage: `url("https://cdn.decrypt.co/resize/600/wp-content/uploads/2019/11/euro-gID_1.jpg")`,
-                  }}
-                ></div>
-              </Col>
-
-              <Col sm={15}>
-                <h2>SEC Pours Cold Water on Bitcoin Futures Market</h2>
-                <p>
-                  Like any other futures contract for a commodity or stock,
-                  Bitcoin futures give investors the chance to speculate on the
-                  future price of Bitcoin. In the SEC’s statement
-                </p>
-                <Row>
-                  <Col sm={24} md={18}>
-                    <h1 className="status-news-topstory">
-                      News{" "}
-                      <span>
-                        <CaretRightOutlined style={{ fontSize: "10px" }} />
-                      </span>{" "}
-                      Coin
-                    </h1>
-                    <p className="date-news">Sovanden : 03/03/2021</p>
-                  </Col>
-                  <Col sm={24} md={6}>
-                    <button className="readmore">
-                      Read More <span>&rarr;</span>
-                    </button>
-                  </Col>
-                </Row>
-              </Col>
-              <Divider style={{ margin: "0px" }}></Divider>
-            </Row>
+              );
+            })}
           </Col>
         </Row>
+        <br></br>
+        <br></br>
       </div>
       <Footer />
     </React.Fragment>
