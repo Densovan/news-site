@@ -75,7 +75,7 @@ const RootQuery = new GraphQLObjectType({
         return NewsModel.find({ category: args.id })
           .limit(limit)
           .skip(offset)
-          .sort({ createAt: -1 });
+          .sort({ createdAt: -1 });
       },
     },
 
@@ -96,7 +96,29 @@ const RootQuery = new GraphQLObjectType({
         return NewsModel.find({ type: args.id })
           .limit(limit)
           .skip(offset)
-          .sort({ createAt: -1 });
+          .sort({ createdAt: -1 });
+      },
+    },
+
+    get_allnews_type_by_cat: {
+      type: new GraphQLList(NewsType),
+      args: {
+        id: { type: GraphQLID },
+        typeId: { type: GraphQLID },
+        limit: {
+          name: "limit",
+          type: GraphQLInt,
+        },
+        offset: {
+          name: "offset",
+          type: GraphQLInt,
+        },
+      },
+      resolve: (parents, args, { limit = null, offset = null }) => {
+        return NewsModel.find({ category: args.id, type: args.typeId })
+          .limit(limit)
+          .skip(offset)
+          .sort({ createdAt: -1 });
       },
     },
 
@@ -131,10 +153,18 @@ const RootQuery = new GraphQLObjectType({
       },
     },
 
+    get_news_by_slug: {
+      type: NewsType,
+      args: { slug: { type: GraphQLString } },
+      resolve: (paren, args) => {
+        return NewsModel.findOne({ slug: args.slug });
+      },
+    },
+
     get_cats: {
       type: new GraphQLList(CategoryType),
       resolve: (parent, args) => {
-        return Category.find({}).sort({ createdAt: -1 });
+        return Category.find({}).sort({ createddAt: -1 });
       },
     },
     get_types: {

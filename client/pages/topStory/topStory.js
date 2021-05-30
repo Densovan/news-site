@@ -55,9 +55,11 @@ const TopStory = () => {
                         </p>
                       </Col>
                       <Col sm={24} md={6}>
-                        <button className="readmore-last-news">
-                          Read More <span>&rarr;</span>
-                        </button>
+                        <Link href={`/detail/${res.slug}`}>
+                          <button className="readmore-last-news">
+                            Read More <span>&rarr;</span>
+                          </button>
+                        </Link>
                       </Col>
                     </Row>
                   </div>

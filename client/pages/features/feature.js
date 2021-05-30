@@ -62,9 +62,9 @@ const Feature = () => {
                         </p>
                       </Col>
                       <Col xs={24} md={6}>
-                        <button className="readmore-learn">
+                        {/* <button className="readmore-learn">
                           Read More <span>&rarr;</span>
-                        </button>
+                        </button> */}
                       </Col>
                     </Row>
                   </div>

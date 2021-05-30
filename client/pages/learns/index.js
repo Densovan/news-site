@@ -19,13 +19,14 @@ import { GET_ALL_NEWS_BY_TYPE_LEARN } from "../../graphql/query";
 import { useQuery } from "@apollo/client";
 import Output from "editorjs-react-renderer";
 import moment from "moment";
+import Categories from "../../pages/categories/index";
 
 const Learn = () => {
   const { loading, data } = useQuery(GET_ALL_NEWS_BY_TYPE_LEARN, {
     variables: { limit: 8, offset: 0 },
   });
   if (loading) return null;
-  console.log(data);
+
   return (
     <React.Fragment>
       <TopNavbar />
@@ -36,106 +37,7 @@ const Learn = () => {
         </center>
         <Row>
           <Col sm={24} md={6}>
-            <div className="news-cat">
-              <h2 className="title-cat">Categories</h2>
-              <div className="scroll-newscate">
-                <div>
-                  <Link href="/3">
-                    <div className="listnewsCate" style={{ padding: "12px" }}>
-                      <span>
-                        {" "}
-                        <FaBusinessTime
-                          size={20}
-                          style={{ marginRight: "7px" }}
-                        />
-                        Business
-                      </span>
-                    </div>
-                  </Link>
-                  <Link href="/3">
-                    <div className="listnewsCate" style={{ padding: "12px" }}>
-                      <span>
-                        {" "}
-                        <FaCoins size={20} style={{ marginRight: "7px" }} />
-                        Coin
-                      </span>
-                    </div>
-                  </Link>
-                  <Link href="/3">
-                    <div className="listnewsCate" style={{ padding: "12px" }}>
-                      <span>
-                        {" "}
-                        <FaWhmcs size={20} style={{ marginRight: "7px" }} />
-                        Technology
-                      </span>
-                    </div>
-                  </Link>
-                  <Link href="/3">
-                    <div className="listnewsCate" style={{ padding: "12px" }}>
-                      <span>
-                        <FaChartLine size={20} style={{ marginRight: "7px" }} />
-                        Maket
-                      </span>
-                    </div>
-                  </Link>
-                  <Link href="/3">
-                    <div className="listnewsCate" style={{ padding: "12px" }}>
-                      <span>
-                        <FaCommentAlt
-                          size={18}
-                          style={{ marginRight: "7px" }}
-                        />
-                        Options
-                      </span>
-                    </div>
-                  </Link>
-                  <Link href="/3">
-                    <div className="listnewsCate" style={{ padding: "12px" }}>
-                      <span>
-                        {" "}
-                        <FaRegClone size={20} style={{ marginRight: "7px" }} />
-                        Our Company
-                      </span>
-                    </div>
-                  </Link>
-                  <Link href="/3">
-                    <div className="listnewsCate" style={{ padding: "12px" }}>
-                      <span>
-                        <FaLinode size={18} style={{ marginRight: "7px" }} />
-                        DeFi
-                      </span>
-                    </div>
-                  </Link>
-                  <Link href="/3">
-                    <div className="listnewsCate" style={{ padding: "12px" }}>
-                      <span>
-                        {" "}
-                        <FaRegEdit size={20} style={{ marginRight: "7px" }} />
-                        Editor's Pick
-                      </span>
-                    </div>
-                  </Link>
-
-                  {/* {data.allJobCategories.map((res, index) => {
-                    return (
-                      <Link to={`/jobcategory/${res.id}`}>
-                        <div
-                          className="listJobCate"
-                          style={{ padding: "12px" }}
-                        >
-                          <span
-                            key={res.id}
-                            
-                          >
-                            {res.name}
-                          </span>
-                        </div>
-                      </Link>
-                    );
-                  })} */}
-                </div>
-              </div>
-            </div>
+            <Categories />
           </Col>
           <Col sm={24} md={18}>
             <Row gutter={[12, 12]}>
@@ -143,51 +45,53 @@ const Learn = () => {
                 const result = <Output data={JSON.parse(res.des)} />;
                 return (
                   <Col sm={24} md={12} lg={8}>
-                    <div className="learn-card">
-                      <div
-                        className="learn-style"
-                        style={{
-                          backgroundImage: `url("http://localhost:3500/public/uploads//${res.thumnail}")`,
-                        }}
-                      ></div>
-                      <div className="content-learn">
-                        <h3>
-                          {res.title.length <= 50
-                            ? res.title
-                            : res.title.substring(0, 50) + " ..."}
-                        </h3>
-                        <p>
-                          {`${result.props.data.blocks[0].data.text.substring(
-                            0,
-                            50
-                          )}...`}
-                        </p>
-                        <Row>
-                          <Col xs={24} md={16}>
-                            <h1 className="status-news-topstory">
-                              {res.types.name}
-                              <span>
-                                <CaretRightOutlined
-                                  style={{ fontSize: "10px" }}
-                                />
-                              </span>{" "}
-                              {res.categories.name}
-                            </h1>
-                            <p className="date-learn ">
-                              {res.user.fullname} :{" "}
-                              {moment
-                                .unix(res.createdAt / 1000)
-                                .format("DD-MM-YYYY")}
-                            </p>
-                          </Col>
-                          <Col xs={24} md={8}>
-                            {/* <button className="readmore-learn">
+                    <Link href={`/detail/${res.slug}`}>
+                      <div className="learn-card">
+                        <div
+                          className="learn-style"
+                          style={{
+                            backgroundImage: `url("http://localhost:3500/public/uploads//${res.thumnail}")`,
+                          }}
+                        ></div>
+                        <div className="content-learn">
+                          <h3>
+                            {res.title.length <= 50
+                              ? res.title
+                              : res.title.substring(0, 50) + " ..."}
+                          </h3>
+                          <p>
+                            {`${result.props.data.blocks[0].data.text.substring(
+                              0,
+                              50
+                            )}...`}
+                          </p>
+                          <Row>
+                            <Col xs={24} md={16}>
+                              <h1 className="status-news-topstory">
+                                {res.types.name}
+                                <span>
+                                  <CaretRightOutlined
+                                    style={{ fontSize: "10px" }}
+                                  />
+                                </span>{" "}
+                                {res.categories.name}
+                              </h1>
+                              <p className="date-learn ">
+                                {res.user.fullname} :{" "}
+                                {moment
+                                  .unix(res.createdAt / 1000)
+                                  .format("DD-MM-YYYY")}
+                              </p>
+                            </Col>
+                            <Col xs={24} md={8}>
+                              {/* <button className="readmore-learn">
                               Read More <span>&rarr;</span>
                             </button> */}
-                          </Col>
-                        </Row>
+                            </Col>
+                          </Row>
+                        </div>
                       </div>
-                    </div>
+                    </Link>
                   </Col>
                 );
               })}

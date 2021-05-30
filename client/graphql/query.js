@@ -53,6 +53,7 @@ const GET_OWN_NEWS = gql`
       category
       thumnail
       type
+      slug
       des
       user {
         fullname
@@ -76,6 +77,7 @@ const GET_NEWS = gql`
       category
       thumnail
       type
+      slug
       des
       user {
         fullname
@@ -100,6 +102,7 @@ const GET_ALL_NEWS = gql`
       thumnail
       type
       des
+      slug
       user {
         fullname
       }
@@ -126,6 +129,7 @@ const GET_ALL_NEWS_BY_TYPE_NEWS = gql`
       category
       thumnail
       type
+      slug
       des
       user {
         fullname
@@ -153,6 +157,7 @@ const GET_ALL_NEWS_BY_TYPE_LEARN = gql`
       category
       thumnail
       type
+      slug
       des
       user {
         fullname
@@ -175,6 +180,7 @@ const GET_ALL_NEWS_BY_TYPE_FEATURE = gql`
       id: "60ab789315cdbd63c5d57fa0"
     ) {
       title
+      slug
       createdAt
       id
       category
@@ -194,7 +200,57 @@ const GET_ALL_NEWS_BY_TYPE_FEATURE = gql`
   }
 `;
 
+const GET_NEWS_BY_SLUG = gql`
+  query ($slug: String!) {
+    get_news_by_slug(slug: $slug) {
+      title
+      createdAt
+      id
+      category
+      thumnail
+      type
+      slug
+      des
+      user {
+        fullname
+      }
+      types {
+        name
+      }
+      categories {
+        name
+      }
+    }
+  }
+`;
+
+const GET_NEWS_BY_CATS = gql`
+  query ($id: ID!, $limit: Int!, $offset: Int!) {
+    get_allnews_by_cat(id: $id, limit: $limit, offset: $offset) {
+      title
+      createdAt
+      id
+      category
+      thumnail
+      type
+      slug
+      des
+      user {
+        fullname
+      }
+      types {
+        name
+      }
+      categories {
+        name
+      }
+    }
+  }
+`;
+
 export {
+  GET_NEWS_BY_CATS,
+  GET_NEWS_BY_SLUG,
   GET_USERS,
   GET_USER,
   GET_CATEGORIES,

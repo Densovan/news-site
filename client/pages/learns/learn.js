@@ -22,49 +22,53 @@ const Learn = () => {
             const result = <Output data={JSON.parse(res.des)} />;
             return (
               <Col span={24}>
-                <div className="learn-card">
-                  <div
-                    className="learn-style"
-                    style={{
-                      backgroundImage: `url("http://localhost:3500/public/uploads//${res.thumnail}")`,
-                    }}
-                  ></div>
-                  <div className="content-learn">
-                    <h3>
-                      {res.title.length <= 50
-                        ? res.title
-                        : res.title.substring(0, 50) + " ..."}
-                    </h3>
-                    <p>
-                      {`${result.props.data.blocks[0].data.text.substring(
-                        0,
-                        50
-                      )}...`}
-                    </p>
-                    <Row>
-                      <Col xs={24} md={16}>
-                        <h1 className="status-news-topstory">
-                          {res.types.name}
-                          <span>
-                            <CaretRightOutlined style={{ fontSize: "10px" }} />
-                          </span>{" "}
-                          {res.categories.name}
-                        </h1>
-                        <p className="date-learn ">
-                          {res.user.fullname} :{" "}
-                          {moment
-                            .unix(res.createdAt / 1000)
-                            .format("DD-MM-YYYY")}
-                        </p>
-                      </Col>
-                      <Col xs={24} md={8}>
-                        <button className="readmore-learn">
+                <Link href={`/detail/${res.slug}`}>
+                  <div className="learn-card">
+                    <div
+                      className="learn-style"
+                      style={{
+                        backgroundImage: `url("http://localhost:3500/public/uploads//${res.thumnail}")`,
+                      }}
+                    ></div>
+                    <div className="content-learn">
+                      <h3>
+                        {res.title.length <= 50
+                          ? res.title
+                          : res.title.substring(0, 50) + " ..."}
+                      </h3>
+                      <p>
+                        {`${result.props.data.blocks[0].data.text.substring(
+                          0,
+                          50
+                        )}...`}
+                      </p>
+                      <Row>
+                        <Col xs={24} md={16}>
+                          <h1 className="status-news-topstory">
+                            {res.types.name}
+                            <span>
+                              <CaretRightOutlined
+                                style={{ fontSize: "10px" }}
+                              />
+                            </span>{" "}
+                            {res.categories.name}
+                          </h1>
+                          <p className="date-learn ">
+                            {res.user.fullname} :{" "}
+                            {moment
+                              .unix(res.createdAt / 1000)
+                              .format("DD-MM-YYYY")}
+                          </p>
+                        </Col>
+                        <Col xs={24} md={8}>
+                          {/* <button className="readmore-learn">
                           Read More <span>&rarr;</span>
-                        </button>
-                      </Col>
-                    </Row>
+                        </button> */}
+                        </Col>
+                      </Row>
+                    </div>
                   </div>
-                </div>
+                </Link>
               </Col>
             );
           })}

@@ -61,9 +61,9 @@ const Learn = () => {
                       {res.user.fullname} :{" "}
                       {moment.unix(res.createdAt / 1000).format("DD-MM-YYYY")}
                     </p>
-                    <button className="readmore-learn">
+                    {/* <button className="readmore-learn">
                       Read More <span>&rarr;</span>
-                    </button>
+                    </button> */}
                   </div>
                 </div>
               </Col>

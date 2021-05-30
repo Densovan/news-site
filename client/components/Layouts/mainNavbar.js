@@ -50,11 +50,11 @@ const MainNavbar = () => {
                 <a>Learns</a>
               </ActiveLink>
             </Menu.Item>
-            {/* <Menu.Item key="3">
-                <ActiveLink activeClassName="is-active" href="/features">
-                  <a>Features</a>
-                </ActiveLink>
-              </Menu.Item> */}
+            <Menu.Item key="3">
+              <ActiveLink activeClassName="is-active" href="/features">
+                <a>Features</a>
+              </ActiveLink>
+            </Menu.Item>
             <Menu.Item key="4">
               <ActiveLink activeClassName="is-active" href="/about">
                 <a>About Us</a>

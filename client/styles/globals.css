@@ -829,7 +829,7 @@ body {
 .listnewsCate {
   /* cursor: pointer;
   font-size: 16px; */
-  transition: 0.3s;
+  transition: 0.1s;
   padding: 4px;
   color: black !important;
 }
@@ -837,9 +837,9 @@ body {
   /* background-color: #f5f5f5; */
   /* background-color: rgb(230, 247, 255);
   color: #1890ff !important; */
-  color: #fdc209 !important;
+  /* color: #fdc209 !important; */
   /* font-weight: 800; */
-  background: #201f1fa8;
+  background-color: #ececed !important;
   /* background-color: rgba(39, 38, 38, 0.185); */
   border-radius: 8px;
   cursor: pointer;

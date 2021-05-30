@@ -19,6 +19,7 @@ import { useQuery } from "@apollo/client";
 import { GET_ALL_NEWS_BY_TYPE_NEWS } from "../graphql/query";
 import moment from "moment";
 import Output from "editorjs-react-renderer";
+import Categories from "../pages/categories/index";
 
 const AllNews = () => {
   //=============get last News===========
@@ -37,95 +38,9 @@ const AllNews = () => {
         <Divider></Divider>
         <Row gutter={[32, 32]}>
           <Col sm={24} md={6}>
-            <div className="news-cat">
-              <h2 className="title-cat">Categories</h2>
-              <div
-                className="scroll-newscate"
-                // style={{
-                //   width: "300px",
-                //   border: "1px solid rgba(4, 47, 130, 0.3)",
-                //   padding: "0 !important",
-                // }}
-              >
-                <div>
-                  <Link href="/3">
-                    <div className="listnewsCate" style={{ padding: "12px" }}>
-                      <span>
-                        {" "}
-                        <FaBusinessTime
-                          size={20}
-                          style={{ marginRight: "7px" }}
-                        />
-                        Business
-                      </span>
-                    </div>
-                  </Link>
-                  <Link href="/3">
-                    <div className="listnewsCate" style={{ padding: "12px" }}>
-                      <span>
-                        {" "}
-                        <FaCoins size={20} style={{ marginRight: "7px" }} />
-                        Coin
-                      </span>
-                    </div>
-                  </Link>
-                  <Link href="/3">
-                    <div className="listnewsCate" style={{ padding: "12px" }}>
-                      <span>
-                        {" "}
-                        <FaWhmcs size={20} style={{ marginRight: "7px" }} />
-                        Technology
-                      </span>
-                    </div>
-                  </Link>
-                  <Link href="/3">
-                    <div className="listnewsCate" style={{ padding: "12px" }}>
-                      <span>
-                        <FaChartLine size={20} style={{ marginRight: "7px" }} />
-                        Maket
-                      </span>
-                    </div>
-                  </Link>
-                  <Link href="/3">
-                    <div className="listnewsCate" style={{ padding: "12px" }}>
-                      <span>
-                        <FaCommentAlt
-                          size={18}
-                          style={{ marginRight: "7px" }}
-                        />
-                        Options
-                      </span>
-                    </div>
-                  </Link>
-                  <Link href="/3">
-                    <div className="listnewsCate" style={{ padding: "12px" }}>
-                      <span>
-                        {" "}
-                        <FaRegClone size={20} style={{ marginRight: "7px" }} />
-                        Our Company
-                      </span>
-                    </div>
-                  </Link>
-                  <Link href="/3">
-                    <div className="listnewsCate" style={{ padding: "12px" }}>
-                      <span>
-                        <FaLinode size={18} style={{ marginRight: "7px" }} />
-                        DeFi
-                      </span>
-                    </div>
-                  </Link>
-                  <Link href="/3">
-                    <div className="listnewsCate" style={{ padding: "12px" }}>
-                      <span>
-                        {" "}
-                        <FaRegEdit size={20} style={{ marginRight: "7px" }} />
-                        Editor's Pick
-                      </span>
-                    </div>
-                  </Link>
-                </div>
-              </div>
-            </div>
+            {/* <div className="news-cat"> */}
+            <Categories />
+            {/* </div> */}
           </Col>
           <Col sm={24} md={18}>
             {data.get_allnews_by_type.map((res) => {
