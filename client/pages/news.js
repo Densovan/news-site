@@ -2,16 +2,6 @@ import React from "react";
 import { Row, Col, Divider } from "antd";
 import { CaretRightOutlined } from "@ant-design/icons";
 import Link from "next/link";
-import {
-  FaCoins,
-  FaBusinessTime,
-  FaWhmcs,
-  FaChartLine,
-  FaCommentAlt,
-  FaLinode,
-  FaRegEdit,
-  FaRegClone,
-} from "react-icons/fa";
 import TopNavbar from "../components/Layouts/topNavbar";
 import MainNavbar from "../components/Layouts/mainNavbar";
 import Footer from "../components/Layouts/footer";
@@ -19,7 +9,7 @@ import { useQuery } from "@apollo/client";
 import { GET_ALL_NEWS_BY_TYPE_NEWS } from "../graphql/query";
 import moment from "moment";
 import Output from "editorjs-react-renderer";
-import Categories from "../pages/categories/index";
+import Categories from "../pages/categories/news";
 
 const AllNews = () => {
   //=============get last News===========

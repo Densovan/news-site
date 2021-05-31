@@ -2,10 +2,10 @@ import React from "react";
 import Link from "next/link";
 import { useQuery } from "@apollo/client";
 import { GET_CATEGORIES } from "../../graphql/query";
-const Index = () => {
+const Learn = () => {
   const { loading, data } = useQuery(GET_CATEGORIES);
   if (loading) return "";
-  //   console.log(data);
+  console.log(data);
   return (
     <React.Fragment>
       <div className="news-cat">
@@ -13,7 +13,7 @@ const Index = () => {
         <div className="scroll-newscate">
           {data.get_cats.map((res) => {
             return (
-              <Link href="/3">
+              <Link href={`/learncategories/${res.id}`}>
                 <div className="listnewsCate" style={{ padding: "12px" }}>
                   <span> {res.name}</span>
                 </div>
@@ -26,4 +26,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default Learn;

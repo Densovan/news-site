@@ -1,32 +1,25 @@
 import React from "react";
-import { Col, Row } from "antd";
-import { CaretRightOutlined } from "@ant-design/icons";
-import Link from "next/link";
-import {
-  FaCoins,
-  FaBusinessTime,
-  FaWhmcs,
-  FaChartLine,
-  FaCommentAlt,
-  FaLinode,
-  FaRegEdit,
-  FaRegClone,
-} from "react-icons/fa";
+import { useRouter } from "next/router";
 import TopNavbar from "../../components/Layouts/topNavbar";
 import MainNavbar from "../../components/Layouts/mainNavbar";
 import Footer from "../../components/Layouts/footer";
-import { GET_ALL_NEWS_BY_TYPE_LEARN } from "../../graphql/query";
+import { GET_NEWS_LEARN_BY_CAT } from "../../graphql/query";
+import { Col, Row } from "antd";
 import { useQuery } from "@apollo/client";
 import Output from "editorjs-react-renderer";
 import moment from "moment";
 import Categories from "../categories/learn";
+import Link from "next/link";
+import { CaretRightOutlined } from "@ant-design/icons";
 
-const Learn = () => {
-  const { loading, data } = useQuery(GET_ALL_NEWS_BY_TYPE_LEARN, {
-    variables: { limit: 8, offset: 0 },
+const Index = () => {
+  const router = useRouter();
+  const { id } = router.query;
+  const { loading, data } = useQuery(GET_NEWS_LEARN_BY_CAT, {
+    variables: { id, limit: 8, offset: 0 },
   });
-  if (loading) return null;
-
+  if (loading) return "";
+  // console.log(data);
   return (
     <React.Fragment>
       <TopNavbar />
@@ -41,7 +34,7 @@ const Learn = () => {
           </Col>
           <Col sm={24} md={18}>
             <Row gutter={[12, 12]}>
-              {data.get_allnews_by_type.map((res) => {
+              {data.get_allnews_type_by_cat.map((res) => {
                 const result = <Output data={JSON.parse(res.des)} />;
                 return (
                   <Col sm={24} md={12} lg={8}>
@@ -83,11 +76,7 @@ const Learn = () => {
                                   .format("DD-MM-YYYY")}
                               </p>
                             </Col>
-                            <Col xs={24} md={8}>
-                              {/* <button className="readmore-learn">
-                              Read More <span>&rarr;</span>
-                            </button> */}
-                            </Col>
+                            <Col xs={24} md={8}></Col>
                           </Row>
                         </div>
                       </div>
@@ -96,6 +85,11 @@ const Learn = () => {
                 );
               })}
             </Row>
+            {data.get_allnews_type_by_cat == "" && (
+              <center>
+                <h1>No Result</h1>
+              </center>
+            )}
           </Col>
         </Row>
       </div>
@@ -105,4 +99,4 @@ const Learn = () => {
   );
 };
 
-export default Learn;
+export default Index;
