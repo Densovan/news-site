@@ -11,6 +11,7 @@ import moment from "moment";
 import Categories from "../categories/learn";
 import Link from "next/link";
 import { CaretRightOutlined } from "@ant-design/icons";
+import { CubeSpinner } from "react-spinners-kit";
 
 const Index = () => {
   const router = useRouter();
@@ -18,7 +19,12 @@ const Index = () => {
   const { loading, data } = useQuery(GET_NEWS_LEARN_BY_CAT, {
     variables: { id, limit: 8, offset: 0 },
   });
-  if (loading) return "";
+  if (loading)
+    return (
+      <center style={{ marginTop: "100px" }}>
+        <CubeSpinner size={30} backColor="#686769" frontColor="#fce24a" />
+      </center>
+    );
   // console.log(data);
   return (
     <React.Fragment>

@@ -21,7 +21,7 @@ const Learn = () => {
           {data.get_allnews_by_type.slice(0, 4).map((res) => {
             const result = <Output data={JSON.parse(res.des)} />;
             return (
-              <Col span={24}>
+              <Col sm={8} lg={24}>
                 <Link href={`/detail/${res.slug}`}>
                   <div className="learn-card">
                     <div
@@ -72,15 +72,15 @@ const Learn = () => {
               </Col>
             );
           })}
-          {/* <h3 className="all-learn-btn">
-            <Link href="/learns">
-              <a>
-                All Learn <span>&rarr;</span>
-              </a>
-            </Link>
-          </h3> */}
         </Row>
       </div>
+      <h3 className="all-learn-btn">
+        <Link href="/learns">
+          <a>
+            All Learn <span>&rarr;</span>
+          </a>
+        </Link>
+      </h3>
     </React.Fragment>
   );
 };

@@ -11,6 +11,7 @@ import { GET_NEWS_NEWS_BY_CAT } from "../../graphql/query";
 import moment from "moment";
 import Output from "editorjs-react-renderer";
 import Categories from "../categories/news";
+import { CubeSpinner } from "react-spinners-kit";
 
 const AllNews = () => {
   const router = useRouter();
@@ -19,7 +20,12 @@ const AllNews = () => {
   const { loading, data } = useQuery(GET_NEWS_NEWS_BY_CAT, {
     variables: { id, limit: 8, offset: 0 },
   });
-  if (loading) return "Loading...";
+  if (loading)
+    return (
+      <center style={{ marginTop: "100px" }}>
+        <CubeSpinner size={30} backColor="#686769" frontColor="#fce24a" />
+      </center>
+    );
 
   return (
     <React.Fragment>

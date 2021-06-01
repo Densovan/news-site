@@ -9,12 +9,18 @@ import { GET_ALL_NEWS_BY_TYPE_FEATURE } from "../../graphql/query";
 import Link from "next/link";
 import moment from "moment";
 import Output from "editorjs-react-renderer";
+import { CubeSpinner } from "react-spinners-kit";
 
 const Learn = () => {
   const { loading, data } = useQuery(GET_ALL_NEWS_BY_TYPE_FEATURE, {
     variables: { limit: 6, offset: 0 },
   });
-  if (loading) return null;
+  if (loading)
+    return (
+      <center style={{ marginTop: "100px" }}>
+        <CubeSpinner size={30} backColor="#686769" frontColor="#fce24a" />
+      </center>
+    );
   console.log(data);
   return (
     <React.Fragment>

@@ -20,12 +20,18 @@ import { useQuery } from "@apollo/client";
 import Output from "editorjs-react-renderer";
 import moment from "moment";
 import Categories from "../categories/learn";
+import { CubeSpinner } from "react-spinners-kit";
 
 const Learn = () => {
   const { loading, data } = useQuery(GET_ALL_NEWS_BY_TYPE_LEARN, {
     variables: { limit: 8, offset: 0 },
   });
-  if (loading) return null;
+  if (loading)
+    return (
+      <center style={{ marginTop: "100px" }}>
+        <CubeSpinner size={30} backColor="#686769" frontColor="#fce24a" />
+      </center>
+    );
 
   return (
     <React.Fragment>
