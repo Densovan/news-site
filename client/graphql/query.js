@@ -306,7 +306,37 @@ const GET_NEWS_NEWS_BY_CAT = gql`
   }
 `;
 
+const GET_NEWS_FEATURE_BY_CAT = gql`
+  query ($id: ID, $limit: Int!, $offset: Int!) {
+    get_allnews_type_by_cat(
+      id: $id
+      limit: $limit
+      offset: $offset
+      typeId: "60ab789315cdbd63c5d57fa0"
+    ) {
+      title
+      createdAt
+      id
+      category
+      thumnail
+      type
+      slug
+      des
+      user {
+        fullname
+      }
+      types {
+        name
+      }
+      categories {
+        name
+      }
+    }
+  }
+`;
+
 export {
+  GET_NEWS_FEATURE_BY_CAT,
   GET_NEWS_NEWS_BY_CAT,
   GET_NEWS_LEARN_BY_CAT,
   GET_NEWS_BY_CATS,

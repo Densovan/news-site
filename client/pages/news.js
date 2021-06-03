@@ -80,9 +80,11 @@ const AllNews = () => {
                         </p>
                       </Col>
                       <Col xs={24} md={6}>
-                        <button className="readmore">
-                          Read More <span>&rarr;</span>
-                        </button>
+                        <Link href={`/detail/${res.slug}`}>
+                          <button className="readmore">
+                            Read More <span>&rarr;</span>
+                          </button>
+                        </Link>
                       </Col>
                     </Row>
                   </Col>

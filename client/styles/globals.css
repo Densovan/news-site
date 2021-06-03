@@ -810,7 +810,7 @@ body {
   margin-top: 30px;
 }
 .title-cat {
-  width: 270px;
+  /* width: 270px; */
   border-radius: 5px 5px 0 0;
   background-color: gray;
   /* border: 1px solid rgba(4, 47, 130, 0.3); */
@@ -825,7 +825,7 @@ body {
   border-radius: 5px;
   overflow-y: scroll;
   height: 300px;
-  width: 270px;
+  /* width: 270px; */
   margin-top: 1px;
   scrollbar-width: thin;
   /* border: 1px solid #262e3c; */

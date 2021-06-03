@@ -3,12 +3,12 @@ import { useRouter } from "next/router";
 import TopNavbar from "../../components/Layouts/topNavbar";
 import MainNavbar from "../../components/Layouts/mainNavbar";
 import Footer from "../../components/Layouts/footer";
-import { GET_NEWS_LEARN_BY_CAT } from "../../graphql/query";
+import { GET_NEWS_FEATURE_BY_CAT } from "../../graphql/query";
 import { Col, Row } from "antd";
 import { useQuery } from "@apollo/client";
 import Output from "editorjs-react-renderer";
 import moment from "moment";
-import Categories from "../categories/learn";
+import Categories from "../categories/feature";
 import Link from "next/link";
 import { CaretRightOutlined } from "@ant-design/icons";
 import { CubeSpinner } from "react-spinners-kit";
@@ -16,7 +16,7 @@ import { CubeSpinner } from "react-spinners-kit";
 const Index = () => {
   const router = useRouter();
   const { id } = router.query;
-  const { loading, data } = useQuery(GET_NEWS_LEARN_BY_CAT, {
+  const { loading, data } = useQuery(GET_NEWS_FEATURE_BY_CAT, {
     variables: { id, limit: 8, offset: 0 },
   });
   if (loading)
@@ -32,14 +32,14 @@ const Index = () => {
       <MainNavbar />
       <div className="container top-learns">
         <center>
-          <h1 className="about-main-title">Learn</h1>
+          <h1 className="about-main-title">Feature</h1>
         </center>
         <Row gutter={[32, 32]}>
           <Col sm={24} md={6}>
             <Categories />
           </Col>
           <Col sm={24} md={18}>
-            <Row gutter={[12, 12]}>
+            <Row gutter={[32, 32]}>
               {data.get_allnews_type_by_cat.map((res) => {
                 const result = <Output data={JSON.parse(res.des)} />;
                 return (

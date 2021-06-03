@@ -32,9 +32,9 @@ const Learn = () => {
                     ></div>
                     <div className="content-learn">
                       <h3>
-                        {res.title.length <= 50
+                        {res.title.length <= 20
                           ? res.title
-                          : res.title.substring(0, 50) + " ..."}
+                          : res.title.substring(0, 20) + " ..."}
                       </h3>
                       <p>
                         {`${result.props.data.blocks[0].data.text.substring(
