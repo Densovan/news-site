@@ -60,11 +60,7 @@ const Learn = () => {
                               .format("DD-MM-YYYY")}
                           </p>
                         </Col>
-                        <Col xs={24} md={8}>
-                          {/* <button className="readmore-learn">
-                          Read More <span>&rarr;</span>
-                        </button> */}
-                        </Col>
+                        <Col xs={24} md={8}></Col>
                       </Row>
                     </div>
                   </div>

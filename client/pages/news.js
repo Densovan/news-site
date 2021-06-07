@@ -33,12 +33,10 @@ const AllNews = () => {
         </center>
         <Divider></Divider>
         <Row gutter={[32, 32]}>
-          <Col sm={24} md={6}>
-            {/* <div className="news-cat"> */}
+          <Col xs={24} md={6}>
             <Categories />
-            {/* </div> */}
           </Col>
-          <Col sm={24} md={18}>
+          <Col xs={24} md={18}>
             {data.get_allnews_by_type.map((res) => {
               const result = <Output data={JSON.parse(res.des)} />;
               return (
@@ -64,7 +62,7 @@ const AllNews = () => {
                       )}...`}
                     </p>
                     <Row>
-                      <Col xs={24} md={18}>
+                      <Col xs={17} md={18}>
                         <h1 className="status-news-topstory">
                           {res.types.name}
                           <span>
@@ -79,7 +77,7 @@ const AllNews = () => {
                             .format("DD-MM-YYYY")}
                         </p>
                       </Col>
-                      <Col xs={24} md={6}>
+                      <Col xs={7} md={6}>
                         <Link href={`/detail/${res.slug}`}>
                           <button className="readmore">
                             Read More <span>&rarr;</span>

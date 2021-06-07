@@ -74,6 +74,9 @@ body {
 .top-nav-rigth a {
   color: #848484;
 }
+.top-nav-rigth-mobile a {
+  color: #848484;
+}
 .avatarAcc {
   position: relative;
   width: 40px;
@@ -89,6 +92,12 @@ body {
   border-radius: 20px;
   border: solid 2px #ffffff;
   float: right;
+}
+.avatar-mobile {
+  width: 30px;
+  border-radius: 20px;
+  border: solid 2px #ffffff;
+  /* float: left; */
 }
 /* .content-popover.ant-popover {
   background-color: red;
@@ -139,6 +148,10 @@ body {
 }
 .gmail-top-nav {
   margin-top: 23px;
+  font-size: 20px;
+  color: #fce24a;
+}
+.gmail-top-nav-mobile {
   font-size: 20px;
   color: #fce24a;
 }
@@ -359,9 +372,9 @@ body {
   font-weight: 600;
   /* border: 1px solid black; */
   color: black !important;
-  position: absolute;
+  /* position: absolute;
   left: 83%;
-  top: 99%;
+  top: 99%; */
   margin-bottom: 12px !important;
   margin-top: 12px;
 }
@@ -375,9 +388,9 @@ body {
   font-weight: 600;
   /* border: 1px solid black; */
   color: black !important;
-  position: absolute;
+  /* position: absolute;
   left: 68%;
-  top: 99%;
+  top: 99%; */
   margin-bottom: 12px !important;
   margin-top: 12px;
 }
@@ -1343,6 +1356,27 @@ body {
   font-weight: 300;
 }
 
+/* .ant-menu-item-selected {
+  background-color: #e6f7ffe0;
+} */
+.ant-menu-item-selected a {
+  color: #fdc209 !important;
+}
+.side-nav .ant-menu-item a:hover {
+  color: #fdc209 !important;
+}
+.ant-drawer-content {
+  /* background-color: var(--third-background); */
+  background-color: #262e3c;
+}
+.ant-menu-item a {
+  color: white;
+  font-weight: 800;
+}
+.ant-drawer-header {
+  background-color: #262e3c;
+}
+
 /*=============== Responsive================== */
 @media only screen and (min-width: 961px) {
   .mobile-navbar {
@@ -1361,5 +1395,51 @@ body {
   }
   .content-banner {
     width: 90%;
+  }
+}
+@media only screen and (max-width: 768px) {
+  .banner-right-img {
+    display: none;
+  }
+  .text-banner h1 {
+    font-size: 30px;
+    line-height: 30px;
+    font-weight: bold;
+    /* margin-top: -180px; */
+  }
+  .index-banner {
+    background-image: url("/assets/images/banner-bg.jpg");
+    /* height: 10vh; */
+    /* background-image: url(/images/VA-Header.png); */
+    background-repeat: no-repeat;
+    height: 400px;
+    background-size: cover;
+    /* width: 100%; */
+    display: flex;
+    background-position: center;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+  }
+  .index-banner::before {
+    content: "";
+    position: absolute;
+    top: 10;
+    background: rgba(253, 194, 9, 0.95) none repeat scroll 0 0;
+    z-index: 1 !important;
+    width: 100%;
+    height: 400px;
+  }
+  .title-news {
+    font-size: 18px !important;
+    line-height: 20px;
+  }
+  .content-lasts-news .title-news {
+    line-height: 20px;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  .lasts-news-style {
+    height: 197px;
   }
 }
