@@ -143,12 +143,16 @@ body {
   color: #fce24a;
 }
 .logo-mobile {
-  height: 55px !important;
-  margin-top: 0 !important;
+  height: 40px !important;
+  margin-top: 8px !important;
   position: absolute;
   -webkit-transform: translate(-50%);
   transform: translate(-50%);
   left: 50%;
+}
+.buger-icon {
+  position: absolute;
+  top: -46px;
 }
 .left-bar {
   float: right;
@@ -359,6 +363,7 @@ body {
   left: 83%;
   top: 99%;
   margin-bottom: 12px !important;
+  margin-top: 12px;
 }
 .top-learns {
   margin-top: 30px;
@@ -372,8 +377,9 @@ body {
   color: black !important;
   position: absolute;
   left: 68%;
-  top: 90%;
+  top: 99%;
   margin-bottom: 12px !important;
+  margin-top: 12px;
 }
 /* .ant-btn.all-news-btn:hover {
   background-color: #ffed82 !important;
@@ -804,7 +810,7 @@ body {
   margin-top: 30px;
 }
 .title-cat {
-  width: 270px;
+  /* width: 270px; */
   border-radius: 5px 5px 0 0;
   background-color: gray;
   /* border: 1px solid rgba(4, 47, 130, 0.3); */
@@ -819,7 +825,7 @@ body {
   border-radius: 5px;
   overflow-y: scroll;
   height: 300px;
-  width: 270px;
+  /* width: 270px; */
   margin-top: 1px;
   scrollbar-width: thin;
   /* border: 1px solid #262e3c; */
@@ -1311,14 +1317,46 @@ body {
 .edit-button:hover {
   background-color: #c9f8c9;
 }
+.detail-main-des h1 {
+  line-height: 32px;
+}
+/* ===================detail================== */
+
+.badge-date {
+  background-color: #fce14a94;
+  display: inline-block;
+  padding: 0.25em 0.4em;
+  font-size: 88%;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 0.25rem;
+}
+.detail-des {
+  padding: 10px;
+  line-height: 25px;
+}
+.detail-des p {
+  font-size: 19px;
+  font-weight: 300;
+}
+
 /*=============== Responsive================== */
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 961px) {
   .mobile-navbar {
     display: none;
   }
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 961px) {
   .header {
     display: none;
+  }
+  .container {
+    width: 90%;
+  }
+  .content-banner {
+    width: 90%;
   }
 }

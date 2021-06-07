@@ -4,7 +4,7 @@ const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 import Link from "next/link";
 import ActiveLink from "../../components/activeLink";
-import { FaBars } from "react-icons/fa";
+import { HiMenu } from "react-icons/hi";
 
 const MainNavbar = () => {
   const [state, setState] = useState({
@@ -71,14 +71,14 @@ const MainNavbar = () => {
       <div className="mobile-navbar">
         <Menu theme="dark" mode="horizontal">
           <Menu.Item onClick={showDrawer}>
-            <FaBars size={30} />
+            <HiMenu className="buger-icon" size={30} />
           </Menu.Item>
           <Link href="/">
             <img
               alt="img"
               className="logo-mobile"
               style={{ height: "40px" }}
-              src="/img/transparent back-3.png"
+              src="/assets/images/logo.png"
             />
           </Link>
         </Menu>

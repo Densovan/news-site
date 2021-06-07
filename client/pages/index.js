@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Col, Button } from "antd";
+import { Row, Col } from "antd";
 import TopStory from "../pages/topStory/topStory";
 import Learn from "./learns/learn";
 import Feature from "./features/feature";
@@ -10,9 +10,7 @@ import Footer from "../components/Layouts/footer";
 const Index = () => {
   return (
     <React.Fragment>
-      <TopNavbar />
-      <MainNavbar />
-      <div className="index-banner">
+      {/* <div className="index-banner">
         <div className="content-banner">
           <Row gutter={[32, 32]}>
             <Col sm={15}>
@@ -30,9 +28,9 @@ const Index = () => {
             </Col>
           </Row>
         </div>
-      </div>
-      <div className="container">
-        <Row gutter={[32, 32]}>
+      </div> */}
+      <div>
+        {/* <Row gutter={[32, 32]}>
           <Col sm={17}>
             <TopStory />
           </Col>
@@ -40,9 +38,9 @@ const Index = () => {
             <Learn />
           </Col>
         </Row>
-        <Feature />
+        <Feature /> */}
+        <TopStory />
       </div>
-      <Footer />
     </React.Fragment>
   );
 };

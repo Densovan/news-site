@@ -19,13 +19,19 @@ import { GET_ALL_NEWS_BY_TYPE_LEARN } from "../../graphql/query";
 import { useQuery } from "@apollo/client";
 import Output from "editorjs-react-renderer";
 import moment from "moment";
-import Categories from "../../pages/categories/index";
+import Categories from "../categories/learn";
+import { CubeSpinner } from "react-spinners-kit";
 
 const Learn = () => {
   const { loading, data } = useQuery(GET_ALL_NEWS_BY_TYPE_LEARN, {
     variables: { limit: 8, offset: 0 },
   });
-  if (loading) return null;
+  if (loading)
+    return (
+      <center style={{ marginTop: "100px" }}>
+        <CubeSpinner size={30} backColor="#686769" frontColor="#fce24a" />
+      </center>
+    );
 
   return (
     <React.Fragment>
@@ -35,7 +41,7 @@ const Learn = () => {
         <center>
           <h1 className="about-main-title">Learn</h1>
         </center>
-        <Row>
+        <Row gutter={[32, 32]}>
           <Col sm={24} md={6}>
             <Categories />
           </Col>
@@ -55,9 +61,9 @@ const Learn = () => {
                         ></div>
                         <div className="content-learn">
                           <h3>
-                            {res.title.length <= 50
+                            {res.title.length <= 20
                               ? res.title
-                              : res.title.substring(0, 50) + " ..."}
+                              : res.title.substring(0, 20) + " ..."}
                           </h3>
                           <p>
                             {`${result.props.data.blocks[0].data.text.substring(
