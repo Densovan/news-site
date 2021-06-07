@@ -9,7 +9,13 @@ let CustomEditor;
 let EDITOR_JS_TOOLS;
 if (typeof window !== "undefined") {
   CustomEditor = dynamic(() => import("react-editor-js"));
-  EDITOR_JS_TOOLS = dynamic(() => import("../../components/Layouts/tools"));
+  // EDITOR_JS_TOOLS = dynamic(() => import("../../components/Layouts/tools"));
+  const { EDITOR_JS_TOOLS } = dynamic(
+    () => import("../../components/Layouts/tools"),
+    {
+      ssr: false,
+    }
+  );
 }
 
 const Addstory = () => {

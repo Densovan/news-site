@@ -1353,6 +1353,9 @@ body {
   .header {
     display: none;
   }
+  .navbar-top {
+    display: none;
+  }
   .container {
     width: 90%;
   }
