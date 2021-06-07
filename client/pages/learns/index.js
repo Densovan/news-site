@@ -42,10 +42,10 @@ const Learn = () => {
           <h1 className="about-main-title">Learn</h1>
         </center>
         <Row gutter={[32, 32]}>
-          <Col sm={24} md={6}>
+          <Col xs={24} md={6}>
             <Categories />
           </Col>
-          <Col sm={24} md={18}>
+          <Col xs={24} md={18}>
             <Row gutter={[12, 12]}>
               {data.get_allnews_by_type.map((res) => {
                 const result = <Output data={JSON.parse(res.des)} />;

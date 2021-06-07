@@ -35,10 +35,10 @@ const Index = () => {
           <h1 className="about-main-title">Feature</h1>
         </center>
         <Row gutter={[32, 32]}>
-          <Col sm={24} md={6}>
+          <Col xs={24} md={6}>
             <Categories />
           </Col>
-          <Col sm={24} md={18}>
+          <Col xs={24} md={18}>
             <Row gutter={[32, 32]}>
               {data.get_allnews_type_by_cat.map((res) => {
                 const result = <Output data={JSON.parse(res.des)} />;

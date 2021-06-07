@@ -73,6 +73,14 @@ const Feature = () => {
           })}
         </Row>
         <br></br>
+        <h3 className="all-news-btn">
+          <Link href="/features">
+            <a>
+              All Features <span>&rarr;</span>
+            </a>
+          </Link>
+        </h3>
+
         {/* <h3 className="all-feature-btn">
           <Link href="/features">
             <a>

@@ -133,7 +133,7 @@ const About = () => {
           <div style={{ marginTop: "30px" }}>
             <center>
               <Row gutter={[12, 12]}>
-                <Col sm={24} md={8}>
+                <Col xs={12} md={8}>
                   <div className="member">
                     <img className="img-member" src="/assets/images/Den.png" />
                     <div>
@@ -155,7 +155,7 @@ const About = () => {
                     </div>
                   </div>
                 </Col>
-                <Col sm={24} md={8}>
+                <Col xs={12} md={8}>
                   <div className="member">
                     <img className="img-member" src="/assets/images/Den.png" />
                     <div>
@@ -177,7 +177,7 @@ const About = () => {
                     </div>
                   </div>
                 </Col>
-                <Col sm={24} md={8}>
+                <Col xs={12} md={8}>
                   <div className="member">
                     <img className="img-member" src="/assets/images/Den.png" />
                     <div>
