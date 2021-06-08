@@ -1164,6 +1164,12 @@ body {
   width: 93%;
   padding: 12px 0 12px 0;
 }
+.addstory-content {
+  margin-left: auto;
+  margin-right: auto;
+  width: 70%;
+  padding: 12px 0 12px 0;
+}
 .hold-info {
   background-color: #787c8124;
   padding: 10px 0 1px 10px;
@@ -1197,13 +1203,28 @@ body {
 .ant-upload-text img {
   width: 130px;
 }
-/* .codex-editor.codex-editor--empty {
+/*========== Editor js============= */
+
+.codex-editor.codex-editor--empty {
   border: 1px solid #262e3c;
   border-radius: 5px;
 }
 .ce-toolbar__actions-buttons {
   padding-right: 12px;
+}
+/* .ce-block__content {
+  position: relative;
+  max-width: 1000px;
+  margin: 0 auto;
+  -webkit-transition: background-color 0.15s ease;
+  transition: background-color 0.15s ease;
 } */
+/* .avatar-uploader {
+  width: 20px;
+} */
+.ant-message-notice-content {
+  border-radius: 30px;
+}
 
 .ant-select:not(.ant-select-customize-input) .ant-select-selector {
   background: #ffffff;
@@ -1379,12 +1400,12 @@ body {
 }
 
 /*=============== Responsive================== */
-@media only screen and (min-width: 961px) {
+@media only screen and (min-width: 1068px) {
   .mobile-navbar {
     display: none;
   }
 }
-@media only screen and (max-width: 961px) {
+@media only screen and (max-width: 1068px) {
   .header {
     display: none;
   }
@@ -1399,6 +1420,9 @@ body {
   }
 }
 @media only screen and (max-width: 768px) {
+  .addstory-content {
+    width: 85%;
+  }
   .banner-right-img {
     display: none;
   }

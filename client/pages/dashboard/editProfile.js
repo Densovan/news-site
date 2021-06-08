@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Upload, message, Divider, Form, Input, Row, Col, Button } from "antd";
 import { FiCamera } from "react-icons/fi";
 import { LoadingOutlined } from "@ant-design/icons";
 import { useQuery, useMutation } from "@apollo/client";
 import { GET_USER } from "../../graphql/query";
 import { UPDATE_USER } from "../../graphql/mutation";
+import MainNavbar from "../../components/Layouts/mainNavbar";
+import Footer from "../../components/Layouts/footer";
+import AuthContext from "../../contexts/authContext";
 
 const ChangeProfilePicture = () => {
   //======state for chagte profile image
@@ -13,6 +16,7 @@ const ChangeProfilePicture = () => {
     loading: false,
   });
   const [isLoading, setIsLoading] = useState(false);
+  const { loggedIn } = useContext(AuthContext);
 
   //===========get data form graphql===============
   const { loading, data, refetch } = useQuery(GET_USER);
@@ -65,115 +69,130 @@ const ChangeProfilePicture = () => {
 
   return (
     <React.Fragment>
-      <div className="sub-pf-content">
-        <h2>Edit your Profile</h2>
-        <center>
-          <br></br>
-          <div className="userPhoto">
-            {state.loading ? (
-              <div>
-                <img
-                  src={data.get_user.image}
-                  alt={data.get_user.fullname}
-                  className="profile-img"
-                  style={{ cursor: "auto" }}
-                />
-                <center className="laoding-pf">
-                  <LoadingOutlined className="icon-loading" />
-                </center>
-              </div>
-            ) : (
-              <img
-                src={data.get_user.image}
-                alt={data.get_user.fullname}
-                className="profile-img"
-                style={{ cursor: "auto" }}
-              />
-            )}
+      <MainNavbar />
+      <br></br>
+      {loggedIn === true && (
+        <div className="container">
+          <div className="profile-content">
+            <div className="addstory-content">
+              <h2>Edit your Profile</h2>
+              <center>
+                <br></br>
+                <div className="userPhoto">
+                  {state.loading ? (
+                    <div>
+                      <img
+                        src={data.get_user.image}
+                        alt={data.get_user.fullname}
+                        className="profile-img"
+                        style={{ cursor: "auto" }}
+                      />
+                      <center className="laoding-pf">
+                        <LoadingOutlined className="icon-loading" />
+                      </center>
+                    </div>
+                  ) : (
+                    <img
+                      src={data.get_user.image}
+                      alt={data.get_user.fullname}
+                      className="profile-img"
+                      style={{ cursor: "auto" }}
+                    />
+                  )}
 
-            <div className="button-upload">
-              <Upload
-                name="file"
-                showUploadList={false}
-                action="http://localhost:3500/upload/profile"
-                // beforeUpload={beforeUpload}
-                onChange={handleChange}
-              >
-                <div className="editUserPhotoAvatar">
-                  <FiCamera style={{ fontSize: "20px" }} />
+                  <div className="button-upload">
+                    <Upload
+                      name="file"
+                      showUploadList={false}
+                      action="http://localhost:3500/upload/profile"
+                      // beforeUpload={beforeUpload}
+                      onChange={handleChange}
+                    >
+                      <div className="editUserPhotoAvatar">
+                        <FiCamera style={{ fontSize: "20px" }} />
+                      </div>
+                    </Upload>
+                    {/* </div> */}
+                  </div>
                 </div>
-              </Upload>
-              {/* </div> */}
+              </center>
+              <Divider orientation="left" plain>
+                <h3>Information</h3>
+              </Divider>
+              <Form layout="vertical" onFinish={onFinish}>
+                <Form.Item
+                  initialValue={data.get_user.fullname}
+                  name="fullname"
+                  label="FullName"
+                  // rules={[
+                  //   {
+                  //     required: true,
+                  //     message: "Please input your fullname!",
+                  //   },
+                  // ]}
+                >
+                  <Input
+                    defaultValue={data.get_user.fullname}
+                    className="input-pf"
+                    size="large"
+                    placeholder="Fullname"
+                  />
+                </Form.Item>
+                <Divider orientation="left" plain>
+                  <h3>Password</h3>
+                </Divider>
+                <Form.Item name="passwordHash" label="Old Password">
+                  <Input.Password
+                    className="input-pf"
+                    size="large"
+                    placeholder="Old Password"
+                  />
+                </Form.Item>
+                <Row gutter={[12, 12]}>
+                  <Col sm={24} md={12}>
+                    <Form.Item name="newPassword" label="New Password">
+                      <Input.Password
+                        className="input-pf"
+                        size="large"
+                        placeholder="New Password"
+                      />
+                    </Form.Item>
+                  </Col>
+                  <Col sm={24} md={12}>
+                    <Form.Item name="confirmPassword" label="Confirm Password">
+                      <Input.Password
+                        className="input-pf"
+                        size="large"
+                        placeholder="Confirm Password"
+                      />
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <Form.Item>
+                  <Button
+                    className="btn-submit"
+                    disabled={isLoading ? true : false}
+                    loading={isLoading ? true : false}
+                    // type="primary"
+                    htmlType="submit"
+                    size="large"
+                    // className="standard-btn"
+                  >
+                    {isLoading ? (
+                      <small>loading...</small>
+                    ) : (
+                      <small>SUMBIT</small>
+                    )}
+                  </Button>
+                </Form.Item>
+              </Form>
             </div>
           </div>
-        </center>
-        <Divider orientation="left" plain>
-          <h3>Information</h3>
-        </Divider>
-        <Form layout="vertical" onFinish={onFinish}>
-          <Form.Item
-            initialValue={data.get_user.fullname}
-            name="fullname"
-            label="FullName"
-            // rules={[
-            //   {
-            //     required: true,
-            //     message: "Please input your fullname!",
-            //   },
-            // ]}
-          >
-            <Input
-              defaultValue={data.get_user.fullname}
-              className="input-pf"
-              size="large"
-              placeholder="Fullname"
-            />
-          </Form.Item>
-          <Divider orientation="left" plain>
-            <h3>Password</h3>
-          </Divider>
-          <Form.Item name="passwordHash" label="Old Password">
-            <Input.Password
-              className="input-pf"
-              size="large"
-              placeholder="Old Password"
-            />
-          </Form.Item>
-          <Row gutter={[12, 12]}>
-            <Col sm={24} md={12}>
-              <Form.Item name="newPassword" label="New Password">
-                <Input.Password
-                  className="input-pf"
-                  size="large"
-                  placeholder="New Password"
-                />
-              </Form.Item>
-            </Col>
-            <Col sm={24} md={12}>
-              <Form.Item name="confirmPassword" label="Confirm Password">
-                <Input.Password
-                  className="input-pf"
-                  size="large"
-                  placeholder="Confirm Password"
-                />
-              </Form.Item>
-            </Col>
-          </Row>
-          <Form.Item>
-            <Button
-              className="btn-submit"
-              disabled={isLoading ? true : false}
-              loading={isLoading ? true : false}
-              // type="primary"
-              htmlType="submit"
-              size="large"
-              // className="standard-btn"
-            >
-              {isLoading ? <small>loading...</small> : <small>SUMBIT</small>}
-            </Button>
-          </Form.Item>
-        </Form>
-      </div>
+        </div>
+      )}
+      {loggedIn === false && window.location.replace("/")}
+      <br></br>
+      <Footer />
     </React.Fragment>
   );
 };

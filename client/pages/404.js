@@ -6,7 +6,7 @@ import Footer from "../components/Layouts/footer";
 const NotFound = () => {
   return (
     <React.Fragment>
-      <TopNavbar />
+      {/* <TopNavbar /> */}
       <MainNavbar />
       <div className="main-404">
         <div id="notfound">

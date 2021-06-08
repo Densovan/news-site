@@ -1,13 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Table, Tag, Divider, Popconfirm, message } from "antd";
 import { useQuery, useMutation } from "@apollo/client";
 import { GET_OWN_NEWS } from "../../graphql/query";
 import { DELETE_NEWS } from "../../graphql/mutation";
 import { BsTrash, BsPencil } from "react-icons/bs";
+import MainNavbar from "../../components/Layouts/mainNavbar";
+import Footer from "../../components/Layouts/footer";
+import AuthContext from "../../contexts/authContext";
 
 import Link from "next/link";
 
 const Allstory = () => {
+  const { loggedIn } = useContext(AuthContext);
   const [delete_news] = useMutation(DELETE_NEWS);
   const { loading, data, error, refetch } = useQuery(GET_OWN_NEWS);
   if (loading) return null;
@@ -45,7 +49,7 @@ const Allstory = () => {
         const { id, title, categories, types, thumnail, des } = data;
         return (
           <div>
-            <Link href="/">
+            <Link href={`/dashboard/editstory/${id}`}>
               <Tag className="edit-button">
                 <BsPencil
                   color="rgb(32, 166, 147)"
@@ -87,16 +91,27 @@ const Allstory = () => {
   ];
   return (
     <React.Fragment>
-      <div className="sub-pf-content">
-        <h2>Your Storiess</h2>
-        <Table
-          // key={data.get_own_news.id}
-          rowKey={(record) => record.id}
-          columns={columns}
-          dataSource={data.get_own_news}
-          // onChange={onChange}
-        />
-      </div>
+      <MainNavbar />
+      <br></br>
+      {loggedIn === true && (
+        <div className="container">
+          <div className="profile-content">
+            <div className="sub-pf-content">
+              <h2>Your Stories</h2>
+              <Table
+                // key={data.get_own_news.id}
+                rowKey={(record) => record.id}
+                columns={columns}
+                dataSource={data.get_own_news}
+                // onChange={onChange}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+      <br></br>
+      {loggedIn === false && window.location.replace("/")}
+      <Footer />
     </React.Fragment>
   );
 };

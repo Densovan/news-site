@@ -1,6 +1,12 @@
 import React, { useState, useContext } from "react";
 import { Drawer, Affix, Menu, Layout, Popover, Row, Col, Divider } from "antd";
-import { HiOutlineCog, HiLogout } from "react-icons/hi";
+import {
+  HiOutlineCog,
+  HiLogout,
+  HiOutlineLogout,
+  HiOutlineBookOpen,
+  HiOutlinePencil,
+} from "react-icons/hi";
 const { SubMenu } = Menu;
 const { Header } = Layout;
 import Link from "next/link";
@@ -148,7 +154,7 @@ const MainNavbar = () => {
                         </Row>
 
                         <br></br>
-                        <Link href="/dashboard">
+                        {/* <Link href="/dashboard">
                           <Row className="accountNavbarhover">
                             <Col style={{ paddingTop: "4px" }} span={4}>
                               <HiOutlineCog style={{ fontSize: "21px" }} />
@@ -157,11 +163,42 @@ const MainNavbar = () => {
                               Dashboard
                             </Col>
                           </Row>
+                        </Link> */}
+
+                        <Link href="/dashboard/addstory">
+                          <Row className="accountNavbarhover">
+                            <Col style={{ paddingTop: "4px" }} span={4}>
+                              <HiOutlinePencil style={{ fontSize: "21px" }} />
+                            </Col>
+                            <Col style={{ paddingTop: "4px" }} span={20}>
+                              Write a Story
+                            </Col>
+                          </Row>
+                        </Link>
+                        <Link href="/dashboard/allstories">
+                          <Row className="accountNavbarhover">
+                            <Col style={{ paddingTop: "4px" }} span={4}>
+                              <HiOutlineBookOpen style={{ fontSize: "21px" }} />
+                            </Col>
+                            <Col style={{ paddingTop: "4px" }} span={20}>
+                              Stories
+                            </Col>
+                          </Row>
+                        </Link>
+                        <Link href="/dashboard/editProfile">
+                          <Row className="accountNavbarhover">
+                            <Col style={{ paddingTop: "4px" }} span={4}>
+                              <HiOutlineCog style={{ fontSize: "21px" }} />
+                            </Col>
+                            <Col style={{ paddingTop: "4px" }} span={20}>
+                              Setting
+                            </Col>
+                          </Row>
                         </Link>
 
                         <Row className="accountNavbarhover">
                           <Col style={{ paddingTop: "4px" }} span={4}>
-                            <HiLogout style={{ fontSize: "21px" }} />
+                            <HiOutlineLogout style={{ fontSize: "21px" }} />
                           </Col>
                           <Col
                             className="logout"
@@ -346,20 +383,51 @@ const MainNavbar = () => {
                       </Row>
 
                       <br></br>
-                      <Link href="/dashboard">
+                      {/* <Link href="/dashboard">
+                          <Row className="accountNavbarhover">
+                            <Col style={{ paddingTop: "4px" }} span={4}>
+                              <HiOutlineCog style={{ fontSize: "21px" }} />
+                            </Col>
+                            <Col style={{ paddingTop: "4px" }} span={20}>
+                              Dashboard
+                            </Col>
+                          </Row>
+                        </Link> */}
+
+                      <Link href="/dashboard/addstory">
+                        <Row className="accountNavbarhover">
+                          <Col style={{ paddingTop: "4px" }} span={4}>
+                            <HiOutlinePencil style={{ fontSize: "21px" }} />
+                          </Col>
+                          <Col style={{ paddingTop: "4px" }} span={20}>
+                            Write a Story
+                          </Col>
+                        </Row>
+                      </Link>
+                      <Link href="/dashboard/allstories">
+                        <Row className="accountNavbarhover">
+                          <Col style={{ paddingTop: "4px" }} span={4}>
+                            <HiOutlineBookOpen style={{ fontSize: "21px" }} />
+                          </Col>
+                          <Col style={{ paddingTop: "4px" }} span={20}>
+                            Stories
+                          </Col>
+                        </Row>
+                      </Link>
+                      <Link href="/dashboard/editProfile">
                         <Row className="accountNavbarhover">
                           <Col style={{ paddingTop: "4px" }} span={4}>
                             <HiOutlineCog style={{ fontSize: "21px" }} />
                           </Col>
                           <Col style={{ paddingTop: "4px" }} span={20}>
-                            Dashboard
+                            Setting
                           </Col>
                         </Row>
                       </Link>
 
                       <Row className="accountNavbarhover">
                         <Col style={{ paddingTop: "4px" }} span={4}>
-                          <HiLogout style={{ fontSize: "21px" }} />
+                          <HiOutlineLogout style={{ fontSize: "21px" }} />
                         </Col>
                         <Col
                           className="logout"

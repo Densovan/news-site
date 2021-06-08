@@ -1,32 +1,57 @@
+// import React from "react";
+// import {
+//   GET_NEWS,
+//   GET_OWN_NEWS,
+//   GET_CATEGORIES,
+//   GET_TYPES,
+// } from "../../../graphql/query";
+// import { useRouter } from "next/router";
+// import { EDIT_NEWS } from "../../../graphql/mutation";
+// import { useQuery, useMutation } from "@apollo/client";
+
+// const EditStory = () => {
+//   const router = useRouter();
+//   const { id } = router.query;
+//   const { loading: LoadingNews, data: dataNews } = useQuery(GET_NEWS, {
+//     variables: { id },
+//   });
+//   if (LoadingNews) return "loading...";
+//   console.log(dataNews);
+
+//   return (
+//     <React.Fragment>
+//       <div className="container">
+//         <h1>hello</h1>
+//       </div>
+//     </React.Fragment>
+//   );
+// };
+
+// export default EditStory;
 import React, { useState, useContext } from "react";
 import { Form, Button, Input, Upload, message, Select } from "antd";
-import { GET_CATEGORIES, GET_TYPES, GET_OWN_NEWS } from "../../graphql/query";
-import { ADD_NEWS } from "../../graphql/mutation";
+import {
+  GET_NEWS,
+  GET_OWN_NEWS,
+  GET_CATEGORIES,
+  GET_TYPES,
+} from "../../../graphql/query";
+import { useRouter } from "next/router";
+import { EDIT_NEWS } from "../../../graphql/mutation";
 import { useQuery, useMutation } from "@apollo/client";
 import dynamic from "next/dynamic";
-import MainNavbar from "../../components/Layouts/mainNavbar";
-import Footer from "../../components/Layouts/footer";
-import AuthContext from "../../contexts/authContext";
-// import { EDITOR_JS_TOOLS } from "../../components/Layouts/tools";
+import MainNavbar from "../../../components/Layouts/mainNavbar";
+import AuthContext from "../../../contexts/authContext";
+import Footer from "../../../components/Layouts/footer";
 let CustomEditor;
 let EDITOR_JS_TOOLS;
 if (typeof window !== "undefined") {
   CustomEditor = dynamic(() => import("react-editor-js"));
-  // EDITOR_JS_TOOLS = dynamic(() => import("../../components/Layouts/tools"));
-  const { EDITOR_JS_TOOLS } = dynamic(
-    () => import("../../components/Layouts/tools"),
-    {
-      ssr: false,
-    }
-  );
+  EDITOR_JS_TOOLS = dynamic(() => import("../../../components/Layouts/tools"));
 }
 
-const Addstory = () => {
+const Editstory = () => {
   const { loggedIn } = useContext(AuthContext);
-  const instanceRef = React.useRef(null);
-  const [add_news] = useMutation(ADD_NEWS);
-  const { refetch } = useQuery(GET_OWN_NEWS);
-  const [form] = Form.useForm();
   const [state, setState] = useState({
     imageUrl: null,
     loading: false,
@@ -44,6 +69,18 @@ const Addstory = () => {
       },
     ],
   });
+  const [form] = Form.useForm();
+  const instanceRef = React.useRef(null);
+  const router = useRouter();
+  const { id } = router.query;
+  const [edit_news] = useMutation(EDIT_NEWS);
+  const { refetch } = useQuery(GET_OWN_NEWS);
+  const { loading: LoadingNews, data: dataNews } = useQuery(GET_NEWS, {
+    variables: { id },
+  });
+  if (LoadingNews) return "loading...";
+  console.log(dataNews);
+
   async function handleSave() {
     const savedData = await instanceRef.current.save();
     console.log(JSON.stringify(savedData));
@@ -87,6 +124,8 @@ const Addstory = () => {
   const onChange = (e) => {
     // console.log(e);
   };
+  const { title, thumnail, des, user, createdAt, category, type } =
+    dataNews.get_news;
 
   // ==================Get Category ID===================
   const GetCategory = () => {
@@ -96,15 +135,12 @@ const Addstory = () => {
       error: catError,
     } = useQuery(GET_CATEGORIES);
     if (catLoading) return null;
-    console.log(catData);
+    console.log("get", des);
     if (catError) return `Error! ${error.message}`;
     return (
-      <Form.Item
-        rules={[{ required: true, message: "Please input Categories" }]}
-        label="Category"
-        name="category"
-      >
+      <Form.Item label="Category" name="category" initialValue={category}>
         <Select
+          defaultValue={category}
           size="large"
           // className="input-pf"
           showSearch
@@ -138,13 +174,10 @@ const Addstory = () => {
     if (typeLoading) return null;
     if (typeError) return `Error! ${error.message}`;
     return (
-      <Form.Item
-        rules={[{ required: true, message: "Please input type" }]}
-        label="Type"
-        name="type"
-      >
+      <Form.Item label="Type" name="type" initialValue={type}>
         <Select
           size="large"
+          defaultValue={type}
           // className="input-pf"
           showSearch
           // style={{ width: 200 }}
@@ -168,22 +201,25 @@ const Addstory = () => {
   };
 
   const onFinish = async (values) => {
-    add_news({
+    edit_news({
       variables: {
+        id: id,
         ...values,
         des: JSON.stringify(data),
-        thumnail: state.imageUrl,
+        thumnail: state.imageUrl === null ? thumnail : state.imageUrl,
       },
     }).then(async (res) => {
       setLoading(true);
-      await message.success("Created successfull");
-      form.resetFields();
-      setState({
-        imageUrl: null,
-        loading: false,
-      });
       await refetch();
-      setLoading(false);
+      await message.success("update successful");
+      await window.location.replace("/dashboard/allstories");
+      // form.resetFields();
+      // setState({
+      //   imageUrl: null,
+      //   loading: false,
+      // });
+      // await refetch();
+      // setLoading(false);
     });
     // console.log(values);
   };
@@ -195,18 +231,13 @@ const Addstory = () => {
       {loggedIn === true && (
         <div className="container">
           <div className="profile-content">
-            <div className="addstory-content">
-              <h2>Add Your Story</h2>
+            <div className="sub-pf-content">
+              <h2>Edit Your Story</h2>
               <Form form={form} layout="vertical" onFinish={onFinish}>
                 <Form.Item
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input Image!",
-                    },
-                  ]}
                   label="Thumnail"
                   name="image"
+                  initialValue={thumnail}
                 >
                   <Upload.Dragger
                     name="file"
@@ -215,7 +246,42 @@ const Addstory = () => {
                     beforeUpload={beforeUpload}
                     onChange={handleChange}
                   >
-                    {state.imageUrl ? (
+                    {/* {state.imageUrl ? (
+                <img
+                  // src={`${`https://backend.vitaminair.org/`}/public/uploads/${
+                  //   state.imageUrl
+                  // }`}
+                  src={"http://localhost:3500/public/uploads/" + state.imageUrl}
+                  alt="avatar"
+                  style={{ width: "100%" }}
+                />
+              ) : (
+                uploadButton
+              )} */}
+                    {state.imageUrl === null ? (
+                      // <img
+                      //   src={`${`http://localhost:3500`}/public/uploads/${
+                      //     initationsData.get_initation.image
+                      //   }`}
+                      //   alt="avatar"
+                      //   style={{ width: "100%" }}
+                      // />
+                      <img
+                        // src={`${`https://backend.vitaminair.org/`}/public/uploads/${
+                        //   state.imageUrl
+                        // }`}
+                        src={"http://localhost:3500/public/uploads/" + thumnail}
+                        alt="avatar"
+                        style={{ width: "100%" }}
+                      />
+                    ) : (
+                      // <img
+                      //   src={`${`http://localhost:3500`}/public/uploads/${
+                      //     state.imageUrl
+                      //   }`}
+                      //   alt="avatar"
+                      //   style={{ width: "100%" }}
+                      // />
                       <img
                         // src={`${`https://backend.vitaminair.org/`}/public/uploads/${
                         //   state.imageUrl
@@ -227,23 +293,13 @@ const Addstory = () => {
                         alt="avatar"
                         style={{ width: "100%" }}
                       />
-                    ) : (
-                      uploadButton
                     )}
                   </Upload.Dragger>
                 </Form.Item>
 
-                <Form.Item
-                  label="Title"
-                  name="title"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your title!",
-                    },
-                  ]}
-                >
+                <Form.Item initialValue={title} label="Title" name="title">
                   <Input
+                    defaultValue={title}
                     className="input-pf"
                     size="large"
                     placeholder="title"
@@ -256,15 +312,11 @@ const Addstory = () => {
                 <Form.Item
                   label="Description"
                   name="des"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input Description!",
-                    },
-                  ]}
+                  initialValue={JSON.parse(des)}
                 >
                   {CustomEditor && (
                     <CustomEditor
+                      data={JSON.parse(des)}
                       tools={EDITOR_JS_TOOLS}
                       placeholder="Please Input Description"
                       instanceRef={(instance) =>
@@ -284,13 +336,15 @@ const Addstory = () => {
                     className="btn-submit"
                     disabled={loading ? true : false}
                     loading={loading ? true : false}
+                    // type="primary"
                     htmlType="submit"
                     size="large"
+                    // className="standard-btn"
                   >
                     {loading ? (
                       <small>loading...</small>
                     ) : (
-                      <small>PUBLISH</small>
+                      <small>SUMBIT</small>
                     )}
                   </Button>
                 </Form.Item>
@@ -299,11 +353,25 @@ const Addstory = () => {
           </div>
         </div>
       )}
-      <br></br>
       {loggedIn === false && window.location.replace("/")}
+      <br></br>
       <Footer />
     </React.Fragment>
   );
 };
 
-export default Addstory;
+export default Editstory;
+
+// import React from "react";
+
+// const Editstory = () => {
+//   return (
+//     <div>
+//       <div className="sub-pf-content">
+//         <h2>Edit Your Story</h2>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default Editstory;
