@@ -15,7 +15,7 @@ import Footer from "../components/Layouts/footer";
 const About = () => {
   return (
     <React.Fragment>
-      <TopNavbar />
+      {/* <TopNavbar /> */}
       <MainNavbar />
       <div className="container">
         <br></br>

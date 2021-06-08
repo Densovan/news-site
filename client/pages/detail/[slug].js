@@ -40,7 +40,7 @@ const SinglePage = () => {
   const result = <Output data={JSON.parse(des)} />;
   return (
     <React.Fragment>
-      <TopNavbar />
+      {/* <TopNavbar /> */}
       <MainNavbar />
       <div className="container">
         <br></br>

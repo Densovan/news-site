@@ -185,7 +185,7 @@ const Dashboard = ({ value }) => {
 
   return (
     <React.Fragment>
-      <TopNavbar />
+      {/* <TopNavbar /> */}
       <MainNavbar />
       {loggedIn === true && (
         <div className="container">

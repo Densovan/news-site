@@ -85,7 +85,7 @@ const TopStory = () => {
 
   return (
     <React.Fragment>
-      <TopNavbar />
+      {/* <TopNavbar /> */}
       <MainNavbar />
       <div className="index-banner">
         <div className="content-banner">

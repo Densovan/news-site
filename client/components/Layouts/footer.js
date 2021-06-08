@@ -106,7 +106,7 @@ const Footer = () => {
                   Subscribe now and get exclusive news, interviews and stories.
                 </p>
               </div>
-              <form className="form-footer">
+              <Form className="form-footer">
                 <input
                   className="input-footer"
                   type="email"
@@ -115,7 +115,7 @@ const Footer = () => {
                 <button className="btn-footer" type="submit">
                   <FaTelegramPlane size={20} className="icon-footer" />
                 </button>
-              </form>
+              </Form>
             </Col>
           </Row>
         </div>

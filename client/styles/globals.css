@@ -419,7 +419,7 @@ body {
   position: relative;
   -webkit-transition: all 500ms ease 0s;
   transition: all 500ms ease 0s;
-  width: 100%;
+  max-width: 100%;
   border-radius: 5px;
 }
 .icon-footer {
@@ -440,6 +440,7 @@ body {
   position: absolute;
   right: 0;
   overflow: visible;
+  left: 263px;
   text-align: center;
   top: 111px;
   border: none;

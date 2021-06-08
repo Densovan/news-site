@@ -35,7 +35,7 @@ const Learn = () => {
 
   return (
     <React.Fragment>
-      <TopNavbar />
+      {/* <TopNavbar /> */}
       <MainNavbar />
       <div className="container top-learns">
         <center>

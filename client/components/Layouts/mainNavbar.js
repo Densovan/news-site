@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { Drawer, Affix, Menu, Layout, Popover, Row, Col } from "antd";
+import { Drawer, Affix, Menu, Layout, Popover, Row, Col, Divider } from "antd";
 import { HiOutlineCog, HiLogout } from "react-icons/hi";
 const { SubMenu } = Menu;
 const { Header } = Layout;
@@ -33,47 +33,156 @@ const MainNavbar = () => {
   };
   return (
     <React.Fragment>
-      {/* <Affix> */}
-      <Header className="header">
-        <div className="navbar-container">
-          <Link href="/">
-            <img className="logo" src="/assets/images/logo.png" />
-          </Link>
-          <Menu
-            className="left-bar"
-            // theme="dark"
-            mode="horizontal"
-            // defaultSelectedKeys={["2"]}
-          >
-            <Menu.Item className="navbar-text" key="0">
-              <ActiveLink activeClassName="is-active" href="/">
-                <a>Home</a>
-              </ActiveLink>
-            </Menu.Item>
-            <Menu.Item className="navbar-text" key="1">
-              <ActiveLink activeClassName="is-active" href="/news">
-                <a>News</a>
-              </ActiveLink>
-            </Menu.Item>
-            <Menu.Item key="2">
-              <ActiveLink activeClassName="is-active" href="/learns">
-                <a>Learns</a>
-              </ActiveLink>
-            </Menu.Item>
-            <Menu.Item key="3">
-              <ActiveLink activeClassName="is-active" href="/features">
-                <a>Features</a>
-              </ActiveLink>
-            </Menu.Item>
-            <Menu.Item key="4">
-              <ActiveLink activeClassName="is-active" href="/about">
-                <a>About Us</a>
-              </ActiveLink>
-            </Menu.Item>
-          </Menu>
-        </div>
-      </Header>
-      {/* </Affix> */}
+      {loggedIn === false && (
+        <Header className="header">
+          <div className="navbar-container">
+            <Link href="/">
+              <img className="logo" src="/assets/images/logo.png" />
+            </Link>
+            <Menu
+              className="left-bar"
+              // theme="dark"
+              mode="horizontal"
+              // defaultSelectedKeys={["2"]}
+            >
+              <Menu.Item className="navbar-text" key="0">
+                <ActiveLink activeClassName="is-active" href="/">
+                  <a>Home</a>
+                </ActiveLink>
+              </Menu.Item>
+              <Menu.Item className="navbar-text" key="1">
+                <ActiveLink activeClassName="is-active" href="/news">
+                  <a>News</a>
+                </ActiveLink>
+              </Menu.Item>
+              <Menu.Item key="2">
+                <ActiveLink activeClassName="is-active" href="/learns">
+                  <a>Learns</a>
+                </ActiveLink>
+              </Menu.Item>
+              <Menu.Item key="3">
+                <ActiveLink activeClassName="is-active" href="/features">
+                  <a>Features</a>
+                </ActiveLink>
+              </Menu.Item>
+              <Menu.Item key="4">
+                <ActiveLink activeClassName="is-active" href="/about">
+                  <a>About Us</a>
+                </ActiveLink>
+              </Menu.Item>
+              <Menu.Item>
+                <div className="top-nav-rigth">
+                  <TiUser className="gmail-top-nav" />
+                  <Link href="/signin">Sign in</Link>
+                  {/* <Divider className="devider-top-nav" type="vertical" />
+                  <TiUserAdd size={19} className="gmail-top-nav" />
+                  <Link href="/register">Register</Link> */}
+                </div>
+              </Menu.Item>
+            </Menu>
+          </div>
+        </Header>
+      )}
+
+      {loggedIn === true && (
+        <Header className="header">
+          <div className="navbar-container">
+            <Link href="/">
+              <img className="logo" src="/assets/images/logo.png" />
+            </Link>
+            <Menu
+              className="left-bar"
+              // theme="dark"
+              mode="horizontal"
+              // defaultSelectedKeys={["2"]}
+            >
+              <Menu.Item className="navbar-text" key="0">
+                <ActiveLink activeClassName="is-active" href="/">
+                  <a>Home</a>
+                </ActiveLink>
+              </Menu.Item>
+              <Menu.Item className="navbar-text" key="1">
+                <ActiveLink activeClassName="is-active" href="/news">
+                  <a>News</a>
+                </ActiveLink>
+              </Menu.Item>
+              <Menu.Item key="2">
+                <ActiveLink activeClassName="is-active" href="/learns">
+                  <a>Learns</a>
+                </ActiveLink>
+              </Menu.Item>
+              <Menu.Item key="3">
+                <ActiveLink activeClassName="is-active" href="/features">
+                  <a>Features</a>
+                </ActiveLink>
+              </Menu.Item>
+              <Menu.Item key="4">
+                <ActiveLink activeClassName="is-active" href="/about">
+                  <a>About Us</a>
+                </ActiveLink>
+              </Menu.Item>
+              <Menu.Item key="5">
+                <div style={{ cursor: "pointer" }}>
+                  <Popover
+                    placement="topRight"
+                    content={
+                      <div
+                        className="content-popover"
+                        style={{ width: "270px" }}
+                      >
+                        <Row gutter={[24, 24]}>
+                          <Col span={4}>
+                            <img
+                              className="avatarAcc"
+                              src={data.get_user.image}
+                            />
+                          </Col>
+                          <Col span={20}>
+                            <div>
+                              <div className="popover-text">
+                                {data.get_user.fullname}
+                              </div>
+                              <span>{data.get_user.email}</span>
+                            </div>
+                          </Col>
+                        </Row>
+
+                        <br></br>
+                        <Link href="/dashboard">
+                          <Row className="accountNavbarhover">
+                            <Col style={{ paddingTop: "4px" }} span={4}>
+                              <HiOutlineCog style={{ fontSize: "21px" }} />
+                            </Col>
+                            <Col style={{ paddingTop: "4px" }} span={20}>
+                              Dashboard
+                            </Col>
+                          </Row>
+                        </Link>
+
+                        <Row className="accountNavbarhover">
+                          <Col style={{ paddingTop: "4px" }} span={4}>
+                            <HiLogout style={{ fontSize: "21px" }} />
+                          </Col>
+                          <Col
+                            className="logout"
+                            style={{ paddingTop: "4px" }}
+                            span={20}
+                          >
+                            <Logout />
+                          </Col>
+                        </Row>
+                      </div>
+                    }
+                    trigger="click"
+                  >
+                    <img className="avatar-mobile" src={data.get_user.image} />
+                  </Popover>
+                </div>
+              </Menu.Item>
+            </Menu>
+          </div>
+        </Header>
+      )}
 
       {/*=========== Tablet and Mobile========== */}
 

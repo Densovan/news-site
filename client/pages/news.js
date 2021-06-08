@@ -25,7 +25,7 @@ const AllNews = () => {
     );
   return (
     <React.Fragment>
-      <TopNavbar />
+      {/* <TopNavbar /> */}
       <MainNavbar />
       <div className="container">
         <center>
