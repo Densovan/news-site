@@ -1,20 +1,29 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { Layout } from "antd";
 import SiderBar from "./siderBar";
 import TopNavbar from "./topNavbar";
+import Footer  from "./footer";
 
 const { Content } = Layout;
 
 const PageLayout = ({ children }) => {
-  const collapsed = (collapsed) => {
-    console.log(collapsed);
+
+  const [state, setState] = useState({
+    collapsed: false
+  });
+  
+  const toggle = () => {
+    setState({
+        collapsed: !state.collapsed
+    })
   }
+
   return (
     <Fragment>
       <Layout>
-        <SiderBar />
+        <SiderBar trigger={null} collapsed={state.collapsed}/>
         <Layout className="site-layout">
-          <TopNavbar />
+          <TopNavbar collapsed={state.collapsed} toggle={toggle} />
           <Content
             className="site-layout-background"
             style={{
@@ -25,6 +34,7 @@ const PageLayout = ({ children }) => {
           >
             {children}
           </Content>
+          <Footer />
         </Layout>
       </Layout>
     </Fragment>

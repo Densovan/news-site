@@ -1,7 +1,6 @@
 @import "~antd/dist/antd.css";
 
 .trigger {
-  padding: 0 24px;
   font-size: 18px;
   line-height: 64px;
   cursor: pointer;
@@ -20,4 +19,15 @@
 
 .site-layout .site-layout-background {
   background: #fff;
+}
+.footer{
+  text-align: center;
+  padding: 30px;
+  background-color: greenyellow;
+}
+.nav{
+  padding-left: 20px;
+  padding-right: 20px;
+  display: flex;
+  justify-content: space-between;
 }

@@ -4,17 +4,25 @@ import {
     MenuFoldOutlined,
   } from '@ant-design/icons';
 import {Layout} from 'antd';
+import { Avatar, Image } from 'antd';
+import { Row, Col } from 'antd';
 
 const { Header } = Layout;
-const TopNavbar = ({ props }) => {
-    const [collapsed, setCollapsed] = useState(false);
+const TopNavbar = ({ collapsed, toggle }) => {
     return(
         <Fragment>
             <Header className="site-layout-background" style={{ padding: 0 }}>
-                {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
-                  className: 'trigger',
-                  onClick: () => {setCollapsed(true)},
-                })}
+                <div className="nav">
+                    <div>
+                        {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
+                          className: 'trigger',
+                          onClick: () => { toggle(!collapsed)}
+                        })}
+                    </div>
+                    <div>
+                        <Avatar className="avatar-image" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" size={40}/>
+                    </div>
+                </div>
             </Header>
         </Fragment>
     )
