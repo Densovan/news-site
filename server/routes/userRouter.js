@@ -284,4 +284,70 @@ router.post("/refresh-token", (req, res) => {
   );
 });
 
+// ============admin login===============
+
+router.post("/admin_login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return res.status(201).json({ msg: "Please Enter all required fields." });
+    }
+    const existingUser = await User.findOne({ email });
+    if (!existingUser) {
+      return res.status(201).json({ msg: "Wrong Email or Password" });
+    }
+    const passwordCorrect = await bcrypt.compare(
+      password,
+      existingUser.passwordHash
+    );
+    if (!passwordCorrect) {
+      return res.status(201).json({ msg: "Wrong Email or Password" });
+    }
+    //=========sign token===========
+    const token = accessToken(existingUser._id);
+    const refreshToken = jwt.sign(
+      {
+        id: existingUser._id,
+        role: existingUser.role,
+      },
+      process.env.REFRESH_TOKEN_SECRET,
+      {
+        expiresIn: maxAge,
+      }
+    );
+
+    if (existingUser.role == "admin") {
+      //================send the token============
+      res.cookie("token", token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "strict",
+        maxAge: 1800000,
+      });
+
+      res.cookie("refreshToken", refreshToken, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "strict",
+        maxAge: maxAge * 1000,
+      });
+
+      res
+        .status(200)
+        .json({
+          msg: "Login Successful",
+          token: token,
+          success: true,
+          _id: existingUser._id,
+        })
+        .send();
+    } else if (existingUser.role == "user") {
+      return res.status(400).json({ msg: "login failed" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500);
+  }
+});
+
 module.exports = router;

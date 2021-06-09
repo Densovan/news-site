@@ -3,9 +3,15 @@ const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLList, GraphQLInt } =
   graphql;
 
 //=================Modal Sections===============
-const User = require("../../models/user");
+const UserModel = require("../../models/user");
+const NewsModel = require("../../models/news");
+const Category = require("../../models/category");
+const Types = require("../../models/type");
 //================Type Sections==================
 const UserType = require("../types/userType");
+const CategoryType = require("../types/categoryType");
+const Type = require("../types/type");
+const NewsType = require("../types/newsType");
 
 const RootQuery = new GraphQLObjectType({
   name: "RootQueryType",
@@ -14,13 +20,40 @@ const RootQuery = new GraphQLObjectType({
     get_users: {
       type: new GraphQLList(UserType),
       resolve(parent, args) {
-        return User.find({}).sort({ createAt: -1 });
+        return UserModel.find({}).sort({ createAt: -1 });
       },
     },
     get_user: {
       type: UserType,
       resolve(parent, args, context) {
-        return User.findById(context.id);
+        return UserModel.findById(context.id);
+      },
+    },
+    //============get news===============
+    get_all_news: {
+      type: new GraphQLList(NewsType),
+      args: {
+        limit: {
+          name: "limit",
+          type: GraphQLInt,
+        },
+        offset: {
+          name: "offset",
+          type: GraphQLInt,
+        },
+      },
+      resolve: (parent, { limit = null, offset = null }) => {
+        return NewsModel.find({})
+          .limit(limit)
+          .skip(offset)
+          .sort({ createdAt: -1 });
+      },
+    },
+    // =========get catgory==============
+    get_categories: {
+      type: new GraphQLList(CategoryType),
+      resolve: (parent, args) => {
+        return Category.find({}).sort({ createdAt: -1 });
       },
     },
   },

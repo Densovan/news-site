@@ -10,8 +10,8 @@ const Types = require("../../models/type");
 //================Type Sections==================
 const CategoryType = require("../types/categoryType");
 const Type = require("../types/type");
-const UserType = require("../types/userType");
 const NewsType = require("../types/newsType");
+const UserType = require("../types/userType");
 
 const RootQuery = new GraphQLObjectType({
   name: "RootQueryType",
