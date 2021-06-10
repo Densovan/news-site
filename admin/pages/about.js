@@ -1,6 +1,7 @@
+import UseTable from "../src/components/useTable";
 const About = () => {
     return(
-        <h1>About</h1>
+        <UseTable />
     )
 }
 
