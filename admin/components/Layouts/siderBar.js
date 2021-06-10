@@ -31,65 +31,66 @@ const SiderBar = ({ trigger, collapsed }) => {
                 <div className="logo" />
                 <Menu
                     onClick={handleClick}
-                    defaultSelectedKeys={[`${state.selection}`]}
+                    defaultSelectedKeys={[1]}
                     defaultOpenKeys={['sub1']}
                     mode="inline"
                     theme="dark"
                 >
                     <Menu.Item key="1" icon={<DashboardOutlined />}>
                         <Link href="/" >
-                            <a class="noselect">Dashboard</a>
+                            <a className="noselect">Dashboard</a>
                         </Link>
                     </Menu.Item>
                     <Menu.Item key="2" icon={<UserAddOutlined />}>
                         <Link href="/user">
-                            <a class="noselect">User</a>
+                            <a className="noselect">User</a>
                         </Link>
                     </Menu.Item>
-                    <SubMenu icon={<UsergroupAddOutlined />} title="Member">
-                        <Menu.Item key="5">
+
+                    <SubMenu className="noselect" key="sub1" icon={<UsergroupAddOutlined />} title="Member">
+                        <Menu.Item key="3">
                             <Link href="/member">
-                                <a class="noselect">Member</a>
+                                <a className="noselect">Member</a>
                             </Link>
                         </Menu.Item>
-                        <Menu.Item key="6">
+                        <Menu.Item key="4">
                             <Link href="/member/create">
-                                <a class="noselect">Add Member</a>
+                                <a className="noselect">Add Member</a>
                             </Link>
                         </Menu.Item>
                     </SubMenu>
-                    <SubMenu icon={<AimOutlined />} title="Mission">
+                    <SubMenu className="noselect" key="sub2" icon={<AimOutlined />} title="Mission">
                         <Menu.Item key="5">
                             <Link href="/misson">
-                                <a class="noselect">Misson</a>
+                                <a className="noselect">Misson</a>
                             </Link>
                         </Menu.Item>
                         <Menu.Item key="6">
                             <Link href="/misson/create">
-                                <a class="noselect">Add Misson</a>
+                                <a className="noselect">Add Misson</a>
                             </Link>
                         </Menu.Item>
                     </SubMenu>
-                    <SubMenu key="sub1" icon={<FileSearchOutlined/>} title="About">
+                    <SubMenu className="noselect" key="sub3" icon={<FileSearchOutlined/>} title="About">
                         <Menu.Item key="7">
                             <Link href="/about">
-                                <a class="noselect">About</a>
+                                <a className="noselect">About</a>
                             </Link>
                         </Menu.Item>
                         <Menu.Item key="8">
                             <Link href="/about/create">
-                                <a class="noselect">Add About</a>
+                                <a className="noselect">Add About</a>
                             </Link>
                         </Menu.Item>
                     </SubMenu>
                     <Menu.Item key="9" icon={<FolderOpenOutlined />}>
                         <Link href="/category">
-                            <a class="noselect">Category</a>
+                            <a className="noselect">Category</a>
                         </Link>
                     </Menu.Item>
                     <Menu.Item key="10" icon={<ScheduleOutlined />}>
                         <Link href="/management">
-                            <a class="noselect">Management</a>
+                            <a className="noselect">Management</a>
                         </Link>
                     </Menu.Item>
                 </Menu>

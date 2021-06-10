@@ -34,11 +34,11 @@ const CreateAbout = () => {
         const imgWindow = window.open(src);
         imgWindow.document.write(image.outerHTML);
     };
-    
+
     return (
         <div className="content-create-about">
             <div className="title">
-                <h1>Create</h1>
+                <h1>Create About</h1>
             </div>
             <Form layout="vertical" size="large" ref={formRef} onFinish={onFinish}>
                 <Row gutter={[16, 16]}>

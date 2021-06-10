@@ -38,7 +38,7 @@ const CreateMisson = () => {
     return (
         <div className="content-create-about">
             <div className="title">
-                <h1>Create</h1>
+                <h1>Create Mission</h1>
             </div>
             <Form layout="vertical" size="large" ref={formRef} onFinish={onFinish}>
                 <Row gutter={[16, 16]}>

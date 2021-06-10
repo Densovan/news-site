@@ -47,7 +47,7 @@ const TopNavbar = ({ collapsed, toggle }) => {
                     <div>
                         <Dropdown overlay={menu} trigger={['click']} placement="bottomRight" arrow>
                             <a onClick={e => e.preventDefault()}>
-                                <Avatar className="avatar-image" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" size={40}/>
+                                <Avatar className="avatar-image" src="https://flxt.tmsimg.com/assets/p170620_p_v10_an.jpg" size={40}/>
                             </a>
                         </Dropdown>
                     </div>
