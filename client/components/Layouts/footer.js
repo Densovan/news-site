@@ -106,29 +106,7 @@ const Footer = () => {
                   Subscribe now and get exclusive news, interviews and stories.
                 </p>
               </div>
-
-              {/* <Form onFinish={onFinish}>
-                <Form.Item
-                  name="email"
-                  rules={[
-                    { required: true, message: "Please input your Email!" },
-                  ]}
-                >
-                  <Input
-                    className="input-form-footer"
-                    size="large"
-                    placeholder="Enter Your Email Address"
-                    type="email"
-                  />
-                </Form.Item>
-                <Form.Item>
-                  <Button htmlType="submit" className="sub-btn-footer">
-                    Subscribe
-                    <TiMediaPlay className="sub-icon-footer" />
-                  </Button>
-                </Form.Item>
-              </Form> */}
-              <form className="form-footer">
+              {/* <Form className="form-footer">
                 <input
                   className="input-footer"
                   type="email"
@@ -137,7 +115,7 @@ const Footer = () => {
                 <button className="btn-footer" type="submit">
                   <FaTelegramPlane size={20} className="icon-footer" />
                 </button>
-              </form>
+              </Form> */}
             </Col>
           </Row>
         </div>

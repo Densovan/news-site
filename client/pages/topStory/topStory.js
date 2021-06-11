@@ -50,7 +50,7 @@ const TopStory = () => {
                     </h1>
 
                     <Row>
-                      <Col sm={24} md={18}>
+                      <Col xs={12} md={18}>
                         <h1 className="status-news-topstory">
                           {res.types.name}
                           <span>
@@ -65,7 +65,7 @@ const TopStory = () => {
                             .format("DD-MM-YYYY")}
                         </p>
                       </Col>
-                      <Col sm={24} md={6}>
+                      <Col xs={12} md={6}>
                         <Link href={`/detail/${res.slug}`}>
                           <button className="readmore-last-news">
                             Read More <span>&rarr;</span>
@@ -85,7 +85,7 @@ const TopStory = () => {
 
   return (
     <React.Fragment>
-      <TopNavbar />
+      {/* <TopNavbar /> */}
       <MainNavbar />
       <div className="index-banner">
         <div className="content-banner">
@@ -141,7 +141,7 @@ const TopStory = () => {
                       </p>
 
                       <Row>
-                        <Col xs={24} md={18}>
+                        <Col xs={17} md={18}>
                           <h1 className="status-news-topstory">
                             {res.types.name}
                             <span>
@@ -158,7 +158,7 @@ const TopStory = () => {
                               .format("DD-MM-YYYY")}
                           </p>
                         </Col>
-                        <Col xs={24} md={6}>
+                        <Col xs={7} md={6}>
                           <Link href={`/detail/${res.slug}`}>
                             <button className="readmore">
                               Read More <span>&rarr;</span>
@@ -168,17 +168,17 @@ const TopStory = () => {
                       </Row>
                     </Col>
                     <Divider style={{ margin: "0px" }}></Divider>
-                    <h3 className="all-news-btn">
-                      <Link href="/news">
-                        <a>
-                          All News <span>&rarr;</span>
-                        </a>
-                      </Link>
-                    </h3>
                   </Row>
                 </div>
               );
             })}
+            <h3 className="all-news-btn">
+              <Link href="/news">
+                <a>
+                  All News <span>&rarr;</span>
+                </a>
+              </Link>
+            </h3>
           </Col>
           <Col sm={24} md={24} lg={7}>
             <Learn />

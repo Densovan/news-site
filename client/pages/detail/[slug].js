@@ -40,7 +40,7 @@ const SinglePage = () => {
   const result = <Output data={JSON.parse(des)} />;
   return (
     <React.Fragment>
-      <TopNavbar />
+      {/* <TopNavbar /> */}
       <MainNavbar />
       <div className="container">
         <br></br>
@@ -50,7 +50,7 @@ const SinglePage = () => {
               <div className="detail-main-des">
                 <h1>{title}</h1>
                 <Row gutter={[12, 12]}>
-                  <Col span={20}>
+                  <Col xs={24} md={20}>
                     <div>
                       <span>By : </span>
                       <span>
@@ -59,7 +59,7 @@ const SinglePage = () => {
                     </div>
                     {/* <span> </span> */}
                   </Col>
-                  <Col span={4}>
+                  <Col xs={24} md={4}>
                     <div className="badge-date">
                       {moment.unix(createdAt / 1000).format("DD-MM-YYYY")}
                     </div>

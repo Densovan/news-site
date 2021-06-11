@@ -29,7 +29,7 @@ const AllNews = () => {
 
   return (
     <React.Fragment>
-      <TopNavbar />
+      {/* <TopNavbar /> */}
       <MainNavbar />
       <div className="container">
         <center>
@@ -37,12 +37,12 @@ const AllNews = () => {
         </center>
         <Divider></Divider>
         <Row gutter={[32, 32]}>
-          <Col sm={24} md={6}>
+          <Col xs={24} md={6}>
             {/* <div className="news-cat"> */}
             <Categories />
             {/* </div> */}
           </Col>
-          <Col sm={24} md={18}>
+          <Col xs={24} md={18}>
             {data.get_allnews_type_by_cat.map((res) => {
               const result = <Output data={JSON.parse(res.des)} />;
               return (
@@ -84,9 +84,11 @@ const AllNews = () => {
                         </p>
                       </Col>
                       <Col xs={24} md={6}>
-                        <button className="readmore">
-                          Read More <span>&rarr;</span>
-                        </button>
+                        <Link href={`/detail/${res.slug}`}>
+                          <button className="readmore">
+                            Read More <span>&rarr;</span>
+                          </button>
+                        </Link>
                       </Col>
                     </Row>
                   </Col>

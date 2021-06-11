@@ -1,7 +1,13 @@
 const graphql = require("graphql");
 
-const { GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLID, GraphQLList } =
-  graphql;
+const {
+  GraphQLObjectType,
+  GraphQLString,
+  GraphQLInt,
+  GraphQLID,
+  GraphQLList,
+  GraphQLBoolean,
+} = graphql;
 const News = require("../../models/news");
 
 const userType = new GraphQLObjectType({
@@ -17,6 +23,7 @@ const userType = new GraphQLObjectType({
     createdAt: {
       type: GraphQLString,
     },
+    ban: { type: GraphQLBoolean },
     id: {
       type: GraphQLID,
     },

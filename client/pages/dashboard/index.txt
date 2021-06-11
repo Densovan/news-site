@@ -185,13 +185,13 @@ const Dashboard = ({ value }) => {
 
   return (
     <React.Fragment>
-      <TopNavbar />
+      {/* <TopNavbar /> */}
       <MainNavbar />
       {loggedIn === true && (
         <div className="container">
           <br></br>
           <Row gutter={[12, 12]}>
-            <Col sm={24} lg={8}>
+            <Col xs={24} lg={8}>
               <div className="profile-bg">
                 <div className="container-pf">
                   <div
@@ -302,7 +302,7 @@ const Dashboard = ({ value }) => {
                 </div>
               </div>
             </Col>
-            <Col sm={24} lg={16}>
+            <Col xs={24} lg={16}>
               <div className="profile-content">
                 {change.value === "all-story" && <Allstory />}
                 {change.value === "add-story" && <Addstory />}

@@ -28,17 +28,17 @@ const Index = () => {
   // console.log(data);
   return (
     <React.Fragment>
-      <TopNavbar />
+      {/* <TopNavbar /> */}
       <MainNavbar />
       <div className="container top-learns">
         <center>
           <h1 className="about-main-title">Learn</h1>
         </center>
         <Row gutter={[32, 32]}>
-          <Col sm={24} md={6}>
+          <Col xs={24} md={6}>
             <Categories />
           </Col>
-          <Col sm={24} md={18}>
+          <Col xs={24} md={18}>
             <Row gutter={[12, 12]}>
               {data.get_allnews_type_by_cat.map((res) => {
                 const result = <Output data={JSON.parse(res.des)} />;
