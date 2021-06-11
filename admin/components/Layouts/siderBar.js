@@ -19,19 +19,29 @@ const { SubMenu } = Menu;
 
 const SiderBar = ({ trigger, collapsed }) => {
     const [state, setState] = useState({
-        selection: 1
+        selectKey: "",
+        openKey: "",
     })
     const router = useRouter();
     const handleClick = e => {
-        console.log('click ', e);
+        e.keyPath.map((path) => {
+            console.log(router.pathname);
+            if (router.pathname === "/about") {
+                setState({
+                    selectKey: path,
+                    openKey: path
+                })
+            }
+        })
     };
+    console.log(state);
     return(
         <Fragment>
             <Sider trigger={trigger} collapsible collapsed={collapsed} >
                 <div className="logo" />
                 <Menu
                     onClick={handleClick}
-                    defaultSelectedKeys={[1]}
+                    defaultSelectedKeys={['1']}
                     defaultOpenKeys={['sub1']}
                     mode="inline"
                     theme="dark"
