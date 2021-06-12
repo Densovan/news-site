@@ -185,16 +185,7 @@ const TopStory = () => {
           </Col>
         </Row>
         <Feature />
-
         <br></br>
-        <br></br>
-        {/* <h3 className="all-news-btn">
-        <Link href="/news">
-          <a>
-            All News <span>&rarr;</span>
-          </a>
-        </Link>
-      </h3> */}
       </div>
       <Footer />
     </React.Fragment>

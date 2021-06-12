@@ -21,7 +21,7 @@ const Footer = () => {
         <div className="container ">
           <br></br>
           <br></br>
-          <Row>
+          <Row gutter={[12, 12]}>
             <Col sm={24} md={8}>
               {/* <center> */}
               {/* <h1 className="logo-footer"> */}
@@ -106,7 +106,7 @@ const Footer = () => {
                   Subscribe now and get exclusive news, interviews and stories.
                 </p>
               </div>
-              {/* <Form className="form-footer">
+              <Form className="form-footer">
                 <input
                   className="input-footer"
                   type="email"
@@ -115,7 +115,7 @@ const Footer = () => {
                 <button className="btn-footer" type="submit">
                   <FaTelegramPlane size={20} className="icon-footer" />
                 </button>
-              </Form> */}
+              </Form>
             </Col>
           </Row>
         </div>

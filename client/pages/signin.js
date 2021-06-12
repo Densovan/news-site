@@ -130,3 +130,31 @@ const Login = ({ history }) => {
 };
 
 export default Login;
+
+// import React from "react";
+
+// const Signin = () => {
+//   return (
+//     <React.Fragment>
+//       <div className="main">
+//         <div id="container">
+//           <form>
+//             <img src="https://bit.ly/2tlJLoz" />
+//             <br></br>
+//             <input type="text" value="@AmJustSam" />
+//             <br></br>
+//             <input type="password" />
+//             <br></br>
+//             <input type="submit" value="SIGN IN" />
+//             <br></br>
+//             <span>
+//               <a href="#">Forgot Password?</a>
+//             </span>
+//           </form>
+//         </div>
+//       </div>
+//     </React.Fragment>
+//   );
+// };
+
+// export default Signin;

@@ -70,6 +70,7 @@ const Learn = () => {
           })}
         </Row>
       </div>
+      <br></br>
       <h3 className="all-learn-btn">
         <Link href="/learns">
           <a>
