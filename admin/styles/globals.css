@@ -1,0 +1,97 @@
+@import "~antd/dist/antd.css";
+.noselect {
+  cursor: pointer;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.trigger {
+  font-size: 18px;
+  line-height: 64px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.trigger:hover {
+  color: #1890ff;
+}
+
+.logo {
+  height: 32px;
+  margin: 16px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.site-layout .site-layout-background {
+  background: #fff;
+}
+.footer{
+  text-align: center;
+  padding: 30px;
+  background-color: #5DBDCB;
+}
+.nav{
+  padding-left: 20px;
+  padding-right: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+.overview{
+  padding-top: 10px;
+  padding-left: 28px;
+}
+.overview  h1{
+  font-weight: 600;
+  font-size: 30px;
+}
+.control-card{
+  display: flex;
+  justify-content: space-around;
+}
+.control-card .dashboard-card{
+  width: 300px;
+  border-radius: 18px;
+  height: 180px;
+}
+.dashboard-card .card{
+  height: 180px;
+  width: 100%;
+  padding: 18px;
+  display: flex;
+}
+.dashboard-card .card img{
+  height: 100px;
+  width: 100px;
+  border-radius: 18px;
+}
+.dashboard-card .card .descr{
+  padding-left: 16px;
+}
+.dashboard-card .card .title-dashboard{
+  padding-left: 16px;
+  font-weight: 400;
+  font-size: 18px;
+}
+.dashboard-card .card .total{
+  padding-left: 16px;
+  font-weight: 800;
+  font-size: 30px;
+}
+/* about create */
+.content-create-about{
+  padding: 18px;
+}
+
+.content-create-about .title h1{
+  font-size: 24px;
+  color: #1890ff;
+}
+.content-table .title h1{
+  font-size: 24px;
+  padding-left: 4px;
+  color: #03256c;
+}
