@@ -1,6 +1,6 @@
 import React from "react";
 import { useRouter } from "next/router";
-import { Row, Col, Divider } from "antd";
+import { Row, Col, Divider, Breadcrumb } from "antd";
 import { CaretRightOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import TopNavbar from "../../components/Layouts/topNavbar";
@@ -32,10 +32,19 @@ const AllNews = () => {
       {/* <TopNavbar /> */}
       <MainNavbar />
       <div className="container">
-        <center>
+        {/* <center>
           <h1 className="top-title-allNews">All News</h1>
+        </center> */}
+        <center>
+          <h1 className="top-title-allNews">News</h1>
+          <Breadcrumb style={{ marginTop: "-24px" }}>
+            <Breadcrumb.Item>Home</Breadcrumb.Item>
+            <Breadcrumb.Item>News</Breadcrumb.Item>
+          </Breadcrumb>
         </center>
-        <Divider></Divider>
+        <br></br>
+        <br></br>
+        {/* <Divider></Divider> */}
         <Row gutter={[32, 32]}>
           <Col xs={24} md={6}>
             {/* <div className="news-cat"> */}

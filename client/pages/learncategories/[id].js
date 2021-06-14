@@ -4,7 +4,7 @@ import TopNavbar from "../../components/Layouts/topNavbar";
 import MainNavbar from "../../components/Layouts/mainNavbar";
 import Footer from "../../components/Layouts/footer";
 import { GET_NEWS_LEARN_BY_CAT } from "../../graphql/query";
-import { Col, Row } from "antd";
+import { Col, Row, Breadcrumb } from "antd";
 import { useQuery } from "@apollo/client";
 import Output from "editorjs-react-renderer";
 import moment from "moment";
@@ -31,9 +31,18 @@ const Index = () => {
       {/* <TopNavbar /> */}
       <MainNavbar />
       <div className="container top-learns">
-        <center>
+        {/* <center>
           <h1 className="about-main-title">Learn</h1>
+        </center> */}
+        <center>
+          <h1 className="top-title-allNews">Learns</h1>
+          <Breadcrumb style={{ marginTop: "-24px" }}>
+            <Breadcrumb.Item>Home</Breadcrumb.Item>
+            <Breadcrumb.Item>Learns</Breadcrumb.Item>
+          </Breadcrumb>
         </center>
+        <br></br>
+        <br></br>
         <Row gutter={[32, 32]}>
           <Col xs={24} md={6}>
             <Categories />

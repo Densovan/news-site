@@ -21,7 +21,7 @@ const Footer = () => {
         <div className="container ">
           <br></br>
           <br></br>
-          <Row gutter={[12, 12]}>
+          <Row gutter={[8, 8]}>
             <Col sm={24} md={8}>
               {/* <center> */}
               {/* <h1 className="logo-footer"> */}

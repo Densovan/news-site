@@ -1,4 +1,5 @@
 import React from "react";
+import { Breadcrumb } from "antd";
 import { useRouter } from "next/router";
 import TopNavbar from "../../components/Layouts/topNavbar";
 import MainNavbar from "../../components/Layouts/mainNavbar";
@@ -31,9 +32,18 @@ const Index = () => {
       {/* <TopNavbar /> */}
       <MainNavbar />
       <div className="container top-learns">
-        <center>
+        {/* <center>
           <h1 className="about-main-title">Feature</h1>
+        </center> */}
+        <center>
+          <h1 className="top-title-allNews">Features</h1>
+          <Breadcrumb style={{ marginTop: "-24px" }}>
+            <Breadcrumb.Item>Home</Breadcrumb.Item>
+            <Breadcrumb.Item>Features</Breadcrumb.Item>
+          </Breadcrumb>
         </center>
+        <br></br>
+        <br></br>
         <Row gutter={[32, 32]}>
           <Col xs={24} md={6}>
             <Categories />

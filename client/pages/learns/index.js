@@ -1,5 +1,5 @@
 import React from "react";
-import { Col, Row } from "antd";
+import { Col, Row, Breadcrumb } from "antd";
 import { CaretRightOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import {
@@ -38,9 +38,18 @@ const Learn = () => {
       {/* <TopNavbar /> */}
       <MainNavbar />
       <div className="container top-learns">
+        {/* <center> */}
+        {/* <h1 className="about-main-title">Learn</h1> */}
         <center>
-          <h1 className="about-main-title">Learn</h1>
+          <h1 className="top-title-allNews">Learns</h1>
+          <Breadcrumb style={{ marginTop: "-24px" }}>
+            <Breadcrumb.Item>Home</Breadcrumb.Item>
+            <Breadcrumb.Item>Learns</Breadcrumb.Item>
+          </Breadcrumb>
         </center>
+        <br></br>
+        <br></br>
+        {/* </center> */}
         <Row gutter={[32, 32]}>
           <Col xs={24} md={6}>
             <Categories />
