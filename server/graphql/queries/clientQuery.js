@@ -7,11 +7,13 @@ const UserModel = require("../../models/user");
 const NewsModel = require("../../models/news");
 const Category = require("../../models/category");
 const Types = require("../../models/type");
+const FollowModel = require("../../models/follow");
 //================Type Sections==================
 const CategoryType = require("../types/categoryType");
 const Type = require("../types/type");
 const NewsType = require("../types/newsType");
 const UserType = require("../types/userType");
+const FollowType = require("../types/followType");
 
 const RootQuery = new GraphQLObjectType({
   name: "RootQueryType",
@@ -171,6 +173,18 @@ const RootQuery = new GraphQLObjectType({
       type: new GraphQLList(Type),
       resolve: (parent, args) => {
         return Types.find({}).sort({ createdAt: -1 });
+      },
+    },
+    get_follower: {
+      type: new GraphQLList(FollowType),
+      resolve: (parent, args, context) => {
+        return FollowModel.find({ followTo: context.id });
+      },
+    },
+    get_following: {
+      type: new GraphQLList(FollowType),
+      resolve: (parent, args, context) => {
+        return FollowModel.find({ followBy: context.id, follow: true });
       },
     },
   },
