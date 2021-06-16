@@ -18,14 +18,15 @@
 
 .trigger:hover {
   color: #1890ff;
+} 
+.logo{
+  text-align: center;
 }
-
-.logo {
-  height: 32px;
-  margin: 16px;
-  background: rgba(255, 255, 255, 0.3);
+.logo img{
+  width: 60px;
+  height: 60px;
+  padding: 10px 10px;
 }
-
 .site-layout .site-layout-background {
   background: #fff;
 }
@@ -53,9 +54,9 @@
   justify-content: space-around;
 }
 .control-card .dashboard-card{
-  width: 300px;
+  width: 48%;
   border-radius: 18px;
-  height: 180px;
+  height: 300px;
 }
 .dashboard-card .card{
   height: 180px;

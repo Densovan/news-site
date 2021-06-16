@@ -1,4 +1,4 @@
-import { Table} from 'antd';
+import { Table } from 'antd';
 
 const UseTable = ({columns, data}) => {
     return (
