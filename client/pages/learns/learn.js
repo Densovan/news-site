@@ -21,30 +21,30 @@ const Learn = () => {
           {data.get_allnews_by_type.slice(0, 4).map((res) => {
             const result = <Output data={JSON.parse(res.des)} />;
             return (
-              <Col sm={8} lg={24}>
-                <Link href={`/detail/${res.slug}`}>
-                  <div className="learn-card">
-                    <div
-                      className="learn-style"
-                      style={{
-                        backgroundImage: `url("http://localhost:3500/public/uploads//${res.thumnail}")`,
-                      }}
-                    ></div>
-                    <div className="content-learn">
-                      <h3>
-                        {res.title.length <= 20
-                          ? res.title
-                          : res.title.substring(0, 20) + " ..."}
-                      </h3>
-                      <p>
-                        {`${result.props.data.blocks[0].data.text.substring(
-                          0,
-                          50
-                        )}...`}
-                      </p>
-                      <Row>
-                        <Col xs={24} md={16}>
-                          <h1 className="status-news-topstory">
+              <Col sm={8} md={8} lg={24}>
+                <div className="content-top-stories">
+                  <Link href={`/detail/${res.slug}`}>
+                    <div className="learn-card">
+                      <div
+                        className="learn-style"
+                        style={{
+                          backgroundImage: `url("http://localhost:3500/public/uploads//${res.thumnail}")`,
+                        }}
+                      ></div>
+                      <div className="content-learn">
+                        <h3>
+                          {res.title.length <= 20
+                            ? res.title
+                            : res.title.substring(0, 20) + " ..."}
+                        </h3>
+                        <p>
+                          {`${result.props.data.blocks[0].data.text.substring(
+                            0,
+                            50
+                          )}...`}
+                        </p>
+
+                        {/* <h1 className="status-news-topstory">
                             {res.types.name}
                             <span>
                               <CaretRightOutlined
@@ -58,13 +58,36 @@ const Learn = () => {
                             {moment
                               .unix(res.createdAt / 1000)
                               .format("DD-MM-YYYY")}
-                          </p>
-                        </Col>
-                        <Col xs={24} md={8}></Col>
-                      </Row>
+                          </p> */}
+                        <div className="date-avatar">
+                          <div className="sub-date-avatar">
+                            <img
+                              className="avatar-mobile"
+                              src={res.user.image}
+                            />
+                          </div>
+                          <div>
+                            <h1 className="status-news-topstory">
+                              {res.types.name}
+                              <span>
+                                <CaretRightOutlined
+                                  style={{ fontSize: "10px" }}
+                                />
+                              </span>{" "}
+                              {res.categories.name}
+                            </h1>
+                            <p className="date-news">
+                              {res.user.fullname} :{" "}
+                              {moment
+                                .unix(res.createdAt / 1000)
+                                .format("DD-MM-YYYY")}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </Link>
+                  </Link>
+                </div>
               </Col>
             );
           })}

@@ -53,7 +53,7 @@ const Index = () => {
               {data.get_allnews_type_by_cat.map((res) => {
                 const result = <Output data={JSON.parse(res.des)} />;
                 return (
-                  <Col sm={24} md={12} lg={8}>
+                  <Col className="content-top-stories" sm={24} md={12} lg={8}>
                     <Link href={`/detail/${res.slug}`}>
                       <div className="learn-card">
                         <div
@@ -64,9 +64,9 @@ const Index = () => {
                         ></div>
                         <div className="content-learn">
                           <h3>
-                            {res.title.length <= 50
+                            {res.title.length <= 20
                               ? res.title
-                              : res.title.substring(0, 50) + " ..."}
+                              : res.title.substring(0, 20) + " ..."}
                           </h3>
                           <p>
                             {`${result.props.data.blocks[0].data.text.substring(
@@ -74,8 +74,14 @@ const Index = () => {
                               50
                             )}...`}
                           </p>
-                          <Row>
-                            <Col xs={24} md={16}>
+                          <div className="date-avatar">
+                            <div className="sub-date-avatar">
+                              <img
+                                className="avatar-mobile"
+                                src={res.user.image}
+                              />
+                            </div>
+                            <div>
                               <h1 className="status-news-topstory">
                                 {res.types.name}
                                 <span>
@@ -85,15 +91,14 @@ const Index = () => {
                                 </span>{" "}
                                 {res.categories.name}
                               </h1>
-                              <p className="date-learn ">
+                              <p className="date-news">
                                 {res.user.fullname} :{" "}
                                 {moment
                                   .unix(res.createdAt / 1000)
                                   .format("DD-MM-YYYY")}
                               </p>
-                            </Col>
-                            <Col xs={24} md={8}></Col>
-                          </Row>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </Link>

@@ -1,6 +1,12 @@
 const graphql = require("graphql");
-const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLList, GraphQLInt } =
-  graphql;
+const {
+  GraphQLObjectType,
+  GraphQLString,
+  GraphQLID,
+  GraphQLList,
+  GraphQLInt,
+  GraphQLNonNull,
+} = graphql;
 
 //=================Modal Sections===============
 const UserModel = require("../../models/user");
@@ -29,6 +35,15 @@ const RootQuery = new GraphQLObjectType({
       type: UserType,
       resolve(parent, args, context) {
         return UserModel.findById(context.id);
+      },
+    },
+    get_user_by_id: {
+      type: UserType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLID) },
+      },
+      resolve(parent, args, context) {
+        return UserModel.findById({ _id: args.id });
       },
     },
 
