@@ -71,5 +71,19 @@ const UPDATE_USER = gql`
     }
   }
 `;
+const FOLLOW = gql`
+  mutation ($followTo: ID!) {
+    follow(followTo: $followTo) {
+      message
+    }
+  }
+`;
+const UNFOLLOW = gql`
+  mutation ($id: ID!) {
+    unfollow(id: $id) {
+      message
+    }
+  }
+`;
 
-export { ADD_NEWS, DELETE_NEWS, EDIT_NEWS, UPDATE_USER };
+export { ADD_NEWS, DELETE_NEWS, EDIT_NEWS, UPDATE_USER, FOLLOW, UNFOLLOW };

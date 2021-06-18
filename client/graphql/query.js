@@ -9,6 +9,52 @@ const GET_USERS = gql`
       role
       id
       createdAt
+      news {
+        title
+      }
+      follower {
+        followBy
+        userFollower {
+          fullname
+        }
+      }
+      following {
+        followTo
+        userFollowing {
+          fullname
+        }
+      }
+    }
+  }
+`;
+const GET_USER_BY_ID = gql`
+  query ($id: ID!) {
+    get_user_by_id(id: $id) {
+      image
+      fullname
+      email
+      role
+      id
+      createdAt
+      news {
+        title
+      }
+      follower {
+        followBy
+        follow
+        userFollower {
+          fullname
+          image
+        }
+      }
+      following {
+        follow
+        followTo
+        userFollowing {
+          fullname
+          image
+        }
+      }
     }
   }
 `;
@@ -21,6 +67,25 @@ const GET_USER = gql`
       role
       id
       createdAt
+      news {
+        title
+      }
+      follower {
+        followBy
+        follow
+        userFollower {
+          fullname
+          image
+        }
+      }
+      following {
+        followTo
+        follow
+        userFollowing {
+          fullname
+          image
+        }
+      }
     }
   }
 `;
@@ -105,6 +170,7 @@ const GET_ALL_NEWS = gql`
       slug
       user {
         fullname
+        id
       }
       types {
         name
@@ -133,6 +199,8 @@ const GET_ALL_NEWS_BY_TYPE_NEWS = gql`
       des
       user {
         fullname
+        image
+        id
       }
       types {
         name
@@ -161,6 +229,7 @@ const GET_ALL_NEWS_BY_TYPE_LEARN = gql`
       des
       user {
         fullname
+        image
       }
       types {
         name
@@ -189,6 +258,7 @@ const GET_ALL_NEWS_BY_TYPE_FEATURE = gql`
       des
       user {
         fullname
+        image
       }
       types {
         name
@@ -237,6 +307,7 @@ const GET_NEWS_BY_CATS = gql`
       des
       user {
         fullname
+        image
       }
       types {
         name
@@ -266,6 +337,7 @@ const GET_NEWS_LEARN_BY_CAT = gql`
       des
       user {
         fullname
+        image
       }
       types {
         name
@@ -295,6 +367,7 @@ const GET_NEWS_NEWS_BY_CAT = gql`
       des
       user {
         fullname
+        image
       }
       types {
         name
@@ -324,6 +397,7 @@ const GET_NEWS_FEATURE_BY_CAT = gql`
       des
       user {
         fullname
+        image
       }
       types {
         name
@@ -334,8 +408,37 @@ const GET_NEWS_FEATURE_BY_CAT = gql`
     }
   }
 `;
+const GET_FOLLOWER = gql`
+  query {
+    get_follower {
+      followTo
+      followBy
+      follow
+      userFollowing {
+        fullname
+        id
+      }
+    }
+  }
+`;
+const GET_FOLLOWING = gql`
+  query {
+    get_following {
+      followTo
+      followBy
+      follow
+      userFollowing {
+        fullname
+        id
+      }
+    }
+  }
+`;
 
 export {
+  GET_FOLLOWING,
+  GET_FOLLOWER,
+  GET_USER_BY_ID,
   GET_NEWS_FEATURE_BY_CAT,
   GET_NEWS_NEWS_BY_CAT,
   GET_NEWS_LEARN_BY_CAT,

@@ -51,19 +51,31 @@ const TopStory = () => {
 
                     <Row>
                       <Col xs={12} md={18}>
-                        <h1 className="status-news-topstory">
-                          {res.types.name}
-                          <span>
-                            <CaretRightOutlined style={{ fontSize: "10px" }} />
-                          </span>{" "}
-                          {res.categories.name}
-                        </h1>
-                        <p className="data-last-news">
-                          {res.user.fullname} :{" "}
-                          {moment
-                            .unix(res.createdAt / 1000)
-                            .format("DD-MM-YYYY")}
-                        </p>
+                        <div className="date-avatar">
+                          <div className="sub-date-avatar">
+                            <img
+                              className="avatar-mobile"
+                              src={res.user.image}
+                            />
+                          </div>
+                          <div>
+                            <h1 className="status-news-topstory">
+                              {res.types.name}
+                              <span>
+                                <CaretRightOutlined
+                                  style={{ fontSize: "10px" }}
+                                />
+                              </span>{" "}
+                              {res.categories.name}
+                            </h1>
+                            <p className="data-last-news">
+                              {res.user.fullname} :{" "}
+                              {moment
+                                .unix(res.createdAt / 1000)
+                                .format("DD-MM-YYYY")}
+                            </p>
+                          </div>
+                        </div>
                       </Col>
                       <Col xs={12} md={6}>
                         <Link href={`/detail/${res.slug}`}>
@@ -117,7 +129,10 @@ const TopStory = () => {
             {dataLastNews.get_allnews_by_type.slice(1, 5).map((res) => {
               const result = <Output data={JSON.parse(res.des)} />;
               return (
-                <div style={{ marginTop: "12px" }}>
+                <div
+                  className="content-top-stories"
+                  style={{ marginTop: "12px" }}
+                >
                   <Row gutter={[12, 12]}>
                     <Col xs={24} sm={24} md={8} lg={9}>
                       <div
@@ -142,7 +157,7 @@ const TopStory = () => {
 
                       <Row>
                         <Col xs={17} md={18}>
-                          <h1 className="status-news-topstory">
+                          {/* <h1 className="status-news-topstory">
                             {res.types.name}
                             <span>
                               <CaretRightOutlined
@@ -156,7 +171,34 @@ const TopStory = () => {
                             {moment
                               .unix(res.createdAt / 1000)
                               .format("DD-MM-YYYY")}
-                          </p>
+                          </p> */}
+                          <div className="date-avatar">
+                            <div className="sub-date-avatar">
+                              <Link href={`/profile_detial/${res.user.id}`}>
+                                <img
+                                  className="avatar-mobile"
+                                  src={res.user.image}
+                                />
+                              </Link>
+                            </div>
+                            <div>
+                              <h1 className="status-news-topstory">
+                                {res.types.name}
+                                <span>
+                                  <CaretRightOutlined
+                                    style={{ fontSize: "10px" }}
+                                  />
+                                </span>{" "}
+                                {res.categories.name}
+                              </h1>
+                              <p className="date-news">
+                                {res.user.fullname} :{" "}
+                                {moment
+                                  .unix(res.createdAt / 1000)
+                                  .format("DD-MM-YYYY")}
+                              </p>
+                            </div>
+                          </div>
                         </Col>
                         <Col xs={7} md={6}>
                           <Link href={`/detail/${res.slug}`}>

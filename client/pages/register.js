@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Form, Input, Button, Checkbox, message } from "antd";
+import { Form, Input, Button, Checkbox, message, Radio } from "antd";
 import AuthContext from "../contexts/authContext";
 import axios from "axios";
 import Link from "next/link";
@@ -115,6 +115,18 @@ const Register = ({ history }) => {
                   type="password"
                   placeholder="Confirm Password"
                 />
+              </Form.Item>
+              <Form.Item
+                label={
+                  <label style={{ color: "white", fontWeight: "900" }}>
+                    Sex
+                  </label>
+                }
+              >
+                <Radio.Group name="gender" defaultValue="male">
+                  <Radio value="male">Male</Radio>
+                  <Radio value="female">Female</Radio>
+                </Radio.Group>
               </Form.Item>
               <Form.Item>
                 <center>

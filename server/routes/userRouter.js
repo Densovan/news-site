@@ -13,7 +13,7 @@ const maxAge = 30 * 24 * 60 * 60;
 //===========register============
 router.post("/", async (req, res) => {
   try {
-    const { email, fullname, password, passwordVerify } = req.body;
+    const { email, fullname, gender, password, passwordVerify } = req.body;
 
     //===========validation===========
 
@@ -49,6 +49,7 @@ router.post("/", async (req, res) => {
     const newUser = new User({
       fullname,
       email,
+      gender,
       passwordHash,
     });
     const savedUser = await newUser.save();

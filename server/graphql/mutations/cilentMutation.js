@@ -1,14 +1,23 @@
 const graphql = require("graphql");
-const { GraphQLObjectType, GraphQLString, GraphQLNonNull, GraphQLID } = graphql;
+const {
+  GraphQLObjectType,
+  GraphQLString,
+  GraphQLNonNull,
+  GraphQLInt,
+  GraphQLID,
+  GraphQLBoolean,
+} = graphql;
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 //================type===============
 const NewsType = require("../types/newsType");
+const userType = require("../types/userType");
+const followType = require("../types/followType");
 //===============model===============
 const NewsModel = require("../../models/news");
 const UserModel = require("../../models/user");
-const userType = require("../types/userType");
+const FollowModel = require("../../models/follow");
 
 const RootMutation = new GraphQLObjectType({
   name: "RootMutationType",
@@ -131,6 +140,67 @@ const RootMutation = new GraphQLObjectType({
               message: "The user info update with successfully.",
             };
           }
+        } catch (error) {
+          console.log(error);
+          throw error;
+        }
+      },
+    },
+    //==========Follow Section==============
+    follow: {
+      type: followType,
+      args: {
+        followTo: { type: GraphQLNonNull(GraphQLID) },
+        follow: { type: GraphQLBoolean },
+      },
+      resolve: async (parent, args, context) => {
+        const ExistFollowTo = await FollowModel.findOne({
+          followTo: args.followTo,
+          followBy: context.id,
+        });
+        try {
+          if (ExistFollowTo) {
+            await FollowModel.findOneAndUpdate({
+              followTo: args.followTo,
+              follow: true,
+              followBy: context.id,
+            });
+            return {
+              message: "Followed",
+            };
+          } else {
+            const follow = new FollowModel({
+              ...args,
+              follow: true,
+              createBy: context.id,
+              followBy: context.id,
+            });
+            await follow.save();
+            return {
+              message: "Followed",
+            };
+          }
+        } catch (error) {
+          console.log(error);
+          throw error;
+        }
+      },
+    },
+    unfollow: {
+      type: followType,
+      args: {
+        id: { type: GraphQLNonNull(GraphQLID) },
+        follow: { type: GraphQLBoolean },
+        // followBy: { type: GraphQLNonNull(GraphQLID) },
+      },
+      resolve: async (parent, args, context) => {
+        try {
+          await FollowModel.findOneAndUpdate({
+            followTo: args.id,
+            follow: false,
+            followBy: context.id,
+          });
+          return { message: "Unfollowed" };
         } catch (error) {
           console.log(error);
           throw error;

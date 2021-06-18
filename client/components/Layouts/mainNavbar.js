@@ -6,6 +6,7 @@ import {
   HiOutlineLogout,
   HiOutlineBookOpen,
   HiOutlinePencil,
+  HiOutlineUser,
 } from "react-icons/hi";
 const { SubMenu } = Menu;
 const { Header } = Layout;
@@ -164,6 +165,16 @@ const MainNavbar = () => {
                             </Col>
                           </Row>
                         </Link> */}
+                        <Link href="/dashboard/profile">
+                          <Row className="accountNavbarhover">
+                            <Col style={{ paddingTop: "4px" }} span={4}>
+                              <HiOutlineUser style={{ fontSize: "21px" }} />
+                            </Col>
+                            <Col style={{ paddingTop: "4px" }} span={20}>
+                              Profile
+                            </Col>
+                          </Row>
+                        </Link>
 
                         <Link href="/dashboard/addstory">
                           <Row className="accountNavbarhover">
@@ -393,6 +404,16 @@ const MainNavbar = () => {
                             </Col>
                           </Row>
                         </Link> */}
+                      <Link href="/dashboard/profile">
+                        <Row className="accountNavbarhover">
+                          <Col style={{ paddingTop: "4px" }} span={4}>
+                            <HiOutlineUser style={{ fontSize: "21px" }} />
+                          </Col>
+                          <Col style={{ paddingTop: "4px" }} span={20}>
+                            Profile
+                          </Col>
+                        </Row>
+                      </Link>
 
                       <Link href="/dashboard/addstory">
                         <Row className="accountNavbarhover">

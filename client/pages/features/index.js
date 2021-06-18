@@ -50,7 +50,7 @@ const Learn = () => {
               {data.get_allnews_by_type.map((res) => {
                 const result = <Output data={JSON.parse(res.des)} />;
                 return (
-                  <Col sm={24} md={12} lg={8}>
+                  <Col className="content-top-stories" sm={24} md={12} lg={8}>
                     <Link href={`/detail/${res.slug}`}>
                       <div className="learn-card">
                         <div
@@ -71,8 +71,14 @@ const Learn = () => {
                               50
                             )}...`}
                           </p>
-                          <Row>
-                            <Col xs={24} md={16}>
+                          <div className="date-avatar">
+                            <div className="sub-date-avatar">
+                              <img
+                                className="avatar-mobile"
+                                src={res.user.image}
+                              />
+                            </div>
+                            <div>
                               <h1 className="status-news-topstory">
                                 {res.types.name}
                                 <span>
@@ -82,19 +88,14 @@ const Learn = () => {
                                 </span>{" "}
                                 {res.categories.name}
                               </h1>
-                              <p className="date-learn ">
+                              <p className="date-news">
                                 {res.user.fullname} :{" "}
                                 {moment
                                   .unix(res.createdAt / 1000)
                                   .format("DD-MM-YYYY")}
                               </p>
-                            </Col>
-                            <Col xs={24} md={8}>
-                              {/* <button className="readmore-learn">
-                              Read More <span>&rarr;</span>
-                            </button> */}
-                            </Col>
-                          </Row>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </Link>
