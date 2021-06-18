@@ -4,10 +4,12 @@ const FollowSchema = new mongoose.Schema(
   {
     followBy: {
       type: String, // foreign key ID from User
+      default: "",
       required: true,
     },
     followTo: {
       type: String, // foreign key ID from User
+      default: "",
       required: true,
     },
     follow: {

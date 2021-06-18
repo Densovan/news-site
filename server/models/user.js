@@ -28,9 +28,9 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "https://salabackend.koompi.com/public/uploads/avatar.png",
     },
-    follow: {
-      type: String,
-      default: 0,
+    followed: {
+      type: Boolean,
+      default: false,
     },
     // follower: {
     //   type: String,

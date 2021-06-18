@@ -199,7 +199,7 @@ const RootQuery = new GraphQLObjectType({
     get_following: {
       type: new GraphQLList(FollowType),
       resolve: (parent, args, context) => {
-        return FollowModel.find({ followBy: context.id, follow: true });
+        return FollowModel.find({ followBy: context.id });
       },
     },
   },

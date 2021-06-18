@@ -78,5 +78,12 @@ const FOLLOW = gql`
     }
   }
 `;
+const UNFOLLOW = gql`
+  mutation ($id: ID!) {
+    unfollow(id: $id) {
+      message
+    }
+  }
+`;
 
-export { ADD_NEWS, DELETE_NEWS, EDIT_NEWS, UPDATE_USER, FOLLOW };
+export { ADD_NEWS, DELETE_NEWS, EDIT_NEWS, UPDATE_USER, FOLLOW, UNFOLLOW };
