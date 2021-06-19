@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
-import { Drawer, Affix, Menu, Layout, Popover, Row, Col, Divider } from "antd";
+import { useRouter } from 'next/router';
+import { Drawer, Affix, Menu, Layout, Popover, Row, Col, Divider, Dropdown, Avatar } from "antd";
 import {
   HiOutlineCog,
   HiLogout,
@@ -50,7 +51,7 @@ const MainNavbar = () => {
               className="left-bar"
               // theme="dark"
               mode="horizontal"
-              // defaultSelectedKeys={["2"]}
+            // defaultSelectedKeys={["2"]}
             >
               <Menu.Item className="navbar-text" key="0">
                 <ActiveLink activeClassName="is-active" href="/">
@@ -101,7 +102,7 @@ const MainNavbar = () => {
               className="left-bar"
               // theme="dark"
               mode="horizontal"
-              // defaultSelectedKeys={["2"]}
+            // defaultSelectedKeys={["2"]}
             >
               <Menu.Item className="navbar-text" key="0">
                 <ActiveLink activeClassName="is-active" href="/">
@@ -131,98 +132,56 @@ const MainNavbar = () => {
               <Menu.Item key="5">
                 <div style={{ cursor: "pointer" }}>
                   <Popover
-                    placement="topRight"
+                    placement="bottom"
                     content={
                       <div
-                        className="content-popover"
-                        style={{ width: "270px" }}
+                        className="dropdown-avatar"
                       >
-                        <Row gutter={[24, 24]}>
-                          <Col span={4}>
-                            <img
-                              className="avatarAcc"
-                              src={data.get_user.image}
-                            />
-                          </Col>
-                          <Col span={20}>
-                            <div>
-                              <div className="popover-text">
-                                {data.get_user.fullname}
+
+                        <li className="content-avatar">
+                          <Link href="/dashboard/profile">
+                            <div className="control-avatar">
+                              <Avatar className="avatar-1" size="large" src={data.get_user.image} />
+                              <div>
+                                <div>
+                                  <a>
+                                    <span className="name">{data.get_user.fullname}</span>
+                                  </a>
+                                </div>
+                                <div>
+                                  <a href="#">
+                                    <span className="email">@soklayvann</span>
+                                  </a>
+                                </div>
                               </div>
-                              <span>{data.get_user.email}</span>
                             </div>
-                          </Col>
-                        </Row>
-
-                        <br></br>
-                        {/* <Link href="/dashboard">
-                          <Row className="accountNavbarhover">
-                            <Col style={{ paddingTop: "4px" }} span={4}>
-                              <HiOutlineCog style={{ fontSize: "21px" }} />
-                            </Col>
-                            <Col style={{ paddingTop: "4px" }} span={20}>
-                              Dashboard
-                            </Col>
-                          </Row>
-                        </Link> */}
-                        <Link href="/dashboard/profile">
-                          <Row className="accountNavbarhover">
-                            <Col style={{ paddingTop: "4px" }} span={4}>
-                              <HiOutlineUser style={{ fontSize: "21px" }} />
-                            </Col>
-                            <Col style={{ paddingTop: "4px" }} span={20}>
-                              Profile
-                            </Col>
-                          </Row>
-                        </Link>
-
-                        <Link href="/dashboard/addstory">
-                          <Row className="accountNavbarhover">
-                            <Col style={{ paddingTop: "4px" }} span={4}>
-                              <HiOutlinePencil style={{ fontSize: "21px" }} />
-                            </Col>
-                            <Col style={{ paddingTop: "4px" }} span={20}>
-                              Write a Story
-                            </Col>
-                          </Row>
-                        </Link>
-                        <Link href="/dashboard/allstories">
-                          <Row className="accountNavbarhover">
-                            <Col style={{ paddingTop: "4px" }} span={4}>
-                              <HiOutlineBookOpen style={{ fontSize: "21px" }} />
-                            </Col>
-                            <Col style={{ paddingTop: "4px" }} span={20}>
-                              Stories
-                            </Col>
-                          </Row>
-                        </Link>
-                        <Link href="/dashboard/editProfile">
-                          <Row className="accountNavbarhover">
-                            <Col style={{ paddingTop: "4px" }} span={4}>
-                              <HiOutlineCog style={{ fontSize: "21px" }} />
-                            </Col>
-                            <Col style={{ paddingTop: "4px" }} span={20}>
-                              Setting
-                            </Col>
-                          </Row>
-                        </Link>
-
-                        <Row className="accountNavbarhover">
-                          <Col style={{ paddingTop: "4px" }} span={4}>
-                            <HiOutlineLogout style={{ fontSize: "21px" }} />
-                          </Col>
-                          <Col
-                            className="logout"
-                            style={{ paddingTop: "4px" }}
-                            span={20}
-                          >
-                            <Logout />
-                          </Col>
-                        </Row>
+                          </Link>
+                        </li>
+                        <Divider />
+                        <li className="content-text">
+                          <Link href="/dashboard/addstory">
+                            <span>Write a story</span>
+                          </Link>
+                        </li>
+                        <li className="content-text">
+                          <Link href="/dashboard/allstories">
+                            <span>Stories</span>
+                          </Link>
+                        </li>
+                        <li className="content-text" style={{ paddingBottom: 12 }}>
+                          <Link href="/dashboard/editProfile">
+                            <span>Settings</span>
+                          </Link>
+                        </li>
+                        <Divider />
+                        <li className="content-text" style={{ paddingBottom: 12 }}>
+                          <Logout />
+                        </li>
                       </div>
                     }
                     trigger="click"
                   >
+                    {/* <Avatar className="avatar-1" size="default" src={data.get_user.image} /> */}
                     <img className="avatar-mobile" src={data.get_user.image} />
                   </Popover>
                 </div>
@@ -282,8 +241,8 @@ const MainNavbar = () => {
             closable={false}
             onClose={onClose}
             visible={state.visible}
-            // width={200}
-            // key={placement}
+          // width={200}
+          // key={placement}
           >
             <Menu
               style={{
@@ -470,8 +429,8 @@ const MainNavbar = () => {
             closable={false}
             onClose={onClose}
             visible={state.visible}
-            // width={200}
-            // key={placement}
+          // width={200}
+          // key={placement}
           >
             <Menu
               style={{
