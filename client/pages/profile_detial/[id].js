@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
-import { GET_USER_BY_ID, GET_USER } from "../../graphql/query";
+import { GET_USER_BY_ID, GET_USER, GET_FOLLOW } from "../../graphql/query";
 import { FOLLOW, UNFOLLOW } from "../../graphql/mutation";
 import { CubeSpinner } from "react-spinners-kit";
 import { useQuery, useMutation } from "@apollo/client";
@@ -22,15 +22,16 @@ const Profile_detail = () => {
     data: data1,
     refetch: refetch1,
   } = useQuery(GET_USER);
+  const { loading: followLoading, data: dataFollow } = useQuery(GET_FOLLOW);
   const [follow] = useMutation(FOLLOW);
   const [unfollow] = useMutation(UNFOLLOW);
-  if (loading || loading1)
+  if (loading || loading1 || followLoading)
     return (
       <center style={{ marginTop: "100px" }}>
         <CubeSpinner size={30} backColor="#686769" frontColor="#fce24a" />
       </center>
     );
-  // console.log("data1", data1.get_user.fullname);
+  console.log("followdata", dataFollow);
   const unfollow_user = () => {
     setUnfollow(
       unfollow({
@@ -56,39 +57,7 @@ const Profile_detail = () => {
       <div className="container">
         <div className="container-layout-profile">
           <div className="layout-profile">
-            {/* <div className="place-follow-btn">
-              {data.get_user_by_id.following.map((res) => {
-                return (
-                  <div>
-                    {res.followBy === data1.get_user.id && (
-                      <div>
-                        {res.follow === false && (
-                          <button onClick={follow_user} className="follow-btn">
-                            Follow
-                          </button>
-                        )}
-                        {res.follow === true && (
-                          <button
-                            onClick={unfollow_user}
-                            className="follow-btn"
-                          >
-                            Following
-                          </button>
-                        )}
-                      </div>
-                    )}
-                    {data.get_user_by_id.id !== data1.get_user.id && (
-                      <button onClick={follow_user} className="follow-btn">
-                        Follow
-                      </button>
-                    )}
-                  </div>
-                );
-              })}
-            
-              {data.get_user_by_id.id === data1.get_user.id &&
-                window.location.replace("/dashboard/profile")}
-            </div> */}
+            <div className="place-follow-btn"></div>
             <center>
               <img className="profile-img1" src={data.get_user_by_id.image} />
               <h2>{data.get_user_by_id.fullname}</h2>

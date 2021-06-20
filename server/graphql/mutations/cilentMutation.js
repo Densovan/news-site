@@ -147,60 +147,137 @@ const RootMutation = new GraphQLObjectType({
       },
     },
     //==========Follow Section==============
-    follow: {
-      type: followType,
+    // follow: {
+    //   type: followType,
+    //   args: {
+    //     followTo: { type: GraphQLNonNull(GraphQLID) },
+    //     follow: { type: GraphQLBoolean },
+    //   },
+    //   resolve: async (parent, args, context) => {
+    //     const ExistFollowTo = await FollowModel.findOne({
+    //       followTo: args.followTo,
+    //       followBy: context.id,
+    //     });
+    //     try {
+    //       if (ExistFollowTo) {
+    //         await FollowModel.findOneAndUpdate({
+    //           followTo: args.followTo,
+    //           follow: true,
+    //           followBy: context.id,
+    //         });
+    //         return {
+    //           message: "Followed",
+    //         };
+    //       } else {
+    //         const follow = new FollowModel({
+    //           ...args,
+    //           follow: true,
+    //           createBy: context.id,
+    //           followBy: context.id,
+    //         });
+    //         await follow.save();
+    //         return {
+    //           message: "Followed",
+    //         };
+    //       }
+    //     } catch (error) {
+    //       console.log(error);
+    //       throw error;
+    //     }
+    //   },
+    // },
+    // unfollow: {
+    //   type: followType,
+    //   args: {
+    //     id: { type: GraphQLNonNull(GraphQLID) },
+    //     follow: { type: GraphQLBoolean },
+    //     // followBy: { type: GraphQLNonNull(GraphQLID) },
+    //   },
+    //   resolve: async (parent, args, context) => {
+    //     try {
+    //       await FollowModel.findOneAndUpdate({
+    //         followTo: args.id,
+    //         follow: false,
+    //         followBy: context.id,
+    //       });
+    //       return { message: "Unfollowed" };
+    //     } catch (error) {
+    //       console.log(error);
+    //       throw error;
+    //     }
+    //   },
+    // },
+
+    // follow_user: {
+    //   type: userType,
+    //   args: {
+    //     id: { type: GraphQLID },
+    //     following: { type: GraphQLID },
+    //     follower: { type: GraphQLID },
+    //   },
+    //   resolve: async (parent, args, context) => {
+    //     try {
+    //       await UserModel.findByIdAndUpdate(
+    //         {
+    //           _id: args.id,
+    //         },
+    //         { $push: { follower: context.id } }
+    //       );
+    //       await UserModel.findByIdAndUpdate(
+    //         { _id: context.id },
+    //         { $push: { following: args.id } }
+    //       );
+    //       return { message: "successful" };
+    //     } catch (error) {
+    // console.log(error);
+    // throw error;
+    //     }
+    //   },
+    // },
+    follow_user: {
+      type: userType,
       args: {
-        followTo: { type: GraphQLNonNull(GraphQLID) },
-        follow: { type: GraphQLBoolean },
+        id: { type: GraphQLID },
+        followerId: { type: GraphQLID },
+        fullname: { type: GraphQLString },
+        email: { type: GraphQLString },
+        image: { type: GraphQLString },
       },
       resolve: async (parent, args, context) => {
-        const ExistFollowTo = await FollowModel.findOne({
-          followTo: args.followTo,
-          followBy: context.id,
-        });
         try {
-          if (ExistFollowTo) {
-            await FollowModel.findOneAndUpdate({
-              followTo: args.followTo,
-              follow: true,
-              followBy: context.id,
-            });
-            return {
-              message: "Followed",
-            };
-          } else {
-            const follow = new FollowModel({
-              ...args,
-              follow: true,
-              createBy: context.id,
-              followBy: context.id,
-            });
-            await follow.save();
-            return {
-              message: "Followed",
-            };
-          }
-        } catch (error) {
-          console.log(error);
-          throw error;
-        }
-      },
-    },
-    unfollow: {
-      type: followType,
-      args: {
-        id: { type: GraphQLNonNull(GraphQLID) },
-        follow: { type: GraphQLBoolean },
-        // followBy: { type: GraphQLNonNull(GraphQLID) },
-      },
-      resolve: async (parent, args, context) => {
-        try {
-          await FollowModel.findOneAndUpdate({
-            followTo: args.id,
-            follow: false,
-            followBy: context.id,
-          });
-          return { message: "Unfollowed" };
+          await UserModel.findByIdAndUpdate(
+            {
+              _id: args.id,
+            },
+            {
+              follower: [{ ...args, followerId: context.id }],
+            }
+            // {
+            //   $set: {
+            //     "follower.$": {
+            //       ...args,
+            //       followerId: context.id,
+            //     },
+            //   },
+            // }
+          );
+          await UserModel.findByIdAndUpdate(
+            {
+              _id: context.id,
+            },
+            {
+              following: [{ ...args, followingId: context.id }],
+            }
+            // {
+            //   $set: {
+            //     "following.$": {
+            //       ...args,
+            //       followingId: args.id,
+            //     },
+            //   },
+            // }
+          );
+          return { message: "successful" };
         } catch (error) {
           console.log(error);
           throw error;

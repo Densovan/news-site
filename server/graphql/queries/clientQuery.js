@@ -190,18 +190,24 @@ const RootQuery = new GraphQLObjectType({
         return Types.find({}).sort({ createdAt: -1 });
       },
     },
-    get_follower: {
-      type: new GraphQLList(FollowType),
-      resolve: (parent, args, context) => {
-        return FollowModel.find({ followTo: context.id });
-      },
-    },
-    get_following: {
-      type: new GraphQLList(FollowType),
-      resolve: (parent, args, context) => {
-        return FollowModel.find({ followBy: context.id });
-      },
-    },
+    // get_follower: {
+    //   type: new GraphQLList(FollowType),
+    //   resolve: (parent, args, context) => {
+    //     return FollowModel.find({ followTo: context.id });
+    //   },
+    // },
+    // get_following: {
+    //   type: new GraphQLList(FollowType),
+    //   resolve: (parent, args, context) => {
+    //     return FollowModel.find({ followBy: context.id });
+    //   },
+    // },
+    // get_follow: {
+    //   type: new GraphQLList(FollowType),
+    //   resolve: (parent, args, context) => {
+    //     return FollowModel.find({});
+    //   },
+    // },
   },
 });
 

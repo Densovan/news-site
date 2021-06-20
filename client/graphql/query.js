@@ -39,22 +39,22 @@ const GET_USER_BY_ID = gql`
       news {
         title
       }
-      follower {
-        followBy
-        follow
-        userFollower {
-          fullname
-          image
-        }
-      }
-      following {
-        follow
-        followTo
-        userFollowing {
-          fullname
-          image
-        }
-      }
+      # follower {
+      #   followBy
+      #   follow
+      #   userFollower {
+      #     fullname
+      #     image
+      #   }
+      # }
+      # following {
+      #   follow
+      #   followTo
+      #   userFollowing {
+      #     fullname
+      #     image
+      #   }
+      # }
     }
   }
 `;
@@ -70,22 +70,22 @@ const GET_USER = gql`
       news {
         title
       }
-      follower {
-        followBy
-        follow
-        userFollower {
-          fullname
-          image
-        }
-      }
-      following {
-        followTo
-        follow
-        userFollowing {
-          fullname
-          image
-        }
-      }
+      # follower {
+      #   followBy
+      #   follow
+      #   userFollower {
+      #     fullname
+      #     image
+      #   }
+      # }
+      # following {
+      #   followTo
+      #   follow
+      #   userFollowing {
+      #     fullname
+      #     image
+      #   }
+      # }
     }
   }
 `;
@@ -435,7 +435,26 @@ const GET_FOLLOWING = gql`
   }
 `;
 
+const GET_FOLLOW = gql`
+  query {
+    get_follow {
+      followBy
+      follow
+      followTo
+      userFollower {
+        fullname
+        id
+      }
+      userFollowing {
+        fullname
+        id
+      }
+    }
+  }
+`;
+
 export {
+  GET_FOLLOW,
   GET_FOLLOWING,
   GET_FOLLOWER,
   GET_USER_BY_ID,
