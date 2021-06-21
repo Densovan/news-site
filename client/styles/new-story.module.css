@@ -13,12 +13,12 @@
 .thumnail{
     width: 100%;
     font-size: 38px;
-    height: 60vh;
+    height: 40vh;
     object-fit: cover;
 }
 .upload_thumnail{
     width: 100%;
-    height: 60vh;
+    height: 40vh;
 }
 .text_story input{
     width: 100%;
@@ -31,4 +31,7 @@
 .text_story input::placeholder{
     color: #b3b3b1;
     font-family: medium-content-title-font,Georgia,Cambria,"Times New Roman",Times,serif;
+}
+.contain_select{
+    margin-bottom: 20px;
 }

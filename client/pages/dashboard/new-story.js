@@ -1,8 +1,10 @@
-import styles from '../../styles/new-story.module.css'
-import React, { Fragment, useEffect, useRef, useState } from 'react'
-import { Col, Row, Form, Input } from 'antd'
+import styles from '../../styles/new-story.module.css';
+import React, { Fragment, useEffect, useRef, useState } from 'react';
+import { Col, Row, Form, Input, Select } from 'antd';
 
+const { Option } = Select;
 const NewStory = () => {
+    
     const [value, setValue] = useState({
         title: "",
         thumnail: ""
@@ -26,6 +28,14 @@ const NewStory = () => {
             setPreview(null)
         }
     }, [image])
+
+    const childrenCategory = [];
+    const childrenType = [];
+
+    for (let i = 10; i < 36; i++) {
+      childrenCategory.push(<Option key={i.toString(36) + i}>{i.toString(36) + i}</Option>);
+      childrenType.push(<Option key={i.toString(36) + i}>{i.toString(36) + i}</Option>);
+    }
 
     return(
         <Fragment>
@@ -67,11 +77,25 @@ const NewStory = () => {
                                 <div className={styles.text_story}>
                                     <input type="text" placeholder="Tell your story ..." />
                                 </div>
-                                <button type="submit">Submit</button>
                             </form>
                         </Col>
-                        <Col span={8} style={{ backgroundColor: 'green' }}>
-                            
+                        <Col span={8}>
+                            <div className={styles.contain_select}>
+                                <div className={styles.title}>
+                                    <label>Category</label>
+                                </div>
+                                <Select size="large" defaultValue="Please select category" onChange={console.log("hello")} style={{ width: '100%' }}>
+                                  {childrenCategory}
+                                </Select>
+                            </div>
+                            <div className={styles.contain_select}>
+                                <div className={styles.title}>
+                                    <label>Type</label>
+                                </div>
+                                <Select size="large" defaultValue="Please select type" onChange={console.log("hello")} style={{ width: '100%' }}>
+                                  {childrenType}
+                                </Select>
+                            </div>
                         </Col>
                     </Row>
                 </div>
