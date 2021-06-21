@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
-import { GET_USER_BY_ID, GET_USER, GET_FOLLOW } from "../../graphql/query";
+import { GET_USER_BY_ID, GET_USER } from "../../graphql/query";
 import { FOLLOW, UNFOLLOW } from "../../graphql/mutation";
 import { CubeSpinner } from "react-spinners-kit";
 import { useQuery, useMutation } from "@apollo/client";
@@ -22,34 +22,37 @@ const Profile_detail = () => {
     data: data1,
     refetch: refetch1,
   } = useQuery(GET_USER);
-  const { loading: followLoading, data: dataFollow } = useQuery(GET_FOLLOW);
+  // const [showFollow, setShowfoller] = useState(id);
   const [follow] = useMutation(FOLLOW);
   const [unfollow] = useMutation(UNFOLLOW);
-  if (loading || loading1 || followLoading)
+  if (loading || loading1)
     return (
       <center style={{ marginTop: "100px" }}>
         <CubeSpinner size={30} backColor="#686769" frontColor="#fce24a" />
       </center>
     );
-  console.log("followdata", dataFollow);
-  const unfollow_user = () => {
-    setUnfollow(
-      unfollow({
-        variables: { id: data.get_user_by_id.id },
-      })
-    );
-    refetch();
-    refetch1();
-  };
-  const follow_user = () => {
-    setFollow(
-      follow({
-        variables: { followTo: data.get_user_by_id.id },
-      })
-    );
-    refetch();
-    refetch1();
-  };
+
+  // const unfollow_user = () => {
+  //   setUnfollow(
+  //     unfollow({
+  //       variables: { id: data.get_user_by_id.id },
+  //     })
+  //   );
+  //   refetch();
+  //   refetch1();
+  // };
+  // const follow_user = () => {
+  //   setFollow(
+  //     follow({
+  //       variables: { followTo: data.get_user_by_id.id },
+  //     })
+  //   );
+  //   refetch();
+  //   refetch1();
+  // };
+  // const following = () =>
+  //   data.get_user_by_id.following.map((res) => res.followingId);
+  // console.log(following);
   return (
     <React.Fragment>
       <MainNavbar />
@@ -57,7 +60,25 @@ const Profile_detail = () => {
       <div className="container">
         <div className="container-layout-profile">
           <div className="layout-profile">
-            <div className="place-follow-btn"></div>
+            <div className="place-follow-btn">
+              {data.get_user_by_id.follower.length === 0 ? (
+                <div>follow</div>
+              ) : (
+                <div>
+                  {data.get_user_by_id.follower.map((res) => {
+                    return (
+                      <div>
+                        {res.followerId === data1.get_user.id ? (
+                          <div>following</div>
+                        ) : (
+                          <div>follow</div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
             <center>
               <img className="profile-img1" src={data.get_user_by_id.image} />
               <h2>{data.get_user_by_id.fullname}</h2>

@@ -42,12 +42,12 @@ const userSchema = new mongoose.Schema(
           type: String,
           // required: true,
         },
-        followeingId: {
+        followingId: {
           type: String,
         },
         image: {
           type: String,
-          default: "",
+          // default: "",
         },
       },
     ],
@@ -57,16 +57,16 @@ const userSchema = new mongoose.Schema(
           type: String,
           // required: true,
         },
-        followerId: {
-          type: String,
-        },
         fullname: {
           type: String,
           // required: true,
         },
+        followerId: {
+          type: String,
+        },
         image: {
           type: String,
-          default: "",
+          // default: "",
         },
       },
     ],

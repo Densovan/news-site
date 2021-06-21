@@ -25,6 +25,8 @@ const userType = new GraphQLObjectType({
     gender: { type: GraphQLString },
     follow: { type: GraphQLString },
     role: { type: GraphQLString },
+    followerId: { type: GraphQLID },
+    followingId: { type: GraphQLID },
     image: { type: GraphQLString },
     createdAt: {
       type: GraphQLString,
@@ -39,8 +41,15 @@ const userType = new GraphQLObjectType({
         return News.find({ createBy: parent.id });
       },
     },
-    following: { type: GraphQLList(GraphQLString) },
-    follower: { type: GraphQLList(GraphQLString) },
+    following: {
+      type: GraphQLList(usersType),
+      // resolve: (parent, args) => {
+      //   return UserModel.find({
+      //     following: [{ follow: true }],
+      //   });
+      // },
+    },
+    follower: { type: GraphQLList(usersType) },
     // following: {
     //   type: GraphQLList(usersType),
     //   resolve: (parent, args) => {
