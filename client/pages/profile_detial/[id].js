@@ -25,12 +25,20 @@ const Profile_detail = () => {
   // const [showFollow, setShowfoller] = useState(id);
   const [follow_user] = useMutation(FOLLOW);
   const [unfollow_user] = useMutation(UNFOLLOW);
+  // const [followed, setFollowed] = useState(
+  //   data1.get_user.following.includes(data1?.followingId)
+  // );
+
+  // console.log(data1);
   if (loading || loading1)
     return (
       <center style={{ marginTop: "100px" }}>
         <CubeSpinner size={30} backColor="#686769" frontColor="#fce24a" />
       </center>
     );
+  const showfollow = data1 ? data1.get_user.following.includes(id) : true;
+
+  console.log("followed", showfollow);
 
   // const unfollow = () => {
   //   setUnfollow(
@@ -110,7 +118,6 @@ const Profile_detail = () => {
                 {moment.unix(data.get_user_by_id.createdAt / 1000).format("LL")}
               </h3>
             </center>
-
             <br></br>
           </div>
         </div>

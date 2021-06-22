@@ -12,17 +12,17 @@ const GET_USERS = gql`
       news {
         title
       }
-      follower {
-        followBy
-        userFollower {
-          fullname
-        }
-      }
       following {
-        followTo
-        userFollowing {
-          fullname
-        }
+        id
+        email
+        fullname
+        followingId
+      }
+      follower {
+        id
+        email
+        fullname
+        followerId
       }
     }
   }
@@ -51,22 +51,18 @@ const GET_USER_BY_ID = gql`
         fullname
         followerId
       }
-      # follower {
-      #   followBy
-      #   follow
-      #   userFollower {
-      #     fullname
-      #     image
-      #   }
-      # }
-      # following {
-      #   follow
-      #   followTo
-      #   userFollowing {
-      #     fullname
-      #     image
-      #   }
-      # }
+      following {
+        id
+        email
+        fullname
+        followingId
+      }
+      follower {
+        id
+        email
+        fullname
+        followerId
+      }
     }
   }
 `;
@@ -82,15 +78,17 @@ const GET_USER = gql`
       news {
         title
       }
-      follower {
-        id
-        image
-        fullname
-      }
       following {
         id
-        image
+        email
         fullname
+        followingId
+      }
+      follower {
+        id
+        email
+        fullname
+        followerId
       }
     }
   }
