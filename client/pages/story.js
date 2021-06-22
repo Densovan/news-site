@@ -1,9 +1,31 @@
-import { Row, Col, Divider, Badge, Tag, Button } from 'antd';
+import { Row, Col, Divider, Badge, Tag, Button, Typography, Popover } from 'antd';
+import { CaretRightOutlined } from '@ant-design/icons';
+import Avatar from 'antd/lib/avatar/avatar';
 import { Fragment } from 'react';
 import MainNavbar from "../components/Layouts/mainNavbar";
 import styles from '../styles/story.module.css';
 
 const Story = () => {
+    const user_profile = (
+        <div className={styles.popover_pf}>
+            <div className={styles.pf}>
+                <div className={styles.contain_pf}>
+                    <Avatar size={{ lg: 40, xl: 40, xxl:40 }} src="https://pm1.narvii.com/5705/2f884bde825f5706de2c8762f160ae7d3d9139f8_hq.jpg" />
+                    <a href="#">Ifeanyi Ibekie</a>
+                </div>
+                <div className={styles.pf_desc}>
+                    <p>Fullstack JS developer who loves to build apps. Showing you how at reedbarger.com</p>
+                </div>
+                <Divider />
+                <div className={styles.ct_flw}>
+                    <div className={styles.t_flw}>
+                        1000 Follows
+                    </div>
+                    <Button className={styles.btn_flw} style={{ borderRadius: 20 }}>Follow</Button>
+                </div>
+            </div>
+        </div>
+    )
     return(
         <Fragment>
             <MainNavbar/>
@@ -34,7 +56,42 @@ const Story = () => {
                         <Divider className={styles.line}/>
                         <div>
                             <div className={styles.card_contain}>
-
+                                <div className={styles.contain_summary}>
+                                    <div className={styles.profile}>
+                                        <a href="#">
+                                            <Avatar size="small" src="http://wegamers.176.com/GameIM/SNS/Image/20207498811572195346040920"/>
+                                            <Popover placement="right" content={user_profile}>
+                                                <div className={styles.name}>
+                                                    <span>Ifeanyi Ibekie</span>
+                                                </div>
+                                            </Popover>
+                                        </a>
+                                    </div>
+                                    <div className={styles.title}>
+                                        <h3>Let’s create a website with Next.js, Antd and deploy with Now.sh</h3>
+                                    </div>
+                                    <div className={styles.desc}>
+                                        <p>
+                                            After generating your fancy text symbols, you can copy and paste the "fonts" to most websites and text processors. You could use it to generate a fancy Agario name (yep, weird text in agario is probably generated using a fancy text converter similar to this), to generate a creative-looking instagram, facebook, tumblr, or twitter post, for showing up n00bs on Steam, or just for sending messages full of beautiful text to your buddies.
+                                        </p>
+                                    </div>
+                                    <div className={styles.time}>
+                                        <div style={{ display: 'flex' }}>
+                                            <div className={styles.date}><p>Jun 21, 2021</p></div>
+                                            <div className={styles.type}>
+                                                <div>News</div>
+                                                <div style={{ paddingRight: 2, paddingLeft: 2 }}><CaretRightOutlined/></div>
+                                                <div>Bussiness</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className={styles.thumain}>
+                                    <img src="https://panhara.sgp1.digitaloceanspaces.com/1_htbUdWgFQ3a94PMEvBr_hQ.png"  />
+                                    <div className={styles.btn}>
+                                        <Button color="#fff" className={styles.btnc}>Bitcoin</Button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </Col>
@@ -45,18 +102,26 @@ const Story = () => {
                         <div className={styles.contain_topic}>
                             <h3>RECOMMENDED TOPICS</h3>
                             <div className={styles.contain_category}>
-                                <Tag className={styles.chip}>
-                                    Desgin
-                                </Tag>
-                                <Tag className={styles.chip}>
-                                    Technology
-                                </Tag>
-                                <Tag className={styles.chip}>
-                                    Data Science
-                                </Tag>
-                                <Tag className={styles.chip}>
-                                    Machine Learning
-                                </Tag>
+                                <a href="#">
+                                    <Tag className={styles.chip}>
+                                        Desgin
+                                    </Tag>
+                                </a>
+                                <a href="#">
+                                    <Tag className={styles.chip}>
+                                        Technology
+                                    </Tag>
+                                </a>
+                                <a href="#">
+                                    <Tag className={styles.chip}>
+                                        Data Science
+                                    </Tag>
+                                </a>
+                                <a href="#">
+                                    <Tag className={styles.chip}>
+                                        Machine Learning
+                                    </Tag>
+                                </a>
                             </div>  
                         </div>
                         <Divider className={styles.line_border }/>

@@ -57,6 +57,11 @@
     padding: 8px 16px;
     border-radius: 24px;
     margin-bottom: 10px;
+    background-color: #f16179;
+    border-color: #f16179;
+    color: #fff;
+    font-weight: 500;
+    font-size: 13px;
 }
 .contain_follow{
     padding: 40px 0;
@@ -70,7 +75,7 @@
 .card_user_follow{
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
 }
 .card_user_follow .contain_user{
     display: flex;
@@ -115,4 +120,140 @@
     color: rgba(41, 41, 41, 1);
     border-color: rgba(41, 41, 41, 1);
     padding: 4px 12px 6px;
+}
+.card_contain{
+    display: flex;
+    justify-content: space-between;
+    align-self: center;
+    align-items: center;
+}
+.card_contain .thumain{
+    height: 124px;
+    width: 180px;
+    position: relative;
+}
+.card_contain .thumain img{
+    height: 124px;
+    width: 180px;
+}
+.contain_summary .profile{
+    width: 100%;
+}
+.contain_summary .profile a{
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+.contain_summary .profile .name{
+    padding-left: 8px;
+}
+.contain_summary .profile .name span{
+    font-weight: 600;
+    color: #000;
+}
+.contain_summary .title h3{
+    color: rgba(41, 41, 41, 1);
+    font-weight: 800;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.contain_summary .desc p{
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    color: rgba(117, 117, 117, 1);
+    font-size: 13px;
+    font-weight: 400;
+}
+.contain_summary .time{
+    display: flex;
+    justify-content: space-between;
+    padding-right: 24px;
+}
+.contain_summary .time .type{
+    display: flex;
+}
+.contain_summary .time .date{
+    padding-right: 18px;
+}
+.contain_summary .time .date p{
+    font-size: 10px;
+    font-weight: 500;
+    color: #000;
+}
+
+.contain_summary .time .type div{
+    font-size: 10px;
+    font-weight: 500;
+    color: #000;
+}
+.thumain .btn{
+    position: absolute;
+    bottom: 10px;
+    width: 100%;    
+    padding-right: 10px;
+    text-align: right;
+}
+
+.thumain .btn .btnc{
+    height: 20px;
+    line-height: 10px;
+    font-size: 10px;
+}
+
+.popover_pf{
+    width: 240px;
+}
+.popover_pf .pf{
+    padding: 10px;
+}
+.popover_pf .pf .contain_pf{
+    display: flex;
+    align-items: center;
+}
+.popover_pf .pf .contain_pf a{
+    font-weight: 700;
+    font-size: 16px;
+    padding-left: 8px;
+    color: #000;
+}
+.popover_pf .pf_desc{
+    margin-top: 12px;
+}
+.popover_pf .pf_desc p{
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    color: rgba(117, 117, 117, 1);
+    font-size: 12px;
+    font-weight: 400;
+}
+.ct_flw{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 12px;
+    align-items: center;
+}
+.ct_flw .t_flw{ 
+    font-size: 12px;
+    font-weight: 500;
+}
+.ct_flw .btn_flw{ 
+    font-size: 12px;
+    background-color: #38a7c8;
+    border-color: #38a7c8;
+    color: #262e2c;
+    font-weight: 600;
+}
+.ct_flw .btn_flw:hover{
+    border-color: #38a7c8;
+    color: #fff;
 }
