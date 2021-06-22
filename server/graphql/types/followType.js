@@ -14,28 +14,14 @@ const User = require("../../models/user");
 const Follow = new GraphQLObjectType({
   name: "follow",
   fields: () => ({
-    followTo: { type: GraphQLID },
-    followBy: { type: GraphQLID },
+    following: { type: GraphQLID },
+    followers: { type: GraphQLID },
     follow: { type: GraphQLBoolean },
-    // followingCount: { type: GraphQLInt },
-    // followerCount: { type: GraphQLInt },
     id: { type: GraphQLID },
-    createBy: { type: GraphQLString },
+    user: { type: GraphQLID },
     message: { type: GraphQLString },
     createdAt: {
       type: GraphQLString,
-    },
-    userFollower: {
-      type: userType,
-      resolve: (parents, args) => {
-        return User.findById(parents.followBy);
-      },
-    },
-    userFollowing: {
-      type: userType,
-      resolve: (parents, args) => {
-        return User.findById(parents.followTo);
-      },
     },
   }),
 });

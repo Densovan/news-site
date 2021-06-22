@@ -2,16 +2,25 @@ const mongoose = require("mongoose");
 
 const FollowSchema = new mongoose.Schema(
   {
-    followBy: {
+    user: {
       type: String, // foreign key ID from User
       default: "",
       required: true,
     },
-    followTo: {
-      type: String, // foreign key ID from User
-      default: "",
-      required: true,
-    },
+    following: [
+      {
+        type: String, // foreign key ID from User
+        default: "",
+        required: true,
+      },
+    ],
+    followers: [
+      {
+        type: String, // foreign key ID from User
+        default: "",
+        required: true,
+      },
+    ],
     follow: {
       type: Boolean,
       default: false,

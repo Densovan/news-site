@@ -72,15 +72,27 @@ const UPDATE_USER = gql`
   }
 `;
 const FOLLOW = gql`
-  mutation ($followTo: ID!) {
-    follow(followTo: $followTo) {
+  mutation (
+    $id: ID
+    $followerId: ID
+    $fullname: String
+    $email: String
+    $image: String
+  ) {
+    follow_user(
+      id: $id
+      followerId: $followerId
+      fullname: $fullname
+      email: $email
+      image: $image
+    ) {
       message
     }
   }
 `;
 const UNFOLLOW = gql`
   mutation ($id: ID!) {
-    unfollow(id: $id) {
+    unfollow_user(id: $id) {
       message
     }
   }

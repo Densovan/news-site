@@ -234,6 +234,7 @@ const RootMutation = new GraphQLObjectType({
     //     }
     //   },
     // },
+
     follow_user: {
       type: userType,
       args: {
@@ -251,14 +252,12 @@ const RootMutation = new GraphQLObjectType({
             },
             {
               $push: {
-                follower: [
-                  {
-                    followerId: context.id,
-                    fullname: context.fullname,
-                    image: context.image,
-                    email: context.email,
-                  },
-                ],
+                follower: {
+                  followerId: context.id,
+                  fullname: context.fullname,
+                  image: context.image,
+                  email: context.email,
+                },
               },
             }
           );
@@ -268,7 +267,7 @@ const RootMutation = new GraphQLObjectType({
             },
             {
               $push: {
-                following: [{ ...args, followingId: args.id }],
+                following: { ...args, followingId: args.id },
               },
             }
           );
@@ -283,39 +282,30 @@ const RootMutation = new GraphQLObjectType({
       type: userType,
       args: {
         id: { type: GraphQLID },
-        id1: { type: GraphQLID },
       },
       resolve: async (parent, args, context) => {
-        await UserModel.findOneAndRemove(
-          { _id: args.id }
-          // { follower: { followerId: context.id } }
-          //
-          //   follower: [
-          //     {
-          //       followerId: context.id,
-          //       fullname: context.fullname,
-          //       image: context.image,
-          //       email: context.email,
-          //     },
-          //   ],
-          // }
-        );
-        await UserModel.findOneAndRemove(
-          { _id: args.id1 }
-          // { following: { followingId: args.id } }
-          // {
-          //   following: [
-          //     {
-          //       followerId: args.id,
-          //       fullname: args.fullname,
-          //       image: args.image,
-          //       email: args.email,
-          //     },
-          //   ],
-          // }
-        );
-
-        return { message: "successful" };
+        try {
+          await UserModel.findOneAndUpdate(
+            { _id: args.id },
+            {
+              $pull: {
+                follower: { followerId: context.id },
+              },
+            }
+          );
+          await UserModel.findOneAndUpdate(
+            { _id: context.id },
+            {
+              $pull: {
+                following: { followingId: args.id },
+              },
+            }
+          );
+          return { message: "successful" };
+        } catch (error) {
+          console.log(error);
+          throw error;
+        }
       },
     },
   },

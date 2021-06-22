@@ -43,13 +43,13 @@ const userType = new GraphQLObjectType({
     },
     following: {
       type: GraphQLList(usersType),
-      // resolve: (parent, args) => {
-      //   return UserModel.find({
-      //     following: [{ follow: true }],
-      //   });
-      // },
     },
     follower: { type: GraphQLList(usersType) },
+
+    // followingss: {
+
+    // }
+
     // following: {
     //   type: GraphQLList(usersType),
     //   resolve: (parent, args) => {
