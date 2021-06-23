@@ -9,9 +9,6 @@ const {
   GraphQLBoolean,
 } = graphql;
 const News = require("../../models/news");
-const UserModel = require("../../models/user");
-const Follow = require("../../models/follow");
-// const Following = require("../../models/following");
 
 const userType = new GraphQLObjectType({
   name: "user",
@@ -69,6 +66,5 @@ module.exports = userType;
 
 const newsType = require("./newsType");
 const usersType = require("./userType");
-const followType = require("./followType");
 
 // const followingType = require("./followingType");

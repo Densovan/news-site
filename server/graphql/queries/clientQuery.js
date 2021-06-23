@@ -13,13 +13,12 @@ const UserModel = require("../../models/user");
 const NewsModel = require("../../models/news");
 const Category = require("../../models/category");
 const Types = require("../../models/type");
-const FollowModel = require("../../models/follow");
+
 //================Type Sections==================
 const CategoryType = require("../types/categoryType");
 const Type = require("../types/type");
 const NewsType = require("../types/newsType");
 const UserType = require("../types/userType");
-const FollowType = require("../types/followType");
 
 const RootQuery = new GraphQLObjectType({
   name: "RootQueryType",

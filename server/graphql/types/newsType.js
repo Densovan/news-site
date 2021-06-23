@@ -4,6 +4,8 @@ const graphql = require("graphql");
 const Category = require("../../models/category");
 const Type = require("../../models/type");
 const User = require("../../models/user");
+const Question = require("../../models/comment/question");
+const Answer = require("../../models/comment/answer");
 
 const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLList } = graphql;
 
@@ -45,6 +47,18 @@ const NewsType = new GraphQLObjectType({
         return Type.findById(parents.type);
       },
     },
+    comment: {
+      type: GraphQLList(questionType),
+      resolve: (parent, args) => {
+        return Question.find({ postId: parent.id });
+      },
+    },
+    reply: {
+      type: GraphQLList(answerType),
+      resolve: (parent, args) => {
+        return Answer.find({ postId: parent.id });
+      },
+    },
   }),
 });
 
@@ -54,3 +68,5 @@ module.exports = NewsType;
 const categoryType = require("./categoryType");
 const type = require("./type");
 const userType = require("./userType");
+const questionType = require("./comment/questionType");
+const answerType = require("./comment/answerType");

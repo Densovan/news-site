@@ -13,11 +13,14 @@ const jwt = require("jsonwebtoken");
 //================type===============
 const NewsType = require("../types/newsType");
 const userType = require("../types/userType");
-const followType = require("../types/followType");
+const questionType = require("../types/comment/questionType");
+const answerType = require("../types/comment/answerType");
+
 //===============model===============
 const NewsModel = require("../../models/news");
 const UserModel = require("../../models/user");
-const FollowModel = require("../../models/follow");
+const QuestionModel = require("../../models/comment/question");
+const AnswerModel = require("../../models/comment/answer");
 
 const RootMutation = new GraphQLObjectType({
   name: "RootMutationType",
@@ -300,6 +303,93 @@ const RootMutation = new GraphQLObjectType({
                 following: { followingId: args.id },
               },
             }
+          );
+          return { message: "successful" };
+        } catch (error) {
+          console.log(error);
+          throw error;
+        }
+      },
+    },
+    //===========comment section=====================
+    comment: {
+      type: questionType,
+      args: {
+        userId: { type: GraphQLID },
+        postId: { type: GraphQLID },
+        question: { type: GraphQLString },
+      },
+      resolve: async (parent, args, context) => {
+        try {
+          const question = new QuestionModel({
+            ...args,
+            userId: context.id,
+          });
+          await question.save();
+          return { message: "successful" };
+        } catch (error) {
+          console.log(error);
+          throw error;
+        }
+      },
+    },
+
+    edit_comment: {
+      type: questionType,
+      args: {
+        id: { type: GraphQLID },
+        userId: { type: GraphQLID },
+        postId: { type: GraphQLID },
+        question: { type: GraphQLString },
+      },
+      resolve: async (parent, args, context) => {
+        try {
+          await QuestionModel.findByIdAndUpdate(
+            { _id: args.id },
+            { ...args, userId: context.id }
+          );
+          return { message: "successful" };
+        } catch (error) {
+          console.log(error);
+          throw error;
+        }
+      },
+    },
+
+    reply: {
+      type: answerType,
+      args: {
+        userId: { type: GraphQLID },
+        postId: { type: GraphQLID },
+        answer: { type: GraphQLString },
+        questionId: { type: GraphQLID },
+      },
+      resolve: async (parent, args, context) => {
+        try {
+          const answer = new AnswerModel({
+            ...args,
+            userId: context.id,
+          });
+          await answer.save();
+          return { message: "successful" };
+        } catch (error) {
+          console.log(error);
+          throw error;
+        }
+      },
+    },
+    edit_reply: {
+      type: answerType,
+      args: {
+        id: { type: GraphQLID },
+        answer: { type: GraphQLString },
+        userId: { type: GraphQLID },
+      },
+      resolve: async (parent, args, context) => {
+        try {
+          await AnswerModel.findByIdAndUpdate(
+            { _id: args.id },
+            { ...args, userId: context.id }
           );
           return { message: "successful" };
         } catch (error) {
