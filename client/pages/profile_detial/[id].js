@@ -36,7 +36,7 @@ const Profile_detail = () => {
         <CubeSpinner size={30} backColor="#686769" frontColor="#fce24a" />
       </center>
     );
-  const showfollow = data1 ? data1.get_user.following.includes(id) : true;
+  const showfollow = data1 ? !data1.get_user.following.includes(id) : true;
 
   console.log("followed", showfollow);
 
