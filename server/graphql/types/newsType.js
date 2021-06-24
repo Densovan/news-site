@@ -6,6 +6,7 @@ const Type = require("../../models/type");
 const User = require("../../models/user");
 const Question = require("../../models/comment/question");
 const Answer = require("../../models/comment/answer");
+const Like = require("../../models/like");
 
 const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLList } = graphql;
 
@@ -59,6 +60,12 @@ const NewsType = new GraphQLObjectType({
         return Answer.find({ postId: parent.id });
       },
     },
+    like: {
+      type: GraphQLList(likeType),
+      resolve: (parent, args) => {
+        return Like.find({ postId: parent.id });
+      },
+    },
   }),
 });
 
@@ -70,3 +77,4 @@ const type = require("./type");
 const userType = require("./userType");
 const questionType = require("./comment/questionType");
 const answerType = require("./comment/answerType");
+const likeType = require("./likeType");

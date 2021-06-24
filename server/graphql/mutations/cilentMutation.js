@@ -15,12 +15,14 @@ const NewsType = require("../types/newsType");
 const userType = require("../types/userType");
 const questionType = require("../types/comment/questionType");
 const answerType = require("../types/comment/answerType");
+const likeType = require("../types/likeType");
 
 //===============model===============
 const NewsModel = require("../../models/news");
 const UserModel = require("../../models/user");
 const QuestionModel = require("../../models/comment/question");
 const AnswerModel = require("../../models/comment/answer");
+const LikeModel = require("../../models/like");
 
 const RootMutation = new GraphQLObjectType({
   name: "RootMutationType",
@@ -344,11 +346,38 @@ const RootMutation = new GraphQLObjectType({
       },
       resolve: async (parent, args, context) => {
         try {
-          await QuestionModel.findByIdAndUpdate(
-            { _id: args.id },
-            { ...args, userId: context.id }
-          );
-          return { message: "successful" };
+          const existingUser = await QuestionModel.findOne({ _id: args.id });
+          if (existingUser.userId === context.id) {
+            await QuestionModel.findByIdAndUpdate(
+              { _id: args.id },
+              { ...args, userId: context.id }
+            );
+            return { message: "successful" };
+          } else {
+            return { message: "sorry something wrong" };
+          }
+        } catch (error) {
+          console.log(error);
+          throw error;
+        }
+      },
+    },
+
+    delete_comment: {
+      type: questionType,
+      args: {
+        id: { type: GraphQLID },
+      },
+      resolve: async (parent, args, context) => {
+        try {
+          const existingUser = await QuestionModel.findOne({ _id: args.id });
+          if (existingUser.userId === context.id) {
+            await QuestionModel.findByIdAndDelete({ _id: args.id });
+            await AnswerModel.findOneAndDelete({ questionId: args.id });
+            return { message: "Successful" };
+          } else {
+            return { message: "sorry something wrong" };
+          }
         } catch (error) {
           console.log(error);
           throw error;
@@ -387,11 +416,71 @@ const RootMutation = new GraphQLObjectType({
       },
       resolve: async (parent, args, context) => {
         try {
-          await AnswerModel.findByIdAndUpdate(
-            { _id: args.id },
-            { ...args, userId: context.id }
-          );
-          return { message: "successful" };
+          const existingUser = await AnswerModel.findOne({ _id: args.id });
+          if (existingUser.userId === context.id) {
+            await AnswerModel.findByIdAndUpdate(
+              { _id: args.id },
+              { ...args, userId: context.id }
+            );
+            return { message: "successful" };
+          } else {
+            return { message: "sorry something wrong" };
+          }
+        } catch (error) {
+          console.log(error);
+          throw error;
+        }
+      },
+    },
+
+    delete_reply: {
+      type: answerType,
+      args: {
+        id: { type: GraphQLID },
+      },
+      resolve: async (parent, args, context) => {
+        try {
+          const existingUser = await AnswerModel.findOne({ _id: args.id });
+          if (existingUser.userId === context.id) {
+            await AnswerModel.findByIdAndDelete({ _id: args.id });
+            return { message: "successful" };
+          } else {
+            return { message: "sorry something wrong" };
+          }
+        } catch (error) {
+          console.log(error);
+          throw error;
+        }
+      },
+    },
+    //================Like post section===================
+    like: {
+      type: likeType,
+      args: {
+        postId: { type: GraphQLNonNull(GraphQLID) },
+        // userId: { type: GraphQLID },
+      },
+      resolve: async (parent, args, context) => {
+        try {
+          const existingLike = await LikeModel.findOne({ postId: args.postId });
+          if (!existingLike) {
+            const like = new LikeModel({
+              ...args,
+              userId: context.id,
+            });
+            await like.save();
+            return { message: "successful" };
+          } else if (existingLike.userId === context.id) {
+            await LikeModel.findOneAndDelete({ postId: args.postId });
+            return { message: "delete successful" };
+          } else {
+            const like = new LikeModel({
+              ...args,
+              userId: context.id,
+            });
+            await like.save();
+            return { message: "successful" };
+          }
         } catch (error) {
           console.log(error);
           throw error;
