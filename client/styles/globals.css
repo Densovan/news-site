@@ -1754,3 +1754,16 @@ input[type="submit"]:hover{
 span a{
   color: rgba(255,255,255, 0.8);
 } */
+
+.comment-action {
+  padding-left: 8px;
+  cursor: 'auto';
+}
+
+[class*='-col-rtl'] .comment-action {
+  padding-right: 8px;
+  padding-left: 0;
+}
+.ant-comment-content-detail .ant-form-item{
+  margin-bottom: 10px;
+}

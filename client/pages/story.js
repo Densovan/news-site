@@ -4,6 +4,7 @@ import Avatar from 'antd/lib/avatar/avatar';
 import { Fragment } from 'react';
 import MainNavbar from "../components/Layouts/mainNavbar";
 import styles from '../styles/story.module.css';
+import Link from 'next/link';
 
 const Story = () => {
     const user_profile = (
@@ -11,7 +12,7 @@ const Story = () => {
             <div className={styles.pf}>
                 <div className={styles.contain_pf}>
                     <Avatar size={{ lg: 40, xl: 40, xxl:40 }} src="https://pm1.narvii.com/5705/2f884bde825f5706de2c8762f160ae7d3d9139f8_hq.jpg" />
-                    <a href="#">Ifeanyi Ibekie</a>
+                    <Link href="/userProfile">Ifeanyi Ibekie</Link>
                 </div>
                 <div className={styles.pf_desc}>
                     <p>Fullstack JS developer who loves to build apps. Showing you how at reedbarger.com</p>
@@ -58,7 +59,7 @@ const Story = () => {
                             <div className={styles.card_contain}>
                                 <div className={styles.contain_summary}>
                                     <div className={styles.profile}>
-                                        <a href="#">
+                                        <a href="/userProfile">
                                             <Avatar size="small" src="http://wegamers.176.com/GameIM/SNS/Image/20207498811572195346040920"/>
                                             <Popover placement="right" content={user_profile}>
                                                 <div className={styles.name}>
@@ -67,9 +68,11 @@ const Story = () => {
                                             </Popover>
                                         </a>
                                     </div>
-                                    <div className={styles.title}>
-                                        <h3>Let’s create a website with Next.js, Antd and deploy with Now.sh</h3>
-                                    </div>
+                                    <a href="#">
+                                        <div className={styles.title}>
+                                            <h3><Typography.Text>Let’s create a website with Next.js, Antd and deploy with Now.sh</Typography.Text></h3>
+                                        </div>
+                                    </a>
                                     <div className={styles.desc}>
                                         <p>
                                             After generating your fancy text symbols, you can copy and paste the "fonts" to most websites and text processors. You could use it to generate a fancy Agario name (yep, weird text in agario is probably generated using a fancy text converter similar to this), to generate a creative-looking instagram, facebook, tumblr, or twitter post, for showing up n00bs on Steam, or just for sending messages full of beautiful text to your buddies.
