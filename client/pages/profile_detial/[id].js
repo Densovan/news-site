@@ -22,33 +22,50 @@ const Profile_detail = () => {
     data: data1,
     refetch: refetch1,
   } = useQuery(GET_USER);
-  const [follow] = useMutation(FOLLOW);
-  const [unfollow] = useMutation(UNFOLLOW);
+  // const [showFollow, setShowfoller] = useState(id);
+  const [follow_user] = useMutation(FOLLOW);
+  const [unfollow_user] = useMutation(UNFOLLOW);
+  // const [followed, setFollowed] = useState(
+  //   data1.get_user.following.includes(data1?.followingId)
+  // );
+
+  // console.log(data1);
   if (loading || loading1)
     return (
       <center style={{ marginTop: "100px" }}>
         <CubeSpinner size={30} backColor="#686769" frontColor="#fce24a" />
       </center>
     );
-  // console.log("data1", data1.get_user.fullname);
-  const unfollow_user = () => {
-    setUnfollow(
-      unfollow({
-        variables: { id: data.get_user_by_id.id },
-      })
-    );
-    refetch();
-    refetch1();
-  };
-  const follow_user = () => {
-    setFollow(
-      follow({
-        variables: { followTo: data.get_user_by_id.id },
-      })
-    );
-    refetch();
-    refetch1();
-  };
+  const showfollow = data1 ? !data1.get_user.following.includes(id) : true;
+
+  console.log("followed", showfollow);
+
+  // const unfollow = () => {
+  //   setUnfollow(
+  //     unfollow_user({
+  //       variables: { id: data.get_user_by_id.id },
+  //     })
+  //   );
+  //   refetch();
+  //   refetch1();
+  // };
+  // const follow = () => {
+  //   setFollow(
+  //     follow_user({
+  //       variables: {
+  //         id: data.get_user_by_id.id,
+  //         // followingId: data.get_user_by_id.id,
+  //         // followerId: data1.get_user.id,
+  //         fullname: data.get_user_by_id.fullname,
+  //         email: data.get_user_by_id.email,
+  //         image: data.get_user_by_id.image,
+  //       },
+  //     })
+  //   );
+  //   refetch();
+  //   refetch1();
+  // };
+
   return (
     <React.Fragment>
       <MainNavbar />
@@ -56,39 +73,42 @@ const Profile_detail = () => {
       <div className="container">
         <div className="container-layout-profile">
           <div className="layout-profile">
-            {/* <div className="place-follow-btn">
-              {data.get_user_by_id.following.map((res) => {
-                return (
-                  <div>
-                    {res.followBy === data1.get_user.id && (
+            <div className="place-follow-btn">
+              {/* {data.get_user_by_id.follower.length === 0 ? (
+                <div>follow</div>
+              ) : (
+                <div>
+                  {data.get_user_by_id.follower.map((res) => {
+                    return (
                       <div>
-                        {res.follow === false && (
-                          <button onClick={follow_user} className="follow-btn">
-                            Follow
-                          </button>
-                        )}
-                        {res.follow === true && (
-                          <button
-                            onClick={unfollow_user}
-                            className="follow-btn"
-                          >
-                            Following
-                          </button>
+                        {res.followerId === data1.get_user.id ? (
+                          <div>following</div>
+                        ) : (
+                          <Button onClick={follow} type="primary">
+                            follow
+                          </Button>
                         )}
                       </div>
-                    )}
-                    {data.get_user_by_id.id !== data1.get_user.id && (
-                      <button onClick={follow_user} className="follow-btn">
-                        Follow
-                      </button>
-                    )}
-                  </div>
-                );
-              })}
-            
-              {data.get_user_by_id.id === data1.get_user.id &&
-                window.location.replace("/dashboard/profile")}
-            </div> */}
+                    );
+                  })}
+                </div>
+              )} */}
+              {/* <div>
+                {data.get_user_by_id.follower.map((res) => {
+                  return (
+                    <div>
+                      {res.followerId === data1.get_user.id ? (
+                        <div>following</div>
+                      ) : (
+                        <Button onClick={follow} type="primary">
+                          follow
+                        </Button>
+                      )}
+                    </div>
+                  );
+                })}
+              </div> */}
+            </div>
             <center>
               <img className="profile-img1" src={data.get_user_by_id.image} />
               <h2>{data.get_user_by_id.fullname}</h2>
@@ -98,7 +118,6 @@ const Profile_detail = () => {
                 {moment.unix(data.get_user_by_id.createdAt / 1000).format("LL")}
               </h3>
             </center>
-
             <br></br>
           </div>
         </div>

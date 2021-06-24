@@ -53,10 +53,12 @@ const TopStory = () => {
                       <Col xs={12} md={18}>
                         <div className="date-avatar">
                           <div className="sub-date-avatar">
-                            <img
-                              className="avatar-mobile"
-                              src={res.user.image}
-                            />
+                            <Link href={`/profile_detial/${res.user.id}`}>
+                              <img
+                                className="avatar-mobile"
+                                src={res.user.image}
+                              />
+                            </Link>
                           </div>
                           <div>
                             <h1 className="status-news-topstory">

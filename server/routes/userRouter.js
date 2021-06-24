@@ -3,10 +3,15 @@ const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-const accessToken = (id) => {
-  return jwt.sign({ id }, process.env.JWTSECRET, {
-    expiresIn: "1800000",
-  });
+const accessToken = (id, fullname, email, image) => {
+  return jwt.sign(
+    { id, fullname, email, image },
+
+    process.env.JWTSECRET,
+    {
+      expiresIn: "1800000",
+    }
+  );
 };
 const maxAge = 30 * 24 * 60 * 60;
 
@@ -262,7 +267,12 @@ router.post("/refresh-token", (req, res) => {
     async (err, user) => {
       if (!err) {
         const result = await User.findById(user.id);
-        const token = accessToken(result._id);
+        const token = accessToken(
+          result._id,
+          result.fullname,
+          result.email,
+          result.image
+        );
 
         res.cookie("token", token, {
           httpOnly: true,

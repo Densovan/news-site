@@ -32,7 +32,7 @@ const Profile = () => {
                 </h3>
               </center>
               <br></br>
-              <div className="sub-layout-profile">
+              {/* <div className="sub-layout-profile">
                 <Row gutter={[12, 12]}>
                   <Col sm={6}>
                     <div className="box-total-profile">
@@ -67,7 +67,7 @@ const Profile = () => {
                     </div>
                   </Col>
                 </Row>
-              </div>
+              </div> */}
               <br></br>
             </div>
           </div>

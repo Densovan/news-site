@@ -12,17 +12,17 @@ const GET_USERS = gql`
       news {
         title
       }
-      follower {
-        followBy
-        userFollower {
-          fullname
-        }
-      }
       following {
-        followTo
-        userFollowing {
-          fullname
-        }
+        id
+        email
+        fullname
+        followingId
+      }
+      follower {
+        id
+        email
+        fullname
+        followerId
       }
     }
   }
@@ -39,21 +39,29 @@ const GET_USER_BY_ID = gql`
       news {
         title
       }
+      following {
+        id
+        email
+        fullname
+        followingId
+      }
       follower {
-        followBy
-        follow
-        userFollower {
-          fullname
-          image
-        }
+        id
+        email
+        fullname
+        followerId
       }
       following {
-        follow
-        followTo
-        userFollowing {
-          fullname
-          image
-        }
+        id
+        email
+        fullname
+        followingId
+      }
+      follower {
+        id
+        email
+        fullname
+        followerId
       }
     }
   }
@@ -70,21 +78,17 @@ const GET_USER = gql`
       news {
         title
       }
-      follower {
-        followBy
-        follow
-        userFollower {
-          fullname
-          image
-        }
-      }
       following {
-        followTo
-        follow
-        userFollowing {
-          fullname
-          image
-        }
+        id
+        email
+        fullname
+        followingId
+      }
+      follower {
+        id
+        email
+        fullname
+        followerId
       }
     }
   }
@@ -408,36 +412,8 @@ const GET_NEWS_FEATURE_BY_CAT = gql`
     }
   }
 `;
-const GET_FOLLOWER = gql`
-  query {
-    get_follower {
-      followTo
-      followBy
-      follow
-      userFollowing {
-        fullname
-        id
-      }
-    }
-  }
-`;
-const GET_FOLLOWING = gql`
-  query {
-    get_following {
-      followTo
-      followBy
-      follow
-      userFollowing {
-        fullname
-        id
-      }
-    }
-  }
-`;
 
 export {
-  GET_FOLLOWING,
-  GET_FOLLOWER,
   GET_USER_BY_ID,
   GET_NEWS_FEATURE_BY_CAT,
   GET_NEWS_NEWS_BY_CAT,
