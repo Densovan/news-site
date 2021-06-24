@@ -13,7 +13,6 @@ const Profile = () => {
   //===========get data form graphql===============
   const { loading, data, refetch } = useQuery(GET_USER);
   if (loading) return "";
-  console.log(data);
   return (
     <React.Fragment>
       <MainNavbar />

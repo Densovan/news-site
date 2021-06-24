@@ -191,7 +191,7 @@ const GET_ALL_NEWS_BY_TYPE_NEWS = gql`
     get_allnews_by_type(
       limit: $limit
       offset: $offset
-      id: "60b125935b23dcef7bea2dad"
+      id: "60d44bac0b71dc1fc922b5ba"
     ) {
       title
       createdAt
@@ -221,7 +221,7 @@ const GET_ALL_NEWS_BY_TYPE_LEARN = gql`
     get_allnews_by_type(
       limit: $limit
       offset: $offset
-      id: "60ab9d4a314c8a3b207849e6"
+      id: "60d4496a0b71dc1fc922b5b6"
     ) {
       title
       createdAt
@@ -250,7 +250,7 @@ const GET_ALL_NEWS_BY_TYPE_FEATURE = gql`
     get_allnews_by_type(
       limit: $limit
       offset: $offset
-      id: "60ab789315cdbd63c5d57fa0"
+      id: "60d4496a0b71dc1fc922b5b6"
     ) {
       title
       slug
@@ -286,7 +286,10 @@ const GET_NEWS_BY_SLUG = gql`
       slug
       des
       user {
+        id
         fullname
+        image
+        email
       }
       types {
         name
@@ -329,7 +332,7 @@ const GET_NEWS_LEARN_BY_CAT = gql`
       id: $id
       limit: $limit
       offset: $offset
-      typeId: "60ab9d4a314c8a3b207849e6"
+      typeId: "60d4496a0b71dc1fc922b5b6"
     ) {
       title
       createdAt
@@ -359,7 +362,7 @@ const GET_NEWS_NEWS_BY_CAT = gql`
       id: $id
       limit: $limit
       offset: $offset
-      typeId: "60b125935b23dcef7bea2dad"
+      typeId: "60d44b6c0b71dc1fc922b5b7"
     ) {
       title
       createdAt
@@ -389,7 +392,7 @@ const GET_NEWS_FEATURE_BY_CAT = gql`
       id: $id
       limit: $limit
       offset: $offset
-      typeId: "60ab789315cdbd63c5d57fa0"
+      typeId: "60d4496a0b71dc1fc922b5b6"
     ) {
       title
       createdAt
