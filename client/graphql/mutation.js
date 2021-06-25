@@ -92,7 +92,7 @@ const FOLLOW = gql`
 `;
 const UNFOLLOW = gql`
   mutation ($id: ID!) {
-    unfollow_user(id: $id) {
+    unfollower_user(id: $id) {
       message
     }
   }

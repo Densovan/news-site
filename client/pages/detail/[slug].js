@@ -176,9 +176,7 @@ const SinglePage = () => {
                     </div>
                   </div>
                   <div style={{ color: '#262e3c' }}>
-                    <p>
-                      {result}
-                    </p>
+                    {result}
                   </div>
                   <div className={styles.ct_comment}>
                     <h3>Comment(23)</h3>
