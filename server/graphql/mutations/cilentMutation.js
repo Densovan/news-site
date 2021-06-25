@@ -107,9 +107,22 @@ const RootMutation = new GraphQLObjectType({
         newPassword: { type: GraphQLString },
         email: { type: GraphQLString },
         image: { type: GraphQLString },
+        bio: { type: GraphQLString },
+        gender: { type: GraphQLString },
+        ban: { type: GraphQLBoolean },
       },
       resolve: async (root, args, context) => {
-        const { email, passwordHash, newPassword, confirmPassword } = args;
+        const {
+          email,
+          passwordHash,
+          newPassword,
+          confirmPassword,
+          fullname,
+          bio,
+          gender,
+          ban,
+          image,
+        } = args;
         try {
           const user = await UserModel.findOne({ email });
           if (passwordHash) {
@@ -119,7 +132,7 @@ const RootMutation = new GraphQLObjectType({
             );
             if (isPassword) {
               if (newPassword === confirmPassword) {
-                const saltRounds = 10;
+                const saltRounds = await bcrypt.genSalt(10);
                 const hashPassword = await bcrypt.hash(newPassword, saltRounds);
                 await UserModel.findByIdAndUpdate(
                   { _id: context.id },
@@ -139,7 +152,10 @@ const RootMutation = new GraphQLObjectType({
           } else {
             await UserModel.findByIdAndUpdate(
               { _id: context.id },
-              { ...args, passwordHash: user.passwordHash }
+              {
+                ...args,
+                passwordHash: user.passwordHash,
+              }
             );
             return {
               message: "The user info update with successfully.",

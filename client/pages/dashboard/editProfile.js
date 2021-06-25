@@ -44,7 +44,7 @@ const ChangeProfilePicture = () => {
       });
     }
   };
-  const { fullname } = data.get_user;
+  // const { fullname } = data.get_user;
   const onFinish = (values) => {
     setIsLoading(true);
     update_user({
@@ -132,7 +132,7 @@ const ChangeProfilePicture = () => {
                   // ]}
                 >
                   <Input
-                    defaultValue={data.get_user.fullname}
+                    // defaultValue={data.get_user.fullname}
                     className="input-pf"
                     size="large"
                     placeholder="Fullname"
