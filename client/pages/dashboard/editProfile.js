@@ -62,7 +62,7 @@ const ChangeProfilePicture = () => {
         message.error(res.data.update_user.message);
       } else {
         await message.success(res.data.update_user.message, 2);
-        window.location.reload();
+        window.location.replace("/dashboard/profile");
       }
     });
   };

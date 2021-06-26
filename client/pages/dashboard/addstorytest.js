@@ -54,11 +54,13 @@ const Addstory = () => {
     // instanceRef.current.clear();
   }
 
-  const next = () => {
+  const next = (e) => {
+    // e.preventDefault();
     setCurrent(current + 1);
   };
 
-  const prev = () => {
+  const prev = (e) => {
+    // e.preventDefault();
     setCurrent(current - 1);
   };
 
@@ -96,12 +98,12 @@ const Addstory = () => {
   };
 
   const onChange = (e) => {
-    setTitle(e.target.value);
-    // console.log(e);
+    // setTitle(e.target.value);
+    console.log(e);
   };
-  const onChange1 = (e) => {
-    setDescr(e.target.value);
-  };
+  // const onChange1 = (e) => {
+  //   setDescr(e.target.value);
+  // };
 
   // ==================Get Category ID===================
   const GetCategory = () => {
@@ -183,6 +185,7 @@ const Addstory = () => {
   };
 
   const onFinish = async (values) => {
+    // vpreventDefault();
     add_news({
       variables: {
         ...values,
@@ -200,7 +203,7 @@ const Addstory = () => {
       await refetch();
       setLoading(false);
     });
-    // console.log(values);
+    console.log(values);
   };
 
   const steps = [
@@ -224,100 +227,99 @@ const Addstory = () => {
             <div className="addstory-content">
               <h2>Add Your Story</h2>
               <Form form={form} layout="vertical" onFinish={onFinish}>
-                {current === 0 && (
-                  <div>
-                    <Form.Item
-                      onChange={onChange}
-                      label="Title"
-                      name="title"
-                      rules={[
-                        {
-                          required: true,
-                          message: "Please input your title!",
-                        },
-                      ]}
-                    >
-                      <Input
-                        className="input-pf"
-                        size="large"
-                        placeholder="title"
+                {/* {current === 0 && ( */}
+                <div className={current === 1 && "hidden"}>
+                  <Form.Item
+                    label="Title"
+                    name="title"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input your title!",
+                      },
+                    ]}
+                  >
+                    <Input
+                      oncChange={(e) => setTitle(e.target.value)}
+                      className="input-pf"
+                      size="large"
+                      placeholder="title"
+                    />
+                  </Form.Item>
+                  <Form.Item
+                    label="Description"
+                    name="des"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input Description!",
+                      },
+                    ]}
+                  >
+                    {CustomEditor && (
+                      <CustomEditor
+                        // onChange={onChange1}
+                        tools={EDITOR_JS_TOOLS}
+                        placeholder="Please Input Description"
+                        instanceRef={(instance) =>
+                          (instanceRef.current = instance)
+                        }
                       />
-                    </Form.Item>
-                    <Form.Item
-                      // onChange={onChange1}
-                      label="Description"
-                      name="des"
-                      rules={[
-                        {
-                          required: true,
-                          message: "Please input Description!",
-                        },
-                      ]}
-                    >
-                      {CustomEditor && (
-                        <CustomEditor
-                          // onChange={onChange1}
-                          tools={EDITOR_JS_TOOLS}
-                          placeholder="Please Input Description"
-                          instanceRef={(instance) =>
-                            (instanceRef.current = instance)
-                          }
-                        />
-                      )}
-                    </Form.Item>
-                  </div>
-                )}
-                {current === 1 && (
-                  <div>
-                    {" "}
-                    <Row gutter={[12, 12]}>
-                      <Col span={12}>
-                        <Form.Item
-                          rules={[
-                            {
-                              required: true,
-                              message: "Please input Image!",
-                            },
-                          ]}
-                          label="Thumnail"
-                          name="image"
+                    )}
+                  </Form.Item>
+                </div>
+                {/* )} */}
+                {/* {current === 1 && ( */}
+                <div className={current === 0 && "hidden"}>
+                  {" "}
+                  <Row gutter={[12, 12]}>
+                    <Col span={12}>
+                      <Form.Item
+                        rules={[
+                          {
+                            required: true,
+                            message: "Please input Image!",
+                          },
+                        ]}
+                        label="Thumnail"
+                        name="image"
+                      >
+                        <Upload.Dragger
+                          name="file"
+                          className="avatar-uploader"
+                          action="http://localhost:3500/upload/images"
+                          beforeUpload={beforeUpload}
+                          onChange={handleChange}
                         >
-                          <Upload.Dragger
-                            name="file"
-                            className="avatar-uploader"
-                            action="http://localhost:3500/upload/images"
-                            beforeUpload={beforeUpload}
-                            onChange={handleChange}
-                          >
-                            {state.imageUrl ? (
-                              <img
-                                // src={`${`https://backend.vitaminair.org/`}/public/uploads/${
-                                //   state.imageUrl
-                                // }`}
-                                src={
-                                  "http://localhost:3500/public/uploads/" +
-                                  state.imageUrl
-                                }
-                                alt="avatar"
-                                style={{ width: "100%" }}
-                              />
-                            ) : (
-                              uploadButton
-                            )}
-                          </Upload.Dragger>
-                        </Form.Item>
-                      </Col>
-                      <Col span={12}>
-                        <GetCategory />
-                        <GetType />
-                      </Col>
-                    </Row>
-                  </div>
-                )}
+                          {state.imageUrl ? (
+                            <img
+                              // src={`${`https://backend.vitaminair.org/`}/public/uploads/${
+                              //   state.imageUrl
+                              // }`}
+                              src={
+                                "http://localhost:3500/public/uploads/" +
+                                state.imageUrl
+                              }
+                              alt="avatar"
+                              style={{ width: "100%" }}
+                            />
+                          ) : (
+                            uploadButton
+                          )}
+                        </Upload.Dragger>
+                      </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                      <GetCategory />
+                      <GetType />
+                    </Col>
+                  </Row>
+                </div>
+                {/* )} */}
                 <div className="steps-action">
                   {current === 0 && (
                     <Button
-                      disabled={title.length < 1 || data === ""}
+                      // disabled={title.length < 1 || data === ""}
                       type="primary"
                       onClick={() => next()}
                     >

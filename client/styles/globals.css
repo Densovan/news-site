@@ -21,6 +21,9 @@ body {
 
   /* margin: auto; */
 }
+.hidden {
+  display: none;
+}
 .navbar-container {
   margin-right: auto !important;
   margin-left: auto !important;
