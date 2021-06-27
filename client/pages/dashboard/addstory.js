@@ -23,7 +23,7 @@ if (typeof window !== "undefined") {
 
 const Addstory = () => {
   const [title, setTitle] = useState("");
-  const [descr, setDescr] = useState("");
+  const [des, setDescr] = useState("");
   const { loggedIn } = useContext(AuthContext);
   const instanceRef = React.useRef(null);
   const [add_news] = useMutation(ADD_NEWS);
@@ -103,6 +103,9 @@ const Addstory = () => {
   };
   const onChange1 = (e) => {
     setTitle(e.target.value);
+  };
+  const onChange2 = (e) => {
+    setDescr(e.target.value);
   };
 
   // ==================Get Category ID===================
@@ -231,42 +234,43 @@ const Addstory = () => {
                 {/* {current === 0 && ( */}
                 <div className={current === 1 && "hidden"}>
                   <Form.Item
-                    label="Title"
+                    // label="Title"
                     name="title"
                     onChange={onChange1}
-                    oncChange={(e) => setTitle(e.target.value)}
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input your title!",
-                      },
-                    ]}
+
+                    // rules={[
+                    //   {
+                    //     required: true,
+                    //     message: "Please input your title!",
+                    //   },
+                    // ]}
                   >
                     <Input
-                      // style={{ border: "none" }}
-                      // oncChange={(e) => setTitle(e.target.value)}
                       value={title}
-                      className="input-pf"
+                      className="input-story"
                       size="large"
-                      placeholder="title"
+                      placeholder="Title"
                     />
                   </Form.Item>
                   <Form.Item
-                    onChange={onChange1}
-                    label="Tell your story"
+                    placeholder="Tell Your Story"
+                    onChange={onChange2}
+                    // label="Tell your story"
                     name="des"
                     rules={[
                       {
                         required: true,
-                        message: "Please input Description!",
+                        message: "Tell your story!",
                       },
                     ]}
                   >
                     {CustomEditor && (
                       <CustomEditor
-                        // onChange={onChange1}
+                        value="des"
+                        // className="input-story"
+                        // onChange={onChange3}
                         tools={EDITOR_JS_TOOLS}
-                        placeholder="Please Input Description"
+                        placeholder="Tell your story"
                         instanceRef={(instance) =>
                           (instanceRef.current = instance)
                         }
@@ -325,7 +329,7 @@ const Addstory = () => {
                 <div className="steps-action">
                   {current === 0 && (
                     <Button
-                      className="btn-submit"
+                      className="btn-next"
                       disabled={title.length < 1}
                       // type="primary"
                       onClick={() => next()}
@@ -352,7 +356,7 @@ const Addstory = () => {
                     </Form.Item>
                   )}
                   {current > 0 && (
-                    <Button className="btn-submit" onClick={() => prev()}>
+                    <Button className="btn-next" onClick={() => prev()}>
                       Previous
                     </Button>
                   )}
