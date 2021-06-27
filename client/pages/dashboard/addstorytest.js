@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { Form, Button, Input, Upload, message, Select, Row, Col } from "antd";
+import { Form, Button, Input, Upload, message, Select } from "antd";
 import { GET_CATEGORIES, GET_TYPES, GET_OWN_NEWS } from "../../graphql/query";
 import { ADD_NEWS } from "../../graphql/mutation";
 import { useQuery, useMutation } from "@apollo/client";
@@ -22,8 +22,6 @@ if (typeof window !== "undefined") {
 }
 
 const Addstory = () => {
-  const [title, setTitle] = useState("");
-  const [descr, setDescr] = useState("");
   const { loggedIn } = useContext(AuthContext);
   const instanceRef = React.useRef(null);
   const [add_news] = useMutation(ADD_NEWS);
@@ -46,23 +44,12 @@ const Addstory = () => {
       },
     ],
   });
-  const [current, setCurrent] = React.useState(0);
   async function handleSave() {
     const savedData = await instanceRef.current.save();
     console.log(JSON.stringify(savedData));
     await setData(savedData);
     // instanceRef.current.clear();
   }
-
-  const next = (e) => {
-    // e.preventDefault();
-    setCurrent(current + 1);
-  };
-
-  const prev = (e) => {
-    // e.preventDefault();
-    setCurrent(current - 1);
-  };
 
   const handleChange = (info) => {
     if (info.file.status === "uploading") {
@@ -98,12 +85,8 @@ const Addstory = () => {
   };
 
   const onChange = (e) => {
-    // setTitle(e.target.value);
-    console.log(e);
+    // console.log(e);
   };
-  // const onChange1 = (e) => {
-  //   setDescr(e.target.value);
-  // };
 
   // ==================Get Category ID===================
   const GetCategory = () => {
@@ -185,7 +168,6 @@ const Addstory = () => {
   };
 
   const onFinish = async (values) => {
-    // vpreventDefault();
     add_news({
       variables: {
         ...values,
@@ -203,19 +185,8 @@ const Addstory = () => {
       await refetch();
       setLoading(false);
     });
-    console.log(values);
+    // console.log(values);
   };
-
-  const steps = [
-    {
-      title: "First",
-      content: "",
-    },
-    {
-      title: "Second",
-      content: "",
-    },
-  ];
 
   return (
     <React.Fragment>
@@ -227,129 +198,102 @@ const Addstory = () => {
             <div className="addstory-content">
               <h2>Add Your Story</h2>
               <Form form={form} layout="vertical" onFinish={onFinish}>
-                {/* {current === 0 && ( */}
-                <div className={current === 1 && "hidden"}>
-                  <Form.Item
-                    label="Title"
-                    name="title"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input your title!",
-                      },
-                    ]}
+                <Form.Item
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input Image!",
+                    },
+                  ]}
+                  label="Thumnail"
+                  name="image"
+                >
+                  <Upload.Dragger
+                    name="file"
+                    className="avatar-uploader"
+                    action="http://localhost:3500/upload/images"
+                    beforeUpload={beforeUpload}
+                    onChange={handleChange}
                   >
-                    <Input
-                      oncChange={(e) => setTitle(e.target.value)}
-                      className="input-pf"
-                      size="large"
-                      placeholder="title"
-                    />
-                  </Form.Item>
-                  <Form.Item
-                    label="Description"
-                    name="des"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input Description!",
-                      },
-                    ]}
-                  >
-                    {CustomEditor && (
-                      <CustomEditor
-                        // onChange={onChange1}
-                        tools={EDITOR_JS_TOOLS}
-                        placeholder="Please Input Description"
-                        instanceRef={(instance) =>
-                          (instanceRef.current = instance)
+                    {state.imageUrl ? (
+                      <img
+                        // src={`${`https://backend.vitaminair.org/`}/public/uploads/${
+                        //   state.imageUrl
+                        // }`}
+                        src={
+                          "http://localhost:3500/public/uploads/" +
+                          state.imageUrl
                         }
+                        alt="avatar"
+                        style={{ width: "100%" }}
                       />
+                    ) : (
+                      uploadButton
                     )}
-                  </Form.Item>
-                </div>
-                {/* )} */}
-                {/* {current === 1 && ( */}
-                <div className={current === 0 && "hidden"}>
-                  {" "}
-                  <Row gutter={[12, 12]}>
-                    <Col span={12}>
-                      <Form.Item
-                        rules={[
-                          {
-                            required: true,
-                            message: "Please input Image!",
-                          },
-                        ]}
-                        label="Thumnail"
-                        name="image"
-                      >
-                        <Upload.Dragger
-                          name="file"
-                          className="avatar-uploader"
-                          action="http://localhost:3500/upload/images"
-                          beforeUpload={beforeUpload}
-                          onChange={handleChange}
-                        >
-                          {state.imageUrl ? (
-                            <img
-                              // src={`${`https://backend.vitaminair.org/`}/public/uploads/${
-                              //   state.imageUrl
-                              // }`}
-                              src={
-                                "http://localhost:3500/public/uploads/" +
-                                state.imageUrl
-                              }
-                              alt="avatar"
-                              style={{ width: "100%" }}
-                            />
-                          ) : (
-                            uploadButton
-                          )}
-                        </Upload.Dragger>
-                      </Form.Item>
-                    </Col>
-                    <Col span={12}>
-                      <GetCategory />
-                      <GetType />
-                    </Col>
-                  </Row>
-                </div>
-                {/* )} */}
-                <div className="steps-action">
-                  {current === 0 && (
-                    <Button
-                      // disabled={title.length < 1 || data === ""}
-                      type="primary"
-                      onClick={() => next()}
-                    >
-                      Next
-                    </Button>
+                  </Upload.Dragger>
+                </Form.Item>
+
+                <Form.Item
+                  label="Title"
+                  name="title"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your title!",
+                    },
+                  ]}
+                >
+                  <Input
+                    className="input-pf"
+                    size="large"
+                    placeholder="title"
+                  />
+                </Form.Item>
+
+                <GetCategory />
+                <GetType />
+
+                <Form.Item
+                  label="Description"
+                  name="des"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input Description!",
+                    },
+                  ]}
+                >
+                  {CustomEditor && (
+                    <CustomEditor
+                      tools={EDITOR_JS_TOOLS}
+                      placeholder="Please Input Description"
+                      instanceRef={(instance) =>
+                        (instanceRef.current = instance)
+                      }
+                    />
                   )}
-                  {current === 1 && (
-                    <Form.Item>
-                      <Button
-                        onClick={handleSave}
-                        className="btn-submit"
-                        disabled={loading ? true : false}
-                        loading={loading ? true : false}
-                        htmlType="submit"
-                        size="large"
-                      >
-                        {loading ? (
-                          <small>loading...</small>
-                        ) : (
-                          <small>PUBLISH</small>
-                        )}
-                      </Button>
-                    </Form.Item>
-                  )}
-                  {current > 0 && (
-                    <Button style={{ margin: "0 8px" }} onClick={() => prev()}>
-                      Previous
-                    </Button>
-                  )}
-                </div>
+                  {/* <EditorJs
+              tools={EDITOR_JS_TOOLS}
+              placeholder="Please input Description"
+              instanceRef={(instance) => (instanceRef.current = instance)}
+            /> */}
+                </Form.Item>
+                <Form.Item>
+                  <Button
+                    onClick={handleSave}
+                    className="btn-submit"
+                    disabled={loading ? true : false}
+                    loading={loading ? true : false}
+                    htmlType="submit"
+                    size="large"
+                  >
+                    {loading ? (
+                      <small>loading...</small>
+                    ) : (
+                      <small>PUBLISH</small>
+                    )}
+                  </Button>
+                </Form.Item>
               </Form>
             </div>
           </div>
