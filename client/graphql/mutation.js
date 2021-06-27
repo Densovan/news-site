@@ -98,4 +98,37 @@ const UNFOLLOW = gql`
   }
 `;
 
-export { ADD_NEWS, DELETE_NEWS, EDIT_NEWS, UPDATE_USER, FOLLOW, UNFOLLOW };
+const COMMENT = gql`
+  mutation (
+      $userId: ID 
+      $postId: ID 
+      $question: String
+    ) {
+    comment(
+      userId: $userId 
+      postId: $postId 
+      question: $question) {
+        message
+    }
+  }
+`;
+
+const REPLY_COMMENT = gql`
+  mutation (
+    $userId: ID 
+    $postId: ID 
+    $answer: String
+    $questionId: ID
+  ) {
+    reply(
+      userId: $userId
+      postId: $postId
+      answer: $answer
+      questionId: $questionId
+    ) {
+      message
+    }
+  }
+`
+
+export { ADD_NEWS, DELETE_NEWS, EDIT_NEWS, UPDATE_USER, FOLLOW, UNFOLLOW, COMMENT, REPLY_COMMENT };

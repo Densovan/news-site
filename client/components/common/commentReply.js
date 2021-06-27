@@ -4,15 +4,14 @@ import { Comment, Tooltip, Avatar } from 'antd';
 import moment from 'moment';
 import { DislikeOutlined, LikeOutlined, DislikeFilled, LikeFilled } from '@ant-design/icons';
 
-import { COMMENT, REPLY_COMMENT } from '../../graphql/mutation';
+import { COMMENT } from '../../graphql/mutation';
 import { GET_USER } from '../../graphql/query';
 import InputComment from '../controls/inputComment';  
 
-const FormComment = ({ articleId, commentId }) => {
+const FormCommentReply = ({ articleId }) => {
   
   const { loading:loading, data:user} = useQuery(GET_USER);
   const [addComment] = useMutation(COMMENT);
-  const [replyComment] = useMutation(REPLY_COMMENT);
 
   const [value, setValue] = useState({
     submitting: false,
@@ -23,41 +22,21 @@ const FormComment = ({ articleId, commentId }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if(commentId){
-      replyComment({ variables: {
-          userId: user.get_user.id,
-          postId: articleId,
-          answer: value.comment,
-          questionId: commentId
-        }
-      }).then(async (data) => {
-        setValue({
-          submitting: true
-        })
-        setTimeout(() => {
-            setValue({
-              submitting: false
-            })
-        }, 1000)
+    addComment({ variables: {
+        userId: user.get_user.id,
+        postId: articleId,
+        question: value.comment
+      }
+    }).then(async (data) => {
+      setValue({
+        submitting: true
       })
-    }
-    else{
-      addComment({ variables: {
-          userId: user.get_user.id,
-          postId: articleId,
-          question: value.comment
-        }
-      }).then(async (data) => {
-        setValue({
-          submitting: true
-        })
-        setTimeout(() => {
-            setValue({
-              submitting: false
-            })
-        }, 1000)
-      })
-    }
+      setTimeout(() => {
+          setValue({
+            submitting: false
+          })
+      }, 1000)
+    })
   }
 
   return (
@@ -78,4 +57,4 @@ const FormComment = ({ articleId, commentId }) => {
   );
 };
 
-export default FormComment;
+export default FormCommentReply;

@@ -297,6 +297,19 @@ const GET_NEWS_BY_SLUG = gql`
       categories {
         name
       }
+      comment{
+        id
+        question
+        userId
+        answerId
+      }
+      reply{
+        id
+        userId
+        postId
+        answer
+        questionId
+      }
     }
   }
 `;

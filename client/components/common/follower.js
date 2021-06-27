@@ -8,27 +8,30 @@ import { useEffect, useState } from "react";
 const Follower = ({ articleUser }) => {
     const router = useRouter();
     const [state, setState] = useState(false);
-    const [id, setId] = useState(null);
-    const { loading, data: user } = useQuery(GET_USER);
+    const [followId, setFollowId] = useState(null);
+    const { loading, data:user } = useQuery(GET_USER);
+
     const [addFollow] = useMutation(FOLLOW);
     const [unfollow] = useMutation(UNFOLLOW);
 
     useEffect(() => {
-        checkFollow();
-    }, [])
-    const checkFollow = () => {
+        if (user === undefined) {
+            return
+        }
         if (user.get_user !== null) {
-            following.map((following) => {
-                if (following.followingId === articleUser.id) {
-                    setState(true)
-                    setId(following.followingId)
-                }
-            })
+            if (following.length === 0) {
+                setState(false)
+            }else{
+                following.map((following) => {
+                    if (following.followingId === articleUser.id) {
+                        setState(true)
+                        setFollowId(following.followingId)
+                    }
+                })
+            }
         }
-        if (following.length === 0 && user.get_user !== null) {
-            setState(false)
-        }
-    }
+    }, [user])
+
     if (loading) return <div>loading...</div>;
 
     const handleFollow = (e) => {
@@ -42,7 +45,6 @@ const Follower = ({ articleUser }) => {
             }
         }).then(async (data) => {
             setState(true);
-            setId(articleUser.id);
         })
     }
 
@@ -50,7 +52,6 @@ const Follower = ({ articleUser }) => {
         e.preventDefault();
         unfollow({ variables: { id: followingId } }).then(async (data) => {
             setState(false);
-            setId(followingId);
         })
 
     }
@@ -64,15 +65,15 @@ const Follower = ({ articleUser }) => {
     }
     if (state === true) {
         follow.push(
-            <div>
-                <Button onClick={(e) => handleUnFollow(e, id)}>Following</Button>
+            <div key="1">
+                <Button onClick={(e) => handleUnFollow(e, followId)}>Following</Button>
             </div>
         )
     }
     if (state === false) {
         if (user.get_user === null) {
             follow.push(
-                <div>
+                <div key="1">
                     <Button onClick={(e) => {
                         e.preventDefault()
                         router.push("/signin")
@@ -80,12 +81,14 @@ const Follower = ({ articleUser }) => {
                 </div>)
         } else {
             follow.push(
-                <div>
+                <div key="1">
                     <Button type="primary" onClick={handleFollow}>Follow</Button>
                 </div>
             )
         }
     }
+
+    console.log();
 
     return (
         <div>

@@ -1,13 +1,13 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import { useRouter } from "next/router";
 import TopNavbar from "../../components/Layouts/topNavbar";
 import MainNavbar from "../../components/Layouts/mainNavbar";
 import Footer from "../../components/Layouts/footer";
-import { GET_NEWS_BY_SLUG, GET_USER } from "../../graphql/query";
+import { GET_NEWS_BY_SLUG } from "../../graphql/query";
 import { useQuery } from "@apollo/client";
 import Output from "editorjs-react-renderer";
 import moment from "moment";
-import { Col, Row, Button, Input, Comment, Tooltip, Avatar } from 'antd';
+import { Col, Row, Button, Tooltip, Avatar, Divider } from 'antd';
 import { CubeSpinner } from "react-spinners-kit";
 import ContentLoader from "react-content-loader";
 import Follower from '../../components/common/follower';
@@ -21,75 +21,24 @@ import styles from '../../styles/article-story.module.css';
 
 import FormComment from '../../components/common/comment';
 import CommentList from '../../components/commentList';
-import InputComment from '../../components/controls/inputComment';
 
 const SinglePage = () => {
   const router = useRouter();
   const { slug } = router.query;
-  const [state, setState] = useState({
-    comments: [],
-    submitting: false,
-    value: '',
-  });
   const { loading, data } = useQuery(GET_NEWS_BY_SLUG, {
     variables: { slug },
+    pollInterval: 500,
+    fetchPolicy: "network-only",
   });
-  const { loading:loading_user, data:user_check } = useQuery(GET_USER);
-  if (loading || loading_user)
+  
+  if (loading)
     return (
       <center style={{ marginTop: "100px" }}>
         <CubeSpinner size={30} backColor="#686769" frontColor="#fce24a" />
-        {/* <ContentLoader
-          width={450}
-          height={400}
-          viewBox="0 0 450 400"
-          backgroundColor="#f0f0f0"
-          foregroundColor="#dedede"
-          // {...props}
-        >
-          <rect x="43" y="304" rx="4" ry="4" width="271" height="9" />
-          <rect x="44" y="323" rx="3" ry="3" width="119" height="6" />
-          <rect x="42" y="77" rx="10" ry="10" width="388" height="217" />
-        </ContentLoader> */}
       </center>
     );
-  const { title, thumnail, des, user, createdAt } = data.get_news_by_slug;
+  const { id,  title, thumnail, des, user, createdAt, comment, reply } = data.get_news_by_slug;
   const result = <Output data={JSON.parse(des)} />;
-
-  const handleSubmit = () => {
-    if (!state.value) {
-      return;
-    }
-    setState({
-      submitting: true,
-    });
-
-    setTimeout(() => {
-      setState({
-        submitting: false,
-        value: '',
-        comments: [
-          ...state.comments,
-          {
-            author: 'Han Solo',
-            avatar:
-              'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-            content: <p>{state.value}</p>,
-            datetime: moment().fromNow(),
-          },
-        ],
-      });
-    }, 1000);
-  };
-  const commentAll = [];
-  if (state.comments === undefined) {
-    console.log('comment not found');
-  } else {
-    state.comments.forEach((element) => {
-      commentAll.push(element);
-    });
-  }
-
   return (
     <React.Fragment>
       {/* <TopNavbar /> */}
@@ -175,41 +124,18 @@ const SinglePage = () => {
                       </div>
                     </div>
                   </div>
-                  <div style={{ color: '#262e3c' }}>
+                  <div style={{ color: '#262e3c', marginBottom: 20 }}>
                     {result}
                   </div>
-                  <div className={styles.ct_comment}>
+                  <Divider />
+                  <div style={{ marginTop: 20 }}>
                     <h3>Comment(23)</h3>
-                    <div className={styles.ct_pf_cm}>
-                      <Comment
-                        avatar={
-                          <Avatar
-                            src={user.image} 
-                            alt={user.fullname}
-                          />
-                        }
-                        content={
-                          <InputComment
-                            onChange={(e) =>
-                              setState({ ...state, ['value']: e.target.value })
-                            }
-                            onSubmit={handleSubmit}
-                            submitting={state.submitting}
-                            value={state.value}
-                          />
-                        }
-                      />
-                      {commentAll.length > 0 && (
-                        <CommentList comments={state.comments} />
-                      )}
+                    <div>
                       <FormComment
-                        author="Vann Soklay"
-                        avatar="https://dw9to29mmj727.cloudfront.net/products/782009247272.jpg"
-                        content="We supply a series of design principles, practical patterns and high quality design
-                                            resources (Sketch and Axure), to help people create their product prototypes beautifully
-                                            and efficiently."
-                        datetime={moment().fromNow()}
+                        user={user}
+                        articleId={id}
                       />
+                      <CommentList articleId={id} comments={comment} reply={reply} />
                     </div>
                   </div>
                 </div>
@@ -229,12 +155,6 @@ const SinglePage = () => {
                   </p>
                 </div>
                 <Follower articleUser = {user} />
-                {/* <Button className={styles.btn_flw}>Follow</Button> */}
-                {/* { user_check.get_user.id === user.id ? (
-                  <Button className={styles.btn_flw}>View Profile</Button>
-                ):(
-                  <Button onClick={handleFollow} className={styles.btn_flw}>Follow</Button>
-                )}  */}
               </div>
             </Col>
           </Row>
