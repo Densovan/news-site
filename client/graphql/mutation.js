@@ -92,10 +92,43 @@ const FOLLOW = gql`
 `;
 const UNFOLLOW = gql`
   mutation ($id: ID!) {
-    unfollow_user(id: $id) {
+    unfollower_user(id: $id) {
       message
     }
   }
 `;
 
-export { ADD_NEWS, DELETE_NEWS, EDIT_NEWS, UPDATE_USER, FOLLOW, UNFOLLOW };
+const COMMENT = gql`
+  mutation (
+      $userId: ID 
+      $postId: ID 
+      $question: String
+    ) {
+    comment(
+      userId: $userId 
+      postId: $postId 
+      question: $question) {
+        message
+    }
+  }
+`;
+
+const REPLY_COMMENT = gql`
+  mutation (
+    $userId: ID 
+    $postId: ID 
+    $answer: String
+    $questionId: ID
+  ) {
+    reply(
+      userId: $userId
+      postId: $postId
+      answer: $answer
+      questionId: $questionId
+    ) {
+      message
+    }
+  }
+`
+
+export { ADD_NEWS, DELETE_NEWS, EDIT_NEWS, UPDATE_USER, FOLLOW, UNFOLLOW, COMMENT, REPLY_COMMENT };

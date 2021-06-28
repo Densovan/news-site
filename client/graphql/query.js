@@ -286,13 +286,37 @@ const GET_NEWS_BY_SLUG = gql`
       slug
       des
       user {
+        id
         fullname
+        image
+        email
       }
       types {
         name
       }
       categories {
         name
+      }
+      comment {
+        user {
+          fullname
+          image
+        }
+        id
+        question
+        userId
+        answerId
+      }
+      reply {
+        user {
+          fullname
+          image
+        }
+        id
+        userId
+        postId
+        answer
+        questionId
       }
     }
   }

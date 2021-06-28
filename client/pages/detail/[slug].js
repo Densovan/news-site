@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import TopNavbar from "../../components/Layouts/topNavbar";
 import MainNavbar from "../../components/Layouts/mainNavbar";
@@ -7,41 +7,43 @@ import { GET_NEWS_BY_SLUG } from "../../graphql/query";
 import { useQuery } from "@apollo/client";
 import Output from "editorjs-react-renderer";
 import moment from "moment";
-import { Row, Col } from "antd";
+import { Col, Row, Button, Tooltip, Avatar, Divider } from "antd";
 import { CubeSpinner } from "react-spinners-kit";
 import ContentLoader from "react-content-loader";
+import Follower from "../../components/common/follower";
+
+import {
+  HeartOutlined,
+  HeartFilled,
+  ShareAltOutlined,
+} from "@ant-design/icons";
+import styles from "../../styles/article-story.module.css";
+
+import FormComment from "../../components/common/comment";
+import CommentList from "../../components/commentList";
 
 const SinglePage = () => {
   const router = useRouter();
   const { slug } = router.query;
   const { loading, data } = useQuery(GET_NEWS_BY_SLUG, {
     variables: { slug },
+    pollInterval: 500,
+    fetchPolicy: "network-only",
   });
+
   if (loading)
     return (
       <center style={{ marginTop: "100px" }}>
         <CubeSpinner size={30} backColor="#686769" frontColor="#fce24a" />
-        {/* <ContentLoader
-          width={450}
-          height={400}
-          viewBox="0 0 450 400"
-          backgroundColor="#f0f0f0"
-          foregroundColor="#dedede"
-          // {...props}
-        >
-          <rect x="43" y="304" rx="4" ry="4" width="271" height="9" />
-          <rect x="44" y="323" rx="3" ry="3" width="119" height="6" />
-          <rect x="42" y="77" rx="10" ry="10" width="388" height="217" />
-        </ContentLoader> */}
       </center>
     );
-  console.log(data);
-  const { title, thumnail, des, user, createdAt } = data.get_news_by_slug;
+  const { id, title, thumnail, des, user, createdAt, comment, reply } =
+    data.get_news_by_slug;
   const result = <Output data={JSON.parse(des)} />;
   return (
     <React.Fragment>
       {/* <TopNavbar /> */}
-      <MainNavbar />
+      {/* <MainNavbar />
       <div className="container">
         <br></br>
         <Row gutter={[32, 32]}>
@@ -57,7 +59,6 @@ const SinglePage = () => {
                         <b>{user.fullname}</b>
                       </span>
                     </div>
-                    {/* <span> </span> */}
                   </Col>
                   <Col xs={24} md={4}>
                     <div className="badge-date">
@@ -77,6 +78,94 @@ const SinglePage = () => {
           </Col>
           <Col sm={24} md={24} lg={7}></Col>
         </Row>
+      </div> */}
+      <MainNavbar />
+      <div className="container">
+        <div style={{ marginTop: 16 }}>
+          <Row gutter={[16, 16]}>
+            <Col span={2}>
+              <div className={styles.nav_left}>
+                <div className={styles.btn_box}>
+                  <Button
+                    className={styles.btn_like}
+                    style={{ borderColor: "transparent", boxShadow: "none" }}
+                    shape="circle"
+                    icon={<HeartOutlined />}
+                    size="large"
+                  />
+                  <div className={styles.tt_like}>11</div>
+                </div>
+                <div className={styles.btn_box}>
+                  <Button
+                    className={styles.btn_share}
+                    style={{ borderColor: "transparent", boxShadow: "none" }}
+                    shape="circle"
+                    icon={<ShareAltOutlined />}
+                    size="large"
+                  />
+                  <div className={styles.tt_share}>21</div>
+                </div>
+              </div>
+            </Col>
+            <Col span={16}>
+              <div>
+                <div className={styles.thumail}>
+                  <img
+                    src={"http://localhost:3500/public/uploads/" + thumnail}
+                  />
+                </div>
+                <div className={styles.article_title}>
+                  <h1>{title}</h1>
+                </div>
+                <div>
+                  <div className={styles.pf_user}>
+                    <img src={user.image} />
+                    <div className={styles.name}>
+                      <label>{user.fullname}</label>
+                      <div className={styles.time}>
+                        <label>
+                          {moment.unix(createdAt / 1000).format("DD-MM-YYYY")} ·
+                          3 min read
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div style={{ color: "#262e3c", marginBottom: 20 }}>
+                    {result}
+                  </div>
+                  <Divider />
+                  <div style={{ marginTop: 20 }}>
+                    <h3>Comment(23)</h3>
+                    <div>
+                      <FormComment user={user} articleId={id} />
+                      <CommentList
+                        articleId={id}
+                        comments={comment}
+                        reply={reply}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Col>
+            <Col span={6}>
+              <div className={styles.pf_pre}>
+                <div className={styles.pf_user}>
+                  <img src={user.image} />
+                  <div className={styles.name}>
+                    <label>{user.fullname} </label>
+                  </div>
+                </div>
+                <div className={styles.pf_desc}>
+                  <p>
+                    Love to build Web Apps A journey of Full Stack Developer!
+                  </p>
+                </div>
+                <Follower articleUser={user} />
+              </div>
+            </Col>
+          </Row>
+        </div>
       </div>
       <Footer />
     </React.Fragment>

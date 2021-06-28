@@ -10,7 +10,7 @@ const Logout = () => {
     await getLoggedIn();
     // window.location.replace("/");
   }
-  return <div onClick={logoutButton}>Logout</div>;
+  return <div onClick={logoutButton}><span>Logout</span></div>;
 };
 
 export default Logout;

@@ -1,4 +1,5 @@
 import React, { useState, Fragment } from 'react'; 
+import Image from 'next/image';
 import {Layout, Menu } from 'antd';
 import {
     DashboardOutlined,
@@ -34,11 +35,14 @@ const SiderBar = ({ trigger, collapsed }) => {
             }
         })
     };
-    console.log(state);
     return(
         <Fragment>
             <Sider trigger={trigger} collapsible collapsed={collapsed} >
-                <div className="logo" />
+                <div className="logo" key="logo">
+                  <Link href="/">
+                    <img src="/assets/logo/logo.png" alt="logo" />
+                  </Link>
+                </div>
                 <Menu
                     onClick={handleClick}
                     defaultSelectedKeys={['1']}
@@ -71,13 +75,13 @@ const SiderBar = ({ trigger, collapsed }) => {
                     </SubMenu>
                     <SubMenu className="noselect" key="sub2" icon={<AimOutlined />} title="Mission">
                         <Menu.Item key="5">
-                            <Link href="/misson">
-                                <a className="noselect">Misson</a>
+                            <Link href="/mission">
+                                <a className="noselect">Mission</a>
                             </Link>
                         </Menu.Item>
                         <Menu.Item key="6">
-                            <Link href="/misson/create">
-                                <a className="noselect">Add Misson</a>
+                            <Link href="/mission/create">
+                                <a className="noselect">Add Mission</a>
                             </Link>
                         </Menu.Item>
                     </SubMenu>
@@ -93,16 +97,35 @@ const SiderBar = ({ trigger, collapsed }) => {
                             </Link>
                         </Menu.Item>
                     </SubMenu>
-                    <Menu.Item key="9" icon={<FolderOpenOutlined />}>
-                        <Link href="/category">
-                            <a className="noselect">Category</a>
-                        </Link>
-                    </Menu.Item>
-                    <Menu.Item key="10" icon={<ScheduleOutlined />}>
+                    <SubMenu className="noselect" key="sub4" icon={<FolderOpenOutlined />} title="Category">
+                        <Menu.Item key="9">
+                            <Link href="/category">
+                                <a className="noselect">Category</a>
+                            </Link>
+                        </Menu.Item>
+                        <Menu.Item key="10">
+                            <Link href="/category/create">
+                                <a className="noselect">Add Category</a>
+                            </Link>
+                        </Menu.Item>
+                    </SubMenu>
+                    <SubMenu className="noselect" key="sub5" icon={<FolderOpenOutlined />} title="Type">
+                        <Menu.Item key="11">
+                            <Link href="/type">
+                                <a className="noselect">Type</a>
+                            </Link>
+                        </Menu.Item>
+                        <Menu.Item key="12">
+                            <Link href="/type/create">
+                                <a className="noselect">Add Type</a>
+                            </Link>
+                        </Menu.Item>
+                    </SubMenu>
+                    {/* <Menu.Item key="10" icon={<ScheduleOutlined />}>
                         <Link href="/management">
                             <a className="noselect">Management</a>
                         </Link>
-                    </Menu.Item>
+                    </Menu.Item> */}
                 </Menu>
             </Sider>
         </Fragment>

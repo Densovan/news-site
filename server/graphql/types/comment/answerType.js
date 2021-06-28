@@ -4,6 +4,7 @@ const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLList } = graphql;
 //=========modell===============
 const question = require("../../../models/comment/question");
 const answer = require("../../../models/comment/answer");
+const user = require("../../../models/user");
 
 const AnswerType = new GraphQLObjectType({
   name: "answer",
@@ -27,6 +28,13 @@ const AnswerType = new GraphQLObjectType({
     answerId: {
       type: GraphQLID,
     },
+    user: {
+      type: userType,
+      resolve: (parent, args) => {
+        return user.findById(parent.userId);
+      },
+    },
   }),
 });
 module.exports = AnswerType;
+const userType = require("../userType");
