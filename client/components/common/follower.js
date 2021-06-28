@@ -88,8 +88,6 @@ const Follower = ({ articleUser }) => {
         }
     }
 
-    console.log();
-
     return (
         <div>
             {follow}

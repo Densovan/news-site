@@ -1,8 +1,10 @@
 import React,{ useState, createElement } from 'react';
 import { List, Comment, Tooltip, Avatar } from 'antd';
-import moment from 'moment'
+import moment from 'moment';
 import { DislikeOutlined, LikeOutlined, DislikeFilled, LikeFilled } from '@ant-design/icons';
 import FormComment from '../components/common/comment';
+import { useQuery } from '@apollo/client';
+import { GET_USER_BY_ID } from '../graphql/query';
 
 const CommentList = ({ comments, articleId, reply }) => {
   const [likes, setLikes] = useState(0);
@@ -61,11 +63,11 @@ const CommentList = ({ comments, articleId, reply }) => {
           </Tooltip>,
           <span key="comment-basic-reply-to" onClick={() => {setUserId(comments.id)}}>Reply</span>,
         ]}
-        author={<a>Han Solo</a>}
+        author={<a>{comments.user.fullname}</a>}
         avatar={
           <Avatar
-            src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-            alt="Han Solo"
+            src={comments.user.image}
+            alt={comments.user.fullname}
           />
           }
           content={comments.question} 
@@ -98,11 +100,11 @@ const CommentList = ({ comments, articleId, reply }) => {
                     <span key="comment-basic-reply-to" onClick={() => {setUserId(comments.id)}}>Reply</span>,
                   ]
                 }
-                author={<a>Han Solo</a>}
+                author={<a>{reply.user.fullname}</a>}
                 avatar={
                   <Avatar
-                    src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                    alt="Han Solo"
+                    src={reply.user.image}
+                    alt={reply.user.fullname}
                   />
                 }
                 content={
