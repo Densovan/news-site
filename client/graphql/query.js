@@ -304,7 +304,10 @@ const GET_NEWS_BY_SLUG = gql`
         }
         id
         question
-        userId
+        user{
+          fullname
+          image
+        }
         answerId
       }
       reply {
@@ -313,7 +316,10 @@ const GET_NEWS_BY_SLUG = gql`
           image
         }
         id
-        userId
+        user{
+          fullname
+          image
+        }
         postId
         answer
         questionId

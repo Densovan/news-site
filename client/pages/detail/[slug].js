@@ -17,7 +17,6 @@ import {
   HeartFilled,
   ShareAltOutlined,
 } from "@ant-design/icons";
-import styles from "../../styles/article-story.module.css";
 
 import FormComment from "../../components/common/comment";
 import CommentList from "../../components/commentList";
@@ -84,45 +83,45 @@ const SinglePage = () => {
         <div style={{ marginTop: 16 }}>
           <Row gutter={[16, 16]}>
             <Col span={2}>
-              <div className={styles.nav_left}>
-                <div className={styles.btn_box}>
+              <div className="nav_left">
+                <div className="btn_box">
                   <Button
-                    className={styles.btn_like}
+                    className="btn_like"
                     style={{ borderColor: "transparent", boxShadow: "none" }}
                     shape="circle"
                     icon={<HeartOutlined />}
                     size="large"
                   />
-                  <div className={styles.tt_like}>11</div>
+                  <div className="tt_like">11</div>
                 </div>
-                <div className={styles.btn_box}>
+                <div className="btn_box">
                   <Button
-                    className={styles.btn_share}
+                    className="btn_share"
                     style={{ borderColor: "transparent", boxShadow: "none" }}
                     shape="circle"
                     icon={<ShareAltOutlined />}
                     size="large"
                   />
-                  <div className={styles.tt_share}>21</div>
+                  <div className="tt_share">21</div>
                 </div>
               </div>
             </Col>
             <Col span={16}>
               <div>
-                <div className={styles.thumail}>
+                <div className="thumail">
                   <img
                     src={"http://localhost:3500/public/uploads/" + thumnail}
                   />
                 </div>
-                <div className={styles.article_title}>
+                <div className="article_title">
                   <h1>{title}</h1>
                 </div>
                 <div>
-                  <div className={styles.pf_user}>
+                  <div className="pf_user">
                     <img src={user.image} />
-                    <div className={styles.name}>
+                    <div className="name">
                       <label>{user.fullname}</label>
-                      <div className={styles.time}>
+                      <div className="time">
                         <label>
                           {moment.unix(createdAt / 1000).format("DD-MM-YYYY")} ·
                           3 min read
@@ -149,14 +148,14 @@ const SinglePage = () => {
               </div>
             </Col>
             <Col span={6}>
-              <div className={styles.pf_pre}>
-                <div className={styles.pf_user}>
+              <div className="pf_pre">
+                <div className="pf_user">
                   <img src={user.image} />
-                  <div className={styles.name}>
-                    <label>{user.fullname} </label>
+                  <div className="name">
+                    <label>{user.fullname}</label>
                   </div>
                 </div>
-                <div className={styles.pf_desc}>
+                <div className="pf_desc">
                   <p>
                     Love to build Web Apps A journey of Full Stack Developer!
                   </p>

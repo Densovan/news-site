@@ -13,8 +13,11 @@ const AnswerType = new GraphQLObjectType({
     message: {
       type: GraphQLString,
     },
-    userId: {
-      type: GraphQLID,
+    user: {
+      type: userType,
+      resolve: (parents, args) => {
+        return User.findById(parents.userId);
+      },
     },
     postId: {
       type: GraphQLString,
