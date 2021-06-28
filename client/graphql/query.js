@@ -297,13 +297,13 @@ const GET_NEWS_BY_SLUG = gql`
       categories {
         name
       }
-      comment{
+      comment {
         id
         question
         userId
         answerId
       }
-      reply{
+      reply {
         id
         userId
         postId
