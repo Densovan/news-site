@@ -7,12 +7,12 @@ import { useQuery, useMutation } from "@apollo/client";
 import MainNavbar from "../../components/Layouts/mainNavbar";
 import Footer from "../../components/Layouts/footer";
 import moment from "moment";
+import ContentLoader from "react-content-loader";
+import Follower from "../../components/common/follower";
 
 const Profile_detail = () => {
   const router = useRouter();
   const { id } = router.query;
-  const [unfollows, setUnfollow] = useState();
-  const [follows, setFollow] = useState();
   const { loading, data, refetch } = useQuery(GET_USER_BY_ID, {
     variables: { id },
   });
@@ -22,45 +22,35 @@ const Profile_detail = () => {
   //   refetch: refetch1,
   // } = useQuery(GET_USER);
   // const [showFollow, setShowfoller] = useState(id);
-  const [follow_user] = useMutation(FOLLOW);
-  const [unfollow_user] = useMutation(UNFOLLOW);
-  // const [followed, setFollowed] = useState(
-  //   data1.get_user.following.includes(data1?.followingId)
-  // );
 
-  // console.log(data1);
   if (loading)
     return (
       <center style={{ marginTop: "100px" }}>
-        <CubeSpinner size={30} backColor="#686769" frontColor="#fce24a" />
+        <ContentLoader
+          width={900}
+          height={560}
+          viewBox="0 0 400 160"
+          backgroundColor="#f3f3f3"
+          foregroundColor="#ecebeb"
+        >
+          <rect x="80" y="73" rx="3" ry="3" width="254" height="6" />
+          <rect x="78" y="88" rx="3" ry="3" width="254" height="6" />
+          <rect x="150" y="103" rx="3" ry="3" width="118" height="6" />
+          <circle cx="210" cy="27" r="22" />
+          <circle cx="181" cy="151" r="6" />
+          <circle cx="211" cy="151" r="6" />
+          <circle cx="241" cy="151" r="6" />
+          <rect x="37" y="54" rx="32" ry="32" width="15" height="15" />
+          <rect x="37" y="46" rx="0" ry="0" width="4" height="18" />
+          <rect x="54" y="54" rx="32" ry="32" width="15" height="15" />
+          <rect x="54" y="46" rx="0" ry="0" width="4" height="19" />
+          <rect x="336" y="118" rx="32" ry="32" width="15" height="15" />
+          <rect x="357" y="118" rx="32" ry="32" width="15" height="15" />
+          <rect x="347" y="123" rx="0" ry="0" width="4" height="18" />
+          <rect x="368" y="123" rx="0" ry="0" width="4" height="18" />
+        </ContentLoader>
       </center>
     );
-
-  // const unfollow = () => {
-  //   setUnfollow(
-  //     unfollow_user({
-  //       variables: { id: data.get_user_by_id.id },
-  //     })
-  //   );
-  //   refetch();
-  //   refetch1();
-  // };
-  // const follow = () => {
-  //   setFollow(
-  //     follow_user({
-  //       variables: {
-  //         id: data.get_user_by_id.id,
-  //         // followingId: data.get_user_by_id.id,
-  //         // followerId: data1.get_user.id,
-  //         fullname: data.get_user_by_id.fullname,
-  //         email: data.get_user_by_id.email,
-  //         image: data.get_user_by_id.image,
-  //       },
-  //     })
-  //   );
-  //   refetch();
-  //   refetch1();
-  // };
 
   return (
     <React.Fragment>
@@ -69,7 +59,10 @@ const Profile_detail = () => {
       <div className="container">
         <div className="container-layout-profile">
           <div className="layout-profile">
-            <div className="place-follow-btn"></div>
+            <div className="place-follow-btn">
+              {" "}
+              <Follower articleUser={data.get_user_by_id} />
+            </div>
             <center>
               <img className="profile-img1" src={data.get_user_by_id.image} />
               <h2>{data.get_user_by_id.fullname}</h2>
@@ -84,6 +77,7 @@ const Profile_detail = () => {
         </div>
       </div>
       <br></br>
+
       <Footer />
     </React.Fragment>
   );

@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import TopNavbar from "../../components/Layouts/topNavbar";
 import MainNavbar from "../../components/Layouts/mainNavbar";
 import Footer from "../../components/Layouts/footer";
 import { GET_NEWS_BY_SLUG } from "../../graphql/query";
 import { useQuery } from "@apollo/client";
 import Output from "editorjs-react-renderer";
 import moment from "moment";
-import { Col, Row, Button, Tooltip, Avatar, Divider } from "antd";
-import { CubeSpinner } from "react-spinners-kit";
-import ContentLoader from "react-content-loader";
+import { Col, Row, Button, Divider } from "antd";
+import Laoder from "../../components/loaders/detailLoader";
 import Follower from "../../components/common/follower";
 
 import {
@@ -32,52 +30,17 @@ const SinglePage = () => {
 
   if (loading)
     return (
-      <center style={{ marginTop: "100px" }}>
-        <CubeSpinner size={30} backColor="#686769" frontColor="#fce24a" />
-      </center>
+      <div className="container">
+        <center style={{ marginTop: "100px" }}>
+          <Laoder />
+        </center>
+      </div>
     );
   const { id, title, thumnail, des, user, createdAt, comment, reply } =
     data.get_news_by_slug;
   const result = <Output data={JSON.parse(des)} />;
   return (
     <React.Fragment>
-      {/* <TopNavbar /> */}
-      {/* <MainNavbar />
-      <div className="container">
-        <br></br>
-        <Row gutter={[32, 32]}>
-          <Col sm={24} md={24} lg={17}>
-            <div className="detail">
-              <div className="detail-main-des">
-                <h1>{title}</h1>
-                <Row gutter={[12, 12]}>
-                  <Col xs={24} md={20}>
-                    <div>
-                      <span>By : </span>
-                      <span>
-                        <b>{user.fullname}</b>
-                      </span>
-                    </div>
-                  </Col>
-                  <Col xs={24} md={4}>
-                    <div className="badge-date">
-                      {moment.unix(createdAt / 1000).format("DD-MM-YYYY")}
-                    </div>
-                  </Col>
-                </Row>
-              </div>
-              <img
-                style={{ maxWidth: "100%", marginTop: "12px" }}
-                src={"http://localhost:3500/public/uploads/" + thumnail}
-              />
-              <div className="detail-des">
-                <p>{result}</p>
-              </div>
-            </div>
-          </Col>
-          <Col sm={24} md={24} lg={7}></Col>
-        </Row>
-      </div> */}
       <MainNavbar />
       <div className="container">
         <div style={{ marginTop: 16 }}>
@@ -134,7 +97,8 @@ const SinglePage = () => {
                   </div>
                   <Divider />
                   <div style={{ marginTop: 20 }}>
-                    <h3>Comment(23)</h3>
+                    <h3>Comment({reply.length})</h3>
+
                     <div>
                       <FormComment user={user} articleId={id} />
                       <CommentList

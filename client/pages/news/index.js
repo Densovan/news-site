@@ -1,25 +1,25 @@
 import React from "react";
-import { Col, Row, Breadcrumb } from "antd";
+import { Breadcrumb, Row, Col } from "antd";
 import MainNavbar from "../../components/Layouts/mainNavbar";
-import Footer from "../../components/Layouts/footer";
-import Categories from "../categories/learn";
+import Categories from "../categories/news";
 import Main from "./main";
+import Footer from "../../components/Layouts/footer";
 
-const main = () => {
+const index = () => {
   return (
     <React.Fragment>
       <MainNavbar />
-      <div className="container top-learns">
+      <div className="container">
         <center>
-          <h1 className="top-title-allNews">Learns</h1>
+          <h1 className="top-title-allNews">News</h1>
           <Breadcrumb style={{ marginTop: "-24px" }}>
             <Breadcrumb.Item>Home</Breadcrumb.Item>
-            <Breadcrumb.Item>Learns</Breadcrumb.Item>
+            <Breadcrumb.Item>News</Breadcrumb.Item>
           </Breadcrumb>
         </center>
         <br></br>
         <br></br>
-        <Row gutter={[32, 32]}>
+        <Row gutter={[12, 12]}>
           <Col xs={24} md={6}>
             <Categories />
           </Col>
@@ -28,10 +28,9 @@ const main = () => {
           </Col>
         </Row>
       </div>
-      <br></br>
       <Footer />
     </React.Fragment>
   );
 };
 
-export default main;
+export default index;

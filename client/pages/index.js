@@ -10,7 +10,8 @@ import Footer from "../components/Layouts/footer";
 const Index = () => {
   return (
     <React.Fragment>
-      {/* <div className="index-banner">
+      <MainNavbar />
+      <div className="index-banner">
         <div className="content-banner">
           <Row gutter={[32, 32]}>
             <Col sm={15}>
@@ -28,7 +29,7 @@ const Index = () => {
             </Col>
           </Row>
         </div>
-      </div> */}
+      </div>
       <div>
         {/* <Row gutter={[32, 32]}>
           <Col sm={17}>

@@ -2,9 +2,10 @@ import React from "react";
 import Link from "next/link";
 import { useQuery } from "@apollo/client";
 import { GET_CATEGORIES } from "../../graphql/query";
+import CategoryLoader from "../../components/loaders/categoryLoader";
 const News = () => {
   const { loading, data } = useQuery(GET_CATEGORIES);
-  if (loading) return "";
+  if (loading) return <CategoryLoader />;
   return (
     <React.Fragment>
       <div className="news-cat">

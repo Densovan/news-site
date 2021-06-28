@@ -1,6 +1,17 @@
 import React, { useState, useContext } from "react";
-import { useRouter } from 'next/router';
-import { Drawer, Affix, Menu, Layout, Popover, Row, Col, Divider, Dropdown, Avatar } from "antd";
+import { useRouter } from "next/router";
+import {
+  Drawer,
+  Affix,
+  Menu,
+  Layout,
+  Popover,
+  Row,
+  Col,
+  Divider,
+  Dropdown,
+  Avatar,
+} from "antd";
 import {
   HiOutlineCog,
   HiLogout,
@@ -51,7 +62,7 @@ const MainNavbar = () => {
               className="left-bar"
               // theme="dark"
               mode="horizontal"
-            // defaultSelectedKeys={["2"]}
+              // defaultSelectedKeys={["2"]}
             >
               <Menu.Item className="navbar-text" key="0">
                 <ActiveLink activeClassName="is-active" href="/">
@@ -102,7 +113,7 @@ const MainNavbar = () => {
               className="left-bar"
               // theme="dark"
               mode="horizontal"
-            // defaultSelectedKeys={["2"]}
+              // defaultSelectedKeys={["2"]}
             >
               <Menu.Item className="navbar-text" key="0">
                 <ActiveLink activeClassName="is-active" href="/">
@@ -134,23 +145,28 @@ const MainNavbar = () => {
                   <Popover
                     placement="bottom"
                     content={
-                      <div
-                        className="dropdown-avatar"
-                      >
-
+                      <div className="dropdown-avatar">
                         <li className="content-avatar">
                           <Link href="/dashboard/profile">
                             <div className="control-avatar">
-                              <Avatar className="avatar-1" size="large" src={data.get_user.image} />
+                              <Avatar
+                                className="avatar-1"
+                                size="large"
+                                src={data.get_user.image}
+                              />
                               <div>
                                 <div>
                                   <a>
-                                    <span className="name">{data.get_user.fullname}</span>
+                                    <span className="name">
+                                      {data.get_user.fullname}
+                                    </span>
                                   </a>
                                 </div>
                                 <div>
                                   <a href="#">
-                                    <span className="email">@soklayvann</span>
+                                    <span className="email">
+                                      {data.get_user.email}
+                                    </span>
                                   </a>
                                 </div>
                               </div>
@@ -168,13 +184,19 @@ const MainNavbar = () => {
                             <span>Stories</span>
                           </Link>
                         </li>
-                        <li className="content-text" style={{ paddingBottom: 12 }}>
+                        <li
+                          className="content-text"
+                          style={{ paddingBottom: 12 }}
+                        >
                           <Link href="/dashboard/editProfile">
                             <span>Settings</span>
                           </Link>
                         </li>
                         <Divider />
-                        <li className="content-text" style={{ paddingBottom: 12 }}>
+                        <li
+                          className="content-text"
+                          style={{ paddingBottom: 12 }}
+                        >
                           <Logout />
                         </li>
                       </div>
@@ -241,8 +263,8 @@ const MainNavbar = () => {
             closable={false}
             onClose={onClose}
             visible={state.visible}
-          // width={200}
-          // key={placement}
+            // width={200}
+            // key={placement}
           >
             <Menu
               style={{
@@ -429,8 +451,8 @@ const MainNavbar = () => {
             closable={false}
             onClose={onClose}
             visible={state.visible}
-          // width={200}
-          // key={placement}
+            // width={200}
+            // key={placement}
           >
             <Menu
               style={{

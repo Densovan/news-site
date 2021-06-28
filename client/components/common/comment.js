@@ -23,7 +23,7 @@ const FormComment = ({ articleId, commentId }) => {
     comment: "",
   });
 
-  if (loading) return <div>Login...</div>;
+  if (loading) return <div>Loadin...</div>;
 
   const handleSubmit = (e) => {
     e.preventDefault();
