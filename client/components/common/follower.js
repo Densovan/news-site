@@ -9,7 +9,9 @@ const Follower = ({ articleUser }) => {
     const router = useRouter();
     const [state, setState] = useState(false);
     const [followId, setFollowId] = useState(null);
-    const { loading, data:user } = useQuery(GET_USER);
+    const { loading, data:user } = useQuery(GET_USER, {
+        pollInterval: 500
+    });
 
     const [addFollow] = useMutation(FOLLOW);
     const [unfollow] = useMutation(UNFOLLOW);
@@ -30,7 +32,7 @@ const Follower = ({ articleUser }) => {
                 })
             }
         }
-    }, [user])
+    }, [user])  
 
     if (loading) return <div>loading...</div>;
 

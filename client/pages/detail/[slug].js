@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import TopNavbar from "../../components/Layouts/topNavbar";
 import MainNavbar from "../../components/Layouts/mainNavbar";
@@ -24,10 +24,19 @@ import CommentList from "../../components/commentList";
 const SinglePage = () => {
   const router = useRouter();
   const { slug } = router.query;
-  const { loading, data } = useQuery(GET_NEWS_BY_SLUG, {
+  const [dataSlug, setDataSlug] = useState({
+    id: "",
+    title: "",
+    thumnail: "",
+    des: "",
+    user: "",
+    createdAt: "",
+    comment: [],
+    reply: []
+  })
+  const { loading, data, refetch } = useQuery(GET_NEWS_BY_SLUG, {
     variables: { slug },
-    pollInterval: 500,
-    fetchPolicy: "network-only",
+    pollInterval: 500
   });
 
   if (loading)

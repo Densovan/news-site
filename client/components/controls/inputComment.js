@@ -3,7 +3,7 @@ import { Comment, Avatar, Form, Button, List, Input } from 'antd';
 import moment from 'moment';
 
 const { TextArea } = Input;
-const InputComment = ({ onChange, onSubmit, submitting, value }) => {
+const InputComment = ({ onChange, onSubmit, submitting, value, checkBtn}) => {
     return(
         <Fragment>
             <Form.Item>
@@ -11,7 +11,7 @@ const InputComment = ({ onChange, onSubmit, submitting, value }) => {
             </Form.Item>
             <Form.Item>
               <Button htmlType="submit" loading={submitting} onClick={onSubmit} style={{ backgroundColor: '#fce24a', borderColor: '#fce24a', color: '#262e2c' }}>
-                Comment
+                {checkBtn}
               </Button>
             </Form.Item>
         </Fragment>

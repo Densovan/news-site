@@ -275,11 +275,11 @@ const GET_ALL_NEWS_BY_TYPE_FEATURE = gql`
 `;
 
 const GET_NEWS_BY_SLUG = gql`
-  query ($slug: String!) {
+  query ($slug: String) {
     get_news_by_slug(slug: $slug) {
+      id
       title
       createdAt
-      id
       category
       thumnail
       type
@@ -298,25 +298,19 @@ const GET_NEWS_BY_SLUG = gql`
         name
       }
       comment {
-        user {
-          fullname
-          image
-        }
         id
         question
         user{
+          id
           fullname
           image
         }
         answerId
       }
       reply {
-        user {
-          fullname
-          image
-        }
         id
         user{
+          id
           fullname
           image
         }
