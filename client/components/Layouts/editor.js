@@ -1,4 +1,4 @@
-import React from "react";
+// import EditorJs from "react-editor-js";
 import Embed from "@editorjs/embed";
 import Table from "@editorjs/table";
 import List from "@editorjs/list";
@@ -14,48 +14,33 @@ import CheckList from "@editorjs/checklist";
 import Delimiter from "@editorjs/delimiter";
 import InlineCode from "@editorjs/inline-code";
 import SimpleImage from "@editorjs/simple-image";
-import Paragraph from "@editorjs/paragraph";
-import EditorJs from "react-editor-js";
+import dynamic from "next/dynamic";
 
-const Editor = ({ placeholder, instanceRef, handleSave }) => {
-  // const instanceRef = React.useRef(null);
+let EditorJs;
+if (typeof window !== "undefined") {
+  EditorJs = dynamic(() => import("react-editor-js"));
+}
+
+function MyEditor() {
   const EDITOR_JS_TOOLS = {
-    image: {
-      class: Image,
-      config: {
-        endpoints: {
-          byFile: "http://localhost:3500/upload/image/editorjs", // Your backend file uploader endpoint
-          byUrl: "http://localhost:3500/upload/image/editorjs", // Your endpoint that provides uploading by Url
-        },
-      },
-    },
     embed: Embed,
     table: Table,
-    // paragraph: Paragraph,
+    marker: Marker,
     list: List,
     warning: Warning,
     code: Code,
     linkTool: LinkTool,
+    image: Image,
     raw: Raw,
     header: Header,
     quote: Quote,
-    marker: Marker,
     checklist: CheckList,
     delimiter: Delimiter,
     inlineCode: InlineCode,
     simpleImage: SimpleImage,
   };
-  return (
-    <div>
-      <EditorJs
-        placeholder={placeholder}
-        // placeholder="Please Input Description"
-        tools={EDITOR_JS_TOOLS}
-        instanceRef={instanceRef}
-        handleSave={handleSave}
-      />
-    </div>
-  );
-};
 
-export default Editor;
+  return <EditorJs tools={EDITOR_JS_TOOLS} />;
+}
+
+export default MyEditor;

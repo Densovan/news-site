@@ -9,7 +9,7 @@ import {
 } from "@ant-design/icons";
 import FormComment from "../components/common/comment";
 
-const CommentList = ({ comments, articleId, reply }) => {
+const CommentList = ({ comments, articleId, reply, fullname }) => {
   const [likes, setLikes] = useState(0);
   const [dislikes, setDislikes] = useState(0);
   const [action, setAction] = useState(null);
@@ -101,7 +101,11 @@ const CommentList = ({ comments, articleId, reply }) => {
         >
           {comments.id === userId && (
             <div>
-              <FormComment articleId={articleId} commentId={comments.id} />
+              <FormComment
+                fullname={fullname}
+                articleId={articleId}
+                commentId={comments.id}
+              />
             </div>
           )}
           {reply.map((reply) => {

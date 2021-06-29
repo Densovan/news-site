@@ -12,6 +12,7 @@ import {
   HiOutlineUserAdd,
   HiOutlineUserGroup,
 } from "react-icons/hi";
+import Link from "next/link";
 
 const Profile = () => {
   const { loggedIn } = useContext(AuthContext);
@@ -37,43 +38,6 @@ const Profile = () => {
                 <h4 style={{ marginTop: "12px" }}>{data.get_user.bio}</h4>
               </center>
               <br></br>
-
-              {/* <div className="sub-layout-profile">
-                <Row gutter={[12, 12]}>
-                  <Col sm={6}>
-                    <div className="box-total-profile">
-                      <h3>Total posts</h3>
-                      <div>
-                        <h4>0</h4>
-                      </div>
-                    </div>
-                  </Col>
-                  <Col sm={6}>
-                    <div className="box-total-profile">
-                      <h3>Total views posts</h3>
-                      <div>
-                        <h4>0</h4>
-                      </div>
-                    </div>
-                  </Col>
-                  <Col sm={6}>
-                    <div className="box-total-profile">
-                      <h3>Following Users</h3>
-                      <div>
-                        <h4>{data.get_user.following.length}</h4>
-                      </div>
-                    </div>
-                  </Col>
-                  <Col sm={6}>
-                    <div className="box-total-profile">
-                      <h3>Follower Users</h3>
-                      <div>
-                        <h4>{data.get_user.follower.length}</h4>
-                      </div>
-                    </div>
-                  </Col>
-                </Row>
-              </div> */}
             </div>
             <br></br>
             <div>
@@ -81,39 +45,82 @@ const Profile = () => {
                 <Col span={8}>
                   <div className="box-pf">
                     <Row className="accountNavbarhover">
-                      <Col style={{ paddingTop: "4px" }} span={2}>
+                      <Col style={{ paddingTop: "4px" }} span={3}>
                         <HiOutlineClipboardCheck style={{ fontSize: "21px" }} />
                       </Col>
-                      <Col style={{ paddingTop: "4px" }} span={22}>
-                        {data.get_user.news.length}
+                      <Col style={{ paddingTop: "4px" }} span={21}>
+                        {data.get_user.news.length} {""}
                         posts published
                       </Col>
                     </Row>
                     <Row className="accountNavbarhover">
-                      <Col style={{ paddingTop: "4px" }} span={2}>
+                      <Col style={{ paddingTop: "4px" }} span={3}>
                         <HiOutlineUserAdd style={{ fontSize: "21px" }} />
                       </Col>
-                      <Col style={{ paddingTop: "4px" }} span={22}>
+                      <Col style={{ paddingTop: "4px" }} span={21}>
                         {data.get_user.following.length} following
                       </Col>
                     </Row>
                     <Row className="accountNavbarhover">
-                      <Col style={{ paddingTop: "4px" }} span={2}>
+                      <Col style={{ paddingTop: "4px" }} span={3}>
                         <HiOutlineUserGroup style={{ fontSize: "21px" }} />
                       </Col>
-                      <Col style={{ paddingTop: "4px" }} span={22}>
+                      <Col style={{ paddingTop: "4px" }} span={21}>
                         {data.get_user.follower.length} follower
                       </Col>
                     </Row>
                   </div>
                 </Col>
-                <Col span={16}>hello</Col>
+                <Col span={16}>
+                  <div className="box-pf">
+                    <div>
+                      <h2>Recent Follower</h2>
+                      <Row gutter={[12, 12]}>
+                        {data.get_user.follower.slice(0, 6).map((res) => (
+                          <Col span={4}>
+                            <Link href={`/profile_detial/${res.followerId}`}>
+                              <center>
+                                <img
+                                  className="img-following"
+                                  src={res.image}
+                                />
+                                <p>{res.fullname}</p>
+                              </center>
+                            </Link>
+                          </Col>
+                        ))}
+                      </Row>
+                    </div>
+                    <div>
+                      <h2>Recent Following</h2>
+                      {data.get_user.following.length === 0 && <h1>no data</h1>}
+                      <Row gutter={[12, 12]}>
+                        {data.get_user.following.slice(0, 6).map((res) => (
+                          <Col span={4}>
+                            <Link href={`/profile_detial/${res.followingId}`}>
+                              <center>
+                                <img
+                                  className="img-following"
+                                  src={res.image}
+                                />
+                                <p>{res.fullname}</p>
+                              </center>
+                            </Link>
+                          </Col>
+                        ))}
+                      </Row>
+                    </div>
+                  </div>
+                </Col>
               </Row>
             </div>
           </div>
         )}
         {loggedIn === false && window.location.replace("/")}
       </div>
+      <br></br>
+      <br></br>
+      <br></br>
       <br></br>
       <Footer />
     </React.Fragment>

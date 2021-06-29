@@ -86,12 +86,14 @@ const GET_USER = gql`
         email
         fullname
         followingId
+        image
       }
       follower {
         id
         email
         fullname
         followerId
+        image
       }
     }
   }

@@ -105,6 +105,7 @@ const SinglePage = () => {
                         articleId={id}
                         comments={comment}
                         reply={reply}
+                        fullname={user.fullname}
                       />
                     </div>
                   </div>

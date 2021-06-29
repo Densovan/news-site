@@ -149,11 +149,11 @@ const MainNavbar = () => {
                         <li className="content-avatar">
                           <Link href="/dashboard/profile">
                             <div className="control-avatar">
-                              <Avatar
+                              {/* <Avatar
                                 className="avatar-1"
                                 size="large"
                                 src={data.get_user.image}
-                              />
+                              /> */}
                               <div>
                                 <div>
                                   <a>
@@ -354,95 +354,67 @@ const MainNavbar = () => {
               // </Link>
               <div style={{ cursor: "pointer" }}>
                 <Popover
-                  placement="topRight"
+                  placement="bottom"
                   content={
-                    <div className="content-popover" style={{ width: "270px" }}>
-                      <Row gutter={[24, 24]}>
-                        <Col span={4}>
-                          <img
-                            className="avatarAcc"
-                            src={data.get_user.image}
-                          />
-                        </Col>
-                        <Col span={20}>
-                          <div>
-                            <div className="popover-text">
-                              {data.get_user.fullname}
+                    <div className="dropdown-avatar">
+                      <li className="content-avatar">
+                        <Link href="/dashboard/profile">
+                          <div className="control-avatar">
+                            {/* <Avatar
+                                className="avatar-1"
+                                size="large"
+                                src={data.get_user.image}
+                              /> */}
+                            <div>
+                              <div>
+                                <a>
+                                  <span className="name">
+                                    {data.get_user.fullname}
+                                  </span>
+                                </a>
+                              </div>
+                              <div>
+                                <a href="#">
+                                  <span className="email">
+                                    {data.get_user.email}
+                                  </span>
+                                </a>
+                              </div>
                             </div>
-                            <span>{data.get_user.email}</span>
                           </div>
-                        </Col>
-                      </Row>
-
-                      <br></br>
-                      {/* <Link href="/dashboard">
-                          <Row className="accountNavbarhover">
-                            <Col style={{ paddingTop: "4px" }} span={4}>
-                              <HiOutlineCog style={{ fontSize: "21px" }} />
-                            </Col>
-                            <Col style={{ paddingTop: "4px" }} span={20}>
-                              Dashboard
-                            </Col>
-                          </Row>
-                        </Link> */}
-                      <Link href="/dashboard/profile">
-                        <Row className="accountNavbarhover">
-                          <Col style={{ paddingTop: "4px" }} span={4}>
-                            <HiOutlineUser style={{ fontSize: "21px" }} />
-                          </Col>
-                          <Col style={{ paddingTop: "4px" }} span={20}>
-                            Profile
-                          </Col>
-                        </Row>
-                      </Link>
-
-                      <Link href="/dashboard/addstory">
-                        <Row className="accountNavbarhover">
-                          <Col style={{ paddingTop: "4px" }} span={4}>
-                            <HiOutlinePencil style={{ fontSize: "21px" }} />
-                          </Col>
-                          <Col style={{ paddingTop: "4px" }} span={20}>
-                            Write a Story
-                          </Col>
-                        </Row>
-                      </Link>
-                      <Link href="/dashboard/allstories">
-                        <Row className="accountNavbarhover">
-                          <Col style={{ paddingTop: "4px" }} span={4}>
-                            <HiOutlineBookOpen style={{ fontSize: "21px" }} />
-                          </Col>
-                          <Col style={{ paddingTop: "4px" }} span={20}>
-                            Stories
-                          </Col>
-                        </Row>
-                      </Link>
-                      <Link href="/dashboard/editProfile">
-                        <Row className="accountNavbarhover">
-                          <Col style={{ paddingTop: "4px" }} span={4}>
-                            <HiOutlineCog style={{ fontSize: "21px" }} />
-                          </Col>
-                          <Col style={{ paddingTop: "4px" }} span={20}>
-                            Setting
-                          </Col>
-                        </Row>
-                      </Link>
-
-                      <Row className="accountNavbarhover">
-                        <Col style={{ paddingTop: "4px" }} span={4}>
-                          <HiOutlineLogout style={{ fontSize: "21px" }} />
-                        </Col>
-                        <Col
-                          className="logout"
-                          style={{ paddingTop: "4px" }}
-                          span={20}
-                        >
-                          <Logout />
-                        </Col>
-                      </Row>
+                        </Link>
+                      </li>
+                      <Divider />
+                      <li className="content-text">
+                        <Link href="/dashboard/addstory">
+                          <span>Write a story</span>
+                        </Link>
+                      </li>
+                      <li className="content-text">
+                        <Link href="/dashboard/allstories">
+                          <span>Stories</span>
+                        </Link>
+                      </li>
+                      <li
+                        className="content-text"
+                        style={{ paddingBottom: 12 }}
+                      >
+                        <Link href="/dashboard/editProfile">
+                          <span>Settings</span>
+                        </Link>
+                      </li>
+                      <Divider />
+                      <li
+                        className="content-text"
+                        style={{ paddingBottom: 12 }}
+                      >
+                        <Logout />
+                      </li>
                     </div>
                   }
                   trigger="click"
                 >
+                  {/* <Avatar className="avatar-1" size="default" src={data.get_user.image} /> */}
                   <img className="avatar-mobile" src={data.get_user.image} />
                 </Popover>
               </div>

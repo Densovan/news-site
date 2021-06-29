@@ -5,6 +5,7 @@ import moment from "moment";
 const { TextArea } = Input;
 const InputComment = ({ onChange, onSubmit, submitting, value, commentId }) => {
   const [state, setState] = useState(commentId);
+  console.log(value);
   return (
     <Fragment>
       <Form.Item>
@@ -21,11 +22,6 @@ const InputComment = ({ onChange, onSubmit, submitting, value, commentId }) => {
           htmlType="submit"
           loading={submitting}
           onClick={onSubmit}
-          // style={{
-          //   backgroundColor: "#fce24a",
-          //   borderColor: "#fce24a",
-          //   color: "#262e2c",
-          // }}
           className="btn-comment"
         >
           Comment
