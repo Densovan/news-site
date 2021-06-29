@@ -78,14 +78,15 @@ const Follower = ({ articleUser }) => {
     if (user.get_user === null) {
       follow.push(
         <div key="1">
-          <Button
+          <button
+            className="btn-follow"
             onClick={(e) => {
               e.preventDefault();
               router.push("/signin");
             }}
           >
             Follow
-          </Button>
+          </button>
         </div>
       );
     } else {

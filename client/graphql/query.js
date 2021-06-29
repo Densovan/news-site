@@ -3,6 +3,7 @@ import { gql } from "@apollo/client";
 const GET_USERS = gql`
   query {
     get_users {
+      bio
       fullname
       image
       email
@@ -30,6 +31,7 @@ const GET_USERS = gql`
 const GET_USER_BY_ID = gql`
   query ($id: ID!) {
     get_user_by_id(id: $id) {
+      bio
       image
       fullname
       email
@@ -70,6 +72,7 @@ const GET_USER = gql`
   query {
     get_user {
       image
+      bio
       fullname
       email
       role
@@ -286,6 +289,7 @@ const GET_NEWS_BY_SLUG = gql`
       slug
       des
       user {
+        bio
         id
         fullname
         image
@@ -298,25 +302,27 @@ const GET_NEWS_BY_SLUG = gql`
         name
       }
       comment {
+        createdAt
         user {
           fullname
           image
         }
         id
         question
-        user{
+        user {
           fullname
           image
         }
         answerId
       }
       reply {
+        createdAt
         user {
           fullname
           image
         }
         id
-        user{
+        user {
           fullname
           image
         }

@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { GET_USER_BY_ID, GET_USER } from "../../graphql/query";
-import { FOLLOW, UNFOLLOW } from "../../graphql/mutation";
-import { CubeSpinner } from "react-spinners-kit";
 import { useQuery, useMutation } from "@apollo/client";
 import MainNavbar from "../../components/Layouts/mainNavbar";
 import Footer from "../../components/Layouts/footer";
@@ -16,14 +14,12 @@ const Profile_detail = () => {
   const { loading, data, refetch } = useQuery(GET_USER_BY_ID, {
     variables: { id },
   });
-  // const {
-  //   loading: loading1,
-  //   data: data1,
-  //   refetch: refetch1,
-  // } = useQuery(GET_USER);
-  // const [showFollow, setShowfoller] = useState(id);
-
-  if (loading)
+  const {
+    loading: currentLaoding,
+    data: currentData,
+    refetch: currentRefetch,
+  } = useQuery(GET_USER);
+  if (loading || currentLaoding)
     return (
       <center style={{ marginTop: "100px" }}>
         <ContentLoader
@@ -55,6 +51,8 @@ const Profile_detail = () => {
   return (
     <React.Fragment>
       <MainNavbar />
+      {data.get_user_by_id.id === currentData.get_user.id &&
+        window.location.replace("/dashboard/profile")}
       <div className="brand-bg"></div>
       <div className="container">
         <div className="container-layout-profile">
@@ -77,7 +75,6 @@ const Profile_detail = () => {
         </div>
       </div>
       <br></br>
-
       <Footer />
     </React.Fragment>
   );

@@ -7,6 +7,11 @@ import AuthContext from "../../contexts/authContext";
 import MainNavbar from "../../components/Layouts/mainNavbar";
 import Footer from "../../components/Layouts/footer";
 import moment from "moment";
+import {
+  HiOutlineClipboardCheck,
+  HiOutlineUserAdd,
+  HiOutlineUserGroup,
+} from "react-icons/hi";
 
 const Profile = () => {
   const { loggedIn } = useContext(AuthContext);
@@ -29,8 +34,10 @@ const Profile = () => {
                   Joined On :{" "}
                   {moment.unix(data.get_user.createdAt / 1000).format("LL")}
                 </h3>
+                <h4 style={{ marginTop: "12px" }}>{data.get_user.bio}</h4>
               </center>
               <br></br>
+
               {/* <div className="sub-layout-profile">
                 <Row gutter={[12, 12]}>
                   <Col sm={6}>
@@ -67,7 +74,41 @@ const Profile = () => {
                   </Col>
                 </Row>
               </div> */}
-              <br></br>
+            </div>
+            <br></br>
+            <div>
+              <Row gutter={[12, 12]}>
+                <Col span={8}>
+                  <div className="box-pf">
+                    <Row className="accountNavbarhover">
+                      <Col style={{ paddingTop: "4px" }} span={2}>
+                        <HiOutlineClipboardCheck style={{ fontSize: "21px" }} />
+                      </Col>
+                      <Col style={{ paddingTop: "4px" }} span={22}>
+                        {data.get_user.news.length}
+                        posts published
+                      </Col>
+                    </Row>
+                    <Row className="accountNavbarhover">
+                      <Col style={{ paddingTop: "4px" }} span={2}>
+                        <HiOutlineUserAdd style={{ fontSize: "21px" }} />
+                      </Col>
+                      <Col style={{ paddingTop: "4px" }} span={22}>
+                        {data.get_user.following.length} following
+                      </Col>
+                    </Row>
+                    <Row className="accountNavbarhover">
+                      <Col style={{ paddingTop: "4px" }} span={2}>
+                        <HiOutlineUserGroup style={{ fontSize: "21px" }} />
+                      </Col>
+                      <Col style={{ paddingTop: "4px" }} span={22}>
+                        {data.get_user.follower.length} follower
+                      </Col>
+                    </Row>
+                  </div>
+                </Col>
+                <Col span={16}>hello</Col>
+              </Row>
             </div>
           </div>
         )}

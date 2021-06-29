@@ -23,7 +23,7 @@ const FormComment = ({ articleId, commentId }) => {
     comment: "",
   });
 
-  if (loading) return <div>Loadin...</div>;
+  if (loading) return <div>Loading...</div>;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -67,7 +67,6 @@ const FormComment = ({ articleId, commentId }) => {
 
   return (
     <Comment
-      // author={<a href="#">{user.get_user.fullname}</a>}
       avatar={<Avatar src={user.get_user.image} />}
       content={
         <InputComment
@@ -75,6 +74,7 @@ const FormComment = ({ articleId, commentId }) => {
           onSubmit={handleSubmit}
           submitting={value.submitting}
           value={value.comment}
+          commentId={commentId}
         />
       }
     />

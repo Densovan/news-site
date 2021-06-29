@@ -31,6 +31,12 @@ const AnswerType = new GraphQLObjectType({
     answerId: {
       type: GraphQLID,
     },
+    createdAt: {
+      type: GraphQLString,
+    },
+    updateAt: {
+      type: GraphQLString,
+    },
     user: {
       type: userType,
       resolve: (parent, args) => {

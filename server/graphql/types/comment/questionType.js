@@ -13,6 +13,12 @@ const QuestionType = new GraphQLObjectType({
     message: {
       type: GraphQLString,
     },
+    createdAt: {
+      type: GraphQLString,
+    },
+    updateAt: {
+      type: GraphQLString,
+    },
     user: {
       type: userType,
       resolve: (parents, args) => {

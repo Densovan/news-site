@@ -58,6 +58,8 @@ const UPDATE_USER = gql`
     $newPassword: String
     $email: String
     $image: String
+    $bio: String
+    $gender: String
   ) {
     update_user(
       fullname: $fullname
@@ -66,6 +68,8 @@ const UPDATE_USER = gql`
       newPassword: $newPassword
       email: $email
       image: $image
+      bio: $bio
+      gender: $gender
     ) {
       message
     }
@@ -99,27 +103,15 @@ const UNFOLLOW = gql`
 `;
 
 const COMMENT = gql`
-  mutation (
-      $userId: ID 
-      $postId: ID 
-      $question: String
-    ) {
-    comment(
-      userId: $userId 
-      postId: $postId 
-      question: $question) {
-        message
+  mutation ($userId: ID, $postId: ID, $question: String) {
+    comment(userId: $userId, postId: $postId, question: $question) {
+      message
     }
   }
 `;
 
 const REPLY_COMMENT = gql`
-  mutation (
-    $userId: ID 
-    $postId: ID 
-    $answer: String
-    $questionId: ID
-  ) {
+  mutation ($userId: ID, $postId: ID, $answer: String, $questionId: ID) {
     reply(
       userId: $userId
       postId: $postId
@@ -129,6 +121,15 @@ const REPLY_COMMENT = gql`
       message
     }
   }
-`
+`;
 
-export { ADD_NEWS, DELETE_NEWS, EDIT_NEWS, UPDATE_USER, FOLLOW, UNFOLLOW, COMMENT, REPLY_COMMENT };
+export {
+  ADD_NEWS,
+  DELETE_NEWS,
+  EDIT_NEWS,
+  UPDATE_USER,
+  FOLLOW,
+  UNFOLLOW,
+  COMMENT,
+  REPLY_COMMENT,
+};

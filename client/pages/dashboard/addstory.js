@@ -254,8 +254,6 @@ const Addstory = () => {
                   </Form.Item>
                   <Form.Item
                     placeholder="Tell Your Story"
-                    onChange={onChange2}
-                    // label="Tell your story"
                     name="des"
                     rules={[
                       {
@@ -266,9 +264,6 @@ const Addstory = () => {
                   >
                     {CustomEditor && (
                       <CustomEditor
-                        value="des"
-                        // className="input-story"
-                        // onChange={onChange3}
                         tools={EDITOR_JS_TOOLS}
                         placeholder="Tell your story"
                         instanceRef={(instance) =>

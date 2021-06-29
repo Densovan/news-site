@@ -1,35 +1,5 @@
-// import React from "react";
-// import {
-//   GET_NEWS,
-//   GET_OWN_NEWS,
-//   GET_CATEGORIES,
-//   GET_TYPES,
-// } from "../../../graphql/query";
-// import { useRouter } from "next/router";
-// import { EDIT_NEWS } from "../../../graphql/mutation";
-// import { useQuery, useMutation } from "@apollo/client";
-
-// const EditStory = () => {
-//   const router = useRouter();
-//   const { id } = router.query;
-//   const { loading: LoadingNews, data: dataNews } = useQuery(GET_NEWS, {
-//     variables: { id },
-//   });
-//   if (LoadingNews) return "loading...";
-//   console.log(dataNews);
-
-//   return (
-//     <React.Fragment>
-//       <div className="container">
-//         <h1>hello</h1>
-//       </div>
-//     </React.Fragment>
-//   );
-// };
-
-// export default EditStory;
 import React, { useState, useContext } from "react";
-import { Form, Button, Input, Upload, message, Select } from "antd";
+import { Form, Button, Input, Upload, message, Select, Col, Row } from "antd";
 import {
   GET_NEWS,
   GET_OWN_NEWS,
@@ -51,6 +21,8 @@ if (typeof window !== "undefined") {
 }
 
 const Editstory = () => {
+  const [current, setCurrent] = React.useState(0);
+  const [titles, setTitle] = useState("");
   const { loggedIn } = useContext(AuthContext);
   const [state, setState] = useState({
     imageUrl: null,
@@ -80,6 +52,9 @@ const Editstory = () => {
   });
   if (LoadingNews) return "loading...";
   console.log(dataNews);
+  const onChange1 = (e) => {
+    setTitle(e.target.value);
+  };
 
   async function handleSave() {
     const savedData = await instanceRef.current.save();
@@ -87,6 +62,15 @@ const Editstory = () => {
     await setData(savedData);
     // instanceRef.current.clear();
   }
+  const next = (e) => {
+    // e.preventDefault();
+    setCurrent(current + 1);
+  };
+
+  const prev = (e) => {
+    // e.preventDefault();
+    setCurrent(current - 1);
+  };
 
   const handleChange = (info) => {
     if (info.file.status === "uploading") {
@@ -234,120 +218,117 @@ const Editstory = () => {
             <div className="sub-pf-content">
               <h2>Edit Your Story</h2>
               <Form form={form} layout="vertical" onFinish={onFinish}>
-                <Form.Item
-                  label="Thumnail"
-                  name="image"
-                  initialValue={thumnail}
-                >
-                  <Upload.Dragger
-                    name="file"
-                    className="avatar-uploader"
-                    action="http://localhost:3500/upload/images"
-                    beforeUpload={beforeUpload}
-                    onChange={handleChange}
+                <div className={current === 1 && "hidden"}>
+                  <Form.Item
+                    onChange={onChange1}
+                    initialValue={title}
+                    label="Title"
+                    name="title"
                   >
-                    {/* {state.imageUrl ? (
-                <img
-                  // src={`${`https://backend.vitaminair.org/`}/public/uploads/${
-                  //   state.imageUrl
-                  // }`}
-                  src={"http://localhost:3500/public/uploads/" + state.imageUrl}
-                  alt="avatar"
-                  style={{ width: "100%" }}
-                />
-              ) : (
-                uploadButton
-              )} */}
-                    {state.imageUrl === null ? (
-                      // <img
-                      //   src={`${`http://localhost:3500`}/public/uploads/${
-                      //     initationsData.get_initation.image
-                      //   }`}
-                      //   alt="avatar"
-                      //   style={{ width: "100%" }}
-                      // />
-                      <img
-                        // src={`${`https://backend.vitaminair.org/`}/public/uploads/${
-                        //   state.imageUrl
-                        // }`}
-                        src={"http://localhost:3500/public/uploads/" + thumnail}
-                        alt="avatar"
-                        style={{ width: "100%" }}
-                      />
-                    ) : (
-                      // <img
-                      //   src={`${`http://localhost:3500`}/public/uploads/${
-                      //     state.imageUrl
-                      //   }`}
-                      //   alt="avatar"
-                      //   style={{ width: "100%" }}
-                      // />
-                      <img
-                        // src={`${`https://backend.vitaminair.org/`}/public/uploads/${
-                        //   state.imageUrl
-                        // }`}
-                        src={
-                          "http://localhost:3500/public/uploads/" +
-                          state.imageUrl
-                        }
-                        alt="avatar"
-                        style={{ width: "100%" }}
-                      />
-                    )}
-                  </Upload.Dragger>
-                </Form.Item>
-
-                <Form.Item initialValue={title} label="Title" name="title">
-                  <Input
-                    defaultValue={title}
-                    className="input-pf"
-                    size="large"
-                    placeholder="title"
-                  />
-                </Form.Item>
-
-                <GetCategory />
-                <GetType />
-
-                <Form.Item
-                  label="Description"
-                  name="des"
-                  initialValue={JSON.parse(des)}
-                >
-                  {CustomEditor && (
-                    <CustomEditor
-                      data={JSON.parse(des)}
-                      tools={EDITOR_JS_TOOLS}
-                      placeholder="Please Input Description"
-                      instanceRef={(instance) =>
-                        (instanceRef.current = instance)
-                      }
+                    <Input
+                      defaultValue={title}
+                      className="input-pf"
+                      size="large"
+                      placeholder="title"
                     />
-                  )}
-                  {/* <EditorJs
-              tools={EDITOR_JS_TOOLS}
-              placeholder="Please input Description"
-              instanceRef={(instance) => (instanceRef.current = instance)}
-            /> */}
-                </Form.Item>
-                <Form.Item>
-                  <Button
-                    onClick={handleSave}
-                    className="btn-submit"
-                    disabled={loading ? true : false}
-                    loading={loading ? true : false}
-                    // type="primary"
-                    htmlType="submit"
-                    size="large"
-                    // className="standard-btn"
+                  </Form.Item>
+                  <Form.Item
+                    label="Description"
+                    name="des"
+                    initialValue={JSON.parse(des)}
                   >
-                    {loading ? (
-                      <small>loading...</small>
-                    ) : (
-                      <small>SUMBIT</small>
+                    {CustomEditor && (
+                      <CustomEditor
+                        data={JSON.parse(des)}
+                        tools={EDITOR_JS_TOOLS}
+                        placeholder="Please Input Description"
+                        instanceRef={(instance) =>
+                          (instanceRef.current = instance)
+                        }
+                      />
                     )}
-                  </Button>
-                </Form.Item>
+                  </Form.Item>
+                </div>
+                <div className={current === 0 && "hidden"}>
+                  <Row gutter={[32, 32]}>
+                    <Col span={12}>
+                      <Form.Item
+                        label="Thumnail"
+                        name="image"
+                        initialValue={thumnail}
+                      >
+                        <Upload.Dragger
+                          name="file"
+                          className="avatar-uploader"
+                          action="http://localhost:3500/upload/images"
+                          beforeUpload={beforeUpload}
+                          onChange={handleChange}
+                        >
+                          {state.imageUrl === null ? (
+                            <img
+                              src={
+                                "http://localhost:3500/public/uploads/" +
+                                thumnail
+                              }
+                              alt="avatar"
+                              style={{ width: "100%" }}
+                            />
+                          ) : (
+                            <img
+                              src={
+                                "http://localhost:3500/public/uploads/" +
+                                state.imageUrl
+                              }
+                              alt="avatar"
+                              style={{ width: "100%" }}
+                            />
+                          )}
+                        </Upload.Dragger>
+                      </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                      <GetCategory />
+                      <GetType />
+                    </Col>
+                  </Row>
+                </div>
+                <div className="steps-action">
+                  {current === 0 && (
+                    <Button
+                      className="btn-next"
+                      disabled={titles.length < 1}
+                      // type="primary"
+                      onClick={() => next()}
+                    >
+                      Next
+                    </Button>
+                  )}
+                  {current === 1 && (
+                    <Form.Item>
+                      <Button
+                        onClick={handleSave}
+                        className="btn-submit"
+                        disabled={loading ? true : false}
+                        loading={loading ? true : false}
+                        // type="primary"
+                        htmlType="submit"
+                        size="large"
+                        // className="standard-btn"
+                      >
+                        {loading ? (
+                          <small>loading...</small>
+                        ) : (
+                          <small>SUMBIT</small>
+                        )}
+                      </Button>
+                    </Form.Item>
+                  )}
+                  {current > 0 && (
+                    <Button className="btn-next" onClick={() => prev()}>
+                      Previous
+                    </Button>
+                  )}
+                </div>
               </Form>
             </div>
           </div>
@@ -361,17 +342,3 @@ const Editstory = () => {
 };
 
 export default Editstory;
-
-// import React from "react";
-
-// const Editstory = () => {
-//   return (
-//     <div>
-//       <div className="sub-pf-content">
-//         <h2>Edit Your Story</h2>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Editstory;

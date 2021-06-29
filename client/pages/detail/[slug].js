@@ -97,7 +97,7 @@ const SinglePage = () => {
                   </div>
                   <Divider />
                   <div style={{ marginTop: 20 }}>
-                    <h3>Comment({reply.length})</h3>
+                    <h3>Comment({reply.length + comment.length})</h3>
 
                     <div>
                       <FormComment user={user} articleId={id} />
@@ -120,9 +120,7 @@ const SinglePage = () => {
                   </div>
                 </div>
                 <div className="pf_desc">
-                  <p>
-                    Love to build Web Apps A journey of Full Stack Developer!
-                  </p>
+                  <p>{user.bio}</p>
                 </div>
                 <Follower articleUser={user} />
               </div>

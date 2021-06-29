@@ -138,6 +138,18 @@ const ChangeProfilePicture = () => {
                     placeholder="Fullname"
                   />
                 </Form.Item>
+                <Form.Item
+                  initialValue={data.get_user.bio}
+                  name="bio"
+                  label="Bio"
+                >
+                  <Input
+                    defaultValue={data.get_user.bio}
+                    className="input-pf"
+                    size="large"
+                    placeholder="Bio"
+                  />
+                </Form.Item>
                 <Divider orientation="left" plain>
                   <h3>Password</h3>
                 </Divider>

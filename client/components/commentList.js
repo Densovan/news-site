@@ -80,18 +80,29 @@ const CommentList = ({ comments, articleId, reply }) => {
             >
               Reply
             </span>,
+
+            <span
+              key="comment-basic-reply-to"
+              onClick={() => {
+                setUserId("");
+              }}
+            >
+              {comments.id === userId && "Cancel"}
+            </span>,
           ]}
           author={<a>{comments.user.fullname}</a>}
           avatar={<Avatar src={comments.user.image} />}
           content={comments.question}
           datetime={
             <Tooltip title={moment().format("YYYY-MM-DD HH:mm:ss")}>
-              <span>{moment().fromNow()}</span>
+              <span>{moment(parseInt(comments.createdAt)).fromNow()}</span>
             </Tooltip>
           }
         >
           {comments.id === userId && (
-            <FormComment articleId={articleId} commentId={comments.id} />
+            <div>
+              <FormComment articleId={articleId} commentId={comments.id} />
+            </div>
           )}
           {reply.map((reply) => {
             return (
@@ -129,6 +140,13 @@ const CommentList = ({ comments, articleId, reply }) => {
                     author={<a>{reply.user.fullname}</a>}
                     avatar={<Avatar src={reply.user.image} />}
                     content={<p>{reply.answer}</p>}
+                    datetime={
+                      <Tooltip title={moment().format("YYYY-MM-DD HH:mm:ss")}>
+                        <span>
+                          {moment(parseInt(reply.createdAt)).fromNow()}
+                        </span>
+                      </Tooltip>
+                    }
                   ></Comment>
                 )}
               </div>

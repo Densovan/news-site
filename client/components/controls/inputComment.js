@@ -1,14 +1,15 @@
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { Comment, Avatar, Form, Button, List, Input } from "antd";
 import moment from "moment";
 
 const { TextArea } = Input;
-const InputComment = ({ onChange, onSubmit, submitting, value }) => {
+const InputComment = ({ onChange, onSubmit, submitting, value, commentId }) => {
+  const [state, setState] = useState(commentId);
   return (
     <Fragment>
       <Form.Item>
         <TextArea
-          // rows={4}
+          className="input-comment"
           showCount
           maxLength={100}
           onChange={onChange}
@@ -16,18 +17,19 @@ const InputComment = ({ onChange, onSubmit, submitting, value }) => {
         />
       </Form.Item>
       <Form.Item>
-        <Button
+        <button
           htmlType="submit"
           loading={submitting}
           onClick={onSubmit}
-          style={{
-            backgroundColor: "#fce24a",
-            borderColor: "#fce24a",
-            color: "#262e2c",
-          }}
+          // style={{
+          //   backgroundColor: "#fce24a",
+          //   borderColor: "#fce24a",
+          //   color: "#262e2c",
+          // }}
+          className="btn-comment"
         >
           Comment
-        </Button>
+        </button>
       </Form.Item>
     </Fragment>
   );
