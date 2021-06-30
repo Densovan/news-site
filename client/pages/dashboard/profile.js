@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useQuery, useMutation } from "@apollo/client";
-import { Row, Col } from "antd";
+import { Row, Col, Empty } from "antd";
 import { HiOutlineCake } from "react-icons/hi";
 import { GET_USER } from "../../graphql/query";
 import AuthContext from "../../contexts/authContext";
@@ -75,6 +75,7 @@ const Profile = () => {
                   <div className="box-pf">
                     <div>
                       <h2>Recent Follower</h2>
+                      {data.get_user.follower.length === 0 && <Empty />}
                       <Row gutter={[12, 12]}>
                         {data.get_user.follower.slice(0, 6).map((res) => (
                           <Col span={4}>
@@ -93,7 +94,7 @@ const Profile = () => {
                     </div>
                     <div>
                       <h2>Recent Following</h2>
-                      {data.get_user.following.length === 0 && <h1>no data</h1>}
+                      {data.get_user.following.length === 0 && <Empty />}
                       <Row gutter={[12, 12]}>
                         {data.get_user.following.slice(0, 6).map((res) => (
                           <Col span={4}>
