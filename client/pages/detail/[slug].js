@@ -1,14 +1,17 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { useRouter } from "next/router";
 import MainNavbar from "../../components/Layouts/mainNavbar";
 import Footer from "../../components/Layouts/footer";
-import { GET_NEWS_BY_SLUG } from "../../graphql/query";
+import { GET_NEWS_BY_SLUG, GET_USER } from "../../graphql/query";
 import { useQuery } from "@apollo/client";
 import Output from "editorjs-react-renderer";
 import moment from "moment";
 import { Col, Row, Button, Divider } from "antd";
 import Laoder from "../../components/loaders/detailLoader";
 import Follower from "../../components/common/follower";
+import Like from "../../components/common/like";
+import AuthContext from "../../contexts/authContext";
+import Link from "next/link";
 
 import {
   HeartOutlined,
@@ -20,6 +23,7 @@ import FormComment from "../../components/common/comment";
 import CommentList from "../../components/commentList";
 
 const SinglePage = () => {
+  const { loggedIn } = useContext(AuthContext);
   const router = useRouter();
   const { slug } = router.query;
   const [dataSlug, setDataSlug] = useState({
@@ -30,14 +34,15 @@ const SinglePage = () => {
     user: "",
     createdAt: "",
     comment: [],
-    reply: []
-  })
+    reply: [],
+  });
   const { loading, data, refetch } = useQuery(GET_NEWS_BY_SLUG, {
     variables: { slug },
-    pollInterval: 500
+    pollInterval: 500,
   });
+  const { loading: laodingUser, data: dataUser } = useQuery(GET_USER);
 
-  if (loading)
+  if (loading || laodingUser)
     return (
       <div className="container">
         <center style={{ marginTop: "100px" }}>
@@ -45,8 +50,10 @@ const SinglePage = () => {
         </center>
       </div>
     );
-  const { id, title, thumnail, des, user, createdAt, comment, reply } =
+  // const { id: contextId } = dataUser.get_user;
+  const { id, title, thumnail, des, user, createdAt, comment, reply, like } =
     data.get_news_by_slug;
+
   const result = <Output data={JSON.parse(des)} />;
   return (
     <React.Fragment>
@@ -57,6 +64,13 @@ const SinglePage = () => {
             <Col span={2}>
               <div className="nav_left">
                 <div className="btn_box">
+                  {/* <Like
+                    postId={id}
+                    userId={user.id}
+                    likes={like}
+                    contextId={dataUser.get_user.id}
+                    refetch={refetch}
+                  /> */}
                   <Button
                     className="btn_like"
                     style={{ borderColor: "transparent", boxShadow: "none" }}
@@ -105,19 +119,34 @@ const SinglePage = () => {
                     {result}
                   </div>
                   <Divider />
-                  <div style={{ marginTop: 20 }}>
-                    <h3>Comment({reply.length + comment.length})</h3>
-
-                    <div>
-                      <FormComment user={user} articleId={id} />
-                      <CommentList
-                        articleId={id}
-                        comments={comment}
-                        reply={reply}
-                        fullname={user.fullname}
-                      />
+                  {loggedIn === true ? (
+                    <div style={{ marginTop: 20 }}>
+                      <h3>Comment({reply.length + comment.length})</h3>
+                      <div>
+                        <FormComment user={user} articleId={id} />
+                        <CommentList
+                          articleId={id}
+                          comments={comment}
+                          reply={reply}
+                          fullname={user.fullname}
+                        />
+                      </div>
                     </div>
-                  </div>
+                  ) : (
+                    <div>
+                      <center>
+                        <br></br>
+                        <h3>
+                          Please <Link href="/signin">Login</Link> to Make
+                          Discussion
+                        </h3>
+                        <img
+                          style={{ maxWidth: "50%" }}
+                          src="/assets/images/Login-rafiki.png"
+                        />
+                      </center>
+                    </div>
+                  )}
                 </div>
               </div>
             </Col>

@@ -1,5 +1,5 @@
 import React, { useState, createElement } from "react";
-import { List, Comment, Tooltip, Avatar, Dropdown, Menu } from "antd";
+import { List, Comment, Tooltip, Avatar, Dropdown, Menu, Row, Col } from "antd";
 import moment from "moment";
 import {
   DislikeOutlined,
@@ -8,12 +8,13 @@ import {
   LikeFilled,
   MoreOutlined,
 } from "@ant-design/icons";
+import { HiDotsHorizontal } from "react-icons/hi";
 import FormComment from "../components/common/comment";
 import { useQuery, useMutation } from "@apollo/client";
 import { GET_USER } from "../graphql/query";
 import { DELETE_COMMENT, DELETE_REPLY } from "../graphql/mutation";
 
-const CommentList = ({ comments, articleId, reply, fullname }) => {
+const CommentList = ({ comments, articleId, reply }) => {
   const [likes, setLikes] = useState(0);
   const [dislikes, setDislikes] = useState(0);
   const [action, setAction] = useState(null);
@@ -115,7 +116,53 @@ const CommentList = ({ comments, articleId, reply, fullname }) => {
                     alt={comments.user.fullname}
                   />
                 }
-                content={comments.question}
+                content={
+                  <div style={{ display: "flex" }}>
+                    <span>{comments.question}</span>
+                    <span style={{ marginTop: "3px", marginLeft: "7px" }}>
+                      <Dropdown
+                        overlay={
+                          <Menu style={{ width: "120px" }}>
+                            {comments.user.id === user.get_user.id && (
+                              <Menu.Item key="0">
+                                <a
+                                  onClick={() =>
+                                    handleEdit("question", comments.id)
+                                  }
+                                >
+                                  Edit
+                                </a>
+                              </Menu.Item>
+                            )}
+                            {comments.user.id === user.get_user.id && (
+                              <Menu.Item key="1">
+                                <a
+                                  onClick={() =>
+                                    handleDelete("question", comments.id)
+                                  }
+                                >
+                                  Delete
+                                </a>
+                              </Menu.Item>
+                            )}
+                            <Menu.Item key="3">Report</Menu.Item>
+                          </Menu>
+                        }
+                        trigger={["click"]}
+                      >
+                        <p
+                          className="ant-dropdown-link"
+                          onClick={(e) => e.preventDefault()}
+                        >
+                          <HiDotsHorizontal
+                            style={{ marginLeft: "5px", marginTop: "3px" }}
+                            size={20}
+                          />
+                        </p>
+                      </Dropdown>
+                    </span>
+                  </div>
+                }
                 datetime={
                   <Tooltip title={moment().format("YYYY-MM-DD HH:mm:ss")}>
                     <span>
@@ -123,41 +170,7 @@ const CommentList = ({ comments, articleId, reply, fullname }) => {
                     </span>
                   </Tooltip>
                 }
-              >
-                <div>
-                  <Dropdown.Button
-                    overlay={
-                      <Menu style={{ width: "120px" }}>
-                        {comments.user.id === user.get_user.id && (
-                          <Menu.Item key="0">
-                            <a
-                              onClick={() =>
-                                handleEdit("question", comments.id)
-                              }
-                            >
-                              Edit
-                            </a>
-                          </Menu.Item>
-                        )}
-                        {comments.user.id === user.get_user.id && (
-                          <Menu.Item key="1">
-                            <a
-                              onClick={() =>
-                                handleDelete("question", comments.id)
-                              }
-                            >
-                              Delete
-                            </a>
-                          </Menu.Item>
-                        )}
-                        <Menu.Item key="3">Report</Menu.Item>
-                      </Menu>
-                    }
-                    icon={<MoreOutlined />}
-                    trigger={["click"]}
-                  />
-                </div>
-              </Comment>
+              ></Comment>
             )}
           </div>
           {idEditCm === comments.id && (
@@ -205,14 +218,6 @@ const CommentList = ({ comments, articleId, reply, fullname }) => {
                       >
                         Reply
                       </span>,
-                      <span
-                        key="comment-basic-reply-to"
-                        onClick={() => {
-                          setUserId("");
-                        }}
-                      >
-                        {comments.id === userId && "Cancel"}
-                      </span>,
                     ]}
                     author={<a>{reply.user.fullname}</a>}
                     avatar={
@@ -221,7 +226,53 @@ const CommentList = ({ comments, articleId, reply, fullname }) => {
                         alt={reply.user.fullname}
                       />
                     }
-                    content={<p>{reply.answer}</p>}
+                    content={
+                      <div style={{ display: "flex" }}>
+                        <span>{reply.answer}</span>
+                        <span style={{ marginTop: "3px", marginLeft: "7px" }}>
+                          <Dropdown
+                            overlay={
+                              <Menu style={{ width: "120px" }}>
+                                {reply.user.id === user.get_user.id && (
+                                  <Menu.Item key="0">
+                                    <a
+                                      onClick={() =>
+                                        handleEdit("answer", reply.id)
+                                      }
+                                    >
+                                      Edit
+                                    </a>
+                                  </Menu.Item>
+                                )}
+                                {reply.user.id === user.get_user.id && (
+                                  <Menu.Item key="1">
+                                    <a
+                                      onClick={() =>
+                                        handleDelete("answer", reply.id)
+                                      }
+                                    >
+                                      Delete
+                                    </a>
+                                  </Menu.Item>
+                                )}
+                                <Menu.Item key="3">Report</Menu.Item>
+                              </Menu>
+                            }
+                            trigger={["click"]}
+                          >
+                            <p
+                              className="ant-dropdown-link"
+                              onClick={(e) => e.preventDefault()}
+                            >
+                              <HiDotsHorizontal
+                                style={{ marginLeft: "5px", marginTop: "3px" }}
+                                size={20}
+                              />
+                            </p>
+                          </Dropdown>
+                        </span>
+                      </div>
+                    }
                     datetime={
                       <Tooltip title={moment().format("YYYY-MM-DD HH:mm:ss")}>
                         <span>
@@ -230,7 +281,7 @@ const CommentList = ({ comments, articleId, reply, fullname }) => {
                       </Tooltip>
                     }
                   >
-                    <div>
+                    {/* <div>
                       <Dropdown.Button
                         style={{
                           borderColor: "transparent",
@@ -264,7 +315,7 @@ const CommentList = ({ comments, articleId, reply, fullname }) => {
                         icon={<MoreOutlined />}
                         trigger={["click"]}
                       />
-                    </div>
+                    </div> */}
                   </Comment>
                 )}
                 <div style={{ marginLeft: 30 }}>

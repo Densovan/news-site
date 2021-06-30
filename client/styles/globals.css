@@ -87,6 +87,21 @@ body {
 .top-nav-rigth-mobile a {
   color: #848484;
 }
+.ant-dropdown-link:hover {
+  background: #dddada;
+  padding: 1px;
+  border-radius: 30px;
+  width: 31px;
+  margin-top: -5px;
+  /* transition: 1s; */
+}
+.ant-dropdown-link {
+  margin-top: -5px;
+  width: 31px;
+  padding: 1px;
+  cursor: pointer;
+  /* transition: 1s; */
+}
 .avatarAcc {
   position: relative;
   width: 40px;

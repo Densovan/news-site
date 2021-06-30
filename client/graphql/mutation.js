@@ -159,7 +159,16 @@ const EDIT_REPLY = gql`
   }
 `;
 
+const LIKE = gql`
+  mutation ($postId: ID!) {
+    like(postId: $postId) {
+      message
+    }
+  }
+`;
+
 export {
+  LIKE,
   ADD_NEWS,
   DELETE_NEWS,
   EDIT_NEWS,

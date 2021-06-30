@@ -9,7 +9,7 @@ import Footer from "../../components/Layouts/footer";
 import AuthContext from "../../contexts/authContext";
 // import { EDITOR_JS_TOOLS } from "../../components/Layouts/tools";
 let CustomEditor;
-let EDITOR_JS_TOOLS;
+// let EDITOR_JS_TOOLS;
 if (typeof window !== "undefined") {
   CustomEditor = dynamic(() => import("react-editor-js"));
   // EDITOR_JS_TOOLS = dynamic(() => import("../../components/Layouts/tools"));
@@ -264,7 +264,7 @@ const Addstory = () => {
                   >
                     {CustomEditor && (
                       <CustomEditor
-                        tools={EDITOR_JS_TOOLS}
+                        // tools={EDITOR_JS_TOOLS}
                         placeholder="Tell your story"
                         instanceRef={(instance) =>
                           (instanceRef.current = instance)
