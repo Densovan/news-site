@@ -1,27 +1,48 @@
-import React, { createElement, useState } from "react";
+import React, { createElement, useEffect, useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { Comment, Tooltip, Avatar } from "antd";
-import moment from "moment";
-import {
-  DislikeOutlined,
-  LikeOutlined,
-  DislikeFilled,
-  LikeFilled,
-} from "@ant-design/icons";
 
-import { COMMENT, REPLY_COMMENT } from "../../graphql/mutation";
+import {
+  COMMENT,
+  REPLY_COMMENT,
+  EDIT_COMMENT,
+  EDIT_REPLY,
+} from "../../graphql/mutation";
 import { GET_USER } from "../../graphql/query";
 import InputComment from "../controls/inputComment";
+import { useRouter } from "next/router";
 
-const FormComment = ({ articleId, commentId }) => {
-  const { loading: loading, data: user } = useQuery(GET_USER);
+const FormComment = (props) => {
+  const router = useRouter();
+  const { articleId, commentId, object, check } = props;
+  const { loading: loading, data: user } = useQuery(GET_USER, {
+    pollInterval: 500,
+  });
   const [addComment] = useMutation(COMMENT);
   const [replyComment] = useMutation(REPLY_COMMENT);
+  const [editComment] = useMutation(EDIT_COMMENT);
+  const [editReply] = useMutation(EDIT_REPLY);
 
   const [value, setValue] = useState({
     submitting: false,
     comment: "",
   });
+  useEffect(() => {
+    if (!object) {
+      return;
+    } else {
+      if (check === "Answer") {
+        setValue({
+          comment: object.answer,
+        });
+      }
+      if (check === "Question") {
+        setValue({
+          comment: object.question,
+        });
+      }
+    }
+  }, [object]);
 
   if (loading) return <div>Loading...</div>;
 
@@ -45,6 +66,7 @@ const FormComment = ({ articleId, commentId }) => {
           });
         }, 1000);
       });
+      props.getCheck("answerType", null);
     } else {
       addComment({
         variables: {
@@ -65,16 +87,62 @@ const FormComment = ({ articleId, commentId }) => {
     }
   };
 
+  const handleEdit = (e) => {
+    e.preventDefault();
+    if (check === "undefined") {
+      return;
+    }
+    if (check === "Answer") {
+      editReply({
+        variables: {
+          id: object.id,
+          userId: user.get_user.id,
+          answer: value.comment,
+        },
+      }).then(async (data) => {
+        setValue({
+          submitting: true,
+        });
+        setTimeout(() => {
+          setValue({
+            submitting: false,
+          });
+        }, 1000);
+        props.getCheck("answer", null);
+      });
+    }
+    if (check === "Question") {
+      editComment({
+        variables: {
+          id: object.id,
+          userId: user.get_user.id,
+          postId: articleId,
+          question: value.comment,
+        },
+      }).then(async (data) => {
+        setValue({
+          submitting: true,
+        });
+        setTimeout(() => {
+          setValue({
+            submitting: false,
+          });
+        }, 1000);
+        props.getCheck("question", null);
+      });
+    }
+  };
+
   return (
     <Comment
       avatar={<Avatar src={user.get_user.image} />}
       content={
         <InputComment
           onChange={(e) => setValue({ ...value, ["comment"]: e.target.value })}
-          onSubmit={handleSubmit}
+          onSubmit={object === undefined ? handleSubmit : handleEdit}
           submitting={value.submitting}
           value={value.comment}
-          commentId={commentId}
+          checkBtn={object === undefined ? "Post" : "Update"}
         />
       }
     />
