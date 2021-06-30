@@ -22,16 +22,16 @@ import CommentList from "../../components/commentList";
 const SinglePage = () => {
   const router = useRouter();
   const { slug } = router.query;
-  const [dataSlug, setDataSlug] = useState({
-    id: "",
-    title: "",
-    thumnail: "",
-    des: "",
-    user: "",
-    createdAt: "",
-    comment: [],
-    reply: []
-  })
+  // const [dataSlug, setDataSlug] = useState({
+  //   id: "",
+  //   title: "",
+  //   thumnail: "",
+  //   des: "",
+  //   user: "",
+  //   createdAt: "",
+  //   comment: [],
+  //   reply: []
+  // })
   const { loading, data, refetch } = useQuery(GET_NEWS_BY_SLUG, {
     variables: { slug },
     pollInterval: 500

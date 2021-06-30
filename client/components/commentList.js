@@ -18,6 +18,10 @@ const CommentList = ({ comments, articleId, reply, fullname }) => {
   const [dislikes, setDislikes] = useState(0);
   const [action, setAction] = useState(null);
   const [userId, setUserId] = useState(null);
+  const [answer, setAnswer] = useState({
+    replyAnswer: null,
+    replyComment: null
+  })
   const [idEditCm, setIdEditCm] = useState(null);
   const [idEditQ, setIdEditQ] = useState(null);
 
@@ -69,6 +73,7 @@ const CommentList = ({ comments, articleId, reply, fullname }) => {
       setUserId(item);
     }
   };
+
   return (
     <List
       dataSource={comments}
@@ -106,7 +111,7 @@ const CommentList = ({ comments, articleId, reply, fullname }) => {
                     }}
                   >
                     Reply
-                  </span>,
+                  </span>
                 ]}
                 author={<div>{comments.user.fullname}</div>}
                 avatar={
@@ -200,7 +205,10 @@ const CommentList = ({ comments, articleId, reply, fullname }) => {
                       <span
                         key="comment-basic-reply-to"
                         onClick={() => {
-                          setUserId(comments.id);
+                          setAnswer({
+                            replyAnswer: reply.id,
+                            replyComment: comments.id
+                          });
                         }}
                       >
                         Reply
@@ -208,10 +216,13 @@ const CommentList = ({ comments, articleId, reply, fullname }) => {
                       <span
                         key="comment-basic-reply-to"
                         onClick={() => {
-                          setUserId("");
+                          setAnswer({
+                            replyAnswer: '',
+                            replyComment: ''
+                          })
                         }}
                       >
-                        {comments.id === userId && "Cancel"}
+                        {/* {comments.id === userId && "Cancel"} */}
                       </span>,
                     ]}
                     author={<a>{reply.user.fullname}</a>}
@@ -277,6 +288,17 @@ const CommentList = ({ comments, articleId, reply, fullname }) => {
                     />
                   )}
                 </div>
+                <div style={{ marginLeft: 30 }}>
+                  {reply.id === answer.replyAnswer && comments.id === reply.questionId && (
+                    <FormComment 
+                      articleId={articleId}
+                      getCheck={getCheck}
+                      commentId={comments.id}
+                      check="answerType"
+                      getName={reply.user.fullname}
+                    />
+                  )}
+                </div>
               </div>
             );
           })}
@@ -286,6 +308,8 @@ const CommentList = ({ comments, articleId, reply, fullname }) => {
                 articleId={articleId}
                 commentId={comments.id}
                 getCheck={getCheck}
+                check="answerType"
+                getName={comments.user.fullname}
               />
             )}
           </div>

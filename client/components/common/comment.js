@@ -14,7 +14,7 @@ import { useRouter } from "next/router";
 
 const FormComment = (props) => {
   const router = useRouter();
-  const { articleId, commentId, object, check } = props;
+  const { articleId, commentId, object, check, getName } = props;
   const { loading: loading, data: user } = useQuery(GET_USER, {
     pollInterval: 500,
   });
@@ -43,12 +43,19 @@ const FormComment = (props) => {
       }
     }
   }, [object]);
+  useEffect(() => {
+    if (check === "answerType") {
+      setValue({
+        comment: `@${getName}`
+      })
+    }
+  },[])
 
   if (loading) return <div>Loading...</div>;
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (commentId) {
+    if (check === "answerType") {
       replyComment({
         variables: {
           userId: user.get_user.id,
@@ -143,6 +150,8 @@ const FormComment = (props) => {
           submitting={value.submitting}
           value={value.comment}
           checkBtn={object === undefined ? "Post" : "Update"}
+          // name={getName !== 'undefined' && getName}
+          // commentId={commentId}
         />
       }
     />
