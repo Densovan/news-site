@@ -35,9 +35,9 @@ const SinglePage = () => {
   // })
   const { loading, data, refetch } = useQuery(GET_NEWS_BY_SLUG, {
     variables: { slug },
-    pollInterval: 500
+    pollInterval: 500,
   });
-  const {loading:userLoadin, data:thisUser} = useQuery(GET_USER);
+  const { loading: userLoadin, data: thisUser } = useQuery(GET_USER);
 
   if (loading || userLoadin)
     return (
