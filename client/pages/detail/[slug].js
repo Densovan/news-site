@@ -12,6 +12,7 @@ import Follower from "../../components/common/follower";
 import Like from "../../components/common/like";
 import AuthContext from "../../contexts/authContext";
 import Link from "next/link";
+import FormLike from "../../components/common/like";
 
 import {
   HeartOutlined,
@@ -26,23 +27,23 @@ const SinglePage = () => {
   const { loggedIn } = useContext(AuthContext);
   const router = useRouter();
   const { slug } = router.query;
-  const [dataSlug, setDataSlug] = useState({
-    id: "",
-    title: "",
-    thumnail: "",
-    des: "",
-    user: "",
-    createdAt: "",
-    comment: [],
-    reply: [],
-  });
+  // const [dataSlug, setDataSlug] = useState({
+  //   id: "",
+  //   title: "",
+  //   thumnail: "",
+  //   des: "",
+  //   user: "",
+  //   createdAt: "",
+  //   comment: [],
+  //   reply: []
+  // })
   const { loading, data, refetch } = useQuery(GET_NEWS_BY_SLUG, {
     variables: { slug },
     pollInterval: 500,
   });
-  const { loading: laodingUser, data: dataUser } = useQuery(GET_USER);
+  const { loading: userLoadin, data: thisUser } = useQuery(GET_USER);
 
-  if (loading || laodingUser)
+  if (loading || userLoadin)
     return (
       <div className="container">
         <center style={{ marginTop: "100px" }}>
@@ -50,7 +51,6 @@ const SinglePage = () => {
         </center>
       </div>
     );
-  // const { id: contextId } = dataUser.get_user;
   const { id, title, thumnail, des, user, createdAt, comment, reply, like } =
     data.get_news_by_slug;
 
@@ -63,23 +63,7 @@ const SinglePage = () => {
           <Row gutter={[16, 16]}>
             <Col span={2}>
               <div className="nav_left">
-                <div className="btn_box">
-                  {/* <Like
-                    postId={id}
-                    userId={user.id}
-                    likes={like}
-                    contextId={dataUser.get_user.id}
-                    refetch={refetch}
-                  /> */}
-                  <Button
-                    className="btn_like"
-                    style={{ borderColor: "transparent", boxShadow: "none" }}
-                    shape="circle"
-                    icon={<HeartOutlined />}
-                    size="large"
-                  />
-                  <div className="tt_like">11</div>
-                </div>
+                <FormLike articleId={id} dataLike={like} thisUser={thisUser} />
                 <div className="btn_box">
                   <Button
                     className="btn_share"
@@ -164,7 +148,7 @@ const SinglePage = () => {
                 </div>
                 {loggedIn === true ? (
                   <div>
-                    {user.id === dataUser.get_user.id ? (
+                    {user.id === thisUser.get_user.id ? (
                       ""
                     ) : (
                       <Follower articleUser={user} />

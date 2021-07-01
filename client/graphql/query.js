@@ -328,12 +328,8 @@ const GET_NEWS_BY_SLUG = gql`
         questionId
       }
       like {
-        id
         userId
-        user {
-          fullname
-          email
-        }
+        postId
       }
     }
   }

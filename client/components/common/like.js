@@ -1,53 +1,53 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "antd";
-import { useMutation, useQuery } from "@apollo/client";
-import { LIKE } from "../../graphql/mutation";
+import { HeartOutlined } from "@ant-design/icons";
+import { useMutation } from "@apollo/client";
+import { LIKE_ARTICLE } from "../../graphql/mutation";
 
-const like = ({ postId, userId, likes, contextId, refetch }) => {
-  const [like] = useMutation(LIKE);
-  const [state, setState] = useState(false);
-  const [likess, setLike] = useState(null);
+const FormLike = ({ articleId, dataLike, thisUser }) => {
+  const [like, setLike] = useState(false);
+  const [likeArticle] = useMutation(LIKE_ARTICLE);
 
   useEffect(() => {
-    if (likes !== null) {
-      if (likes.length === 0) {
-        setState(false);
-      } else {
-        likes.map((res) => {
-          if (res.userId === contextId) {
-            setState(true);
-            setLike(res.userId);
-          }
-        });
+    dataLike.map((like) => {
+      if (like.userId === thisUser.get_user.id) {
+        setLike(true);
       }
+    });
+  }, [thisUser, dataLike]);
+  const handleLike = async () => {
+    try {
+      await likeArticle({
+        variables: { postId: articleId },
+      }).then(async (response) => {
+        let check = response.data.like.message.split(" ");
+        if (check[0] === "successful") {
+          setLike(true);
+        }
+        if (check[0] === "delete") {
+          setLike(false);
+        }
+      });
+    } catch (e) {
+      console.log(e);
     }
-  });
-  console.log("data", contextId);
-  const handleClick = (e) => {
-    e.preventDefault();
-    like({
-      variables: {
-        postId,
-        userId,
-      },
-    }).then(() => refetch());
   };
-
-  //   console.log(data.get_user.id);
-  console.log("like", likes);
   return (
-    <div>
-      {state === false && <Button onClick={handleClick}>like</Button>}
-      {state === true && (
-        <p>
-          {likess === contextId && (
-            <Button onClick={handleClick}>Unlike</Button>
-          )}
-          {likess !== contextId && <Button onClick={handleClick}>like</Button>}
-        </p>
-      )}
+    <div className="btn_box">
+      <Button
+        onClick={handleLike}
+        style={{
+          borderColor: "transparent",
+          boxShadow: "none",
+          backgroundColor: like ? "#262e3c" : "transparent",
+        }}
+        shape="circle"
+        icon={<HeartOutlined style={{ color: like ? "#fff" : "#000" }} />}
+        size="large"
+      />
+      <div className="tt_like">{dataLike.length}</div>
     </div>
   );
 };
 
-export default like;
+export default FormLike;
