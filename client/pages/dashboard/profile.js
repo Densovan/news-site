@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useQuery, useMutation } from "@apollo/client";
-import { Row, Col, Empty } from "antd";
+import { Row, Col, Empty, Divider } from "antd";
 import { HiOutlineCake } from "react-icons/hi";
 import { GET_USER } from "../../graphql/query";
 import AuthContext from "../../contexts/authContext";
@@ -29,12 +29,23 @@ const Profile = () => {
             <div className="layout-profile">
               <center>
                 <img className="profile-img1" src={data.get_user.image} />
-                <h2>{data.get_user.fullname}</h2>
-                <h3 className="date-news">
-                  {/* <HiOutlineCake size={18} /> */}
-                  Joined On :{" "}
-                  {moment.unix(data.get_user.createdAt / 1000).format("LL")}
-                </h3>
+                <h2 className="name-pf">{data.get_user.fullname}</h2>
+                <div className="date-pf-join">
+                  <Row>
+                    <Col style={{ paddingTop: "4px" }} span={3}>
+                      <HiOutlineCake style={{ fontSize: "19px" }} />
+                    </Col>
+                    <Col style={{ paddingTop: "4px" }} span={21}>
+                      <h3>
+                        Joined On :{" "}
+                        {moment
+                          .unix(data.get_user.createdAt / 1000)
+                          .format("LL")}
+                      </h3>
+                    </Col>
+                  </Row>
+                </div>
+
                 <h4 style={{ marginTop: "12px" }}>{data.get_user.bio}</h4>
               </center>
               <br></br>
@@ -74,7 +85,9 @@ const Profile = () => {
                 <Col span={16}>
                   <div className="box-pf">
                     <div>
-                      <h2>Recent Follower</h2>
+                      <h3>
+                        <Divider orientation="left">Recent Follower</Divider>
+                      </h3>
                       {data.get_user.follower.length === 0 && <Empty />}
                       <Row gutter={[12, 12]}>
                         {data.get_user.follower.slice(0, 6).map((res) => (
@@ -93,7 +106,9 @@ const Profile = () => {
                       </Row>
                     </div>
                     <div>
-                      <h2>Recent Following</h2>
+                      <h3>
+                        <Divider orientation="left">Recent Following</Divider>
+                      </h3>
                       {data.get_user.following.length === 0 && <Empty />}
                       <Row gutter={[12, 12]}>
                         {data.get_user.following.slice(0, 6).map((res) => (

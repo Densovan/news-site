@@ -116,7 +116,7 @@ const SinglePage = () => {
                     </div>
                   </div>
                   <div style={{ color: "#262e3c", marginBottom: 20 }}>
-                    {result}
+                    <p style={{ fontSize: "20px" }}>{result}</p>
                   </div>
                   <Divider />
                   {loggedIn === true ? (
@@ -156,12 +156,68 @@ const SinglePage = () => {
                   <img src={user.image} />
                   <div className="name">
                     <label>{user.fullname}</label>
+                    <p>{user.email}</p>
                   </div>
                 </div>
                 <div className="pf_desc">
                   <p>{user.bio}</p>
                 </div>
-                <Follower articleUser={user} />
+                {loggedIn === true ? (
+                  <div>
+                    {user.id === dataUser.get_user.id ? (
+                      ""
+                    ) : (
+                      <Follower articleUser={user} />
+                    )}
+                  </div>
+                ) : (
+                  <div>
+                    <Follower articleUser={user} />
+                  </div>
+                )}
+
+                <div className="pf-work">
+                  {/* ======work======= */}
+                  <div>
+                    <Divider
+                      style={{ fontSize: "18", color: "gray" }}
+                      orientation="left"
+                    >
+                      Work
+                    </Divider>
+                    <h4>Community Lead at DSC JSS </h4>
+                  </div>
+                  {/* ===========Location============ */}
+                  <div>
+                    <Divider
+                      style={{ fontSize: "18", color: "gray" }}
+                      orientation="left"
+                    >
+                      Location
+                    </Divider>
+                    <h4>Noida, Uttar Pradesh, India </h4>
+                  </div>
+                  {/*========= Education=========== */}
+                  <div>
+                    <Divider
+                      style={{ fontSize: "18", color: "gray" }}
+                      orientation="left"
+                    >
+                      Education
+                    </Divider>
+                    <h4>JSS Academy Of Technical Education Noida </h4>
+                  </div>
+                  {/* //===========join============== */}
+                  <div>
+                    <Divider
+                      style={{ fontSize: "18", color: "gray" }}
+                      orientation="left"
+                    >
+                      Join
+                    </Divider>
+                    <h4>{moment.unix(user.createdAt / 1000).format("LL")}</h4>
+                  </div>
+                </div>
               </div>
             </Col>
           </Row>

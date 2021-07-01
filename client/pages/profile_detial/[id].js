@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useRouter } from "next/router";
 import { GET_USER_BY_ID, GET_USER } from "../../graphql/query";
 import { useQuery, useMutation } from "@apollo/client";
@@ -7,8 +7,10 @@ import Footer from "../../components/Layouts/footer";
 import moment from "moment";
 import ContentLoader from "react-content-loader";
 import Follower from "../../components/common/follower";
+import AuthContext from "../../contexts/authContext";
 
 const Profile_detail = () => {
+  const { loggedIn } = useContext(AuthContext);
   const router = useRouter();
   const { id } = router.query;
   const { loading, data, refetch } = useQuery(GET_USER_BY_ID, {
@@ -51,8 +53,12 @@ const Profile_detail = () => {
   return (
     <React.Fragment>
       <MainNavbar />
-      {data.get_user_by_id.id === currentData.get_user.id &&
-        window.location.replace("/dashboard/profile")}
+      {loggedIn === true && (
+        <div>
+          {data.get_user_by_id.id === currentData.get_user.id &&
+            window.location.replace("/dashboard/profile")}
+        </div>
+      )}
       <div className="brand-bg"></div>
       <div className="container">
         <div className="container-layout-profile">
@@ -65,7 +71,6 @@ const Profile_detail = () => {
               <img className="profile-img1" src={data.get_user_by_id.image} />
               <h2>{data.get_user_by_id.fullname}</h2>
               <h3 className="date-news">
-                {/* <HiOutlineCake size={18} /> */}
                 Joined On :{" "}
                 {moment.unix(data.get_user_by_id.createdAt / 1000).format("LL")}
               </h3>

@@ -4,11 +4,12 @@ import moment from "moment";
 
 const { TextArea } = Input;
 const InputComment = ({ onChange, onSubmit, submitting, value, commentId }) => {
-  const [state, setState] = useState(commentId);
   console.log(value);
   return (
     <Fragment>
-      <Form.Item>
+      <Form.Item
+        rules={[{ required: true, message: "Please input your username!" }]}
+      >
         <TextArea
           className="input-comment"
           showCount
