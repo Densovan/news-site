@@ -17,8 +17,8 @@ const CommentList = ({ comments, articleId, reply, fullname }) => {
   const [likes, setLikes] = useState(0);
   const [dislikes, setDislikes] = useState(0);
   const [action, setAction] = useState(null);
-  const [userId, setUserId] = useState(null);
   const [answer, setAnswer] = useState({
+    typeReplyComment: null,
     replyAnswer: null,
     replyComment: null
   })
@@ -70,7 +70,9 @@ const CommentList = ({ comments, articleId, reply, fullname }) => {
       setIdEditCm(item);
     }
     if (key === "answerType") {
-      setUserId(item);
+      setAnswer({
+        replyAnswer: null
+      })
     }
   };
 
@@ -107,7 +109,9 @@ const CommentList = ({ comments, articleId, reply, fullname }) => {
                   <span
                     key="comment-basic-reply-to"
                     onClick={() => {
-                      setUserId(comments.id);
+                      setAnswer({
+                        typeReplyComment: comments.id
+                      })
                     }}
                   >
                     Reply
@@ -222,7 +226,7 @@ const CommentList = ({ comments, articleId, reply, fullname }) => {
                           })
                         }}
                       >
-                        {/* {comments.id === userId && "Cancel"} */}
+                        {/* {comments.id === reply.questionId && "Cancel"} */}
                       </span>,
                     ]}
                     author={<a>{reply.user.fullname}</a>}
@@ -303,7 +307,7 @@ const CommentList = ({ comments, articleId, reply, fullname }) => {
             );
           })}
           <div style={{ marginLeft: 30 }}>
-            {comments.id === userId && (
+            {comments.id === answer.typeReplyComment && (
               <FormComment
                 articleId={articleId}
                 commentId={comments.id}

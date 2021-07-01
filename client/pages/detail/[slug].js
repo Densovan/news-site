@@ -2,13 +2,14 @@ import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import MainNavbar from "../../components/Layouts/mainNavbar";
 import Footer from "../../components/Layouts/footer";
-import { GET_NEWS_BY_SLUG } from "../../graphql/query";
+import { GET_NEWS_BY_SLUG, GET_USER } from "../../graphql/query";
 import { useQuery } from "@apollo/client";
 import Output from "editorjs-react-renderer";
 import moment from "moment";
 import { Col, Row, Button, Divider } from "antd";
 import Laoder from "../../components/loaders/detailLoader";
 import Follower from "../../components/common/follower";
+import FormLike from "../../components/common/like";
 
 import {
   HeartOutlined,
@@ -36,8 +37,9 @@ const SinglePage = () => {
     variables: { slug },
     pollInterval: 500
   });
+  const {loading:userLoadin, data:thisUser} = useQuery(GET_USER);
 
-  if (loading)
+  if (loading || userLoadin)
     return (
       <div className="container">
         <center style={{ marginTop: "100px" }}>
@@ -45,7 +47,7 @@ const SinglePage = () => {
         </center>
       </div>
     );
-  const { id, title, thumnail, des, user, createdAt, comment, reply } =
+  const { id, title, thumnail, des, user, createdAt, comment, reply, like } =
     data.get_news_by_slug;
   const result = <Output data={JSON.parse(des)} />;
   return (
@@ -56,16 +58,7 @@ const SinglePage = () => {
           <Row gutter={[16, 16]}>
             <Col span={2}>
               <div className="nav_left">
-                <div className="btn_box">
-                  <Button
-                    className="btn_like"
-                    style={{ borderColor: "transparent", boxShadow: "none" }}
-                    shape="circle"
-                    icon={<HeartOutlined />}
-                    size="large"
-                  />
-                  <div className="tt_like">11</div>
-                </div>
+                <FormLike articleId={id} dataLike={like} thisUser={thisUser} />
                 <div className="btn_box">
                   <Button
                     className="btn_share"

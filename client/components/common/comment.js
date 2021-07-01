@@ -44,6 +44,8 @@ const FormComment = (props) => {
     }
   }, [object]);
   useEffect(() => {
+    const a =[];
+    a.push(<p>getName</p>)
     if (check === "answerType") {
       setValue({
         comment: `@${getName}`
@@ -116,6 +118,7 @@ const FormComment = (props) => {
           });
         }, 1000);
         props.getCheck("answer", null);
+        console.log("hello");
       });
     }
     if (check === "Question") {
@@ -150,8 +153,6 @@ const FormComment = (props) => {
           submitting={value.submitting}
           value={value.comment}
           checkBtn={object === undefined ? "Post" : "Update"}
-          // name={getName !== 'undefined' && getName}
-          // commentId={commentId}
         />
       }
     />

@@ -326,6 +326,10 @@ const GET_NEWS_BY_SLUG = gql`
         answer
         questionId
       }
+      like{
+        userId
+        postId
+      }
     }
   }
 `;
