@@ -44,14 +44,14 @@ const FormComment = (props) => {
     }
   }, [object]);
   useEffect(() => {
-    const a =[];
-    a.push(<p>getName</p>)
+    const a = [];
+    a.push(<p>getName</p>);
     if (check === "answerType") {
       setValue({
-        comment: `@${getName}`
-      })
+        comment: `@${getName} : `,
+      });
     }
-  },[])
+  }, []);
 
   if (loading) return <div>Loading...</div>;
 

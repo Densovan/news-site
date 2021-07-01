@@ -61,7 +61,7 @@ const SinglePage = () => {
       <div className="container">
         <div style={{ marginTop: 16 }}>
           <Row gutter={[16, 16]}>
-            <Col span={2}>
+            <Col sm={24} md={2}>
               <div className="nav_left">
                 <FormLike articleId={id} dataLike={like} thisUser={thisUser} />
                 <div className="btn_box">
@@ -76,7 +76,7 @@ const SinglePage = () => {
                 </div>
               </div>
             </Col>
-            <Col span={16}>
+            <Col sm={24} md={16}>
               <div>
                 <div className="thumail">
                   <img
@@ -134,7 +134,7 @@ const SinglePage = () => {
                 </div>
               </div>
             </Col>
-            <Col span={6}>
+            <Col sm={24} md={6}>
               <div className="pf_pre">
                 <div className="pf_user">
                   <img src={user.image} />
@@ -144,7 +144,9 @@ const SinglePage = () => {
                   </div>
                 </div>
                 <div className="pf_desc">
-                  <p>{user.bio}</p>
+                  <center>
+                    <p>{user.bio}</p>
+                  </center>
                 </div>
                 {loggedIn === true ? (
                   <div>

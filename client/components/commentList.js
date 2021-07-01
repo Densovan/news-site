@@ -303,43 +303,7 @@ const CommentList = ({ comments, articleId, reply }) => {
                         </span>
                       </Tooltip>
                     }
-                  >
-                    {/* <div>
-                      <Dropdown.Button
-                        style={{
-                          borderColor: "transparent",
-                          boxShadow: "none",
-                        }}
-                        overlay={
-                          <Menu style={{ width: "120px" }}>
-                            {reply.user.id === user.get_user.id && (
-                              <Menu.Item key="0">
-                                <a
-                                  onClick={() => handleEdit("answer", reply.id)}
-                                >
-                                  Edit
-                                </a>
-                              </Menu.Item>
-                            )}
-                            {reply.user.id === user.get_user.id && (
-                              <Menu.Item key="1">
-                                <a
-                                  onClick={() =>
-                                    handleDelete("answer", reply.id)
-                                  }
-                                >
-                                  Delete
-                                </a>
-                              </Menu.Item>
-                            )}
-                            <Menu.Item key="3">Report</Menu.Item>
-                          </Menu>
-                        }
-                        icon={<MoreOutlined />}
-                        trigger={["click"]}
-                      />
-                    </div> */}
-                  </Comment>
+                  ></Comment>
                 )}
                 <div style={{ marginLeft: 30 }}>
                   {comments.id === reply.questionId && idEditQ === reply.id && (
@@ -373,7 +337,7 @@ const CommentList = ({ comments, articleId, reply }) => {
                 commentId={comments.id}
                 getCheck={getCheck}
                 check="answerType"
-                getName={comments.user.fullname}
+                getName={<b>comments.user.fullname</b>}
               />
             )}
           </div>

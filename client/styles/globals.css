@@ -1692,6 +1692,41 @@ body {
   line-height: 32px;
 }
 /* ===================detail================== */
+.like-bg {
+  background-color: #f161794b;
+  height: 40px;
+  border: none;
+  padding: 10px;
+  border-radius: 50%;
+}
+.like-bg:hover {
+  background-color: #262e3c1f;
+  height: 40px;
+  border: none;
+  padding: 10px;
+  border-radius: 50%;
+}
+.no-like-bg {
+  background-color: #262e3c1f;
+  height: 40px;
+  border: none;
+  padding: 10px;
+  border-radius: 50%;
+}
+.no-like-bg:hover {
+  background-color: #f161794b;
+  height: 40px;
+  border: none;
+  padding: 10px;
+  border-radius: 50%;
+}
+.like {
+  color: #f16179;
+}
+
+.no-like {
+  color: #262e3c;
+}
 
 .badge-date {
   background-color: #fce14a94;

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button } from "antd";
-import { HeartOutlined } from "@ant-design/icons";
+import { AiOutlineHeart } from "react-icons/ai";
 import { useMutation } from "@apollo/client";
 import { LIKE_ARTICLE } from "../../graphql/mutation";
 
@@ -34,7 +34,7 @@ const FormLike = ({ articleId, dataLike, thisUser }) => {
   };
   return (
     <div className="btn_box">
-      <Button
+      {/* <Button
         onClick={handleLike}
         style={{
           borderColor: "transparent",
@@ -44,7 +44,14 @@ const FormLike = ({ articleId, dataLike, thisUser }) => {
         shape="circle"
         icon={<HeartOutlined style={{ color: like ? "#fff" : "#000" }} />}
         size="large"
-      />
+      /> */}
+      <button
+        onClick={handleLike}
+        style={{ cursor: "pointer" }}
+        className={like ? "like-bg" : "no-like-bg"}
+      >
+        <AiOutlineHeart className={like ? "like" : "no-like"} size={20} />
+      </button>
       <div className="tt_like">{dataLike.length}</div>
     </div>
   );
