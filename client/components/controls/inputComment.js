@@ -1,4 +1,4 @@
-import { Fragment} from "react";
+import { Fragment } from "react";
 import { Form, Button, Input } from "antd";
 
 const { TextArea } = Input;
@@ -13,9 +13,7 @@ const InputComment = ({
 }) => {
   return (
     <Fragment>
-      <Form.Item
-        rules={[{ required: true, message: "Please input your username!" }]}
-      >
+      <Form.Item>
         <TextArea
           className="input-comment"
           showCount
@@ -26,7 +24,7 @@ const InputComment = ({
       </Form.Item>
       <Form.Item>
         <Button
-          disabled={value.length === 0 ? true : false}
+          disabled={value === "" ? true : false}
           htmlType="submit"
           loading={submitting}
           onClick={onSubmit}
