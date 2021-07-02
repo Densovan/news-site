@@ -4,17 +4,18 @@ import { AiOutlineHeart } from "react-icons/ai";
 import { useMutation } from "@apollo/client";
 import { LIKE_ARTICLE } from "../../graphql/mutation";
 
-const FormLike = ({ articleId, dataLike, thisUser }) => {
+const FormLike = ({ articleId, dataLike, myUser }) => {
   const [like, setLike] = useState(false);
   const [likeArticle] = useMutation(LIKE_ARTICLE);
 
   useEffect(() => {
     dataLike.map((like) => {
-      if (like.userId === thisUser.get_user.id) {
+      if (like.userId === myUser.get_user.id) {
         setLike(true);
       }
     });
-  }, [thisUser, dataLike]);
+    console.log("hello");
+  }, [myUser, dataLike]);
   const handleLike = async () => {
     try {
       await likeArticle({
@@ -27,6 +28,7 @@ const FormLike = ({ articleId, dataLike, thisUser }) => {
         if (check[0] === "delete") {
           setLike(false);
         }
+        console.log(response.data);
       });
     } catch (e) {
       console.log(e);

@@ -6,10 +6,11 @@ const { TextArea } = Input;
 const InputComment = ({
   onChange,
   onSubmit,
+  onReset,
   submitting,
   value,
   checkBtn,
-  name,
+  cancelBtn,
 }) => {
   return (
     <Fragment>
@@ -33,6 +34,12 @@ const InputComment = ({
         >
           {checkBtn}
         </button>
+
+        {cancelBtn == "Cancel" && (
+          <button onClick={onReset} className="btn-reset">
+            {cancelBtn}
+          </button>
+        )}
       </Form.Item>
     </Fragment>
   );

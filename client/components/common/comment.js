@@ -14,7 +14,7 @@ import { useRouter } from "next/router";
 
 const FormComment = (props) => {
   const router = useRouter();
-  const { articleId, commentId, object, check, getName } = props;
+  const { articleId, commentId, object, check, getName, keyBtn } = props;
   const { loading: loading, data: user } = useQuery(GET_USER, {
     pollInterval: 500,
   });
@@ -44,8 +44,6 @@ const FormComment = (props) => {
     }
   }, [object]);
   useEffect(() => {
-    const a = [];
-    a.push(<p>getName</p>);
     if (check === "answerType") {
       setValue({
         comment: `@${getName} : `,
@@ -57,6 +55,9 @@ const FormComment = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (check === "undefined") {
+      return;
+    }
     if (check === "answerType") {
       replyComment({
         variables: {
@@ -118,7 +119,6 @@ const FormComment = (props) => {
           });
         }, 1000);
         props.getCheck("answer", null);
-        console.log("hello");
       });
     }
     if (check === "Question") {
@@ -143,6 +143,37 @@ const FormComment = (props) => {
     }
   };
 
+  // return to reset data
+  const handleReset = () => {
+    if (keyBtn === "editReplyQuestion") {
+      props.doReset("editReplyQuestion", null);
+    }
+    if (keyBtn === "editReplyAnswer") {
+      props.doReset("editReplyAnswer", null);
+    }
+    if (keyBtn === "replyComment") {
+      props.doReset("replyComment", null);
+    }
+    if (keyBtn === "replyAnswer") {
+      props.doReset("replyAnswer", null);
+    }
+  };
+
+  //we get key check button cancel
+  let btnCancel = [];
+  if (keyBtn === "editReplyQuestion") {
+    btnCancel.push("Cancel");
+  }
+  if (keyBtn === "editReplyAnswer") {
+    btnCancel.push("Cancel");
+  }
+  if (keyBtn === "replyComment") {
+    btnCancel.push("Cancel");
+  }
+  if (keyBtn === "replyAnswer") {
+    btnCancel.push("Cancel");
+  }
+
   return (
     <Comment
       avatar={<Avatar src={user.get_user.image} />}
@@ -152,7 +183,9 @@ const FormComment = (props) => {
           onSubmit={object === undefined ? handleSubmit : handleEdit}
           submitting={value.submitting}
           value={value.comment}
+          onReset={handleReset}
           checkBtn={object === undefined ? "Post" : "Update"}
+          cancelBtn={btnCancel[0]}
         />
       }
     />

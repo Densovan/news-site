@@ -41,7 +41,7 @@ const SinglePage = () => {
     variables: { slug },
     pollInterval: 500,
   });
-  const { loading: userLoadin, data: thisUser } = useQuery(GET_USER);
+  const { loading: userLoadin, data: myUser } = useQuery(GET_USER);
 
   if (loading || userLoadin)
     return (
@@ -63,7 +63,7 @@ const SinglePage = () => {
           <Row gutter={[16, 16]}>
             <Col sm={24} md={2}>
               <div className="nav_left">
-                <FormLike articleId={id} dataLike={like} thisUser={thisUser} />
+                <FormLike articleId={id} dataLike={like} myUser={myUser} />
                 <div className="btn_box">
                   <Button
                     className="btn_share"
@@ -129,6 +129,13 @@ const SinglePage = () => {
                           src="/assets/images/Login-rafiki.png"
                         />
                       </center>
+                      <FormComment user={user} articleId={id} myUser={myUser} />
+                      <CommentList
+                        articleId={id}
+                        comments={comment}
+                        reply={reply}
+                        fullname={user.fullname}
+                      />
                     </div>
                   )}
                 </div>
@@ -150,7 +157,7 @@ const SinglePage = () => {
                 </div>
                 {loggedIn === true ? (
                   <div>
-                    {user.id === thisUser.get_user.id ? (
+                    {user.id === myUser.get_user.id ? (
                       ""
                     ) : (
                       <Follower articleUser={user} />
