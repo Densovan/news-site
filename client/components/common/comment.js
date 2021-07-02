@@ -173,7 +173,6 @@ const FormComment = (props) => {
   if (keyBtn === "replyAnswer") {
     btnCancel.push("Cancel");
   }
-
   return (
     <Comment
       avatar={<Avatar src={user.get_user.image} />}
