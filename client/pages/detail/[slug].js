@@ -37,7 +37,7 @@ const SinglePage = () => {
     variables: { slug },
     pollInterval: 500,
   });
-  const { loading: userLoadin, data: thisUser } = useQuery(GET_USER);
+  const { loading: userLoadin, data: myUser } = useQuery(GET_USER);
 
   if (loading || userLoadin)
     return (
@@ -58,7 +58,7 @@ const SinglePage = () => {
           <Row gutter={[16, 16]}>
             <Col span={2}>
               <div className="nav_left">
-                <FormLike articleId={id} dataLike={like} thisUser={thisUser} />
+                <FormLike articleId={id} dataLike={like} myUser={myUser} />
                 <div className="btn_box">
                   <Button
                     className="btn_share"
@@ -102,7 +102,7 @@ const SinglePage = () => {
                     <h3>Comment({reply.length + comment.length})</h3>
 
                     <div>
-                      <FormComment user={user} articleId={id} />
+                      <FormComment user={user} articleId={id} myUser={myUser}/>
                       <CommentList
                         articleId={id}
                         comments={comment}

@@ -3,7 +3,7 @@ import { Comment, Avatar, Form, Button, List, Input } from "antd";
 import moment from "moment";
 
 const { TextArea } = Input;
-const InputComment = ({ onChange, onSubmit, submitting, value, checkBtn , name}) => {
+const InputComment = ({ onChange, onSubmit, onReset, submitting, value, checkBtn, cancelBtn}) => {
   return (
     <Fragment>
       <Form.Item>
@@ -24,6 +24,14 @@ const InputComment = ({ onChange, onSubmit, submitting, value, checkBtn , name})
         >
           {checkBtn}
         </button>
+
+        {cancelBtn == "Cancel" && 
+        <button
+          onClick={onReset}
+          className="btn-reset">
+          {cancelBtn}
+        </button>
+        }
       </Form.Item>
     </Fragment>
   );

@@ -76,6 +76,24 @@ const CommentList = ({ comments, articleId, reply, fullname }) => {
     }
   };
 
+  const doReset = (key, item) => {
+    if (key === "editReplyQuestion") {
+      setIdEditCm(item)
+    }
+    if (key === "editReplyAnswer") {
+      setIdEditQ(item)
+    }
+    if (key === "replyComment") {
+      setAnswer({
+        typeReplyComment: item,
+      })
+    }
+    if (key === "replyAnswer") {
+      setAnswer({
+        replyAnswer: item,
+      })
+    }
+  }
   return (
     <List
       dataSource={comments}
@@ -169,12 +187,27 @@ const CommentList = ({ comments, articleId, reply, fullname }) => {
               </Comment>
             )}
           </div>
+          <div style={{ marginLeft: 30 }}>
+            {comments.id === answer.typeReplyComment && (
+              <FormComment
+                articleId={articleId}
+                commentId={comments.id}
+                getCheck={getCheck}
+                check="answerType"
+                keyBtn="replyComment"
+                getName={comments.user.fullname}
+                doReset={doReset}
+              />
+            )}
+          </div>
           {idEditCm === comments.id && (
             <FormComment
               articleId={articleId}
               object={comments}
               check="Question"
+              keyBtn="editReplyQuestion"
               getCheck={getCheck}
+              doReset={doReset}
             />
           )}
           {reply.map((reply) => {
@@ -226,7 +259,6 @@ const CommentList = ({ comments, articleId, reply, fullname }) => {
                           })
                         }}
                       >
-                        {/* {comments.id === reply.questionId && "Cancel"} */}
                       </span>,
                     ]}
                     author={<a>{reply.user.fullname}</a>}
@@ -289,6 +321,8 @@ const CommentList = ({ comments, articleId, reply, fullname }) => {
                       object={reply}
                       check="Answer"
                       getCheck={getCheck}
+                      keyBtn="editReplyAnswer"
+                      doReset={doReset}
                     />
                   )}
                 </div>
@@ -299,24 +333,15 @@ const CommentList = ({ comments, articleId, reply, fullname }) => {
                       getCheck={getCheck}
                       commentId={comments.id}
                       check="answerType"
+                      keyBtn="replyAnswer"
                       getName={reply.user.fullname}
+                      doReset={doReset}
                     />
                   )}
                 </div>
               </div>
             );
           })}
-          <div style={{ marginLeft: 30 }}>
-            {comments.id === answer.typeReplyComment && (
-              <FormComment
-                articleId={articleId}
-                commentId={comments.id}
-                getCheck={getCheck}
-                check="answerType"
-                getName={comments.user.fullname}
-              />
-            )}
-          </div>
         </div>
       )}
     />
