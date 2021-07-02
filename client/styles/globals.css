@@ -7,12 +7,12 @@
   font-family: "Inter", sans-serif;
 }
 body {
-  /* background: #f5f5f5; */
+  background: #f5f5f5;
   /* background-color: #f0f2f5; */
   margin: 0;
   padding: 0;
   /* background-color: #f8f9fe; */
-  background-color: #eef0f1;
+  /* background-color: #eee; */
   -webkit-font-smoothing: antialiased;
   color: rgba(0, 0, 0, 0.8);
   text-rendering: optimizeLegibility;

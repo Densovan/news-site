@@ -391,7 +391,7 @@ const RootMutation = new GraphQLObjectType({
       },
       resolve: async (parent, args, context) => {
         try {
-          const existingLike = await LikeModel.findOne({ postId: args.postId });
+          const existingLike = await LikeModel.findOne({ postId });
           if (!existingLike) {
             const like = new LikeModel({
               ...args,
