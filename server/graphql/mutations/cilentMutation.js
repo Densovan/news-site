@@ -391,10 +391,8 @@ const RootMutation = new GraphQLObjectType({
       },
       resolve: async (parent, args, context) => {
         try {
-          const existingLike = await LikeModel.findOne({ postId: args.postId });
-          console.log(existingLike);
+          const existingLike = await LikeModel.findOne({ userId: context.id });
           if (!existingLike) {
-            console.log("hello");
             const like = new LikeModel({
               ...args,
               userId: context.id,
@@ -402,31 +400,11 @@ const RootMutation = new GraphQLObjectType({
             await like.save();
             return { message: "successful" };
           } 
-          console.log(args.postId);
-          console.log(existingLike.postId);
           if (existingLike.postId === args.postId) {
-            console.log("hello2");
-            console.log(context.id);
             if (context.id === existingLike.userId) {
               await LikeModel.findOneAndDelete({ userId: context.id });
               return { message: "delete successful" };
-            }else{
-              const like = new LikeModel({
-                ...args,
-                userId: context.id,
-              });
-              await like.save();
-              return { message: "successful" };
-              console.log("bye");
             }
-          } else {
-            console.log("hello3");
-            const like = new LikeModel({
-              ...args,
-              userId: context.id,
-            });
-            await like.save();
-            return { message: "successful" };
           }
         } catch (error) {
           console.log(error);
