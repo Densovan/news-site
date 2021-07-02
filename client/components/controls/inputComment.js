@@ -1,6 +1,5 @@
-import { Fragment, useState } from "react";
-import { Comment, Avatar, Form, Button, List, Input } from "antd";
-import moment from "moment";
+import { Fragment} from "react";
+import { Form, Button, Input } from "antd";
 
 const { TextArea } = Input;
 const InputComment = ({
