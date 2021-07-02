@@ -29,7 +29,7 @@ const FormComment = (props) => {
   });
   useEffect(() => {
     if (!object) {
-      return;
+      return null;
     } else {
       if (check === "Answer") {
         setValue({
@@ -56,7 +56,7 @@ const FormComment = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (check === "undefined") {
-      return;
+      return null;
     }
     if (check === "answerType") {
       replyComment({
@@ -100,7 +100,7 @@ const FormComment = (props) => {
   const handleEdit = (e) => {
     e.preventDefault();
     if (check === "undefined") {
-      return;
+      return null;
     }
     if (check === "Answer") {
       editReply({
