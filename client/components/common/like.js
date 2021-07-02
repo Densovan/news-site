@@ -15,11 +15,12 @@ const FormLike = ({ articleId, dataLike, myUser }) => {
                 setLike(true)
             }
         })
+        console.log("hello");
     },[myUser, dataLike])
     const handleLike = async () => {
         try{
             await likeArticle({
-                variables: {postId: articleId}
+                variables: { postId: articleId }
             }).then(async (response) => {
                 let check = response.data.like.message.split(" ");
                 if (check[0] === "successful") {
@@ -28,6 +29,7 @@ const FormLike = ({ articleId, dataLike, myUser }) => {
                 if (check[0] === "delete"){
                     setLike(false)
                 }
+                console.log(response.data);
             })
         }catch(e){
             console.log(e);
