@@ -26,14 +26,15 @@ const InputComment = ({
         />
       </Form.Item>
       <Form.Item>
-        <button
+        <Button
+          disabled={value.length === 0 ? true : false}
           htmlType="submit"
           loading={submitting}
           onClick={onSubmit}
           className="btn-comment"
         >
           {checkBtn}
-        </button>
+        </Button>
 
         {cancelBtn == "Cancel" && (
           <button onClick={onReset} className="btn-reset">

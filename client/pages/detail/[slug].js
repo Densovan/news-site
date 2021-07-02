@@ -62,19 +62,21 @@ const SinglePage = () => {
         <div style={{ marginTop: 16 }}>
           <Row gutter={[16, 16]}>
             <Col sm={24} md={2}>
-              <div className="nav_left">
-                <FormLike articleId={id} dataLike={like} myUser={myUser} />
-                <div className="btn_box">
-                  <Button
-                    className="btn_share"
-                    style={{ borderColor: "transparent", boxShadow: "none" }}
-                    shape="circle"
-                    icon={<ShareAltOutlined />}
-                    size="large"
-                  />
-                  <div className="tt_share">21</div>
+              {loggedIn === true && (
+                <div className="nav_left">
+                  <FormLike articleId={id} dataLike={like} myUser={myUser} />
+                  <div className="btn_box">
+                    <Button
+                      className="btn_share"
+                      style={{ borderColor: "transparent", boxShadow: "none" }}
+                      shape="circle"
+                      icon={<ShareAltOutlined />}
+                      size="large"
+                    />
+                    <div className="tt_share">21</div>
+                  </div>
                 </div>
-              </div>
+              )}
             </Col>
             <Col sm={24} md={16}>
               <div>
@@ -129,13 +131,13 @@ const SinglePage = () => {
                           src="/assets/images/Login-rafiki.png"
                         />
                       </center>
-                      <FormComment user={user} articleId={id} myUser={myUser} />
+                      {/* <FormComment user={user} articleId={id} myUser={myUser} />
                       <CommentList
                         articleId={id}
                         comments={comment}
                         reply={reply}
                         fullname={user.fullname}
-                      />
+                      /> */}
                     </div>
                   )}
                 </div>

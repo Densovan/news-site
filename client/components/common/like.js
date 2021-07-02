@@ -7,6 +7,7 @@ import { LIKE_ARTICLE } from "../../graphql/mutation";
 const FormLike = ({ articleId, dataLike, myUser }) => {
   const [like, setLike] = useState(false);
   const [likeArticle] = useMutation(LIKE_ARTICLE);
+  const [color, setColor] = useState(false);
 
   useEffect(() => {
     dataLike.map((like) => {
@@ -14,7 +15,6 @@ const FormLike = ({ articleId, dataLike, myUser }) => {
         setLike(true);
       }
     });
-    console.log("hello");
   }, [myUser, dataLike]);
   const handleLike = async () => {
     try {
@@ -36,17 +36,6 @@ const FormLike = ({ articleId, dataLike, myUser }) => {
   };
   return (
     <div className="btn_box">
-      {/* <Button
-        onClick={handleLike}
-        style={{
-          borderColor: "transparent",
-          boxShadow: "none",
-          backgroundColor: like ? "#262e3c" : "transparent",
-        }}
-        shape="circle"
-        icon={<HeartOutlined style={{ color: like ? "#fff" : "#000" }} />}
-        size="large"
-      /> */}
       <button
         onClick={handleLike}
         style={{ cursor: "pointer" }}
