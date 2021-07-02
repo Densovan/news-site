@@ -30,6 +30,7 @@ import Logout from "../Layouts/logout";
 import { useQuery } from "@apollo/client";
 import { GET_USER } from "../../graphql/query";
 import { TiUser, TiUserAdd } from "react-icons/ti";
+import { AiOutlineBell } from "react-icons/ai";
 
 const MainNavbar = () => {
   const [state, setState] = useState({
@@ -140,6 +141,11 @@ const MainNavbar = () => {
                   <a>About Us</a>
                 </ActiveLink>
               </Menu.Item>
+              {/* <Menu.Item key="5">
+                <div>
+                  <AiOutlineBell size={29} />
+                </div>
+              </Menu.Item> */}
               <Menu.Item key="5">
                 <div style={{ cursor: "pointer" }}>
                   <Popover
@@ -203,7 +209,6 @@ const MainNavbar = () => {
                     }
                     trigger="click"
                   >
-                    {/* <Avatar className="avatar-1" size="default" src={data.get_user.image} /> */}
                     <img className="avatar-mobile" src={data.get_user.image} />
                   </Popover>
                 </div>

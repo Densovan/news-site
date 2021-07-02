@@ -168,6 +168,7 @@ const LIKE_ARTICLE = gql`
 `;
 
 export {
+  // LIKE,
   ADD_NEWS,
   DELETE_NEWS,
   EDIT_NEWS,
@@ -180,5 +181,5 @@ export {
   DELETE_REPLY,
   EDIT_COMMENT,
   EDIT_REPLY,
-  LIKE_ARTICLE
+  LIKE_ARTICLE,
 };

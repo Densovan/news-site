@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { useRouter } from "next/router";
 import MainNavbar from "../../components/Layouts/mainNavbar";
 import Footer from "../../components/Layouts/footer";
@@ -9,6 +9,9 @@ import moment from "moment";
 import { Col, Row, Button, Divider } from "antd";
 import Laoder from "../../components/loaders/detailLoader";
 import Follower from "../../components/common/follower";
+import Like from "../../components/common/like";
+import AuthContext from "../../contexts/authContext";
+import Link from "next/link";
 import FormLike from "../../components/common/like";
 
 import {
@@ -21,6 +24,7 @@ import FormComment from "../../components/common/comment";
 import CommentList from "../../components/commentList";
 
 const SinglePage = () => {
+  const { loggedIn } = useContext(AuthContext);
   const router = useRouter();
   const { slug } = router.query;
   // const [dataSlug, setDataSlug] = useState({
@@ -49,6 +53,7 @@ const SinglePage = () => {
     );
   const { id, title, thumnail, des, user, createdAt, comment, reply, like } =
     data.get_news_by_slug;
+
   const result = <Output data={JSON.parse(des)} />;
   return (
     <React.Fragment>
@@ -56,7 +61,7 @@ const SinglePage = () => {
       <div className="container">
         <div style={{ marginTop: 16 }}>
           <Row gutter={[16, 16]}>
-            <Col span={2}>
+            <Col sm={24} md={2}>
               <div className="nav_left">
                 <FormLike articleId={id} dataLike={like} myUser={myUser} />
                 <div className="btn_box">
@@ -71,7 +76,7 @@ const SinglePage = () => {
                 </div>
               </div>
             </Col>
-            <Col span={16}>
+            <Col sm={24} md={16}>
               <div>
                 <div className="thumail">
                   <img
@@ -95,14 +100,36 @@ const SinglePage = () => {
                     </div>
                   </div>
                   <div style={{ color: "#262e3c", marginBottom: 20 }}>
-                    {result}
+                    <p style={{ fontSize: "20px" }}>{result}</p>
                   </div>
                   <Divider />
-                  <div style={{ marginTop: 20 }}>
-                    <h3>Comment({reply.length + comment.length})</h3>
-
+                  {loggedIn === true ? (
+                    <div style={{ marginTop: 20 }}>
+                      <h3>Comment({reply.length + comment.length})</h3>
+                      <div>
+                        <FormComment user={user} articleId={id} />
+                        <CommentList
+                          articleId={id}
+                          comments={comment}
+                          reply={reply}
+                          fullname={user.fullname}
+                        />
+                      </div>
+                    </div>
+                  ) : (
                     <div>
-                      <FormComment user={user} articleId={id} myUser={myUser}/>
+                      <center>
+                        <br></br>
+                        <h3>
+                          Please <Link href="/signin">Login</Link> to Make
+                          Discussion
+                        </h3>
+                        <img
+                          style={{ maxWidth: "50%" }}
+                          src="/assets/images/Login-rafiki.png"
+                        />
+                      </center>
+                      <FormComment user={user} articleId={id} myUser={myUser} />
                       <CommentList
                         articleId={id}
                         comments={comment}
@@ -110,22 +137,80 @@ const SinglePage = () => {
                         fullname={user.fullname}
                       />
                     </div>
-                  </div>
+                  )}
                 </div>
               </div>
             </Col>
-            <Col span={6}>
+            <Col sm={24} md={6}>
               <div className="pf_pre">
                 <div className="pf_user">
                   <img src={user.image} />
                   <div className="name">
                     <label>{user.fullname}</label>
+                    <p>{user.email}</p>
                   </div>
                 </div>
                 <div className="pf_desc">
-                  <p>{user.bio}</p>
+                  <center>
+                    <p>{user.bio}</p>
+                  </center>
                 </div>
-                <Follower articleUser={user} />
+                {loggedIn === true ? (
+                  <div>
+                    {user.id === myUser.get_user.id ? (
+                      ""
+                    ) : (
+                      <Follower articleUser={user} />
+                    )}
+                  </div>
+                ) : (
+                  <div>
+                    <Follower articleUser={user} />
+                  </div>
+                )}
+
+                <div className="pf-work">
+                  {/* ======work======= */}
+                  <div>
+                    <Divider
+                      style={{ fontSize: "18", color: "gray" }}
+                      orientation="left"
+                    >
+                      Work
+                    </Divider>
+                    <h4>Community Lead at DSC JSS </h4>
+                  </div>
+                  {/* ===========Location============ */}
+                  <div>
+                    <Divider
+                      style={{ fontSize: "18", color: "gray" }}
+                      orientation="left"
+                    >
+                      Location
+                    </Divider>
+                    <h4>Noida, Uttar Pradesh, India </h4>
+                  </div>
+                  {/*========= Education=========== */}
+                  <div>
+                    <Divider
+                      style={{ fontSize: "18", color: "gray" }}
+                      orientation="left"
+                    >
+                      Education
+                    </Divider>
+                    <h4>JSS Academy Of Technical Education Noida </h4>
+                  </div>
+                  {/* //===========join============== */}
+                  <div>
+                    <Divider
+                      style={{ fontSize: "18", color: "gray" }}
+                      orientation="left"
+                    >
+                      Join
+                    </Divider>
+                    <h4>{moment.unix(user.createdAt / 1000).format("LL")}</h4>
+                  </div>
+                </div>
               </div>
             </Col>
           </Row>

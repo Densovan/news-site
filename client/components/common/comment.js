@@ -46,17 +46,17 @@ const FormComment = (props) => {
   useEffect(() => {
     if (check === "answerType") {
       setValue({
-        comment: `@${getName}`
-      })
+        comment: `@${getName} : `,
+      });
     }
-  },[])
+  }, []);
 
   if (loading) return <div>Loading...</div>;
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (check === 'undefined') {
-      return
+    if (check === "undefined") {
+      return;
     }
     if (check === "answerType") {
       replyComment({
@@ -143,7 +143,7 @@ const FormComment = (props) => {
     }
   };
 
-   // return to reset data
+  // return to reset data
   const handleReset = () => {
     if (keyBtn === "editReplyQuestion") {
       props.doReset("editReplyQuestion", null);
@@ -157,21 +157,21 @@ const FormComment = (props) => {
     if (keyBtn === "replyAnswer") {
       props.doReset("replyAnswer", null);
     }
-  }
+  };
 
   //we get key check button cancel
   let btnCancel = [];
   if (keyBtn === "editReplyQuestion") {
-    btnCancel.push("Cancel")
+    btnCancel.push("Cancel");
   }
   if (keyBtn === "editReplyAnswer") {
-    btnCancel.push("Cancel")
+    btnCancel.push("Cancel");
   }
   if (keyBtn === "replyComment") {
-    btnCancel.push("Cancel")
+    btnCancel.push("Cancel");
   }
   if (keyBtn === "replyAnswer") {
-    btnCancel.push("Cancel")
+    btnCancel.push("Cancel");
   }
 
   return (

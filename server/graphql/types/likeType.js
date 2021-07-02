@@ -7,6 +7,7 @@ const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLList } = graphql;
 const LikeType = new GraphQLObjectType({
   name: "like",
   fields: () => ({
+    id: { type: GraphQLID },
     userId: { type: GraphQLID },
     createdAt: {
       type: GraphQLString,

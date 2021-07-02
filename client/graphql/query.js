@@ -296,6 +296,7 @@ const GET_NEWS_BY_SLUG = gql`
         fullname
         image
         email
+        createdAt
       }
       types {
         name
@@ -326,7 +327,7 @@ const GET_NEWS_BY_SLUG = gql`
         answer
         questionId
       }
-      like{
+      like {
         userId
         postId
       }
