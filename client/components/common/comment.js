@@ -1,15 +1,15 @@
-import React, { createElement, useEffect, useState } from 'react';
-import { useMutation, useQuery } from '@apollo/client';
-import { Comment, Avatar, Form, Input, Button } from 'antd';
+import React, { createElement, useEffect, useState } from "react";
+import { useMutation, useQuery } from "@apollo/client";
+import { Comment, Avatar, Form, Input, Button } from "antd";
 
 import {
   COMMENT,
   REPLY_COMMENT,
   EDIT_COMMENT,
   EDIT_REPLY,
-} from '../../graphql/mutation';
-import { GET_USER } from '../../graphql/query';
-import { useRouter } from 'next/router';
+} from "../../graphql/mutation";
+import { GET_USER } from "../../graphql/query";
+import { useRouter } from "next/router";
 
 const FormComment = (props) => {
   const router = useRouter();
@@ -36,39 +36,39 @@ const FormComment = (props) => {
 
   // return to reset data
   const handleReset = () => {
-    if (keyBtn === 'editReplyQuestion') {
-      props.doReset('editReplyQuestion', null);
+    if (keyBtn === "editReplyQuestion") {
+      props.doReset("editReplyQuestion", null);
     }
-    if (keyBtn === 'editReplyAnswer') {
-      props.doReset('editReplyAnswer', null);
+    if (keyBtn === "editReplyAnswer") {
+      props.doReset("editReplyAnswer", null);
     }
-    if (keyBtn === 'replyComment') {
-      props.doReset('replyComment', null);
+    if (keyBtn === "replyComment") {
+      props.doReset("replyComment", null);
     }
-    if (keyBtn === 'replyAnswer') {
-      props.doReset('replyAnswer', null);
+    if (keyBtn === "replyAnswer") {
+      props.doReset("replyAnswer", null);
     }
   };
 
   //we get key check button cancel
   let btnCancel = [];
-  if (keyBtn === 'editReplyQuestion') {
-    btnCancel.push('Cancel');
+  if (keyBtn === "editReplyQuestion") {
+    btnCancel.push("Cancel");
   }
-  if (keyBtn === 'editReplyAnswer') {
-    btnCancel.push('Cancel');
+  if (keyBtn === "editReplyAnswer") {
+    btnCancel.push("Cancel");
   }
-  if (keyBtn === 'replyComment') {
-    btnCancel.push('Cancel');
+  if (keyBtn === "replyComment") {
+    btnCancel.push("Cancel");
   }
-  if (keyBtn === 'replyAnswer') {
-    btnCancel.push('Cancel');
+  if (keyBtn === "replyAnswer") {
+    btnCancel.push("Cancel");
   }
 
   const [form] = Form.useForm();
   const onFinish = (values) => {
     try {
-      if (keySubmit === 'replyQuestion') {
+      if (keySubmit === "replyQuestion") {
         try {
           replyComment({
             variables: {
@@ -80,11 +80,11 @@ const FormComment = (props) => {
           }).then(async (data) => {
             console.log(data);
           });
-          props.getCheck('answerType', null);
+          props.getCheck("answerType", null);
         } catch (e) {
           console.log(e);
         }
-      } else if (keySubmit === 'editQuestion') {
+      } else if (keySubmit === "editQuestion") {
         try {
           editComment({
             variables: {
@@ -95,12 +95,12 @@ const FormComment = (props) => {
             },
           }).then(async (data) => {
             console.log(data);
-            props.getCheck('question', null);
+            props.getCheck("question", null);
           });
         } catch (e) {
           console.log(e);
         }
-      } else if (keySubmit === 'editAnswer') {
+      } else if (keySubmit === "editAnswer") {
         try {
           editReply({
             variables: {
@@ -110,7 +110,7 @@ const FormComment = (props) => {
             },
           }).then(async (data) => {
             console.log(data);
-            props.getCheck('answer', null);
+            props.getCheck("answer", null);
           });
         } catch (e) {
           console.log(e);
@@ -138,24 +138,24 @@ const FormComment = (props) => {
 
   const comment = [];
   // user can sent key for edit comment
-  if (keyEdit === 'Question') {
+  if (keyEdit === "Question") {
     comment.push(textEdit);
   }
-  if (keyEdit === 'Answer') {
+  if (keyEdit === "Answer") {
     comment.push(textEdit);
   }
   // user can sent key for add comment
-  if (keyAdd === 'Question') {
+  if (keyAdd === "Question") {
     comment.push(`@${getName} : `);
   }
-  if (keyAdd === 'Answer') {
+  if (keyAdd === "Answer") {
     comment.push(`@${getName} : `);
   }
 
   const inputRef = React.useRef(null);
   const sharedProps = {
     style: {
-      width: '100%',
+      width: "100%",
     },
     defaultValue: comment[0],
     ref: inputRef,
@@ -170,7 +170,7 @@ const FormComment = (props) => {
             rules={[
               {
                 required: true,
-                message: "Please input your comment!"
+                message: "Please input your comment!",
               },
             ]}
           >
@@ -181,26 +181,30 @@ const FormComment = (props) => {
               {...sharedProps}
             />
           </Form.Item>
-          <div style={{ display: 'flex' }}>
-          <Form.Item shouldUpdate>
-            {() => (
-              <Button
-                className="btn-comment"
-                htmlType="submit"
-                disabled={
-                  !form.isFieldsTouched(true) ||
-                  !!form.getFieldsError().filter(({ errors }) => errors.length).length
-                }
-              >
-                {object === undefined ? 'Post' : 'Update'}
-              </Button>
-            )}
-          </Form.Item>
-          <Form.Item>
-            {btnCancel[0] === 'Cancel' && (
-              <Button className="btn-reset" onClick={handleReset}>Cancel</Button>
-            )}
-          </Form.Item>
+          <div style={{ display: "flex" }}>
+            <Form.Item shouldUpdate>
+              {() => (
+                <Button
+                  className="btn-comment"
+                  htmlType="submit"
+                  disabled={
+                    !form.isFieldsTouched(true) ||
+                    !!form
+                      .getFieldsError()
+                      .filter(({ errors }) => errors.length).length
+                  }
+                >
+                  {object === undefined ? "Post" : "Update"}
+                </Button>
+              )}
+            </Form.Item>
+            <Form.Item>
+              {btnCancel[0] === "Cancel" && (
+                <Button className="btn-reset" onClick={handleReset}>
+                  Cancel
+                </Button>
+              )}
+            </Form.Item>
           </div>
         </Form>
       }
@@ -209,3 +213,18 @@ const FormComment = (props) => {
 };
 
 export default FormComment;
+
+//  <Comment
+//    avatar={<Avatar src={user.get_user.image} />}
+//    content={
+//      <InputComment
+//        onChange={(e) => setValue({ ...value, ["comment"]: e.target.value })}
+//        onSubmit={object === undefined ? handleSubmit : handleEdit}
+//        submitting={value.submitting}
+//        value={value.comment}
+//        onReset={handleReset}
+//        checkBtn={object === undefined ? "Post" : "Update"}
+//        cancelBtn={btnCancel[0]}
+//      />
+//    }
+//  />;
