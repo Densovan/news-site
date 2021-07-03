@@ -1819,7 +1819,7 @@ body {
   background: #262e3c45;
   font-weight: bold;
   /* background: #f1617942; */
-  padding: 7px;
+  height: 35px;
   width: 120px;
   border-radius: 3px;
   cursor: pointer;
@@ -1835,7 +1835,8 @@ body {
   background: #262e3c45;
   font-weight: bold;
   /* background: #f1617942; */
-  padding: 7px;
+  /* padding: 7px; */
+  height: 35px;
   width: 120px;
   border-radius: 3px;
   cursor: pointer;

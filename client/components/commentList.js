@@ -206,8 +206,9 @@ const CommentList = ({ comments, articleId, reply }) => {
                 articleId={articleId}
                 commentId={comments.id}
                 getCheck={getCheck}
-                check="answerType"
                 keyBtn="replyComment"
+                keyAdd="Question"
+                keySubmit="replyQuestion"
                 getName={comments.user.fullname}
                 doReset={doReset}
               />
@@ -217,8 +218,10 @@ const CommentList = ({ comments, articleId, reply }) => {
             <FormComment
               articleId={articleId}
               object={comments}
-              check="Question"
               keyBtn="editReplyQuestion"
+              keyEdit="Question"
+              keySubmit="editQuestion"
+              textEdit={comments.question}
               getCheck={getCheck}
               doReset={doReset}
             />
@@ -341,10 +344,12 @@ const CommentList = ({ comments, articleId, reply }) => {
                     <FormComment
                       articleId={articleId}
                       object={reply}
-                      check="Answer"
                       getCheck={getCheck}
                       keyBtn="editReplyAnswer"
                       doReset={doReset}
+                      keyEdit="Answer"
+                      keySubmit="editAnswer"
+                      textEdit={reply.answer}
                     />
                   )}
                 </div>
@@ -355,10 +360,11 @@ const CommentList = ({ comments, articleId, reply }) => {
                         articleId={articleId}
                         getCheck={getCheck}
                         commentId={comments.id}
-                        check="answerType"
                         keyBtn="replyAnswer"
+                        keyAdd="Answer"
                         getName={reply.user.fullname}
                         doReset={doReset}
+                        keySubmit="replyQuestion"
                       />
                     )}
                 </div>
