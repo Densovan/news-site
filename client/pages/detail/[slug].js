@@ -158,17 +158,17 @@ const SinglePage = () => {
                   </center>
                 </div>
                 {loggedIn === true ? (
-                  <div>
+                  <center>
                     {user.id === myUser.get_user.id ? (
                       ""
                     ) : (
                       <Follower articleUser={user} />
                     )}
-                  </div>
+                  </center>
                 ) : (
-                  <div>
+                  <center>
                     <Follower articleUser={user} />
-                  </div>
+                  </center>
                 )}
 
                 <div className="pf-work">
