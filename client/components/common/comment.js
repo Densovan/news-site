@@ -1,20 +1,29 @@
-import React, { createElement, useEffect, useState } from "react";
-import { useMutation, useQuery } from "@apollo/client";
-import { Comment, Tooltip, Avatar } from "antd";
+import React, { createElement, useEffect, useState } from 'react';
+import { useMutation, useQuery } from '@apollo/client';
+import { Comment, Avatar, Form, Input, Button } from 'antd';
 
 import {
   COMMENT,
   REPLY_COMMENT,
   EDIT_COMMENT,
   EDIT_REPLY,
-} from "../../graphql/mutation";
-import { GET_USER } from "../../graphql/query";
-import InputComment from "../controls/inputComment";
-import { useRouter } from "next/router";
+} from '../../graphql/mutation';
+import { GET_USER } from '../../graphql/query';
+import { useRouter } from 'next/router';
 
 const FormComment = (props) => {
   const router = useRouter();
-  const { articleId, commentId, object, check, getName, keyBtn } = props;
+  const {
+    articleId,
+    commentId,
+    object,
+    getName,
+    keyBtn,
+    keyEdit,
+    textEdit,
+    keyAdd,
+    keySubmit,
+  } = props;
   const { loading: loading, data: user } = useQuery(GET_USER, {
     pollInterval: 500,
   });
@@ -23,169 +32,177 @@ const FormComment = (props) => {
   const [editComment] = useMutation(EDIT_COMMENT);
   const [editReply] = useMutation(EDIT_REPLY);
 
-  const [value, setValue] = useState({
-    submitting: false,
-    comment: "",
-  });
-  useEffect(() => {
-    if (!object) {
-      return null;
-    } else {
-      if (check === "Answer") {
-        setValue({
-          comment: object.answer,
-        });
-      }
-      if (check === "Question") {
-        setValue({
-          comment: object.question,
-        });
-      }
-    }
-  }, [object]);
-  useEffect(() => {
-    if (check === "answerType") {
-      setValue({
-        comment: `@${getName} : `,
-      });
-    }
-  }, []);
-
   if (loading) return <div>Loading...</div>;
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (check === "undefined") {
-      return null;
-    }
-    if (check === "answerType") {
-      replyComment({
-        variables: {
-          userId: user.get_user.id,
-          postId: articleId,
-          answer: value.comment,
-          questionId: commentId,
-        },
-      }).then(async (data) => {
-        setValue({
-          submitting: true,
-        });
-        setTimeout(() => {
-          setValue({
-            submitting: false,
-          });
-        }, 1000);
-      });
-      props.getCheck("answerType", null);
-    } else {
-      addComment({
-        variables: {
-          userId: user.get_user.id,
-          postId: articleId,
-          question: value.comment,
-        },
-      }).then(async (data) => {
-        setValue({
-          submitting: true,
-        });
-        setTimeout(() => {
-          setValue({
-            submitting: false,
-          });
-        }, 1000);
-      });
-    }
-  };
-
-  const handleEdit = (e) => {
-    e.preventDefault();
-    if (check === "undefined") {
-      return null;
-    }
-    if (check === "Answer") {
-      editReply({
-        variables: {
-          id: object.id,
-          userId: user.get_user.id,
-          answer: value.comment,
-        },
-      }).then(async (data) => {
-        setValue({
-          submitting: true,
-        });
-        setTimeout(() => {
-          setValue({
-            submitting: false,
-          });
-        }, 1000);
-        props.getCheck("answer", null);
-      });
-    }
-    if (check === "Question") {
-      editComment({
-        variables: {
-          id: object.id,
-          userId: user.get_user.id,
-          postId: articleId,
-          question: value.comment,
-        },
-      }).then(async (data) => {
-        setValue({
-          submitting: true,
-        });
-        setTimeout(() => {
-          setValue({
-            submitting: false,
-          });
-        }, 1000);
-        props.getCheck("question", null);
-      });
-    }
-  };
 
   // return to reset data
   const handleReset = () => {
-    if (keyBtn === "editReplyQuestion") {
-      props.doReset("editReplyQuestion", null);
+    if (keyBtn === 'editReplyQuestion') {
+      props.doReset('editReplyQuestion', null);
     }
-    if (keyBtn === "editReplyAnswer") {
-      props.doReset("editReplyAnswer", null);
+    if (keyBtn === 'editReplyAnswer') {
+      props.doReset('editReplyAnswer', null);
     }
-    if (keyBtn === "replyComment") {
-      props.doReset("replyComment", null);
+    if (keyBtn === 'replyComment') {
+      props.doReset('replyComment', null);
     }
-    if (keyBtn === "replyAnswer") {
-      props.doReset("replyAnswer", null);
+    if (keyBtn === 'replyAnswer') {
+      props.doReset('replyAnswer', null);
     }
   };
 
   //we get key check button cancel
   let btnCancel = [];
-  if (keyBtn === "editReplyQuestion") {
-    btnCancel.push("Cancel");
+  if (keyBtn === 'editReplyQuestion') {
+    btnCancel.push('Cancel');
   }
-  if (keyBtn === "editReplyAnswer") {
-    btnCancel.push("Cancel");
+  if (keyBtn === 'editReplyAnswer') {
+    btnCancel.push('Cancel');
   }
-  if (keyBtn === "replyComment") {
-    btnCancel.push("Cancel");
+  if (keyBtn === 'replyComment') {
+    btnCancel.push('Cancel');
   }
-  if (keyBtn === "replyAnswer") {
-    btnCancel.push("Cancel");
+  if (keyBtn === 'replyAnswer') {
+    btnCancel.push('Cancel');
   }
+
+  const [form] = Form.useForm();
+  const onFinish = (values) => {
+    try {
+      if (keySubmit === 'replyQuestion') {
+        try {
+          replyComment({
+            variables: {
+              userId: user.get_user.id,
+              postId: articleId,
+              answer: values.comment,
+              questionId: commentId,
+            },
+          }).then(async (data) => {
+            console.log(data);
+          });
+          props.getCheck('answerType', null);
+        } catch (e) {
+          console.log(e);
+        }
+      } else if (keySubmit === 'editQuestion') {
+        try {
+          editComment({
+            variables: {
+              id: object.id,
+              userId: user.get_user.id,
+              postId: articleId,
+              question: values.comment,
+            },
+          }).then(async (data) => {
+            console.log(data);
+            props.getCheck('question', null);
+          });
+        } catch (e) {
+          console.log(e);
+        }
+      } else if (keySubmit === 'editAnswer') {
+        try {
+          editReply({
+            variables: {
+              id: object.id,
+              userId: user.get_user.id,
+              answer: values.comment,
+            },
+          }).then(async (data) => {
+            console.log(data);
+            props.getCheck('answer', null);
+          });
+        } catch (e) {
+          console.log(e);
+        }
+      } else {
+        try {
+          addComment({
+            variables: {
+              userId: user.get_user.id,
+              postId: articleId,
+              question: values.comment,
+            },
+          }).then(async (data) => {
+            console.log(data);
+            form.resetFields();
+          });
+        } catch (e) {
+          console.log(e);
+        }
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const comment = [];
+  // user can sent key for edit comment
+  if (keyEdit === 'Question') {
+    comment.push(textEdit);
+  }
+  if (keyEdit === 'Answer') {
+    comment.push(textEdit);
+  }
+  // user can sent key for add comment
+  if (keyAdd === 'Question') {
+    comment.push(`@${getName} : `);
+  }
+  if (keyAdd === 'Answer') {
+    comment.push(`@${getName} : `);
+  }
+
+  const inputRef = React.useRef(null);
+  const sharedProps = {
+    style: {
+      width: '100%',
+    },
+    defaultValue: comment[0],
+    ref: inputRef,
+  };
   return (
     <Comment
       avatar={<Avatar src={user.get_user.image} />}
       content={
-        <InputComment
-          onChange={(e) => setValue({ ...value, ["comment"]: e.target.value })}
-          onSubmit={object === undefined ? handleSubmit : handleEdit}
-          submitting={value.submitting}
-          value={value.comment}
-          onReset={handleReset}
-          checkBtn={object === undefined ? "Post" : "Update"}
-          cancelBtn={btnCancel[0]}
-        />
+        <Form form={form} name="control-ref" onFinish={onFinish}>
+          <Form.Item
+            name="comment"
+            rules={[
+              {
+                required: true,
+                message: "Please input your comment!"
+              },
+            ]}
+          >
+            <Input.TextArea
+              className="input-comment"
+              showCount
+              maxLength={100}
+              {...sharedProps}
+            />
+          </Form.Item>
+          <div style={{ display: 'flex' }}>
+          <Form.Item shouldUpdate>
+            {() => (
+              <Button
+                className="btn-comment"
+                htmlType="submit"
+                disabled={
+                  !form.isFieldsTouched(true) ||
+                  !!form.getFieldsError().filter(({ errors }) => errors.length).length
+                }
+              >
+                {object === undefined ? 'Post' : 'Update'}
+              </Button>
+            )}
+          </Form.Item>
+          <Form.Item>
+            {btnCancel[0] === 'Cancel' && (
+              <Button className="btn-reset" onClick={handleReset}>Cancel</Button>
+            )}
+          </Form.Item>
+          </div>
+        </Form>
       }
     />
   );
