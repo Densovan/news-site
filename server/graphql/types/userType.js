@@ -9,6 +9,7 @@ const {
   GraphQLBoolean,
 } = graphql;
 const News = require("../../models/news");
+const User = require("../../models/user");
 
 const userType = new GraphQLObjectType({
   name: "user",
@@ -42,23 +43,6 @@ const userType = new GraphQLObjectType({
       type: GraphQLList(usersType),
     },
     follower: { type: GraphQLList(usersType) },
-
-    // followingss: {
-
-    // }
-
-    // following: {
-    //   type: GraphQLList(usersType),
-    //   resolve: (parent, args) => {
-    //     return UserModel.find({});
-    //   },
-    // },
-    // follower: {
-    //   type: GraphQLList(followType),
-    //   resolve: (parent, args) => {
-    //     return Follow.find({ followTo: parent.id });
-    //   },
-    // },
   }),
 });
 

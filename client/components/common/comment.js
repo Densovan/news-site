@@ -200,9 +200,9 @@ const FormComment = (props) => {
             </Form.Item>
             <Form.Item>
               {btnCancel[0] === "Cancel" && (
-                <Button className="btn-reset" onClick={handleReset}>
+                <button className="btn-reset" onClick={handleReset}>
                   Cancel
-                </Button>
+                </button>
               )}
             </Form.Item>
           </div>
@@ -213,18 +213,3 @@ const FormComment = (props) => {
 };
 
 export default FormComment;
-
-//  <Comment
-//    avatar={<Avatar src={user.get_user.image} />}
-//    content={
-//      <InputComment
-//        onChange={(e) => setValue({ ...value, ["comment"]: e.target.value })}
-//        onSubmit={object === undefined ? handleSubmit : handleEdit}
-//        submitting={value.submitting}
-//        value={value.comment}
-//        onReset={handleReset}
-//        checkBtn={object === undefined ? "Post" : "Update"}
-//        cancelBtn={btnCancel[0]}
-//      />
-//    }
-//  />;

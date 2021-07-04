@@ -197,15 +197,20 @@ const Addstory = () => {
       },
     }).then(async (res) => {
       setLoading(true);
-      await message.success("Created successfull");
-      form.resetFields();
-      setState({
-        imageUrl: null,
-        loading: false,
-      });
-      await refetch();
-      setLoading(false);
-      window.location.replace("/dashboard/allstories");
+      if (res.data.add_news.status == 200) {
+        await message.success(res.data.add_news.message);
+        form.resetFields();
+        setState({
+          imageUrl: null,
+          loading: false,
+        });
+        await refetch();
+        setLoading(false);
+        window.location.replace("/dashboard/allstories");
+      } else if (res.data.add_news.status == 400) {
+        await message.warning(res.data.add_news.message);
+        setLoading(false);
+      }
     });
     console.log(values);
   };

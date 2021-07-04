@@ -13,7 +13,9 @@ const InputComment = ({
 }) => {
   return (
     <Fragment>
-      <Form.Item>
+      <Form.Item
+        rules={[{ required: true, message: "Please input your username!" }]}
+      >
         <TextArea
           className="input-comment"
           showCount
@@ -23,15 +25,14 @@ const InputComment = ({
         />
       </Form.Item>
       <Form.Item>
-        <Button
-          disabled={value === "" ? true : false}
+        <button
           htmlType="submit"
           loading={submitting}
           onClick={onSubmit}
           className="btn-comment"
         >
           {checkBtn}
-        </Button>
+        </button>
 
         {cancelBtn == "Cancel" && (
           <button onClick={onReset} className="btn-reset">

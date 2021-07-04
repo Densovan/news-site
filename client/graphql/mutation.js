@@ -16,6 +16,7 @@ const ADD_NEWS = gql`
       thumnail: $thumnail
     ) {
       message
+      status
     }
   }
 `;

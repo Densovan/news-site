@@ -27,6 +27,9 @@ const NewsType = new GraphQLObjectType({
     updateAt: {
       type: GraphQLString,
     },
+    status: {
+      type: GraphQLString,
+    },
     id: {
       type: GraphQLID,
     },
@@ -66,6 +69,12 @@ const NewsType = new GraphQLObjectType({
         return Like.find({ postId: parent.id });
       },
     },
+    // get_news_by_following: {
+    //   type: GraphQLList(NewsType),
+    //   resolve: (parent, args) => {
+    //     return User.find({follow})
+    //   }
+    // }
   }),
 });
 

@@ -23,7 +23,7 @@ const Login = ({ history }) => {
             }, 1000);
           } else if (res.status === 200) {
             setLoading(true);
-            Cookie.set("_userId", res.data._id);
+            // Cookie.set("_userId", res.data._id);
             message.success(res.data.msg);
             setTimeout(function () {
               setLoading(false);

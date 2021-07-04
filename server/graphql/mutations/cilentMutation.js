@@ -27,7 +27,7 @@ const LikeModel = require("../../models/like");
 const RootMutation = new GraphQLObjectType({
   name: "RootMutationType",
   fields: {
-    //============add category=============
+    //============add Posts============
     add_news: {
       type: NewsType,
       args: {
@@ -40,15 +40,21 @@ const RootMutation = new GraphQLObjectType({
       },
       resolve: async (parents, args, context) => {
         try {
-          const news = new NewsModel({
-            ...args,
-            createBy: context.id,
-            slug: args.title.replace(/\s+/g, "-").toLowerCase(),
-          });
-          await news.save();
-          return {
-            message: "Add News Successful",
-          };
+          const existingSlug = await NewsModel.findOne({ title: args.title });
+          if (existingSlug) {
+            return { message: "This Title already exist!", status: 400 };
+          } else {
+            const news = new NewsModel({
+              ...args,
+              createBy: context.id,
+              slug: args.title.replace(/\s+/g, "-").toLowerCase(),
+            });
+            await news.save();
+            return {
+              message: "Created Successfully",
+              status: 200,
+            };
+          }
         } catch (error) {
           console.log(error);
           throw error;
@@ -139,7 +145,7 @@ const RootMutation = new GraphQLObjectType({
                   { ...args, passwordHash: hashPassword }
                 );
                 return {
-                  message: "The user info updated with successfully.",
+                  message: "Your info updated with successfully.",
                 };
               }
               return {
@@ -158,7 +164,7 @@ const RootMutation = new GraphQLObjectType({
               }
             );
             return {
-              message: "The user info update with successfully.",
+              message: "Your info update with successfully.",
             };
           }
         } catch (error) {

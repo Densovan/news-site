@@ -180,7 +180,7 @@ const RootQuery = new GraphQLObjectType({
     get_cats: {
       type: new GraphQLList(CategoryType),
       resolve: (parent, args) => {
-        return Category.find({}).sort({ createddAt: -1 });
+        return Category.find({}).sort({ createdAt: -1 });
       },
     },
     get_types: {
@@ -189,22 +189,24 @@ const RootQuery = new GraphQLObjectType({
         return Types.find({}).sort({ createdAt: -1 });
       },
     },
-    // get_follower: {
-    //   type: new GraphQLList(FollowType),
-    //   resolve: (parent, args, context) => {
-    //     return FollowModel.find({ followTo: context.id });
-    //   },
-    // },
-    // get_following: {
-    //   type: new GraphQLList(FollowType),
-    //   resolve: (parent, args, context) => {
-    //     return FollowModel.find({ followBy: context.id });
-    //   },
-    // },
-    // get_follow: {
-    //   type: new GraphQLList(FollowType),
-    //   resolve: (parent, args, context) => {
-    //     return FollowModel.find({});
+    // get_news_by_following: {
+    //   type: NewsType,
+    //   resolve: async (parent, args, context) => {
+    //     try {
+    //       const currentUser = await UserModel.findById(context.id);
+    //       if (currentUser) {
+    //         const userPost = await NewsModel.find({ createBy: context.id });
+    //         const friPost = await UserModel(
+    //           currentUser.following.map((res) => {
+    //             return res.id;
+    //           })
+    //         );
+    //         console.log(friPost);
+    //       }
+    //     } catch (error) {
+    //       console.log(error);
+    //       throw error;
+    //     }
     //   },
     // },
   },
