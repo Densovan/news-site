@@ -21,6 +21,7 @@ if (typeof window !== "undefined") {
 }
 
 const Editstory = () => {
+  const router = useRouter();
   const [current, setCurrent] = React.useState(0);
   const [titles, setTitle] = useState("");
   const { loggedIn } = useContext(AuthContext);
@@ -43,7 +44,6 @@ const Editstory = () => {
   });
   const [form] = Form.useForm();
   const instanceRef = React.useRef(null);
-  const router = useRouter();
   const { id } = router.query;
   const [edit_news] = useMutation(EDIT_NEWS);
   const { refetch } = useQuery(GET_OWN_NEWS);
@@ -196,16 +196,9 @@ const Editstory = () => {
       setLoading(true);
       await refetch();
       await message.success("update successful");
-      await window.location.replace("/dashboard/allstories");
-      // form.resetFields();
-      // setState({
-      //   imageUrl: null,
-      //   loading: false,
-      // });
-      // await refetch();
-      // setLoading(false);
+      router.push("/dashboard/allstories");
+      // await window.location.replace("/dashboard/allstories");
     });
-    // console.log(values);
   };
 
   return (

@@ -89,18 +89,21 @@ const SinglePage = () => {
                   <h1>{title}</h1>
                 </div>
                 <div>
-                  <div className="pf_user">
-                    <img src={user.image} />
-                    <div className="name">
-                      <label>{user.fullname}</label>
-                      <div className="time">
-                        <label>
-                          {moment.unix(createdAt / 1000).format("DD-MM-YYYY")} ·
-                          3 min read
-                        </label>
+                  <Link href={`/profile_detial/${user.id}`}>
+                    <div style={{ cursor: "pointer" }} className="pf_user">
+                      <img src={user.image} />
+
+                      <div className="name">
+                        <label>{user.fullname}</label>
+                        <div className="time">
+                          <label>
+                            {moment.unix(createdAt / 1000).format("DD-MM-YYYY")}{" "}
+                            · 3 min read
+                          </label>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  </Link>
                   <div style={{ color: "#262e3c", marginBottom: 20 }}>
                     <p className="describe-style" style={{ fontSize: "20px" }}>
                       {result}
@@ -147,13 +150,15 @@ const SinglePage = () => {
             </Col>
             <Col sm={24} md={6}>
               <div className="pf_pre">
-                <div className="pf_user">
-                  <img src={user.image} />
-                  <div className="name">
-                    <label>{user.fullname}</label>
-                    <p>{user.email}</p>
+                <Link href={`/profile_detial/${user.id}`}>
+                  <div style={{ cursor: "pointer" }} className="pf_user">
+                    <img src={user.image} />
+                    <div className="name">
+                      <label>{user.fullname}</label>
+                      <p>{user.email}</p>
+                    </div>
                   </div>
-                </div>
+                </Link>
                 <div className="pf_desc">
                   <center>
                     <p>{user.bio}</p>
@@ -162,14 +167,20 @@ const SinglePage = () => {
                 {loggedIn === true ? (
                   <center>
                     {user.id === myUser.get_user.id ? (
-                      ""
+                      <center>
+                        <Link href="/dashboard/profile">
+                          <button className="btn-follow">My Account</button>
+                        </Link>
+                      </center>
                     ) : (
                       <Follower articleUser={user} />
                     )}
                   </center>
                 ) : (
                   <center>
-                    <Follower articleUser={user} />
+                    <Link href="/signin">
+                      <button className="btn-follow">Follow</button>
+                    </Link>
                   </center>
                 )}
 
@@ -177,8 +188,8 @@ const SinglePage = () => {
                   {/* ======work======= */}
                   <div>
                     <Divider
-                      style={{ fontSize: "18", color: "gray" }}
                       orientation="left"
+                      style={{ fontSize: "18", color: "gray" }}
                     >
                       Work
                     </Divider>

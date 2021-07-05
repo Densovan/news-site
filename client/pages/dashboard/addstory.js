@@ -7,18 +7,21 @@ import dynamic from "next/dynamic";
 import MainNavbar from "../../components/Layouts/mainNavbar";
 import Footer from "../../components/Layouts/footer";
 import AuthContext from "../../contexts/authContext";
-// import { EDITOR_JS_TOOLS } from "../../components/Layouts/tools";
+import { useRouter } from "next/router";
+// const { EDITOR_JS_TOOLS } = require("../../components/Layouts/tools");
+// window = {};
 let CustomEditor;
-// let EDITOR_JS_TOOLS;
+let EDITOR_JS_TOOLS;
 if (typeof window !== "undefined") {
   CustomEditor = dynamic(() => import("react-editor-js"));
+
   // EDITOR_JS_TOOLS = dynamic(() => import("../../components/Layouts/tools"));
-  const { EDITOR_JS_TOOLS } = dynamic(
-    () => import("../../components/Layouts/tools"),
-    {
-      ssr: false,
-    }
-  );
+  // const { EDITOR_JS_TOOLS } = dynamic(
+  //   () => import("../../components/Layouts/tools"),
+  //   {
+  //     ssr: false,
+  //   }
+  // );
 }
 
 const Addstory = () => {
@@ -33,6 +36,7 @@ const Addstory = () => {
     imageUrl: null,
     loading: false,
   });
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [data, setData] = React.useState({
     time: 1556098174501,
@@ -206,7 +210,8 @@ const Addstory = () => {
         });
         await refetch();
         setLoading(false);
-        window.location.replace("/dashboard/allstories");
+        router.push("/dashboard/allstories");
+        // window.location.replace("/dashboard/allstories");
       } else if (res.data.add_news.status == 400) {
         await message.warning(res.data.add_news.message);
         setLoading(false);
@@ -269,7 +274,7 @@ const Addstory = () => {
                   >
                     {CustomEditor && (
                       <CustomEditor
-                        // tools={EDITOR_JS_TOOLS}
+                        tools={EDITOR_JS_TOOLS}
                         placeholder="Tell your story"
                         instanceRef={(instance) =>
                           (instanceRef.current = instance)

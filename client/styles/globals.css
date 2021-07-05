@@ -110,7 +110,7 @@ body {
   border-radius: 50%;
 }
 .dropdown-avatar {
-  width: 190px;
+  /* width: 190px; */
   /* box-shadow: rgb(230 230 230) 0px 1px 4px; */
   /* border: 1px solid rgba(230, 230, 230, 1); */
   background: rgb(255, 255, 255);
@@ -132,7 +132,8 @@ body {
 .content-avatar {
   padding-top: 24px;
   padding-bottom: 24px;
-  padding-left: 20px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 .control-avatar {
   display: flex;
@@ -153,7 +154,7 @@ body {
   font-size: 14px;
 }
 .content-text {
-  padding: 12px 0px 0px 20px;
+  padding: 12px 0px 0px 5px;
 }
 .content-text span {
   color: rgba(117, 117, 117, 1);
@@ -366,6 +367,9 @@ body {
 }
 .ant-popover-content .ant-popover-inner-content {
   padding: 10px;
+}
+.ant-popover-inner {
+  border-radius: 9px !important;
 }
 .date-avatar {
   display: flex;
@@ -1881,6 +1885,7 @@ body {
 }
 .pf-work h4 {
   margin-top: -12px;
+  padding-left: 23px;
 }
 .pf_user img {
   width: 48px;
@@ -2034,6 +2039,7 @@ body {
     line-height: 20px;
     overflow: hidden;
     text-overflow: ellipsis;
+    /* line-height: 27px; */
   }
   .content-lasts-news .title-news {
     line-height: 20px;
