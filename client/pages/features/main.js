@@ -35,12 +35,12 @@ const main = () => {
                     }}
                   ></div>
                   <div className="content-learn">
-                    <h3>
+                    <h3 className="describe-style">
                       {res.title.length <= 20
                         ? res.title
                         : res.title.substring(0, 20) + " ..."}
                     </h3>
-                    <p>
+                    <p className="describe-style">
                       {`${result.props.data.blocks[0].data.text.substring(
                         0,
                         50

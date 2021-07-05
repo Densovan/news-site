@@ -102,7 +102,9 @@ const SinglePage = () => {
                     </div>
                   </div>
                   <div style={{ color: "#262e3c", marginBottom: 20 }}>
-                    <p style={{ fontSize: "20px" }}>{result}</p>
+                    <p className="describe-style" style={{ fontSize: "20px" }}>
+                      {result}
+                    </p>
                   </div>
                   <Divider />
                   {loggedIn === true ? (

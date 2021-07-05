@@ -22,9 +22,10 @@ const Index = () => {
   });
   if (loading)
     return (
-      <center style={{ marginTop: "100px" }}>
-        <CubeSpinner size={30} backColor="#686769" frontColor="#fce24a" />
-      </center>
+      // <center style={{ marginTop: "100px" }}>
+      //   <CubeSpinner size={30} backColor="#686769" frontColor="#fce24a" />
+      // </center>
+      ""
     );
   // console.log(data);
   return (

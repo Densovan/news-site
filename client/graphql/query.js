@@ -239,6 +239,7 @@ const GET_ALL_NEWS_BY_TYPE_LEARN = gql`
       user {
         fullname
         image
+        id
       }
       types {
         name
@@ -268,6 +269,7 @@ const GET_ALL_NEWS_BY_TYPE_FEATURE = gql`
       user {
         fullname
         image
+        id
       }
       types {
         name

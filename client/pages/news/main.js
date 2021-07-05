@@ -40,7 +40,7 @@ const AllNews = () => {
                     ? res.title
                     : res.title.substring(0, 70) + " ..."}
                 </h2>
-                <p>
+                <p className="describe-style">
                   {`${result.props.data.blocks[0].data.text.substring(
                     0,
                     120

@@ -47,7 +47,10 @@ const RootMutation = new GraphQLObjectType({
             const news = new NewsModel({
               ...args,
               createBy: context.id,
-              slug: args.title.replace(/\s+/g, "-").toLowerCase(),
+              slug: args.title
+                .replace(/[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g, "-")
+                .toLowerCase(),
+              // slug: args.title.replace(/\s+/g, "-").toLowerCase(),
             });
             await news.save();
             return {
@@ -91,7 +94,13 @@ const RootMutation = new GraphQLObjectType({
         try {
           await NewsModel.findByIdAndUpdate(
             { _id: args.id },
-            { slug: args.title.replace(/\s+/g, "-").toLowerCase(), ...args },
+            // { slug: args.title.replace(/\s+/g, "-").toLowerCase(), ...args },
+            {
+              slug: args.title
+                .replace(/[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g, "-")
+                .toLowerCase(),
+              ...args,
+            },
             { createBy: context.id }
           );
           return {

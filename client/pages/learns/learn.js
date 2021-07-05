@@ -75,12 +75,12 @@ const Learn = () => {
                         }}
                       ></div>
                       <div className="content-learn">
-                        <h3>
+                        <h3 className="describe-style">
                           {res.title.length <= 20
                             ? res.title
                             : res.title.substring(0, 20) + " ..."}
                         </h3>
-                        <p>
+                        <p className="describe-style">
                           {`${result.props.data.blocks[0].data.text.substring(
                             0,
                             50
@@ -104,10 +104,12 @@ const Learn = () => {
                           </p> */}
                         <div className="date-avatar">
                           <div className="sub-date-avatar">
-                            <img
-                              className="avatar-mobile"
-                              src={res.user.image}
-                            />
+                            <Link href={`/profile_detial/${res.user.id}`}>
+                              <img
+                                className="avatar-mobile"
+                                src={res.user.image}
+                              />
+                            </Link>
                           </div>
                           <div>
                             <h1 className="status-news-topstory">
