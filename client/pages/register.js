@@ -136,7 +136,13 @@ const Register = ({ history }) => {
               </Form.Item>
               <Form.Item>
                 <center>
-                  <Button className="btn-login" size="large" htmlType="submit">
+                  <Button
+                    disabled={loading ? true : false}
+                    loading={loading ? true : false}
+                    className="btn-login"
+                    size="large"
+                    htmlType="submit"
+                  >
                     Register
                   </Button>
                 </center>
