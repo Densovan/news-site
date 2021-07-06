@@ -8,9 +8,19 @@ import moment from "moment";
 import ContentLoader from "react-content-loader";
 import Follower from "../../components/common/follower";
 import AuthContext from "../../contexts/authContext";
+import { Row, Col } from "antd";
+import Link from "next/link";
+import {
+  HiOutlineClipboardCheck,
+  HiOutlineUserAdd,
+  HiOutlineUserGroup,
+} from "react-icons/hi";
+import { CaretRightOutlined } from "@ant-design/icons";
+import Output from "editorjs-react-renderer";
 
 const Profile_detail = () => {
   const { loggedIn } = useContext(AuthContext);
+  const [show, setShow] = useState("all");
   const router = useRouter();
   const { id } = router.query;
   const { loading, data, refetch } = useQuery(GET_USER_BY_ID, {
@@ -49,7 +59,7 @@ const Profile_detail = () => {
         </ContentLoader>
       </center>
     );
-
+  console.log(data);
   return (
     <React.Fragment>
       <MainNavbar />
@@ -74,8 +84,73 @@ const Profile_detail = () => {
                 Joined On :{" "}
                 {moment.unix(data.get_user_by_id.createdAt / 1000).format("LL")}
               </h3>
+              <h4 style={{ marginTop: "12px" }}>{data.get_user_by_id.bio}</h4>
             </center>
             <br></br>
+          </div>
+          <br></br>
+          <div>
+            <Row gutter={[12, 12]}>
+              <Col span={8}>
+                <div className="box-pf">
+                  <Row
+                    className="list-content-pf"
+                    className={
+                      show === "" ? "active-list-pf" : "a-list-content-pf"
+                    }
+                  >
+                    <Col style={{ paddingTop: "4px" }} span={3}>
+                      <HiOutlineClipboardCheck style={{ fontSize: "21px" }} />
+                    </Col>
+                    <Col style={{ paddingTop: "4px" }} span={21}>
+                      {data.get_user_by_id.news.length} {""}
+                      posts published
+                    </Col>
+                  </Row>
+
+                  <Row
+                    onClick={() => setShow("following")}
+                    // className="accountNavbarhover"
+                    className="list-content-pf"
+                    className={
+                      show === "following"
+                        ? "active-list-pf"
+                        : "a-list-content-pf"
+                    }
+                  >
+                    <Col style={{ paddingTop: "4px" }} span={3}>
+                      <HiOutlineUserAdd style={{ fontSize: "21px" }} />
+                    </Col>
+                    <Col style={{ paddingTop: "4px" }} span={21}>
+                      {data.get_user_by_id.following.length} following
+                    </Col>
+                  </Row>
+                  <Row
+                    onClick={() => setShow("follower")}
+                    // className="accountNavbarhover"
+                    className="list-content-pf"
+                    className={
+                      show === "follower"
+                        ? "active-list-pf"
+                        : "a-list-content-pf"
+                    }
+                  >
+                    <Col style={{ paddingTop: "4px" }} span={3}>
+                      <HiOutlineUserGroup style={{ fontSize: "21px" }} />
+                    </Col>
+                    <Col style={{ paddingTop: "4px" }} span={21}>
+                      {data.get_user_by_id.follower.length} follower
+                    </Col>
+                  </Row>
+                </div>
+              </Col>
+              <Col span={16}>
+                {/* <br></br>
+                <center>
+                  <h1>Coming soon</h1>
+                </center> */}
+              </Col>
+            </Row>
           </div>
         </div>
       </div>

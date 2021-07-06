@@ -9,6 +9,7 @@ const GET_USERS = gql`
       email
       role
       id
+      gender
       createdAt
       news {
         title
@@ -37,9 +38,26 @@ const GET_USER_BY_ID = gql`
       email
       role
       id
+      gender
       createdAt
       news {
         title
+        createdAt
+        id
+        category
+        thumnail
+        type
+        slug
+        des
+        user {
+          fullname
+        }
+        types {
+          name
+        }
+        categories {
+          name
+        }
       }
       following {
         id
@@ -77,6 +95,7 @@ const GET_USER = gql`
       email
       role
       id
+      gender
       createdAt
       news {
         title

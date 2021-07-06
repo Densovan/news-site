@@ -59,7 +59,16 @@ const TopStory = () => {
                       <Col xs={12} md={18}>
                         <div className="date-avatar">
                           <div className="sub-date-avatar">
-                            <Link href={`/profile_detial/${res.user.id}`}>
+                            <Link
+                              href={`/profile_detial/${
+                                res.user.id
+                              }#${res.user.fullname
+                                .replace(
+                                  /[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g,
+                                  "-"
+                                )
+                                .toLowerCase()}`}
+                            >
                               <img
                                 className="avatar-mobile"
                                 src={res.user.image}
@@ -167,7 +176,16 @@ const TopStory = () => {
                         <Col xs={17} md={18}>
                           <div className="date-avatar">
                             <div className="sub-date-avatar">
-                              <Link href={`/profile_detial/${res.user.id}`}>
+                              <Link
+                                href={`/profile_detial/${
+                                  res.user.id
+                                }#${res.user.fullname
+                                  .replace(
+                                    /[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g,
+                                    "-"
+                                  )
+                                  .toLowerCase()}`}
+                              >
                                 <img
                                   className="avatar-mobile"
                                   src={res.user.image}

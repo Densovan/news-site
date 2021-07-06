@@ -7,7 +7,6 @@ import CategoryLoader from "../../components/loaders/categoryLoader";
 const Learn = () => {
   const { loading, data } = useQuery(GET_CATEGORIES);
   if (loading) return <CategoryLoader />;
-  console.log(data);
   return (
     <React.Fragment>
       <div className="news-cat">

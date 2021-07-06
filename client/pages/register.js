@@ -125,7 +125,7 @@ const Register = ({ history }) => {
                 name="gender"
                 label={
                   <label style={{ color: "white", fontWeight: "900" }}>
-                    Sex
+                    Gender
                   </label>
                 }
               >

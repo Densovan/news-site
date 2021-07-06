@@ -104,7 +104,16 @@ const Learn = () => {
                           </p> */}
                         <div className="date-avatar">
                           <div className="sub-date-avatar">
-                            <Link href={`/profile_detial/${res.user.id}`}>
+                            <Link
+                              href={`/profile_detial/${
+                                res.user.id
+                              }#${res.user.fullname
+                                .replace(
+                                  /[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g,
+                                  "-"
+                                )
+                                .toLowerCase()}`}
+                            >
                               <img
                                 className="avatar-mobile"
                                 src={res.user.image}

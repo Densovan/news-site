@@ -7,8 +7,8 @@
   font-family: "Inter", sans-serif;
 }
 body {
-  background: #f5f5f5;
-  /* background-color: #f0f2f5; */
+  /* background: #f5f5f5; */
+  background-color: #f0f2f5;
   margin: 0;
   padding: 0;
   /* background-color: #f8f9fe; */
@@ -109,6 +109,19 @@ body {
   top: 5px;
   border-radius: 50%;
 }
+.avatar-follow {
+  width: 40%;
+  border-radius: 50px;
+}
+.user-follow-card {
+  cursor: pointer;
+  background-color: #fff;
+  border: 1px solid #262e3c49;
+  border-radius: 12px;
+}
+.sub-user-follow-card {
+  padding: 30px;
+}
 .dropdown-avatar {
   /* width: 190px; */
   /* box-shadow: rgb(230 230 230) 0px 1px 4px; */
@@ -188,6 +201,12 @@ body {
   transition: 0.3s;
   padding: 4px;
   color: black !important;
+}
+.accountNavbar {
+  background: #ececed;
+
+  border-radius: 8px;
+  cursor: pointer;
 }
 /* .accountNavbarhover a {
   color: black;
@@ -1702,31 +1721,41 @@ body {
 /* ===================detail================== */
 .like-bg {
   background-color: #f161794b;
-  height: 40px;
+  height: 45px;
   border: none;
   padding: 10px;
   border-radius: 50%;
 }
 .like-bg:hover {
   background-color: #262e3c1f;
-  height: 40px;
+  height: 45px;
   border: none;
   padding: 10px;
   border-radius: 50%;
 }
+.like-bg:hover .like {
+  color: #262e3c;
+}
 .no-like-bg {
-  background-color: #262e3c1f;
+  /* background-color: #262e3c1f;
   height: 40px;
   border: none;
   padding: 10px;
-  border-radius: 50%;
+  border-radius: 50%; */
+  border: none;
+  padding: 10px;
+  height: 45px;
+  background-color: transparent;
 }
 .no-like-bg:hover {
   background-color: #f161794b;
-  height: 40px;
+  height: 45px;
   border: none;
   padding: 10px;
   border-radius: 50%;
+}
+.no-like-bg:hover .no-like {
+  color: var(--theme-ui-colors-primary, #f16179);
 }
 .like {
   color: #f16179;
@@ -1735,7 +1764,38 @@ body {
 .no-like {
   color: #262e3c;
 }
-
+.share-bg {
+  border: none;
+  padding: 10px;
+  height: 45px;
+  background-color: transparent;
+}
+.share-bg:hover {
+  background-color: #c0c3c7;
+  height: 45px;
+  border: none;
+  padding: 10px;
+  border-radius: 50%;
+}
+/* .share-bg:hover .share {
+  color: #f0d852;
+} */
+.save-bg {
+  border: none;
+  padding: 10px;
+  height: 45px;
+  background-color: transparent;
+}
+.save-bg:hover {
+  background-color: #38a6c867;
+  height: 45px;
+  border: none;
+  padding: 10px;
+  border-radius: 50%;
+}
+.save-bg:hover .save {
+  color: #38a7c8;
+}
 .badge-date {
   background-color: #fce14a94;
   display: inline-block;

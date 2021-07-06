@@ -92,7 +92,21 @@ const Feature = () => {
                       </p>
                       <div className="date-avatar">
                         <div className="sub-date-avatar">
-                          <img className="avatar-mobile" src={res.user.image} />
+                          <Link
+                            href={`/profile_detial/${
+                              res.user.id
+                            }#${res.user.fullname
+                              .replace(
+                                /[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g,
+                                "-"
+                              )
+                              .toLowerCase()}`}
+                          >
+                            <img
+                              className="avatar-mobile"
+                              src={res.user.image}
+                            />
+                          </Link>
                         </div>
                         <div>
                           <h1 className="status-news-topstory">

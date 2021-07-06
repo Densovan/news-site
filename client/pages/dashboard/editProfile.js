@@ -1,5 +1,15 @@
 import React, { useState, useContext } from "react";
-import { Upload, message, Divider, Form, Input, Row, Col, Button } from "antd";
+import {
+  Upload,
+  message,
+  Divider,
+  Form,
+  Input,
+  Row,
+  Col,
+  Button,
+  Radio,
+} from "antd";
 import { FiCamera } from "react-icons/fi";
 import { LoadingOutlined } from "@ant-design/icons";
 import { useQuery, useMutation } from "@apollo/client";
@@ -149,6 +159,23 @@ const ChangeProfilePicture = () => {
                     size="large"
                     placeholder="Bio"
                   />
+                </Form.Item>
+                <Form.Item
+                  initialValue={data.get_user.gender}
+                  name="gender"
+                  label={
+                    <label style={{ color: "white", fontWeight: "900" }}>
+                      Gender
+                    </label>
+                  }
+                >
+                  <Radio.Group
+                    // onChange={onChange}
+                    defaultValue={data.get_user.bio}
+                  >
+                    <Radio value="male">Male</Radio>
+                    <Radio value="female">Female</Radio>
+                  </Radio.Group>
                 </Form.Item>
                 <Divider orientation="left" plain>
                   <h3>Password</h3>

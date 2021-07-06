@@ -15,10 +15,11 @@ import Link from "next/link";
 import FormLike from "../../components/common/like";
 
 import {
-  HeartOutlined,
-  HeartFilled,
-  ShareAltOutlined,
-} from "@ant-design/icons";
+  // HeartOutlined,
+  // HeartFilled,
+  HiOutlineShare,
+  HiOutlineBookmark,
+} from "react-icons/hi";
 
 import FormComment from "../../components/common/comment";
 import CommentList from "../../components/commentList";
@@ -66,14 +67,16 @@ const SinglePage = () => {
                 <div className="nav_left">
                   <FormLike articleId={id} dataLike={like} myUser={myUser} />
                   <div className="btn_box">
-                    <Button
-                      className="btn_share"
-                      style={{ borderColor: "transparent", boxShadow: "none" }}
-                      shape="circle"
-                      icon={<ShareAltOutlined />}
-                      size="large"
-                    />
-                    <div className="tt_share">21</div>
+                    <button style={{ cursor: "pointer" }} className="share-bg">
+                      <HiOutlineShare className="share" size={23} />
+                    </button>
+                    <div className="tt_share">31</div>
+                  </div>
+                  <div className="btn_box">
+                    <button style={{ cursor: "pointer" }} className="save-bg">
+                      <HiOutlineBookmark className="save" size={23} />
+                    </button>
+                    <div className="tt_share">1</div>
                   </div>
                 </div>
               )}
