@@ -18,6 +18,7 @@ import { UPDATE_USER } from "../../graphql/mutation";
 import MainNavbar from "../../components/Layouts/mainNavbar";
 import Footer from "../../components/Layouts/footer";
 import AuthContext from "../../contexts/authContext";
+import ImgCrop from "antd-img-crop";
 
 const ChangeProfilePicture = () => {
   //======state for chagte profile image
@@ -33,6 +34,26 @@ const ChangeProfilePicture = () => {
   if (loading) return "";
   //===========update Userdata============
   const [update_user] = useMutation(UPDATE_USER);
+
+  const onPreview = async (file) => {
+    let src = file.url;
+    if (!src) {
+      src = await new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file.originFileObj);
+        reader.onload = () => resolve(reader.result);
+      });
+    }
+    const image = new Image();
+    image.src = src;
+    const imgWindow = window.open(src);
+
+    if (imgWindow) {
+      imgWindow.document.write(image.outerHTML);
+    } else {
+      window.location.href = src;
+    }
+  };
 
   //===== Upload File Function =====
   const handleChange = async (info) => {
@@ -111,17 +132,20 @@ const ChangeProfilePicture = () => {
                   )}
 
                   <div className="button-upload">
-                    <Upload
-                      name="file"
-                      showUploadList={false}
-                      action="http://localhost:3500/upload/profile"
-                      // beforeUpload={beforeUpload}
-                      onChange={handleChange}
-                    >
-                      <div className="editUserPhotoAvatar">
-                        <FiCamera style={{ fontSize: "20px" }} />
-                      </div>
-                    </Upload>
+                    <ImgCrop grid={true} rotate>
+                      <Upload
+                        name="file"
+                        showUploadList={false}
+                        action="http://localhost:3500/upload/profile"
+                        // beforeUpload={beforeUpload}
+                        onChange={handleChange}
+                        onPreview={onPreview}
+                      >
+                        <div className="editUserPhotoAvatar">
+                          <FiCamera style={{ fontSize: "20px" }} />
+                        </div>
+                      </Upload>
+                    </ImgCrop>
                     {/* </div> */}
                   </div>
                 </div>
