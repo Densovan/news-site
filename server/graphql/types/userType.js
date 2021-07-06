@@ -9,8 +9,7 @@ const {
   GraphQLBoolean,
 } = graphql;
 const News = require("../../models/news");
-const Follow = require("../../models/follow");
-// const Following = require("../../models/following");
+const User = require("../../models/user");
 
 const userType = new GraphQLObjectType({
   name: "user",
@@ -24,6 +23,8 @@ const userType = new GraphQLObjectType({
     gender: { type: GraphQLString },
     follow: { type: GraphQLString },
     role: { type: GraphQLString },
+    followerId: { type: GraphQLID },
+    followingId: { type: GraphQLID },
     image: { type: GraphQLString },
     createdAt: {
       type: GraphQLString,
@@ -39,22 +40,15 @@ const userType = new GraphQLObjectType({
       },
     },
     following: {
-      type: GraphQLList(followType),
-      resolve: (parent, args) => {
-        return Follow.find({ followBy: parent.id, follow: true });
-      },
+      type: GraphQLList(usersType),
     },
-    follower: {
-      type: GraphQLList(followType),
-      resolve: (parent, args) => {
-        return Follow.find({ followTo: parent.id });
-      },
-    },
+    follower: { type: GraphQLList(usersType) },
   }),
 });
 
 module.exports = userType;
 
 const newsType = require("./newsType");
-const followType = require("./followType");
+const usersType = require("./userType");
+
 // const followingType = require("./followingType");

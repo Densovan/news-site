@@ -5,6 +5,7 @@ import axios from "axios";
 import Link from "next/link";
 
 const Register = ({ history }) => {
+  const [value, setValue] = useState("male");
   const [loading, setLoading] = useState(false);
   const { getLoggedIn } = useContext(AuthContext);
   const { loggedIn } = useContext(AuthContext);
@@ -31,6 +32,10 @@ const Register = ({ history }) => {
     } catch (error) {
       console.log(error);
     }
+  };
+  const onChange = (e) => {
+    console.log("radio checked", e.target.value);
+    setValue(e.target.value);
   };
   return (
     <React.Fragment>
@@ -117,13 +122,14 @@ const Register = ({ history }) => {
                 />
               </Form.Item>
               <Form.Item
+                name="gender"
                 label={
                   <label style={{ color: "white", fontWeight: "900" }}>
-                    Sex
+                    Gender
                   </label>
                 }
               >
-                <Radio.Group name="gender" defaultValue="male">
+                <Radio.Group onChange={onChange} defaultValue={value}>
                   <Radio value="male">Male</Radio>
                   <Radio value="female">Female</Radio>
                 </Radio.Group>

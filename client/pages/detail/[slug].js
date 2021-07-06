@@ -1,82 +1,238 @@
-import React from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { useRouter } from "next/router";
-import TopNavbar from "../../components/Layouts/topNavbar";
 import MainNavbar from "../../components/Layouts/mainNavbar";
 import Footer from "../../components/Layouts/footer";
-import { GET_NEWS_BY_SLUG } from "../../graphql/query";
+import { GET_NEWS_BY_SLUG, GET_USER } from "../../graphql/query";
 import { useQuery } from "@apollo/client";
 import Output from "editorjs-react-renderer";
 import moment from "moment";
-import { Row, Col } from "antd";
-import { CubeSpinner } from "react-spinners-kit";
-import ContentLoader from "react-content-loader";
+import { Col, Row, Button, Divider } from "antd";
+import Laoder from "../../components/loaders/detailLoader";
+import Follower from "../../components/common/follower";
+import Like from "../../components/common/like";
+import AuthContext from "../../contexts/authContext";
+import Link from "next/link";
+import FormLike from "../../components/common/like";
+
+import {
+  // HeartOutlined,
+  // HeartFilled,
+  HiOutlineShare,
+  HiOutlineBookmark,
+} from "react-icons/hi";
+
+import FormComment from "../../components/common/comment";
+import CommentList from "../../components/commentList";
 
 const SinglePage = () => {
+  const { loggedIn } = useContext(AuthContext);
   const router = useRouter();
   const { slug } = router.query;
-  const { loading, data } = useQuery(GET_NEWS_BY_SLUG, {
+  // const [dataSlug, setDataSlug] = useState({
+  //   id: "",
+  //   title: "",
+  //   thumnail: "",
+  //   des: "",
+  //   user: "",
+  //   createdAt: "",
+  //   comment: [],
+  //   reply: []
+  // })
+  const { loading, data, refetch } = useQuery(GET_NEWS_BY_SLUG, {
     variables: { slug },
+    pollInterval: 500,
   });
-  if (loading)
+  const { loading: userLoadin, data: myUser } = useQuery(GET_USER);
+
+  if (loading || userLoadin)
     return (
-      <center style={{ marginTop: "100px" }}>
-        <CubeSpinner size={30} backColor="#686769" frontColor="#fce24a" />
-        {/* <ContentLoader
-          width={450}
-          height={400}
-          viewBox="0 0 450 400"
-          backgroundColor="#f0f0f0"
-          foregroundColor="#dedede"
-          // {...props}
-        >
-          <rect x="43" y="304" rx="4" ry="4" width="271" height="9" />
-          <rect x="44" y="323" rx="3" ry="3" width="119" height="6" />
-          <rect x="42" y="77" rx="10" ry="10" width="388" height="217" />
-        </ContentLoader> */}
-      </center>
+      <div className="container">
+        <center style={{ marginTop: "100px" }}>
+          <Laoder />
+        </center>
+      </div>
     );
-  console.log(data);
-  const { title, thumnail, des, user, createdAt } = data.get_news_by_slug;
+  const { id, title, thumnail, des, user, createdAt, comment, reply, like } =
+    data.get_news_by_slug;
+
   const result = <Output data={JSON.parse(des)} />;
   return (
     <React.Fragment>
-      {/* <TopNavbar /> */}
       <MainNavbar />
       <div className="container">
-        <br></br>
-        <Row gutter={[32, 32]}>
-          <Col sm={24} md={24} lg={17}>
-            <div className="detail">
-              <div className="detail-main-des">
-                <h1>{title}</h1>
-                <Row gutter={[12, 12]}>
-                  <Col xs={24} md={20}>
+        <div style={{ marginTop: 16 }}>
+          <Row gutter={[16, 16]}>
+            <Col sm={24} md={2}>
+              {loggedIn === true && (
+                <div className="nav_left">
+                  <FormLike articleId={id} dataLike={like} myUser={myUser} />
+                  <div className="btn_box">
+                    <button style={{ cursor: "pointer" }} className="share-bg">
+                      <HiOutlineShare className="share" size={23} />
+                    </button>
+                    <div className="tt_share">31</div>
+                  </div>
+                  <div className="btn_box">
+                    <button style={{ cursor: "pointer" }} className="save-bg">
+                      <HiOutlineBookmark className="save" size={23} />
+                    </button>
+                    <div className="tt_share">1</div>
+                  </div>
+                </div>
+              )}
+            </Col>
+            <Col sm={24} md={16}>
+              <div>
+                <div className="thumail">
+                  <img
+                    src={"http://localhost:3500/public/uploads/" + thumnail}
+                  />
+                </div>
+                <div className="article_title">
+                  <h1>{title}</h1>
+                </div>
+                <div>
+                  <Link href={`/profile_detial/${user.id}`}>
+                    <div style={{ cursor: "pointer" }} className="pf_user">
+                      <img src={user.image} />
+
+                      <div className="name">
+                        <label>{user.fullname}</label>
+                        <div className="time">
+                          <label>
+                            {moment.unix(createdAt / 1000).format("DD-MM-YYYY")}{" "}
+                            · 3 min read
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                  <div style={{ color: "#262e3c", marginBottom: 20 }}>
+                    <p className="describe-style" style={{ fontSize: "20px" }}>
+                      {result}
+                    </p>
+                  </div>
+                  <Divider />
+                  {loggedIn === true ? (
+                    <div style={{ marginTop: 20 }}>
+                      <h3>Comment({reply.length + comment.length})</h3>
+                      <div>
+                        <FormComment user={user} articleId={id} />
+                        <CommentList
+                          articleId={id}
+                          comments={comment}
+                          reply={reply}
+                          fullname={user.fullname}
+                        />
+                      </div>
+                    </div>
+                  ) : (
                     <div>
-                      <span>By : </span>
-                      <span>
-                        <b>{user.fullname}</b>
-                      </span>
+                      <center>
+                        <br></br>
+                        <h3>
+                          Please <Link href="/signin">Login</Link> to Make
+                          Discussion
+                        </h3>
+                        <img
+                          style={{ maxWidth: "50%" }}
+                          src="/assets/images/Login-rafiki.png"
+                        />
+                      </center>
+                      {/* <FormComment user={user} articleId={id} myUser={myUser} />
+                      <CommentList
+                        articleId={id}
+                        comments={comment}
+                        reply={reply}
+                        fullname={user.fullname}
+                      /> */}
                     </div>
-                    {/* <span> </span> */}
-                  </Col>
-                  <Col xs={24} md={4}>
-                    <div className="badge-date">
-                      {moment.unix(createdAt / 1000).format("DD-MM-YYYY")}
+                  )}
+                </div>
+              </div>
+            </Col>
+            <Col sm={24} md={6}>
+              <div className="pf_pre">
+                <Link href={`/profile_detial/${user.id}`}>
+                  <div style={{ cursor: "pointer" }} className="pf_user">
+                    <img src={user.image} />
+                    <div className="name">
+                      <label>{user.fullname}</label>
+                      <p>{user.email}</p>
                     </div>
-                  </Col>
-                </Row>
+                  </div>
+                </Link>
+                <div className="pf_desc">
+                  <center>
+                    <p>{user.bio}</p>
+                  </center>
+                </div>
+                {loggedIn === true ? (
+                  <center>
+                    {user.id === myUser.get_user.id ? (
+                      <center>
+                        <Link href="/dashboard/profile">
+                          <button className="btn-follow">My Account</button>
+                        </Link>
+                      </center>
+                    ) : (
+                      <Follower articleUser={user} />
+                    )}
+                  </center>
+                ) : (
+                  <center>
+                    <Link href="/signin">
+                      <button className="btn-follow">Follow</button>
+                    </Link>
+                  </center>
+                )}
+
+                <div className="pf-work">
+                  {/* ======work======= */}
+                  <div>
+                    <Divider
+                      orientation="left"
+                      style={{ fontSize: "18", color: "gray" }}
+                    >
+                      Work
+                    </Divider>
+                    <h4>Community Lead at DSC JSS </h4>
+                  </div>
+                  {/* ===========Location============ */}
+                  <div>
+                    <Divider
+                      style={{ fontSize: "18", color: "gray" }}
+                      orientation="left"
+                    >
+                      Location
+                    </Divider>
+                    <h4>Noida, Uttar Pradesh, India </h4>
+                  </div>
+                  {/*========= Education=========== */}
+                  <div>
+                    <Divider
+                      style={{ fontSize: "18", color: "gray" }}
+                      orientation="left"
+                    >
+                      Education
+                    </Divider>
+                    <h4>JSS Academy Of Technical Education Noida </h4>
+                  </div>
+                  {/* //===========join============== */}
+                  <div>
+                    <Divider
+                      style={{ fontSize: "18", color: "gray" }}
+                      orientation="left"
+                    >
+                      Join
+                    </Divider>
+                    <h4>{moment.unix(user.createdAt / 1000).format("LL")}</h4>
+                  </div>
+                </div>
               </div>
-              <img
-                style={{ maxWidth: "100%", marginTop: "12px" }}
-                src={"http://localhost:3500/public/uploads/" + thumnail}
-              />
-              <div className="detail-des">
-                <p>{result}</p>
-              </div>
-            </div>
-          </Col>
-          <Col sm={24} md={24} lg={7}></Col>
-        </Row>
+            </Col>
+          </Row>
+        </div>
       </div>
       <Footer />
     </React.Fragment>

@@ -13,7 +13,7 @@ import Marker from "@editorjs/marker";
 import CheckList from "@editorjs/checklist";
 import Delimiter from "@editorjs/delimiter";
 import InlineCode from "@editorjs/inline-code";
-// import SimpleImage from "@editorjs/simple-image";
+import SimpleImage from "@editorjs/simple-image";
 // import Paragraph from "@editorjs/paragraph";
 
 const EDITOR_JS_TOOLS = {

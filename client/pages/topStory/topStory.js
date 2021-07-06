@@ -12,6 +12,7 @@ import TopNavbar from "../../components/Layouts/topNavbar";
 import MainNavbar from "../../components/Layouts/mainNavbar";
 import Footer from "../../components/Layouts/footer";
 import { CubeSpinner } from "react-spinners-kit";
+import ContentLoader from "react-content-loader";
 
 const TopStory = () => {
   //=============get last News===========
@@ -23,9 +24,14 @@ const TopStory = () => {
   );
   if (loadingLastNews)
     return (
-      <center style={{ marginTop: "100px" }}>
-        <CubeSpinner size={30} backColor="#686769" frontColor="#fce24a" />
-      </center>
+      <div className="container">
+        <ContentLoader viewBox="0 0 100% 650" height={650} width={"100%"}>
+          <rect x="0" y="42" rx="5" ry="5" width="100%" height="200" />
+          <rect x="0" y="265" rx="5" ry="5" width="100%" height="10" />
+          <rect x="0" y="285" rx="5" ry="5" width="100%" height="10" />
+          <rect x="0" y="305" rx="5" ry="5" width="100%" height="10" />
+        </ContentLoader>
+      </div>
     );
 
   const LastNews = () => {
@@ -53,10 +59,21 @@ const TopStory = () => {
                       <Col xs={12} md={18}>
                         <div className="date-avatar">
                           <div className="sub-date-avatar">
-                            <img
-                              className="avatar-mobile"
-                              src={res.user.image}
-                            />
+                            <Link
+                              href={`/profile_detial/${
+                                res.user.id
+                              }#${res.user.fullname
+                                .replace(
+                                  /[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g,
+                                  "-"
+                                )
+                                .toLowerCase()}`}
+                            >
+                              <img
+                                className="avatar-mobile"
+                                src={res.user.image}
+                              />
+                            </Link>
                           </div>
                           <div>
                             <h1 className="status-news-topstory">
@@ -98,8 +115,8 @@ const TopStory = () => {
   return (
     <React.Fragment>
       {/* <TopNavbar /> */}
-      <MainNavbar />
-      <div className="index-banner">
+      {/* <MainNavbar /> */}
+      {/* <div className="index-banner">
         <div className="content-banner">
           <Row gutter={[32, 32]}>
             <Col sm={15}>
@@ -117,7 +134,7 @@ const TopStory = () => {
             </Col>
           </Row>
         </div>
-      </div>
+      </div> */}
       <div className="container">
         <Row gutter={[32, 32]}>
           <Col sm={24} md={24} lg={17}>
@@ -148,7 +165,7 @@ const TopStory = () => {
                           ? res.title
                           : res.title.substring(0, 70) + " ..."}
                       </h2>
-                      <p>
+                      <p className="describe-style">
                         {`${result.props.data.blocks[0].data.text.substring(
                           0,
                           120
@@ -157,24 +174,18 @@ const TopStory = () => {
 
                       <Row>
                         <Col xs={17} md={18}>
-                          {/* <h1 className="status-news-topstory">
-                            {res.types.name}
-                            <span>
-                              <CaretRightOutlined
-                                style={{ fontSize: "10px" }}
-                              />
-                            </span>
-                            {res.categories.name}
-                          </h1>
-                          <p className="date-news">
-                            {res.user.fullname}:{" "}
-                            {moment
-                              .unix(res.createdAt / 1000)
-                              .format("DD-MM-YYYY")}
-                          </p> */}
                           <div className="date-avatar">
                             <div className="sub-date-avatar">
-                              <Link href={`/profile_detial/${res.user.id}`}>
+                              <Link
+                                href={`/profile_detial/${
+                                  res.user.id
+                                }#${res.user.fullname
+                                  .replace(
+                                    /[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g,
+                                    "-"
+                                  )
+                                  .toLowerCase()}`}
+                              >
                                 <img
                                   className="avatar-mobile"
                                   src={res.user.image}

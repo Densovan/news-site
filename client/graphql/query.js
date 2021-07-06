@@ -3,26 +3,28 @@ import { gql } from "@apollo/client";
 const GET_USERS = gql`
   query {
     get_users {
+      bio
       fullname
       image
       email
       role
       id
+      gender
       createdAt
       news {
         title
       }
-      follower {
-        followBy
-        userFollower {
-          fullname
-        }
-      }
       following {
-        followTo
-        userFollowing {
-          fullname
-        }
+        id
+        email
+        fullname
+        followingId
+      }
+      follower {
+        id
+        email
+        fullname
+        followerId
       }
     }
   }
@@ -30,30 +32,56 @@ const GET_USERS = gql`
 const GET_USER_BY_ID = gql`
   query ($id: ID!) {
     get_user_by_id(id: $id) {
+      bio
       image
       fullname
       email
       role
       id
+      gender
       createdAt
       news {
         title
-      }
-      follower {
-        followBy
-        follow
-        userFollower {
+        createdAt
+        id
+        category
+        thumnail
+        type
+        slug
+        des
+        user {
           fullname
-          image
+        }
+        types {
+          name
+        }
+        categories {
+          name
         }
       }
       following {
-        follow
-        followTo
-        userFollowing {
-          fullname
-          image
-        }
+        id
+        email
+        fullname
+        followingId
+      }
+      follower {
+        id
+        email
+        fullname
+        followerId
+      }
+      following {
+        id
+        email
+        fullname
+        followingId
+      }
+      follower {
+        id
+        email
+        fullname
+        followerId
       }
     }
   }
@@ -62,29 +90,29 @@ const GET_USER = gql`
   query {
     get_user {
       image
+      bio
       fullname
       email
       role
       id
+      gender
       createdAt
       news {
         title
       }
-      follower {
-        followBy
-        follow
-        userFollower {
-          fullname
-          image
-        }
-      }
       following {
-        followTo
-        follow
-        userFollowing {
-          fullname
-          image
-        }
+        id
+        email
+        fullname
+        followingId
+        image
+      }
+      follower {
+        id
+        email
+        fullname
+        followerId
+        image
       }
     }
   }
@@ -230,6 +258,7 @@ const GET_ALL_NEWS_BY_TYPE_LEARN = gql`
       user {
         fullname
         image
+        id
       }
       types {
         name
@@ -259,6 +288,7 @@ const GET_ALL_NEWS_BY_TYPE_FEATURE = gql`
       user {
         fullname
         image
+        id
       }
       types {
         name
@@ -271,24 +301,56 @@ const GET_ALL_NEWS_BY_TYPE_FEATURE = gql`
 `;
 
 const GET_NEWS_BY_SLUG = gql`
-  query ($slug: String!) {
+  query ($slug: String) {
     get_news_by_slug(slug: $slug) {
+      id
       title
       createdAt
-      id
       category
       thumnail
       type
       slug
       des
       user {
+        bio
+        id
         fullname
+        image
+        email
+        createdAt
       }
       types {
         name
       }
       categories {
         name
+      }
+      comment {
+        createdAt
+        id
+        question
+        user {
+          id
+          fullname
+          image
+        }
+        answerId
+      }
+      reply {
+        id
+        createdAt
+        user {
+          id
+          fullname
+          image
+        }
+        postId
+        answer
+        questionId
+      }
+      like {
+        userId
+        postId
       }
     }
   }
@@ -408,36 +470,8 @@ const GET_NEWS_FEATURE_BY_CAT = gql`
     }
   }
 `;
-const GET_FOLLOWER = gql`
-  query {
-    get_follower {
-      followTo
-      followBy
-      follow
-      userFollowing {
-        fullname
-        id
-      }
-    }
-  }
-`;
-const GET_FOLLOWING = gql`
-  query {
-    get_following {
-      followTo
-      followBy
-      follow
-      userFollowing {
-        fullname
-        id
-      }
-    }
-  }
-`;
 
 export {
-  GET_FOLLOWING,
-  GET_FOLLOWER,
   GET_USER_BY_ID,
   GET_NEWS_FEATURE_BY_CAT,
   GET_NEWS_NEWS_BY_CAT,

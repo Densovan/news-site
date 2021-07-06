@@ -12,6 +12,7 @@ import moment from "moment";
 import Output from "editorjs-react-renderer";
 import Categories from "../categories/news";
 import { CubeSpinner } from "react-spinners-kit";
+import Laoder from "../../components/loaders/laoder";
 
 const AllNews = () => {
   const router = useRouter();
@@ -20,12 +21,7 @@ const AllNews = () => {
   const { loading, data } = useQuery(GET_NEWS_NEWS_BY_CAT, {
     variables: { id, limit: 8, offset: 0 },
   });
-  if (loading)
-    return (
-      <center style={{ marginTop: "100px" }}>
-        <CubeSpinner size={30} backColor="#686769" frontColor="#fce24a" />
-      </center>
-    );
+  if (loading) return <div>{/* <Laoder /> */}</div>;
 
   return (
     <React.Fragment>
@@ -71,7 +67,7 @@ const AllNews = () => {
                           ? res.title
                           : res.title.substring(0, 70) + " ..."}
                       </h2>
-                      <p>
+                      <p className="describe-style">
                         {`${result.props.data.blocks[0].data.text.substring(
                           0,
                           120
