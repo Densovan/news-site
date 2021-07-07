@@ -12,23 +12,25 @@ const Register = ({ history }) => {
   const onFinish = async (values) => {
     console.log("Success:", values);
     try {
-      await axios.post("http://localhost:3500/auth/", values).then((res) => {
-        if (res.status === 201) {
-          setLoading(true);
-          message.error(res.data.msg);
-          setTimeout(function () {
-            setLoading(false);
-          }, 1000);
-        } else if (res.status === 200) {
-          setLoading(true);
-          message.success(res.data.msg);
-          setTimeout(function () {
-            setLoading(false);
-            window.location.replace("/");
-          }, 2000);
-          // getLoggedIn();
-        }
-      });
+      await axios
+        .post("https://backend.beecolony.org/auth/", values)
+        .then((res) => {
+          if (res.status === 201) {
+            setLoading(true);
+            message.error(res.data.msg);
+            setTimeout(function () {
+              setLoading(false);
+            }, 1000);
+          } else if (res.status === 200) {
+            setLoading(true);
+            message.success(res.data.msg);
+            setTimeout(function () {
+              setLoading(false);
+              window.location.replace("/");
+            }, 2000);
+            // getLoggedIn();
+          }
+        });
     } catch (error) {
       console.log(error);
     }

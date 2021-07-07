@@ -7,12 +7,12 @@ function AuthContextProvider(props) {
   const [loggedIn, setLoggedIn] = useState(undefined);
   async function getLoggedIn() {
     const loggedInRes = await axios.get(
-      "http://localhost:3500/auth/verifyToken"
+      "https://backend.beecolony.org/auth/verifyToken/"
     );
     if (loggedInRes.data === true) {
-      await axios.post("http://localhost:3500/auth/refresh-token");
+      await axios.post("https://backend.beecolony.org/auth/refresh-token/");
       setInterval(async () => {
-        await axios.post("http://localhost:3500/auth/refresh-token");
+        await axios.post("https://backend.beecolony.org/auth/refresh-token/");
       }, 1800000);
     }
     setLoggedIn(loggedInRes.data);
@@ -20,7 +20,7 @@ function AuthContextProvider(props) {
   useEffect(() => {
     getLoggedIn();
   }, []);
-
+  console.log(loggedIn);
   return (
     <AuthContext.Provider value={{ loggedIn, getLoggedIn }}>
       {props.children}

@@ -136,7 +136,7 @@ const ChangeProfilePicture = () => {
                       <Upload
                         name="file"
                         showUploadList={false}
-                        action="http://localhost:3500/upload/profile"
+                        action="https://backend.beecolony.org/upload/profile"
                         // beforeUpload={beforeUpload}
                         onChange={handleChange}
                         onPreview={onPreview}

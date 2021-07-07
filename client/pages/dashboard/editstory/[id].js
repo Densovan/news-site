@@ -253,14 +253,14 @@ const Editstory = () => {
                         <Upload.Dragger
                           name="file"
                           className="avatar-uploader"
-                          action="http://localhost:3500/upload/images"
+                          action="https://backend.beecolony.org/upload/images"
                           beforeUpload={beforeUpload}
                           onChange={handleChange}
                         >
                           {state.imageUrl === null ? (
                             <img
                               src={
-                                "http://localhost:3500/public/uploads/" +
+                                "https://backend.beecolony.org/public/uploads/" +
                                 thumnail
                               }
                               alt="avatar"
@@ -269,7 +269,7 @@ const Editstory = () => {
                           ) : (
                             <img
                               src={
-                                "http://localhost:3500/public/uploads/" +
+                                "https://backend.beecolony.org/public/uploads/" +
                                 state.imageUrl
                               }
                               alt="avatar"

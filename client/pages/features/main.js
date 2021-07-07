@@ -31,7 +31,7 @@ const main = () => {
                   <div
                     className="learn-style"
                     style={{
-                      backgroundImage: `url("http://localhost:3500/public/uploads//${res.thumnail}")`,
+                      backgroundImage: `url("https://backend.beecolony.org/public/uploads//${res.thumnail}")`,
                     }}
                   ></div>
                   <div className="content-learn">

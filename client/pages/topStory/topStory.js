@@ -45,7 +45,7 @@ const TopStory = () => {
                   <div
                     className="lasts-news-style"
                     style={{
-                      backgroundImage: `url("http://localhost:3500/public/uploads//${res.thumnail}")`,
+                      backgroundImage: `url("https://backend.beecolony.org/public/uploads//${res.thumnail}")`,
                     }}
                   ></div>
                   <div className="content-lasts-news">
@@ -155,7 +155,7 @@ const TopStory = () => {
                       <div
                         className="news-topstory-style"
                         style={{
-                          backgroundImage: `url("http://localhost:3500/public/uploads//${res.thumnail}")`,
+                          backgroundImage: `url("https://backend.beecolony.org/public/uploads/${res.thumnail}")`,
                         }}
                       ></div>
                     </Col>

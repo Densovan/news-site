@@ -302,7 +302,7 @@ const Addstory = () => {
                         <Upload.Dragger
                           name="file"
                           className="avatar-uploader"
-                          action="http://localhost:3500/upload/images"
+                          action="https://backend.beecolony.org/upload/images"
                           beforeUpload={beforeUpload}
                           onChange={handleChange}
                         >
@@ -312,7 +312,7 @@ const Addstory = () => {
                               //   state.imageUrl
                               // }`}
                               src={
-                                "http://localhost:3500/public/uploads/" +
+                                "https://backend.beecolony.org/public/uploads/" +
                                 state.imageUrl
                               }
                               alt="avatar"

@@ -85,7 +85,9 @@ const SinglePage = () => {
               <div>
                 <div className="thumail">
                   <img
-                    src={"http://localhost:3500/public/uploads/" + thumnail}
+                    src={
+                      "https://backend.beecolony.org/public/uploads/" + thumnail
+                    }
                   />
                 </div>
                 <div className="article_title">

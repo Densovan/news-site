@@ -13,7 +13,7 @@ const Login = ({ history }) => {
     // console.log("Success:", values);
     try {
       await axios
-        .post("http://localhost:3500/auth/login", values)
+        .post("https://backend.beecolony.org/auth/login", values)
         .then((res) => {
           if (res.status === 201) {
             setLoading(true);
@@ -29,8 +29,8 @@ const Login = ({ history }) => {
               setLoading(false);
               window.location.replace("/");
             }, 2000);
-            // setLoading(false);
-            // getLoggedIn();
+            setLoading(false);
+            getLoggedIn();
           }
         });
     } catch (error) {

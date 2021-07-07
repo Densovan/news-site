@@ -11,7 +11,7 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
-const result = " http://localhost:3500/api";
+const result = "https://backend.beecolony.org/api";
 
 const httpLink = createHttpLink({
   uri: result,
@@ -22,7 +22,7 @@ const client = new ApolloClient({
   link: authLink.concat(httpLink),
   // uri: "http://localhost:3600/graphql",
   // uri: "http://localhost:3500/api",
-  cache
+  cache,
 });
 
 export default client;

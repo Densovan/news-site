@@ -57,7 +57,7 @@ const AllNews = () => {
                       <div
                         className="news-topstory-style"
                         style={{
-                          backgroundImage: `url("http://localhost:3500/public/uploads//${res.thumnail}")`,
+                          backgroundImage: `url("https://backend.beecolony.org/public/uploads//${res.thumnail}")`,
                         }}
                       ></div>
                     </Col>

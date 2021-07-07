@@ -16,7 +16,7 @@ const app = express();
 app.use(express.json({ extend: false }));
 app.use(cookieParser());
 
-app.use(cors({ origin: ["http://localhost:3000"], credentials: true }));
+app.use(cors({ origin: ["http://localhost:3008"], credentials: true }));
 
 connectDB();
 
@@ -51,7 +51,7 @@ app.use(
     const user = jwt.decode(token, process.env.JWTSECRET);
     return {
       context: user,
-      graphiql: true,
+      graphiql: false,
       schema: adminSchema,
     };
   })
