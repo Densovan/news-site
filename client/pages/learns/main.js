@@ -9,6 +9,10 @@ import Output from "editorjs-react-renderer";
 import moment from "moment";
 
 const main = () => {
+  const server = process.env.API_SECRET;
+  const server_local = process.env.API_SECRET_LOCAL;
+  const develop = process.env.NODE_ENV;
+  const URL_ACCESS = develop === "development" ? server_local : server;
   const { loading, data } = useQuery(GET_ALL_NEWS_BY_TYPE_LEARN, {
     variables: { limit: 8, offset: 0 },
   });
@@ -30,7 +34,7 @@ const main = () => {
                   <div
                     className="learn-style"
                     style={{
-                      backgroundImage: `url("https://backend.beecolony.org/public/uploads//${res.thumnail}")`,
+                      backgroundImage: `url(${URL_ACCESS}/public/uploads//${res.thumnail})`,
                     }}
                   ></div>
                   <div className="content-learn">

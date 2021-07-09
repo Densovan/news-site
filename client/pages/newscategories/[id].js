@@ -15,6 +15,11 @@ import { CubeSpinner } from "react-spinners-kit";
 import Laoder from "../../components/loaders/laoder";
 
 const AllNews = () => {
+  const server = process.env.API_SECRET;
+  const server_local = process.env.API_SECRET_LOCAL;
+  const develop = process.env.NODE_ENV;
+  const URL_ACCESS = develop === "development" ? server_local : server;
+
   const router = useRouter();
   const { id } = router.query;
   //=============get last News===========
@@ -57,7 +62,7 @@ const AllNews = () => {
                       <div
                         className="news-topstory-style"
                         style={{
-                          backgroundImage: `url("https://backend.beecolony.org/public/uploads//${res.thumnail}")`,
+                          backgroundImage: `url(${URL_ACCESS}/public/uploads//${res.thumnail})`,
                         }}
                       ></div>
                     </Col>

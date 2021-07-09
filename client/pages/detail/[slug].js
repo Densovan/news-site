@@ -25,6 +25,11 @@ import FormComment from "../../components/common/comment";
 import CommentList from "../../components/commentList";
 
 const SinglePage = () => {
+  const server = process.env.API_SECRET;
+  const server_local = process.env.API_SECRET_LOCAL;
+  const develop = process.env.NODE_ENV;
+  const URL_ACCESS = develop === "development" ? server_local : server;
+
   const { loggedIn } = useContext(AuthContext);
   const router = useRouter();
   const { slug } = router.query;
@@ -84,11 +89,7 @@ const SinglePage = () => {
             <Col sm={24} md={16}>
               <div>
                 <div className="thumail">
-                  <img
-                    src={
-                      "https://backend.beecolony.org/public/uploads/" + thumnail
-                    }
-                  />
+                  <img src={`${URL_ACCESS}/public/uploads/` + thumnail} />
                 </div>
                 <div className="article_title">
                   <h1>{title}</h1>

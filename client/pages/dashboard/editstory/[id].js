@@ -21,6 +21,11 @@ if (typeof window !== "undefined") {
 }
 
 const Editstory = () => {
+  const server = process.env.API_SECRET;
+  const server_local = process.env.API_SECRET_LOCAL;
+  const develop = process.env.NODE_ENV;
+  const URL_ACCESS = develop === "development" ? server_local : server;
+
   const router = useRouter();
   const [current, setCurrent] = React.useState(0);
   const [titles, setTitle] = useState("");
@@ -45,11 +50,12 @@ const Editstory = () => {
   const [form] = Form.useForm();
   const instanceRef = React.useRef(null);
   const { id } = router.query;
-  const [edit_news] = useMutation(EDIT_NEWS);
-  const { refetch } = useQuery(GET_OWN_NEWS);
   const { loading: LoadingNews, data: dataNews } = useQuery(GET_NEWS, {
     variables: { id },
   });
+  const [edit_news] = useMutation(EDIT_NEWS);
+  const { refetch } = useQuery(GET_OWN_NEWS);
+
   if (LoadingNews) return "loading...";
   console.log(dataNews);
   const onChange1 = (e) => {
@@ -253,24 +259,24 @@ const Editstory = () => {
                         <Upload.Dragger
                           name="file"
                           className="avatar-uploader"
-                          action="https://backend.beecolony.org/upload/images"
+                          action={`${URL_ACCESS}/upload/images`}
                           beforeUpload={beforeUpload}
                           onChange={handleChange}
                         >
                           {state.imageUrl === null ? (
                             <img
-                              src={
-                                "https://backend.beecolony.org/public/uploads/" +
-                                thumnail
-                              }
+                              // src={
+                              //   "https://backend.beecolony.org/public/uploads/" +
+                              //   thumnail
+                              // }
+                              src={`${URL_ACCESS}/public/uploads/` + thumnail}
                               alt="avatar"
                               style={{ width: "100%" }}
                             />
                           ) : (
                             <img
                               src={
-                                "https://backend.beecolony.org/public/uploads/" +
-                                state.imageUrl
+                                `${URL_ACCESS}/public/uploads/` + state.imageUrl
                               }
                               alt="avatar"
                               style={{ width: "100%" }}

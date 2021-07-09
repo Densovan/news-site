@@ -10,8 +10,13 @@ const authLink = setContext((_, { headers }) => {
     },
   };
 });
+const server = process.env.API_SECRET;
+const server_local = process.env.API_SECRET_LOCAL;
+const develop = process.env.NODE_ENV;
 
-const result = "https://backend.beecolony.org/api";
+const URL_ACCESS = develop === "development" ? server_local : server;
+
+const result = `${URL_ACCESS}/api`;
 
 const httpLink = createHttpLink({
   uri: result,

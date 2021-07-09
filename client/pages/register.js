@@ -5,6 +5,11 @@ import axios from "axios";
 import Link from "next/link";
 
 const Register = ({ history }) => {
+  const server = process.env.API_SECRET;
+  const server_local = process.env.API_SECRET_LOCAL;
+  const develop = process.env.NODE_ENV;
+  const URL_ACCESS = develop === "development" ? server_local : server;
+
   const [value, setValue] = useState("male");
   const [loading, setLoading] = useState(false);
   const { getLoggedIn } = useContext(AuthContext);
@@ -12,25 +17,23 @@ const Register = ({ history }) => {
   const onFinish = async (values) => {
     console.log("Success:", values);
     try {
-      await axios
-        .post("https://backend.beecolony.org/auth/", values)
-        .then((res) => {
-          if (res.status === 201) {
-            setLoading(true);
-            message.error(res.data.msg);
-            setTimeout(function () {
-              setLoading(false);
-            }, 1000);
-          } else if (res.status === 200) {
-            setLoading(true);
-            message.success(res.data.msg);
-            setTimeout(function () {
-              setLoading(false);
-              window.location.replace("/");
-            }, 2000);
-            // getLoggedIn();
-          }
-        });
+      await axios.post(`${URL_ACCESS}/auth/`, values).then((res) => {
+        if (res.status === 201) {
+          setLoading(true);
+          message.error(res.data.msg);
+          setTimeout(function () {
+            setLoading(false);
+          }, 1000);
+        } else if (res.status === 200) {
+          setLoading(true);
+          message.success(res.data.msg);
+          setTimeout(function () {
+            setLoading(false);
+            window.location.replace("/");
+          }, 2000);
+          // getLoggedIn();
+        }
+      });
     } catch (error) {
       console.log(error);
     }

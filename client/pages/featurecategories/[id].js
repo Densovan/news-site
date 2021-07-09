@@ -15,6 +15,10 @@ import { CaretRightOutlined } from "@ant-design/icons";
 import { CubeSpinner } from "react-spinners-kit";
 
 const Index = () => {
+  const server = process.env.API_SECRET;
+  const server_local = process.env.API_SECRET_LOCAL;
+  const develop = process.env.NODE_ENV;
+  const URL_ACCESS = develop === "development" ? server_local : server;
   const router = useRouter();
   const { id } = router.query;
   const { loading, data } = useQuery(GET_NEWS_FEATURE_BY_CAT, {
@@ -60,7 +64,7 @@ const Index = () => {
                         <div
                           className="learn-style"
                           style={{
-                            backgroundImage: `url("https://backend.beecolony.org/public/uploads//${res.thumnail}")`,
+                            backgroundImage: `url(${URL_ACCESS}/public/uploads//${res.thumnail})`,
                           }}
                         ></div>
                         <div className="content-learn">
