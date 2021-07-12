@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/router";
-import { Row, Col, Divider, Breadcrumb } from "antd";
+import { Row, Col, Divider, Breadcrumb, Spin } from "antd";
 import { CaretRightOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import TopNavbar from "../../components/Layouts/topNavbar";
@@ -11,7 +11,7 @@ import { GET_NEWS_NEWS_BY_CAT } from "../../graphql/query";
 import moment from "moment";
 import Output from "editorjs-react-renderer";
 import Categories from "../categories/news";
-import { CubeSpinner } from "react-spinners-kit";
+import InfiniteScroll from "react-infinite-scroll-component";
 import Laoder from "../../components/loaders/laoder";
 
 const AllNews = () => {
@@ -19,12 +19,12 @@ const AllNews = () => {
   const server_local = process.env.API_SECRET_LOCAL;
   const develop = process.env.NODE_ENV;
   const URL_ACCESS = develop === "development" ? server_local : server;
-
+  const [hasMoreItems, setHasMoreItems] = useState(true);
   const router = useRouter();
   const { id } = router.query;
   //=============get last News===========
-  const { loading, data } = useQuery(GET_NEWS_NEWS_BY_CAT, {
-    variables: { id, limit: 8, offset: 0 },
+  const { loading, data, fetchMore } = useQuery(GET_NEWS_NEWS_BY_CAT, {
+    variables: { id, limit: 6, offset: 0 },
   });
   if (loading) return <div>{/* <Laoder /> */}</div>;
 
@@ -53,7 +53,7 @@ const AllNews = () => {
             {/* </div> */}
           </Col>
           <Col xs={24} md={18}>
-            {data.get_allnews_type_by_cat.map((res) => {
+            {data.get_allnews_type_by_cat_news.map((res) => {
               const result = <Output data={JSON.parse(res.des)} />;
               return (
                 <div className="content-top-stories">
@@ -80,19 +80,6 @@ const AllNews = () => {
                       </p>
                       <Row>
                         <Col xs={24} md={18}>
-                          {/* <h1 className="status-news-topstory">
-                          {res.types.name}
-                          <span>
-                            <CaretRightOutlined style={{ fontSize: "10px" }} />
-                          </span>{" "}
-                          {res.categories.name}
-                        </h1>
-                        <p className="date-news">
-                          {res.user.fullname}:{" "}
-                          {moment
-                            .unix(res.createdAt / 1000)
-                            .format("DD-MM-YYYY")}
-                        </p> */}
                           <div className="date-avatar">
                             <div className="sub-date-avatar">
                               <img
@@ -135,6 +122,40 @@ const AllNews = () => {
                 </div>
               );
             })}
+            <InfiniteScroll
+              dataLength={data.get_allnews_type_by_cat_news.length}
+              next={async () => {
+                fetchMore({
+                  variables: {
+                    offset: data.get_allnews_type_by_cat_news.length,
+                  },
+                  updateQuery: (prev, { fetchMoreResult }) => {
+                    if (!fetchMoreResult) return prev;
+
+                    if (
+                      fetchMoreResult.get_allnews_type_by_cat_news.length < 6
+                    ) {
+                      setHasMoreItems(false);
+                    }
+                    return Object.assign({}, prev, {
+                      get_allnews_type_by_cat_news: [
+                        ...prev.get_allnews_type_by_cat_news,
+                        ...fetchMoreResult.get_allnews_type_by_cat_news,
+                      ],
+                    });
+                  },
+                });
+              }}
+              hasMore={hasMoreItems}
+              loader={
+                // <Content style={{ marginTop: "50px" }}>
+                <center style={{ marginTop: "50px" }}>
+                  <Spin></Spin>
+                </center>
+                // </Content>
+              }
+              endMessage={null}
+            ></InfiniteScroll>
             {data.get_allnews_type_by_cat == "" && (
               <center>
                 <h1>No Result</h1>

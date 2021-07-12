@@ -66,10 +66,10 @@ const Learn = () => {
 
       <div>
         <Row gutter={[12, 12]}>
-          {data.get_allnews_by_type.slice(0, 4).map((res) => {
+          {data.get_all_news_by_type_learn.slice(0, 4).map((res, index) => {
             const result = <Output data={JSON.parse(res.des)} />;
             return (
-              <Col sm={8} md={8} lg={24}>
+              <Col key={index} sm={8} md={8} lg={24}>
                 <div className="content-top-stories">
                   <Link href={`/detail/${res.slug}`}>
                     <div className="learn-card">

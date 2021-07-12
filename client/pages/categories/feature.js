@@ -12,9 +12,9 @@ const Feature = () => {
       <div className="news-cat">
         <h2 className="title-cat">Categories</h2>
         <div className="scroll-newscate">
-          {data.get_cats.map((res) => {
+          {data.get_cats.map((res, index) => {
             return (
-              <Link href={`/featurecategories/${res.id}`}>
+              <Link key={index} href={`/featurecategories/${res.id}`}>
                 <div className="listnewsCate" style={{ padding: "12px" }}>
                   <span> {res.name}</span>
                 </div>

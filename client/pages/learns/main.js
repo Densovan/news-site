@@ -1,5 +1,5 @@
-import React from "react";
-import { Col, Row } from "antd";
+import React, { useState } from "react";
+import { Col, Row, Spin } from "antd";
 import { CaretRightOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import Loader from "../../components/loaders/laoder";
@@ -7,15 +7,23 @@ import { GET_ALL_NEWS_BY_TYPE_LEARN } from "../../graphql/query";
 import { useQuery } from "@apollo/client";
 import Output from "editorjs-react-renderer";
 import moment from "moment";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 const main = () => {
   const server = process.env.API_SECRET;
   const server_local = process.env.API_SECRET_LOCAL;
   const develop = process.env.NODE_ENV;
   const URL_ACCESS = develop === "development" ? server_local : server;
-  const { loading, data } = useQuery(GET_ALL_NEWS_BY_TYPE_LEARN, {
-    variables: { limit: 8, offset: 0 },
-  });
+
+  const [hasMoreItems, setHasMoreItems] = useState(true);
+
+  const { loading, error, data, fetchMore } = useQuery(
+    GET_ALL_NEWS_BY_TYPE_LEARN,
+    {
+      variables: { limit: 6, offset: 0 },
+    }
+  );
+  if (error) return `Error! ${error.message}`;
   if (loading)
     return (
       <center>
@@ -25,10 +33,16 @@ const main = () => {
   return (
     <React.Fragment>
       <Row gutter={[12, 12]}>
-        {data.get_allnews_by_type.map((res) => {
+        {data.get_all_news_by_type_learn.map((res, index) => {
           const result = <Output data={JSON.parse(res.des)} />;
           return (
-            <Col className="content-top-stories" sm={24} md={12} lg={8}>
+            <Col
+              key={index}
+              className="content-top-stories"
+              sm={24}
+              md={12}
+              lg={8}
+            >
               <Link href={`/detail/${res.slug}`}>
                 <div className="learn-card">
                   <div
@@ -87,6 +101,38 @@ const main = () => {
           );
         })}
       </Row>
+      <InfiniteScroll
+        dataLength={data.get_all_news_by_type_learn.length}
+        next={async () => {
+          fetchMore({
+            variables: {
+              offset: data.get_all_news_by_type_learn.length,
+            },
+            updateQuery: (prev, { fetchMoreResult }) => {
+              if (!fetchMoreResult) return prev;
+
+              if (fetchMoreResult.get_all_news_by_type_learn.length < 6) {
+                setHasMoreItems(false);
+              }
+              return Object.assign({}, prev, {
+                get_all_news_by_type_learn: [
+                  ...prev.get_all_news_by_type_learn,
+                  ...fetchMoreResult.get_all_news_by_type_learn,
+                ],
+              });
+            },
+          });
+        }}
+        hasMore={hasMoreItems}
+        loader={
+          // <Content style={{ marginTop: "50px" }}>
+          <center style={{ marginTop: "50px" }}>
+            <Spin></Spin>
+          </center>
+          // </Content>
+        }
+        endMessage={null}
+      ></InfiniteScroll>
     </React.Fragment>
   );
 };

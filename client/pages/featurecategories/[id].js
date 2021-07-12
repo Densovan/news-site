@@ -1,5 +1,5 @@
-import React from "react";
-import { Breadcrumb } from "antd";
+import React, { useState } from "react";
+import { Breadcrumb, Spin } from "antd";
 import { useRouter } from "next/router";
 import TopNavbar from "../../components/Layouts/topNavbar";
 import MainNavbar from "../../components/Layouts/mainNavbar";
@@ -12,17 +12,18 @@ import moment from "moment";
 import Categories from "../categories/feature";
 import Link from "next/link";
 import { CaretRightOutlined } from "@ant-design/icons";
-import { CubeSpinner } from "react-spinners-kit";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 const Index = () => {
   const server = process.env.API_SECRET;
   const server_local = process.env.API_SECRET_LOCAL;
   const develop = process.env.NODE_ENV;
   const URL_ACCESS = develop === "development" ? server_local : server;
+  const [hasMoreItems, setHasMoreItems] = useState(true);
   const router = useRouter();
   const { id } = router.query;
-  const { loading, data } = useQuery(GET_NEWS_FEATURE_BY_CAT, {
-    variables: { id, limit: 8, offset: 0 },
+  const { loading, data, fetchMore } = useQuery(GET_NEWS_FEATURE_BY_CAT, {
+    variables: { id, limit: 6, offset: 0 },
   });
   if (loading)
     return (
@@ -55,7 +56,7 @@ const Index = () => {
           </Col>
           <Col xs={24} md={18}>
             <Row gutter={[32, 32]}>
-              {data.get_allnews_type_by_cat.map((res) => {
+              {data.get_allnews_type_by_cat_feature.map((res) => {
                 const result = <Output data={JSON.parse(res.des)} />;
                 return (
                   <Col className="content-top-stories" sm={24} md={12} lg={8}>
@@ -111,6 +112,41 @@ const Index = () => {
                 );
               })}
             </Row>
+            <InfiniteScroll
+              dataLength={data.get_allnews_type_by_cat_feature.length}
+              next={async () => {
+                fetchMore({
+                  variables: {
+                    offset: data.get_allnews_type_by_cat_feature.length,
+                  },
+                  updateQuery: (prev, { fetchMoreResult }) => {
+                    if (!fetchMoreResult) return prev;
+
+                    if (
+                      fetchMoreResult.get_allnews_type_by_cat_feature.length < 6
+                    ) {
+                      setHasMoreItems(false);
+                    }
+                    return Object.assign({}, prev, {
+                      get_allnews_type_by_cat_feature: [
+                        ...prev.get_allnews_type_by_cat_feature,
+                        ...fetchMoreResult.get_allnews_type_by_cat_feature,
+                      ],
+                    });
+                  },
+                });
+              }}
+              hasMore={hasMoreItems}
+              loader={
+                // <Content style={{ marginTop: "50px" }}>
+                <center style={{ marginTop: "50px" }}>
+                  <Spin></Spin>
+                </center>
+                // </Content>
+              }
+              endMessage={null}
+            ></InfiniteScroll>
+
             {data.get_allnews_type_by_cat == "" && (
               <center>
                 <h1>No Result</h1>

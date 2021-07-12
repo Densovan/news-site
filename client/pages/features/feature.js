@@ -24,10 +24,16 @@ const Feature = () => {
       <div style={{ marginTop: "-50px" }}>
         <h1 className="top-title">Feature</h1>
         <Row gutter={[12, 12]}>
-          {data.get_allnews_by_type.slice(0, 6).map((res) => {
+          {data.get_all_news_by_type_feature.slice(0, 6).map((res, index) => {
             const result = <Output data={JSON.parse(res.des)} />;
             return (
-              <Col className="content-top-stories" sm={24} md={12} lg={8}>
+              <Col
+                key={index}
+                className="content-top-stories"
+                sm={24}
+                md={12}
+                lg={8}
+              >
                 <Link href={`/detail/${res.slug}`}>
                   <div className="learn-card">
                     <div

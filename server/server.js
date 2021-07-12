@@ -16,7 +16,17 @@ const app = express();
 app.use(express.json({ extend: false }));
 app.use(cookieParser());
 
-app.use(cors({ origin: ["http://localhost:3008"], credentials: true }));
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3008",
+      "http://localhost:3500",
+      "https://beecolony.org",
+      "https://backend.beecolony.org",
+    ],
+    credentials: true,
+  })
+);
 
 connectDB();
 
