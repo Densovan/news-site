@@ -13,12 +13,15 @@ const UserModel = require("../../models/user");
 const NewsModel = require("../../models/news");
 const Category = require("../../models/category");
 const Types = require("../../models/type");
+const NotificationModel = require("../../models/notification")
+const LikeModel = require("../../models/like");
 
 //================Type Sections==================
 const CategoryType = require("../types/categoryType");
 const Type = require("../types/type");
 const NewsType = require("../types/newsType");
 const UserType = require("../types/userType");
+const NotificationType = require("../types/notificationType");
 
 const RootQuery = new GraphQLObjectType({
   name: "RootQueryType",
@@ -33,6 +36,7 @@ const RootQuery = new GraphQLObjectType({
     get_user: {
       type: UserType,
       resolve(parent, args, context) {
+        console.log("user: ",context.id);
         return UserModel.findById(context.id);
       },
     },
@@ -187,6 +191,25 @@ const RootQuery = new GraphQLObjectType({
       type: new GraphQLList(Type),
       resolve: (parent, args) => {
         return Types.find({}).sort({ createdAt: -1 });
+      },
+    },
+
+    get_notifications: {
+      type: NotificationType,
+      resolve: async (parent, args, context) => {
+        try{
+          return NotificationModel.findOne({ userId: context.id });
+        }catch{
+          console.log("error");
+        }
+      },
+    },
+    show_notifications: {
+      type: NotificationType,
+      resolve: async (parent, args, context) => {
+        const like = await LikeModel.findOne({ userId: context.id });
+        await LikeModel.updateMany({ count:0 })
+        return NotificationModel.findOne({ userId: context.id });
       },
     },
     // get_news_by_following: {

@@ -34,12 +34,12 @@ const QuestionType = new GraphQLObjectType({
     answerId: {
       type: GraphQLID,
     },
-    user: {
-      type: userType,
-      resolve: (parent, args) => {
-        return user.findById(parent.userId);
-      },
-    },
+    // article: {
+    //   type: userType,
+    //   resolve: (parents, args) => {
+    //     return User.findById(parents.userId);
+    //   },
+    // }
   }),
 });
 module.exports = QuestionType;

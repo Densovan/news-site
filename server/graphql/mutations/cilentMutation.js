@@ -16,6 +16,7 @@ const userType = require("../types/userType");
 const questionType = require("../types/comment/questionType");
 const answerType = require("../types/comment/answerType");
 const likeType = require("../types/likeType");
+const NotificationType = require("../types/notificationType");
 
 //===============model===============
 const NewsModel = require("../../models/news");
@@ -23,6 +24,7 @@ const UserModel = require("../../models/user");
 const QuestionModel = require("../../models/comment/question");
 const AnswerModel = require("../../models/comment/answer");
 const LikeModel = require("../../models/like");
+const NotificationModel = require("../../models/notification");
 
 const RootMutation = new GraphQLObjectType({
   name: "RootMutationType",
@@ -406,16 +408,15 @@ const RootMutation = new GraphQLObjectType({
       },
       resolve: async (parent, args, context) => {
         try {
-          console.log(args.postId);
           const existingLike = await LikeModel.findOne({
             userId: context.id,
             postId: args.postId,
           });
-          console.log("dataLike", existingLike);
           if (!existingLike) {
             const like = new LikeModel({
               ...args,
               userId: context.id,
+              count: 1
             });
             await like.save();
             return { message: "successful" };
@@ -426,17 +427,16 @@ const RootMutation = new GraphQLObjectType({
             context.id === existingLike.userId &&
             args.postId === existingLike.postId
           ) {
-            console.log("userId", context.id);
             await LikeModel.findOneAndDelete({
               userId: context.id,
               postId: args.postId,
             });
             return { message: "delete successful" };
           } else {
-            console.log("userId", context.id);
             const like = new LikeModel({
               ...args,
               userId: context.id,
+              count: 1
             });
             await like.save();
             return { message: "successful" };
@@ -447,6 +447,30 @@ const RootMutation = new GraphQLObjectType({
         }
       },
     },
+
+    // =============== notification ===============
+    notification: {
+      type: NotificationType,
+      args: {
+        postId: { type: GraphQLID }, 
+      },
+      resolve: async (parents, args, context) => {
+
+        try{
+          const notification = new NotificationModel({
+            userId: context.id,
+            postId: args.postId
+          })
+          await notification.save();
+          return {
+            message: "success"
+          }
+        }catch{
+          console.log(error);
+          throw error;
+        }
+      }
+    }
   },
 });
 module.exports = RootMutation;

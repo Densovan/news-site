@@ -43,7 +43,20 @@ const AnswerType = new GraphQLObjectType({
         return user.findById(parent.userId);
       },
     },
+    // question: {
+    //   type: userType,
+    //   resolve: (parent, args) => {
+    //     return Question.findById(parent.questionId);
+    //   },
+    // },
+    // article: {
+    //   type: userType,
+    //   resolve: (parents, args) => {
+    //     return User.findById(parents.userId);
+    //   },
+    // }
   }),
 });
 module.exports = AnswerType;
-const userType = require("../userType");
+const userType = require("../userType");const Question = require("../../../models/comment/question");
+

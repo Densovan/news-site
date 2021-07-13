@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 
 const likeSchema = new mongoose.Schema(
   {
+    count: {
+      type: Number,
+      require: true
+    },
     userId: {
       type: String,
       required: true,
