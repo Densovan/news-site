@@ -27,7 +27,7 @@ const Allstory = () => {
           <img
             height="40px"
             width="40px"
-            src={"http://localhost:3500/public/uploads/" + data}
+            src={"https://backend.beecolony.org/public/uploads/" + data}
             alt="avatar"
           ></img>
         );

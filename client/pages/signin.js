@@ -6,33 +6,35 @@ import axios from "axios";
 import Cookie from "js-cookie";
 
 const Login = ({ history }) => {
+  const server = process.env.API_SECRET;
+  const server_local = process.env.API_SECRET_LOCAL;
+  const develop = process.env.NODE_ENV;
+  const URL_ACCESS = develop === "development" ? server_local : server;
+
   const [loading, setLoading] = useState(false);
   const { getLoggedIn } = useContext(AuthContext);
   const { loggedIn } = useContext(AuthContext);
   const onFinish = async (values) => {
-    // console.log("Success:", values);
     try {
-      await axios
-        .post("http://localhost:3500/auth/login", values)
-        .then((res) => {
-          if (res.status === 201) {
-            setLoading(true);
-            message.error(res.data.msg);
-            setTimeout(function () {
-              setLoading(false);
-            }, 1000);
-          } else if (res.status === 200) {
-            setLoading(true);
-            // Cookie.set("_userId", res.data._id);
-            message.success(res.data.msg);
-            setTimeout(function () {
-              setLoading(false);
-              window.location.replace("/");
-            }, 2000);
-            // setLoading(false);
-            // getLoggedIn();
-          }
-        });
+      await axios.post(`${URL_ACCESS}/auth/login`, values).then((res) => {
+        if (res.status === 201) {
+          setLoading(true);
+          message.error(res.data.msg);
+          setTimeout(function () {
+            setLoading(false);
+          }, 1000);
+        } else if (res.status === 200) {
+          setLoading(true);
+          // Cookie.set("_userId", res.data._id);
+          message.success(res.data.msg);
+          setTimeout(function () {
+            setLoading(false);
+            window.location.replace("/");
+          }, 2000);
+          setLoading(false);
+          getLoggedIn();
+        }
+      });
     } catch (error) {
       console.log(error);
     }

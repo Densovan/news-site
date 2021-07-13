@@ -1,23 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/router";
 import TopNavbar from "../../components/Layouts/topNavbar";
 import MainNavbar from "../../components/Layouts/mainNavbar";
 import Footer from "../../components/Layouts/footer";
 import { GET_NEWS_LEARN_BY_CAT } from "../../graphql/query";
-import { Col, Row, Breadcrumb } from "antd";
+import { Col, Row, Breadcrumb, Spin } from "antd";
 import { useQuery } from "@apollo/client";
 import Output from "editorjs-react-renderer";
 import moment from "moment";
 import Categories from "../categories/learn";
 import Link from "next/link";
 import { CaretRightOutlined } from "@ant-design/icons";
-import { CubeSpinner } from "react-spinners-kit";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 const Index = () => {
+  const server = process.env.API_SECRET;
+  const server_local = process.env.API_SECRET_LOCAL;
+  const develop = process.env.NODE_ENV;
+  const URL_ACCESS = develop === "development" ? server_local : server;
+  const [hasMoreItems, setHasMoreItems] = useState(true);
   const router = useRouter();
   const { id } = router.query;
-  const { loading, data } = useQuery(GET_NEWS_LEARN_BY_CAT, {
-    variables: { id, limit: 8, offset: 0 },
+  const { loading, data, fetchMore } = useQuery(GET_NEWS_LEARN_BY_CAT, {
+    variables: { id, limit: 6, offset: 0 },
   });
   if (loading)
     return (
@@ -50,7 +55,7 @@ const Index = () => {
           </Col>
           <Col xs={24} md={18}>
             <Row gutter={[12, 12]}>
-              {data.get_allnews_type_by_cat.map((res) => {
+              {data.get_allnews_type_by_cat_learn.map((res) => {
                 const result = <Output data={JSON.parse(res.des)} />;
                 return (
                   <Col className="content-top-stories" sm={24} md={12} lg={8}>
@@ -59,16 +64,16 @@ const Index = () => {
                         <div
                           className="learn-style"
                           style={{
-                            backgroundImage: `url("http://localhost:3500/public/uploads//${res.thumnail}")`,
+                            backgroundImage: `url(${URL_ACCESS}/public/uploads//${res.thumnail})`,
                           }}
                         ></div>
                         <div className="content-learn">
-                          <h3>
+                          <h3 className="describe-style">
                             {res.title.length <= 20
                               ? res.title
                               : res.title.substring(0, 20) + " ..."}
                           </h3>
-                          <p>
+                          <p className="describe-style">
                             {`${result.props.data.blocks[0].data.text.substring(
                               0,
                               50
@@ -106,7 +111,41 @@ const Index = () => {
                 );
               })}
             </Row>
-            {data.get_allnews_type_by_cat == "" && (
+            <InfiniteScroll
+              dataLength={data.get_allnews_type_by_cat_learn.length}
+              next={async () => {
+                fetchMore({
+                  variables: {
+                    offset: data.get_allnews_type_by_cat_learn.length,
+                  },
+                  updateQuery: (prev, { fetchMoreResult }) => {
+                    if (!fetchMoreResult) return prev;
+
+                    if (
+                      fetchMoreResult.get_allnews_type_by_cat_learn.length < 6
+                    ) {
+                      setHasMoreItems(false);
+                    }
+                    return Object.assign({}, prev, {
+                      get_allnews_type_by_cat_learn: [
+                        ...prev.get_allnews_type_by_cat_learn,
+                        ...fetchMoreResult.get_allnews_type_by_cat_learn,
+                      ],
+                    });
+                  },
+                });
+              }}
+              hasMore={hasMoreItems}
+              loader={
+                // <Content style={{ marginTop: "50px" }}>
+                <center style={{ marginTop: "50px" }}>
+                  <Spin></Spin>
+                </center>
+                // </Content>
+              }
+              endMessage={null}
+            ></InfiniteScroll>
+            {data.get_allnews_type_by_cat_learn == "" && (
               <center>
                 <h1>No Result</h1>
               </center>

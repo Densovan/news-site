@@ -1,5 +1,15 @@
 import React, { useState, useContext } from "react";
-import { Upload, message, Divider, Form, Input, Row, Col, Button } from "antd";
+import {
+  Upload,
+  message,
+  Divider,
+  Form,
+  Input,
+  Row,
+  Col,
+  Button,
+  Radio,
+} from "antd";
 import { FiCamera } from "react-icons/fi";
 import { LoadingOutlined } from "@ant-design/icons";
 import { useQuery, useMutation } from "@apollo/client";
@@ -8,8 +18,14 @@ import { UPDATE_USER } from "../../graphql/mutation";
 import MainNavbar from "../../components/Layouts/mainNavbar";
 import Footer from "../../components/Layouts/footer";
 import AuthContext from "../../contexts/authContext";
+import ImgCrop from "antd-img-crop";
 
 const ChangeProfilePicture = () => {
+  const server = process.env.API_SECRET;
+  const server_local = process.env.API_SECRET_LOCAL;
+  const develop = process.env.NODE_ENV;
+  const URL_ACCESS = develop === "development" ? server_local : server;
+
   //======state for chagte profile image
   const [state, setState] = useState({
     imageUrl: null,
@@ -18,11 +34,31 @@ const ChangeProfilePicture = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { loggedIn } = useContext(AuthContext);
 
+  //===========update Userdata============
+  const [update_user] = useMutation(UPDATE_USER);
   //===========get data form graphql===============
   const { loading, data, refetch } = useQuery(GET_USER);
   if (loading) return "";
-  //===========update Userdata============
-  const [update_user] = useMutation(UPDATE_USER);
+
+  const onPreview = async (file) => {
+    let src = file.url;
+    if (!src) {
+      src = await new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file.originFileObj);
+        reader.onload = () => resolve(reader.result);
+      });
+    }
+    const image = new Image();
+    image.src = src;
+    const imgWindow = window.open(src);
+
+    if (imgWindow) {
+      imgWindow.document.write(image.outerHTML);
+    } else {
+      window.location.href = src;
+    }
+  };
 
   //===== Upload File Function =====
   const handleChange = async (info) => {
@@ -101,17 +137,20 @@ const ChangeProfilePicture = () => {
                   )}
 
                   <div className="button-upload">
-                    <Upload
-                      name="file"
-                      showUploadList={false}
-                      action="http://localhost:3500/upload/profile"
-                      // beforeUpload={beforeUpload}
-                      onChange={handleChange}
-                    >
-                      <div className="editUserPhotoAvatar">
-                        <FiCamera style={{ fontSize: "20px" }} />
-                      </div>
-                    </Upload>
+                    <ImgCrop grid={true} rotate>
+                      <Upload
+                        name="file"
+                        showUploadList={false}
+                        action={`${URL_ACCESS}/upload/profile`}
+                        // beforeUpload={beforeUpload}
+                        onChange={handleChange}
+                        onPreview={onPreview}
+                      >
+                        <div className="editUserPhotoAvatar">
+                          <FiCamera style={{ fontSize: "20px" }} />
+                        </div>
+                      </Upload>
+                    </ImgCrop>
                     {/* </div> */}
                   </div>
                 </div>
@@ -149,6 +188,23 @@ const ChangeProfilePicture = () => {
                     size="large"
                     placeholder="Bio"
                   />
+                </Form.Item>
+                <Form.Item
+                  initialValue={data.get_user.gender}
+                  name="gender"
+                  label={
+                    <label style={{ color: "white", fontWeight: "900" }}>
+                      Gender
+                    </label>
+                  }
+                >
+                  <Radio.Group
+                    // onChange={onChange}
+                    defaultValue={data.get_user.bio}
+                  >
+                    <Radio value="male">Male</Radio>
+                    <Radio value="female">Female</Radio>
+                  </Radio.Group>
                 </Form.Item>
                 <Divider orientation="left" plain>
                   <h3>Password</h3>

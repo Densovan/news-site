@@ -15,15 +15,21 @@ import Link from "next/link";
 import FormLike from "../../components/common/like";
 
 import {
-  HeartOutlined,
-  HeartFilled,
-  ShareAltOutlined,
-} from "@ant-design/icons";
+  // HeartOutlined,
+  // HeartFilled,
+  HiOutlineShare,
+  HiOutlineBookmark,
+} from "react-icons/hi";
 
 import FormComment from "../../components/common/comment";
 import CommentList from "../../components/commentList";
 
 const SinglePage = () => {
+  const server = process.env.API_SECRET;
+  const server_local = process.env.API_SECRET_LOCAL;
+  const develop = process.env.NODE_ENV;
+  const URL_ACCESS = develop === "development" ? server_local : server;
+
   const { loggedIn } = useContext(AuthContext);
   const router = useRouter();
   const { slug } = router.query;
@@ -66,14 +72,16 @@ const SinglePage = () => {
                 <div className="nav_left">
                   <FormLike articleId={id} dataLike={like} myUser={myUser} />
                   <div className="btn_box">
-                    <Button
-                      className="btn_share"
-                      style={{ borderColor: "transparent", boxShadow: "none" }}
-                      shape="circle"
-                      icon={<ShareAltOutlined />}
-                      size="large"
-                    />
-                    <div className="tt_share">21</div>
+                    <button style={{ cursor: "pointer" }} className="share-bg">
+                      <HiOutlineShare className="share" size={23} />
+                    </button>
+                    <div className="tt_share">31</div>
+                  </div>
+                  <div className="btn_box">
+                    <button style={{ cursor: "pointer" }} className="save-bg">
+                      <HiOutlineBookmark className="save" size={23} />
+                    </button>
+                    <div className="tt_share">1</div>
                   </div>
                 </div>
               )}
@@ -81,26 +89,27 @@ const SinglePage = () => {
             <Col sm={24} md={16}>
               <div>
                 <div className="thumail">
-                  <img
-                    src={"http://localhost:3500/public/uploads/" + thumnail}
-                  />
+                  <img src={`${URL_ACCESS}/public/uploads/` + thumnail} />
                 </div>
                 <div className="article_title">
                   <h1>{title}</h1>
                 </div>
                 <div>
-                  <div className="pf_user">
-                    <img src={user.image} />
-                    <div className="name">
-                      <label>{user.fullname}</label>
-                      <div className="time">
-                        <label>
-                          {moment.unix(createdAt / 1000).format("DD-MM-YYYY")} ·
-                          3 min read
-                        </label>
+                  <Link href={`/profile_detial/${user.id}`}>
+                    <div style={{ cursor: "pointer" }} className="pf_user">
+                      <img src={user.image} />
+
+                      <div className="name">
+                        <label>{user.fullname}</label>
+                        <div className="time">
+                          <label>
+                            {moment.unix(createdAt / 1000).format("DD-MM-YYYY")}{" "}
+                            · 3 min read
+                          </label>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  </Link>
                   <div style={{ color: "#262e3c", marginBottom: 20 }}>
                     <p className="describe-style" style={{ fontSize: "20px" }}>
                       {result}
@@ -147,13 +156,15 @@ const SinglePage = () => {
             </Col>
             <Col sm={24} md={6}>
               <div className="pf_pre">
-                <div className="pf_user">
-                  <img src={user.image} />
-                  <div className="name">
-                    <label>{user.fullname}</label>
-                    <p>{user.email}</p>
+                <Link href={`/profile_detial/${user.id}`}>
+                  <div style={{ cursor: "pointer" }} className="pf_user">
+                    <img src={user.image} />
+                    <div className="name">
+                      <label>{user.fullname}</label>
+                      <p>{user.email}</p>
+                    </div>
                   </div>
-                </div>
+                </Link>
                 <div className="pf_desc">
                   <center>
                     <p>{user.bio}</p>
@@ -162,14 +173,20 @@ const SinglePage = () => {
                 {loggedIn === true ? (
                   <center>
                     {user.id === myUser.get_user.id ? (
-                      ""
+                      <center>
+                        <Link href="/dashboard/profile">
+                          <button className="btn-follow">My Account</button>
+                        </Link>
+                      </center>
                     ) : (
                       <Follower articleUser={user} />
                     )}
                   </center>
                 ) : (
                   <center>
-                    <Follower articleUser={user} />
+                    <Link href="/signin">
+                      <button className="btn-follow">Follow</button>
+                    </Link>
                   </center>
                 )}
 
@@ -177,8 +194,8 @@ const SinglePage = () => {
                   {/* ======work======= */}
                   <div>
                     <Divider
-                      style={{ fontSize: "18", color: "gray" }}
                       orientation="left"
+                      style={{ fontSize: "18", color: "gray" }}
                     >
                       Work
                     </Divider>

@@ -5,6 +5,11 @@ import axios from "axios";
 import Link from "next/link";
 
 const Register = ({ history }) => {
+  const server = process.env.API_SECRET;
+  const server_local = process.env.API_SECRET_LOCAL;
+  const develop = process.env.NODE_ENV;
+  const URL_ACCESS = develop === "development" ? server_local : server;
+
   const [value, setValue] = useState("male");
   const [loading, setLoading] = useState(false);
   const { getLoggedIn } = useContext(AuthContext);
@@ -12,7 +17,7 @@ const Register = ({ history }) => {
   const onFinish = async (values) => {
     console.log("Success:", values);
     try {
-      await axios.post("http://localhost:3500/auth/", values).then((res) => {
+      await axios.post(`${URL_ACCESS}/auth/`, values).then((res) => {
         if (res.status === 201) {
           setLoading(true);
           message.error(res.data.msg);
@@ -125,7 +130,7 @@ const Register = ({ history }) => {
                 name="gender"
                 label={
                   <label style={{ color: "white", fontWeight: "900" }}>
-                    Sex
+                    Gender
                   </label>
                 }
               >
@@ -136,7 +141,13 @@ const Register = ({ history }) => {
               </Form.Item>
               <Form.Item>
                 <center>
-                  <Button className="btn-login" size="large" htmlType="submit">
+                  <Button
+                    disabled={loading ? true : false}
+                    loading={loading ? true : false}
+                    className="btn-login"
+                    size="large"
+                    htmlType="submit"
+                  >
                     Register
                   </Button>
                 </center>

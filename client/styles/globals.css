@@ -5,10 +5,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
 * {
   font-family: "Inter", sans-serif;
+  scrollbar-color: #fce14ace #262e3c;
+  /* scrollbar-width: thin; */
+  /* scroll-behavior: smooth; */
 }
+
 body {
-  background: #f5f5f5;
-  /* background-color: #f0f2f5; */
+  /* background: #f5f5f5; */
+  background-color: #f0f2f5;
   margin: 0;
   padding: 0;
   /* background-color: #f8f9fe; */
@@ -109,8 +113,21 @@ body {
   top: 5px;
   border-radius: 50%;
 }
+.avatar-follow {
+  width: 40%;
+  border-radius: 50px;
+}
+.user-follow-card {
+  cursor: pointer;
+  background-color: #fff;
+  border: 1px solid #262e3c49;
+  border-radius: 12px;
+}
+.sub-user-follow-card {
+  padding: 30px;
+}
 .dropdown-avatar {
-  width: 190px;
+  /* width: 190px; */
   /* box-shadow: rgb(230 230 230) 0px 1px 4px; */
   /* border: 1px solid rgba(230, 230, 230, 1); */
   background: rgb(255, 255, 255);
@@ -132,7 +149,8 @@ body {
 .content-avatar {
   padding-top: 24px;
   padding-bottom: 24px;
-  padding-left: 20px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 .control-avatar {
   display: flex;
@@ -153,7 +171,7 @@ body {
   font-size: 14px;
 }
 .content-text {
-  padding: 12px 0px 0px 20px;
+  padding: 12px 0px 0px 5px;
 }
 .content-text span {
   color: rgba(117, 117, 117, 1);
@@ -163,9 +181,10 @@ body {
   color: rgb(24, 23, 23);
 }
 .avatar-mobile {
-  width: 30px;
+  width: 35px;
+  height: 35px;
   border-radius: 20px;
-  border: solid 2px #ffffff;
+  border: solid 2px #ffffff9d;
   /* float: left; */
 }
 /* .content-popover.ant-popover {
@@ -187,6 +206,12 @@ body {
   transition: 0.3s;
   padding: 4px;
   color: black !important;
+}
+.accountNavbar {
+  background: #ececed;
+
+  border-radius: 8px;
+  cursor: pointer;
 }
 /* .accountNavbarhover a {
   color: black;
@@ -366,6 +391,9 @@ body {
 }
 .ant-popover-content .ant-popover-inner-content {
   padding: 10px;
+}
+.ant-popover-inner {
+  border-radius: 9px !important;
 }
 .date-avatar {
   display: flex;
@@ -1365,6 +1393,7 @@ body {
 }
 .profile-img1 {
   width: 150px;
+  height: 150px;
   border-radius: 50%;
   margin-top: -65px;
   border: 9px solid rgb(252, 226, 74);
@@ -1372,6 +1401,7 @@ body {
 
 .profile-img {
   width: 180px;
+  height: 180px;
   border-radius: 50%;
 }
 /* .uplaod-mg-btn {
@@ -1698,31 +1728,41 @@ body {
 /* ===================detail================== */
 .like-bg {
   background-color: #f161794b;
-  height: 40px;
+  height: 45px;
   border: none;
   padding: 10px;
   border-radius: 50%;
 }
 .like-bg:hover {
   background-color: #262e3c1f;
-  height: 40px;
+  height: 45px;
   border: none;
   padding: 10px;
   border-radius: 50%;
 }
+.like-bg:hover .like {
+  color: #262e3c;
+}
 .no-like-bg {
-  background-color: #262e3c1f;
+  /* background-color: #262e3c1f;
   height: 40px;
   border: none;
   padding: 10px;
-  border-radius: 50%;
+  border-radius: 50%; */
+  border: none;
+  padding: 10px;
+  height: 45px;
+  background-color: transparent;
 }
 .no-like-bg:hover {
   background-color: #f161794b;
-  height: 40px;
+  height: 45px;
   border: none;
   padding: 10px;
   border-radius: 50%;
+}
+.no-like-bg:hover .no-like {
+  color: var(--theme-ui-colors-primary, #f16179);
 }
 .like {
   color: #f16179;
@@ -1731,7 +1771,38 @@ body {
 .no-like {
   color: #262e3c;
 }
-
+.share-bg {
+  border: none;
+  padding: 10px;
+  height: 45px;
+  background-color: transparent;
+}
+.share-bg:hover {
+  background-color: #c0c3c7;
+  height: 45px;
+  border: none;
+  padding: 10px;
+  border-radius: 50%;
+}
+/* .share-bg:hover .share {
+  color: #f0d852;
+} */
+.save-bg {
+  border: none;
+  padding: 10px;
+  height: 45px;
+  background-color: transparent;
+}
+.save-bg:hover {
+  background-color: #38a6c867;
+  height: 45px;
+  border: none;
+  padding: 10px;
+  border-radius: 50%;
+}
+.save-bg:hover .save {
+  color: #38a7c8;
+}
 .badge-date {
   background-color: #fce14a94;
   display: inline-block;
@@ -1881,6 +1952,7 @@ body {
 }
 .pf-work h4 {
   margin-top: -12px;
+  padding-left: 23px;
 }
 .pf_user img {
   width: 48px;
@@ -2034,6 +2106,7 @@ body {
     line-height: 20px;
     overflow: hidden;
     text-overflow: ellipsis;
+    /* line-height: 27px; */
   }
   .content-lasts-news .title-news {
     line-height: 20px;

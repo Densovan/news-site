@@ -102,7 +102,7 @@ const RootQuery = new GraphQLObjectType({
     get_allnews_by_type: {
       type: new GraphQLList(NewsType),
       args: {
-        id: { type: GraphQLID },
+        id: { type: GraphQLString },
         limit: {
           name: "limit",
           type: GraphQLInt,
@@ -112,8 +112,68 @@ const RootQuery = new GraphQLObjectType({
           type: GraphQLInt,
         },
       },
-      resolve: (parents, args, { limit = null, offset = null }) => {
+      resolve(parents, args, { limit = null, offset = null }) {
         return NewsModel.find({ type: args.id })
+          .limit(limit)
+          .skip(offset)
+          .sort({ createdAt: -1 });
+      },
+    },
+
+    get_all_news_by_type_learn: {
+      type: new GraphQLList(NewsType),
+      args: {
+        limit: {
+          name: "limit",
+          type: GraphQLInt,
+        },
+        offset: {
+          name: "offset",
+          type: GraphQLInt,
+        },
+      },
+      resolve(parents, { limit = null, offset = null }) {
+        return NewsModel.find({ type: "60ab9d4a314c8a3b207849e6" })
+          .limit(limit)
+          .skip(offset)
+          .sort({ createdAt: -1 });
+      },
+    },
+
+    get_all_news_by_type_feature: {
+      type: new GraphQLList(NewsType),
+      args: {
+        limit: {
+          name: "limit",
+          type: GraphQLInt,
+        },
+        offset: {
+          name: "offset",
+          type: GraphQLInt,
+        },
+      },
+      resolve(parents, { limit = null, offset = null }) {
+        return NewsModel.find({ type: "60ab789315cdbd63c5d57fa0" })
+          .limit(limit)
+          .skip(offset)
+          .sort({ createdAt: -1 });
+      },
+    },
+
+    get_all_news_by_type_news: {
+      type: new GraphQLList(NewsType),
+      args: {
+        limit: {
+          name: "limit",
+          type: GraphQLInt,
+        },
+        offset: {
+          name: "offset",
+          type: GraphQLInt,
+        },
+      },
+      resolve(parents, { limit = null, offset = null }) {
+        return NewsModel.find({ type: "60b125935b23dcef7bea2dad" })
           .limit(limit)
           .skip(offset)
           .sort({ createdAt: -1 });
@@ -136,6 +196,83 @@ const RootQuery = new GraphQLObjectType({
       },
       resolve: (parents, args, { limit = null, offset = null }) => {
         return NewsModel.find({ category: args.id, type: args.typeId })
+          .limit(limit)
+          .skip(offset)
+          .sort({ createdAt: -1 });
+      },
+    },
+
+    get_allnews_type_by_cat_feature: {
+      type: new GraphQLList(NewsType),
+      args: {
+        id: { type: GraphQLID },
+        typeId: { type: GraphQLID },
+        limit: {
+          name: "limit",
+          type: GraphQLInt,
+        },
+        offset: {
+          name: "offset",
+          type: GraphQLInt,
+        },
+      },
+      resolve: (parents, args) => {
+        const { limit = null, offset = null, id } = args;
+        return NewsModel.find({
+          category: id,
+          type: "60ab789315cdbd63c5d57fa0",
+        })
+          .limit(limit)
+          .skip(offset)
+          .sort({ createdAt: -1 });
+      },
+    },
+    get_allnews_type_by_cat_learn: {
+      type: new GraphQLList(NewsType),
+      args: {
+        id: { type: GraphQLID },
+        typeId: { type: GraphQLID },
+        limit: {
+          name: "limit",
+          type: GraphQLInt,
+        },
+        offset: {
+          name: "offset",
+          type: GraphQLInt,
+        },
+      },
+      resolve: (parents, args) => {
+        const { limit = null, offset = null, id } = args;
+        return NewsModel.find({
+          category: id,
+          type: "60ab9d4a314c8a3b207849e6",
+        })
+          .limit(limit)
+          .skip(offset)
+          .sort({ createdAt: -1 });
+      },
+    },
+
+    get_allnews_type_by_cat_news: {
+      type: new GraphQLList(NewsType),
+      args: {
+        id: { type: GraphQLID },
+        typeId: { type: GraphQLID },
+        limit: {
+          name: "limit",
+          type: GraphQLInt,
+        },
+        offset: {
+          name: "offset",
+          type: GraphQLInt,
+        },
+      },
+      resolve: (parents, args) => {
+        const { limit = null, offset = null, id } = args;
+        return NewsModel.find({
+          category: id,
+          type: "60b125935b23dcef7bea2dad",
+        })
           .limit(limit)
           .skip(offset)
           .sort({ createdAt: -1 });

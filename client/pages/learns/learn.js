@@ -9,6 +9,11 @@ import Link from "next/link";
 import ContentLoader from "react-content-loader";
 
 const Learn = () => {
+  const server = process.env.API_SECRET;
+  const server_local = process.env.API_SECRET_LOCAL;
+  const develop = process.env.NODE_ENV;
+  const URL_ACCESS = develop === "development" ? server_local : server;
+
   const { loading, data } = useQuery(GET_ALL_NEWS_BY_TYPE_LEARN, {
     variables: { limit: 8, offset: 0 },
   });
@@ -61,17 +66,17 @@ const Learn = () => {
 
       <div>
         <Row gutter={[12, 12]}>
-          {data.get_allnews_by_type.slice(0, 4).map((res) => {
+          {data.get_all_news_by_type_learn.slice(0, 4).map((res, index) => {
             const result = <Output data={JSON.parse(res.des)} />;
             return (
-              <Col sm={8} md={8} lg={24}>
+              <Col key={index} sm={8} md={8} lg={24}>
                 <div className="content-top-stories">
                   <Link href={`/detail/${res.slug}`}>
                     <div className="learn-card">
                       <div
                         className="learn-style"
                         style={{
-                          backgroundImage: `url("http://localhost:3500/public/uploads//${res.thumnail}")`,
+                          backgroundImage: `url(${URL_ACCESS}/public/uploads//${res.thumnail})`,
                         }}
                       ></div>
                       <div className="content-learn">
@@ -104,7 +109,16 @@ const Learn = () => {
                           </p> */}
                         <div className="date-avatar">
                           <div className="sub-date-avatar">
-                            <Link href={`/profile_detial/${res.user.id}`}>
+                            <Link
+                              href={`/profile_detial/${
+                                res.user.id
+                              }#${res.user.fullname
+                                .replace(
+                                  /[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g,
+                                  "-"
+                                )
+                                .toLowerCase()}`}
+                            >
                               <img
                                 className="avatar-mobile"
                                 src={res.user.image}

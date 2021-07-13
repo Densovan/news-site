@@ -16,9 +16,11 @@ import Link from "next/link";
 
 const Profile = () => {
   const { loggedIn } = useContext(AuthContext);
+  const [show, setShow] = useState("all");
   //===========get data form graphql===============
   const { loading, data, refetch } = useQuery(GET_USER);
   if (loading) return "";
+
   return (
     <React.Fragment>
       <MainNavbar />
@@ -45,7 +47,6 @@ const Profile = () => {
                     </Col>
                   </Row>
                 </div>
-
                 <h4 style={{ marginTop: "12px" }}>{data.get_user.bio}</h4>
               </center>
               <br></br>
@@ -55,16 +56,34 @@ const Profile = () => {
               <Row gutter={[12, 12]}>
                 <Col span={8}>
                   <div className="box-pf">
-                    <Row className="accountNavbarhover">
-                      <Col style={{ paddingTop: "4px" }} span={3}>
-                        <HiOutlineClipboardCheck style={{ fontSize: "21px" }} />
-                      </Col>
-                      <Col style={{ paddingTop: "4px" }} span={21}>
-                        {data.get_user.news.length} {""}
-                        posts published
-                      </Col>
-                    </Row>
-                    <Row className="accountNavbarhover">
+                    <Link href="/dashboard/allstories">
+                      <Row
+                        className="list-content-pf"
+                        className={
+                          show === "" ? "active-list-pf" : "a-list-content-pf"
+                        }
+                      >
+                        <Col style={{ paddingTop: "4px" }} span={3}>
+                          <HiOutlineClipboardCheck
+                            style={{ fontSize: "21px" }}
+                          />
+                        </Col>
+                        <Col style={{ paddingTop: "4px" }} span={21}>
+                          {data.get_user.news.length} {""}
+                          posts published
+                        </Col>
+                      </Row>
+                    </Link>
+                    <Row
+                      onClick={() => setShow("following")}
+                      // className="accountNavbarhover"
+                      className="list-content-pf"
+                      className={
+                        show === "following"
+                          ? "active-list-pf"
+                          : "a-list-content-pf"
+                      }
+                    >
                       <Col style={{ paddingTop: "4px" }} span={3}>
                         <HiOutlineUserAdd style={{ fontSize: "21px" }} />
                       </Col>
@@ -72,7 +91,16 @@ const Profile = () => {
                         {data.get_user.following.length} following
                       </Col>
                     </Row>
-                    <Row className="accountNavbarhover">
+                    <Row
+                      onClick={() => setShow("follower")}
+                      // className="accountNavbarhover"
+                      className="list-content-pf"
+                      className={
+                        show === "follower"
+                          ? "active-list-pf"
+                          : "a-list-content-pf"
+                      }
+                    >
                       <Col style={{ paddingTop: "4px" }} span={3}>
                         <HiOutlineUserGroup style={{ fontSize: "21px" }} />
                       </Col>
@@ -83,50 +111,52 @@ const Profile = () => {
                   </div>
                 </Col>
                 <Col span={16}>
-                  <div className="box-pf">
-                    <div>
-                      <h3>
-                        <Divider orientation="left">Recent Follower</Divider>
-                      </h3>
-                      {data.get_user.follower.length === 0 && <Empty />}
-                      <Row gutter={[12, 12]}>
-                        {data.get_user.follower.slice(0, 6).map((res) => (
-                          <Col span={4}>
-                            <Link href={`/profile_detial/${res.followerId}`}>
-                              <center>
-                                <img
-                                  className="img-following"
-                                  src={res.image}
-                                />
-                                <p>{res.fullname}</p>
-                              </center>
-                            </Link>
-                          </Col>
-                        ))}
-                      </Row>
+                  {show === "all" && (
+                    <div className="box-pf">
+                      <div>
+                        <h3>
+                          <Divider orientation="left">Recent Follower</Divider>
+                        </h3>
+                        {data.get_user.follower.length === 0 && <Empty />}
+                        <Row gutter={[12, 12]}>
+                          {data.get_user.follower.slice(0, 6).map((res) => (
+                            <Col span={4}>
+                              <Link href={`/profile_detial/${res.followerId}`}>
+                                <center>
+                                  <img
+                                    className="img-following"
+                                    src={res.image}
+                                  />
+                                  <p>{res.fullname}</p>
+                                </center>
+                              </Link>
+                            </Col>
+                          ))}
+                        </Row>
+                      </div>
+                      <div>
+                        <h3>
+                          <Divider orientation="left">Recent Following</Divider>
+                        </h3>
+                        {data.get_user.following.length === 0 && <Empty />}
+                        <Row gutter={[12, 12]}>
+                          {data.get_user.following.slice(0, 6).map((res) => (
+                            <Col span={4}>
+                              <Link href={`/profile_detial/${res.followingId}`}>
+                                <center>
+                                  <img
+                                    className="img-following"
+                                    src={res.image}
+                                  />
+                                  <p>{res.fullname}</p>
+                                </center>
+                              </Link>
+                            </Col>
+                          ))}
+                        </Row>
+                      </div>
                     </div>
-                    <div>
-                      <h3>
-                        <Divider orientation="left">Recent Following</Divider>
-                      </h3>
-                      {data.get_user.following.length === 0 && <Empty />}
-                      <Row gutter={[12, 12]}>
-                        {data.get_user.following.slice(0, 6).map((res) => (
-                          <Col span={4}>
-                            <Link href={`/profile_detial/${res.followingId}`}>
-                              <center>
-                                <img
-                                  className="img-following"
-                                  src={res.image}
-                                />
-                                <p>{res.fullname}</p>
-                              </center>
-                            </Link>
-                          </Col>
-                        ))}
-                      </Row>
-                    </div>
-                  </div>
+                  )}
                 </Col>
               </Row>
             </div>

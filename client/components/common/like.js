@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button } from "antd";
-import { AiOutlineHeart } from "react-icons/ai";
+import { HiOutlineHeart } from "react-icons/hi";
 import { useMutation } from "@apollo/client";
 import { LIKE_ARTICLE } from "../../graphql/mutation";
 
@@ -41,7 +41,7 @@ const FormLike = ({ articleId, dataLike, myUser }) => {
         style={{ cursor: "pointer" }}
         className={like ? "like-bg" : "no-like-bg"}
       >
-        <AiOutlineHeart className={like ? "like" : "no-like"} size={20} />
+        <HiOutlineHeart className={like ? "like" : "no-like"} size={25} />
       </button>
       <div className="tt_like">{dataLike.length}</div>
     </div>

@@ -408,10 +408,18 @@ const RootMutation = new GraphQLObjectType({
       },
       resolve: async (parent, args, context) => {
         try {
+<<<<<<< HEAD
+=======
+          // console.log(args.postId);
+>>>>>>> 7465cb8db6c8c2ae6712ae8cec184a9230560f30
           const existingLike = await LikeModel.findOne({
             userId: context.id,
             postId: args.postId,
           });
+<<<<<<< HEAD
+=======
+          // console.log("dataLike", existingLike);
+>>>>>>> 7465cb8db6c8c2ae6712ae8cec184a9230560f30
           if (!existingLike) {
             const like = new LikeModel({
               ...args,
@@ -421,18 +429,26 @@ const RootMutation = new GraphQLObjectType({
             await like.save();
             return { message: "successful" };
           }
-          console.log("postID", args.postId);
-          console.log("userId", context.id);
+          // console.log("postID", args.postId);
+          // console.log("userId", context.id);
           if (
             context.id === existingLike.userId &&
             args.postId === existingLike.postId
           ) {
+<<<<<<< HEAD
+=======
+            // console.log("userId", context.id);
+>>>>>>> 7465cb8db6c8c2ae6712ae8cec184a9230560f30
             await LikeModel.findOneAndDelete({
               userId: context.id,
               postId: args.postId,
             });
             return { message: "delete successful" };
           } else {
+<<<<<<< HEAD
+=======
+            // console.log("userId", context.id);
+>>>>>>> 7465cb8db6c8c2ae6712ae8cec184a9230560f30
             const like = new LikeModel({
               ...args,
               userId: context.id,
