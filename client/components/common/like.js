@@ -4,7 +4,7 @@ import { HiOutlineHeart } from "react-icons/hi";
 import { useMutation } from "@apollo/client";
 import { LIKE_ARTICLE } from "../../graphql/mutation";
 
-const FormLike = ({ articleId, dataLike, myUser }) => {
+const FormLike = ({ articleId, dataLike, myUser, ownPostuserId }) => {
   const [like, setLike] = useState(false);
   const [likeArticle] = useMutation(LIKE_ARTICLE);
   const [color, setColor] = useState(false);
@@ -16,10 +16,11 @@ const FormLike = ({ articleId, dataLike, myUser }) => {
       }
     });
   }, [myUser, dataLike]);
+
   const handleLike = async () => {
     try {
       await likeArticle({
-        variables: { postId: articleId },
+        variables: { postId: articleId, ownerId: ownPostuserId },
       }).then(async (response) => {
         let check = response.data.like.message.split(" ");
         if (check[0] === "successful") {

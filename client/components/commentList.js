@@ -14,7 +14,7 @@ import { useQuery, useMutation } from "@apollo/client";
 import { GET_USER } from "../graphql/query";
 import { DELETE_COMMENT, DELETE_REPLY } from "../graphql/mutation";
 
-const CommentList = ({ comments, articleId, reply }) => {
+const CommentList = ({ comments, articleId, reply, ownerId }) => {
   const [likes, setLikes] = useState(0);
   const [dislikes, setDislikes] = useState(0);
   const [action, setAction] = useState(null);
@@ -203,6 +203,7 @@ const CommentList = ({ comments, articleId, reply }) => {
           <div style={{ marginLeft: 30 }}>
             {comments.id === answer.typeReplyComment && (
               <FormComment
+                ownerId={ownerId}
                 articleId={articleId}
                 commentId={comments.id}
                 getCheck={getCheck}
@@ -357,6 +358,7 @@ const CommentList = ({ comments, articleId, reply }) => {
                   {reply.id === answer.replyAnswer &&
                     comments.id === reply.questionId && (
                       <FormComment
+                        ownerId={ownerId}
                         articleId={articleId}
                         getCheck={getCheck}
                         commentId={comments.id}

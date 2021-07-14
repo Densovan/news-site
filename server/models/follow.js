@@ -1,15 +1,16 @@
 const mongoose = require("mongoose");
 
-const likeSchema = new mongoose.Schema(
+const followSchema = new mongoose.Schema(
   {
     userId: {
       type: String,
       required: true,
     },
-    ownerId: {
+    followerId: {
       type: String,
+      required: true,
     },
-    postId: {
+    followingId: {
       type: String,
       required: true,
     },
@@ -17,5 +18,5 @@ const likeSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Like = mongoose.model("Like", likeSchema);
-module.exports = Like;
+const Follow = mongoose.model("Follow", followSchema);
+module.exports = Follow;
