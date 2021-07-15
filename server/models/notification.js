@@ -6,10 +6,14 @@ const notificationSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    postId: {
-       type: String,
-       required: true,
-    },
+    // postId: {
+    //    type: String,
+    //    required: true,
+    // },
+    postId: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "News"
+    }]
     // like: {
     //     count: {
     //         type: Number,

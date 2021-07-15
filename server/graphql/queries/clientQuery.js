@@ -331,6 +331,10 @@ const RootQuery = new GraphQLObjectType({
       },
     },
 
+    query_notification: {
+      type: NotificationType,
+      
+    },
     get_notifications: {
       type: NotificationType,
       resolve: async (parent, args, context) => {
@@ -344,9 +348,14 @@ const RootQuery = new GraphQLObjectType({
     show_notifications: {
       type: NotificationType,
       resolve: async (parent, args, context) => {
-        const like = await LikeModel.findOne({ userId: context.id });
-        await LikeModel.updateMany({ count:0 })
-        return NotificationModel.findOne({ userId: context.id });
+        const notification = await NotificationModel.findOne({ userId: context.id });
+        try{
+          await LikeModel.updateMany({ postId: notification.postId }, { count: 0 });
+          return NotificationModel.findOne({ userId: context.id });
+        }catch(e){
+          console.log(e);
+          throw e
+        }
       },
     },
     // get_news_by_following: {

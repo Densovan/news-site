@@ -6,6 +6,7 @@ const {
   GraphQLInt,
   GraphQLID,
   GraphQLBoolean,
+  GraphQLList,
 } = graphql;
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -25,6 +26,7 @@ const QuestionModel = require("../../models/comment/question");
 const AnswerModel = require("../../models/comment/answer");
 const LikeModel = require("../../models/like");
 const NotificationModel = require("../../models/notification");
+const { findOne } = require("../../models/user");
 
 const RootMutation = new GraphQLObjectType({
   name: "RootMutationType",
@@ -408,18 +410,12 @@ const RootMutation = new GraphQLObjectType({
       },
       resolve: async (parent, args, context) => {
         try {
-<<<<<<< HEAD
-=======
           // console.log(args.postId);
->>>>>>> 7465cb8db6c8c2ae6712ae8cec184a9230560f30
           const existingLike = await LikeModel.findOne({
             userId: context.id,
             postId: args.postId,
           });
-<<<<<<< HEAD
-=======
           // console.log("dataLike", existingLike);
->>>>>>> 7465cb8db6c8c2ae6712ae8cec184a9230560f30
           if (!existingLike) {
             const like = new LikeModel({
               ...args,
@@ -435,20 +431,14 @@ const RootMutation = new GraphQLObjectType({
             context.id === existingLike.userId &&
             args.postId === existingLike.postId
           ) {
-<<<<<<< HEAD
-=======
             // console.log("userId", context.id);
->>>>>>> 7465cb8db6c8c2ae6712ae8cec184a9230560f30
             await LikeModel.findOneAndDelete({
               userId: context.id,
               postId: args.postId,
             });
             return { message: "delete successful" };
           } else {
-<<<<<<< HEAD
-=======
             // console.log("userId", context.id);
->>>>>>> 7465cb8db6c8c2ae6712ae8cec184a9230560f30
             const like = new LikeModel({
               ...args,
               userId: context.id,
@@ -471,16 +461,84 @@ const RootMutation = new GraphQLObjectType({
         postId: { type: GraphQLID }, 
       },
       resolve: async (parents, args, context) => {
-
         try{
-          const notification = new NotificationModel({
-            userId: context.id,
-            postId: args.postId
-          })
-          await notification.save();
-          return {
-            message: "success"
+          const existingUser = await NotificationModel.findOne({ userId: context.id });
+          if(!existingUser){
+            const notification = new NotificationModel({
+              ...args,
+              userId: context.id,
+              postId: args.postId
+            })
+            await notification.save();
+            return {
+              message: "success"
+            }
           }
+          else if(context.id === existingUser.userId){
+            await NotificationModel.findOneAndUpdate({
+              userId: context.id
+            },{
+              $push: {
+                postId: args.postId
+              }
+            })
+            return {
+              message: "success 2"
+            }
+          }
+          else{
+            console.log("hello3");
+          }
+          // if(!existingUser.userId){
+            // const notification = new NotificationModel({
+            //   userId: context.id,
+            //   postId: args.postId
+            // })
+            // await notification.save();
+            // return {
+            //   message: "success"
+            // }
+          //   console.log("hello1");
+          // }else{
+            // const notification = new NotificationModel({
+            //   userId: context.id,
+            //   postId: args.postIssd
+            // })
+            // await notification.save();
+            // return {
+            //   message: "success"
+            // }
+          //   console.log("hello2");
+          // }
+          // const notification = new NotificationModel({
+          //   userId: context.id,
+          //   postId: args.postId
+          // })
+          // await notification.save();
+          // const user =  await NotificationModel.findOne({ userId: context.id })
+          // console.log(user.postId);
+          // console.log(context.id);
+          // console.log(notification.userId);
+          // const notifications = new NotificationModel({
+          //   userId: context.id,
+          // });
+          // console.log("hello",user.userId);
+          // console.log(notifications.userId, notifications.postId);
+          // if(user.userId === context.id){
+          //   console.log("hello1", notification.userId);
+          //   // await NotificationModel.findOneAndUpdate({
+          //   //   userId: notification.userId,
+          //   //   $push:{
+          //   //     postId: args.postId
+          //   //   }
+          //   // })
+          // }else{
+          //   console.log("hello2");
+          //   await notification.save();
+          // } 
+          // return {
+          //   message: "success"
+          // }
         }catch{
           console.log(error);
           throw error;

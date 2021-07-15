@@ -28,6 +28,14 @@ const NotificationType = new GraphQLObjectType({
         return News.find({ createBy: parent.userId });
       },
     },
+    // articles:{
+    //   type: newsType,
+    //   resolve: async(post) => {
+    //     var article = News.findById(
+    //       moongose.Type.ObjectId(post.userId)
+    //     )
+    //   }
+    // },
     user: {
       type: userType,
       resolve: (parent, args) => {
@@ -39,19 +47,19 @@ const NotificationType = new GraphQLObjectType({
       resolve: (parent, args) => {
         return Like.find({ postId: parent.postId });
       },
-    }
+    },
     // like: {
     //   type: GraphQLList(likeType),
     //   resolve: (parent, args) => {
     //     return Like.find(parent.postId);
     //   },
     // },
-    // question: {
-    //   type: GraphQLList(questionType),
-    //   resolve: (parent, args) => {
-    //     return Question.find(parent.postId);
-    //   },
-    // },
+    question: {
+      type: GraphQLList(questionType),
+      resolve: (parent, args) => {
+        return Question.find({ postId: parent.postId });
+      },
+    },
     // answer: {
     //   type: GraphQLList(answerType),
     //   resolve: (parent, args) => {

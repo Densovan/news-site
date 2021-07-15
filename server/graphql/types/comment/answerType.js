@@ -37,12 +37,6 @@ const AnswerType = new GraphQLObjectType({
     updateAt: {
       type: GraphQLString,
     },
-    user: {
-      type: userType,
-      resolve: (parent, args) => {
-        return user.findById(parent.userId);
-      },
-    },
     // question: {
     //   type: userType,
     //   resolve: (parent, args) => {
