@@ -19,6 +19,8 @@ const likeType = require("../types/likeType");
 const followType = require("../types/followType");
 const notiType = require("../types/notiType");
 const noticheckType = require("../types/notiCheckType");
+const followingType = require("../types/followingType");
+const followerType = require("../types/followerType");
 
 //===============model===============
 const NewsModel = require("../../models/news");
@@ -29,6 +31,8 @@ const LikeModel = require("../../models/like");
 const FollowModel = require("../../models/follow");
 const NotiModel = require("../../models/notifications");
 const NoticheckModel = require("../../models/notiCheck");
+const FollowingModel = require("../../models/following");
+const FollowerModel = require("../../models/follower");
 
 const RootMutation = new GraphQLObjectType({
   name: "RootMutationType",
@@ -556,48 +560,88 @@ const RootMutation = new GraphQLObjectType({
       },
     },
 
+    // follow: {
+    //   type: followType,
+    //   args: {
+    //     followTo: { type: GraphQLNonNull(GraphQLID) },
+    //     followBy: { type: GraphQLID },
+    //     userId: { type: GraphQLID },
+    //   },
+    //   resolve: async (parent, args, context) => {
+    //     try {
+    //       const existingFollow = await FollowModel.findOne({
+    //         followingId: args.followingId,
+    //         followerId: context.id,
+    //         userId: context.id,
+    //       });
+    //       if (!existingFollow) {
+    //         const follow = new FollowModel({
+    //           followingId: args.followingId,
+    //           followerId: context.id,
+    //           userId: context.id,
+    //         });
+    //         await follow.save();
+    //         return { message: "Follow Successfully" };
+    //       }
+    //       if (
+    //         context.id === existingFollow.followerId &&
+    //         context.id === existingFollow.userId &&
+    //         args.followingId === existingFollow.followingId
+    //       ) {
+    //         await FollowModel.findOneAndDelete({
+    //           userId: context.id,
+    //           followingId: args.followingId,
+    //           followerId: context.id,
+    //         });
+    //         return { message: "Unfollow Successfully" };
+    //       } else {
+    //         const follow = new FollowModel({
+    //           followingId: args.followingId,
+    //           followerId: context.id,
+    //           userId: context.id,
+    //         });
+    //         await follow.save();
+    //         return { message: "Follow Successfully" };
+    //       }
+    //     } catch (error) {
+    //       console.log(error);
+    //       throw error;
+    //     }
+    //   },
+    // },
+
     follow: {
       type: followType,
       args: {
-        followingId: { type: GraphQLNonNull(GraphQLID) },
-        followerId: { type: GraphQLID },
-        userId: { type: GraphQLID },
+        followTo: { type: GraphQLNonNull(GraphQLID) },
+        follow: { type: GraphQLBoolean },
       },
       resolve: async (parent, args, context) => {
+        const ExistFollowTo = await FollowModel.findOne({
+          followTo: args.followTo,
+          followBy: context.id,
+        });
         try {
-          const existingFollow = await FollowModel.findOne({
-            followingId: args.followingId,
-            followerId: context.id,
-            userId: context.id,
-          });
-          if (!existingFollow) {
-            const follow = new FollowModel({
-              followingId: args.followingId,
-              followerId: context.id,
-              userId: context.id,
-            });
-            await follow.save();
-            return { message: "Follow Successfully" };
-          }
-          if (
-            context.id === existingFollow.followerId &&
-            context.id === existingFollow.userId &&
-            args.followingId === existingFollow.followingId
-          ) {
+          if (ExistFollowTo) {
             await FollowModel.findOneAndDelete({
-              userId: context.id,
-              followingId: args.followingId,
-              followerId: context.id,
+              followTo: args.followTo,
+              // follow: true,
+              followBy: context.id,
             });
-            return { message: "Unfollow Successfully" };
+            return {
+              message: "Unfollowed",
+            };
           } else {
             const follow = new FollowModel({
-              followingId: args.followingId,
-              followerId: context.id,
-              userId: context.id,
+              ...args,
+              // follow: true,
+              createBy: context.id,
+              followBy: context.id,
             });
             await follow.save();
-            return { message: "Follow Successfully" };
+            return {
+              message: "Followed",
+            };
           }
         } catch (error) {
           console.log(error);
@@ -605,6 +649,7 @@ const RootMutation = new GraphQLObjectType({
         }
       },
     },
+
     //===============set to notificationcheck================
     notification_check: {
       type: notiType,
