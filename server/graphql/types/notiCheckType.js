@@ -31,6 +31,9 @@ const NotiCheckType = new GraphQLObjectType({
     answer: {
       type: GraphQLString,
     },
+    type: {
+      type: GraphQLString,
+    },
     message: {
       type: GraphQLString,
     },

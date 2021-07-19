@@ -24,6 +24,9 @@ const notiCheckSchema = new mongoose.Schema(
     answer: {
       type: String,
     },
+    type: {
+      type: String,
+    },
     questionId: { type: String },
   },
   { timestamps: true }

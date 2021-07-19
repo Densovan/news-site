@@ -293,7 +293,7 @@ const RootMutation = new GraphQLObjectType({
               userId: context.id,
               postId: args.postId,
               ownerId: args.ownerId,
-              question: "comment",
+              type: "comment",
             });
             await noti.save();
           }
@@ -402,7 +402,7 @@ const RootMutation = new GraphQLObjectType({
             const noti = new NotiModel({
               userId: context.id,
               postId: args.postId,
-              answer: "reply",
+              type: "reply",
               ownerId: args.ownerId,
               questionId: args.questionId,
             });
@@ -512,7 +512,7 @@ const RootMutation = new GraphQLObjectType({
             } else {
               const noti = new NotiModel({
                 ...args,
-                like: "like",
+                type: "like",
                 ownerId: args.ownerId,
                 userId: context.id,
               });
@@ -534,7 +534,7 @@ const RootMutation = new GraphQLObjectType({
             await NotiModel.findOneAndDelete({
               userId: context.id,
               postId: args.postId,
-              like: "like",
+              type: "like",
             });
             return { message: "delete successful" };
           } else {
@@ -547,7 +547,7 @@ const RootMutation = new GraphQLObjectType({
             await like.save();
             const noti = new NotiModel({
               ...args,
-              like: "like",
+              type: "like",
               userId: context.id,
             });
             await noti.save();
@@ -614,7 +614,6 @@ const RootMutation = new GraphQLObjectType({
       type: followType,
       args: {
         followTo: { type: GraphQLNonNull(GraphQLID) },
-        follow: { type: GraphQLBoolean },
       },
       resolve: async (parent, args, context) => {
         const ExistFollowTo = await FollowModel.findOne({
@@ -639,6 +638,14 @@ const RootMutation = new GraphQLObjectType({
               followBy: context.id,
             });
             await follow.save();
+            const noti = new NotiModel({
+              ...args,
+              type: "follow",
+              ownerId: args.followTo,
+              userId: context.id,
+              followBy: context.id,
+            });
+            await noti.save();
             return {
               message: "Followed",
             };
