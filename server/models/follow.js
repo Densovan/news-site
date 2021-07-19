@@ -2,15 +2,15 @@ const mongoose = require("mongoose");
 
 const followSchema = new mongoose.Schema(
   {
-    userId: {
+    createBy: {
       type: String,
-      required: true,
+      // required: true,
     },
-    followerId: {
+    followBy: {
       type: String,
-      required: true,
+      // required: true,
     },
-    followingId: {
+    followTo: {
       type: String,
       required: true,
     },

@@ -25,14 +25,13 @@ const Login = ({ history }) => {
           }, 1000);
         } else if (res.status === 200) {
           setLoading(true);
-          // Cookie.set("_userId", res.data._id);
           message.success(res.data.msg);
           setTimeout(function () {
-            setLoading(false);
             window.location.replace("/");
+            setLoading(false);
           }, 2000);
-          setLoading(false);
-          getLoggedIn();
+          // setLoading(false);
+          // getLoggedIn();
         }
       });
     } catch (error) {

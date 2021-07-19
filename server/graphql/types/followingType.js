@@ -5,32 +5,26 @@ const User = require("../../models/user");
 
 const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLList } = graphql;
 
-const FollowType = new GraphQLObjectType({
-  name: "follow",
+const FollowingType = new GraphQLObjectType({
+  name: "following",
   fields: () => ({
     id: { type: GraphQLID },
-    // userId: { type: GraphQLID },
-    followBy: { type: GraphQLID },
-    followTo: { type: GraphQLID },
+    userId: { type: GraphQLID },
+    followingId: { type: GraphQLID },
+    followerId: { type: GraphQLID },
     message: { type: GraphQLString },
     createdAt: {
       type: GraphQLString,
     },
-    userFollower: {
+    user: {
       type: userType,
-      resolve: (parents, args) => {
-        return User.findById(parents.followBy);
-      },
-    },
-    userFollowing: {
-      type: userType,
-      resolve: (parents, args) => {
-        return User.findById(parents.followTo);
+      resolve: (parent, args) => {
+        return User.findById(parent.userId);
       },
     },
   }),
 });
 
-module.exports = FollowType;
+module.exports = FollowingType;
 //==========type==============
 const userType = require("./userType");

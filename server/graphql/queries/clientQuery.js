@@ -17,6 +17,7 @@ const NotificationModel = require("../../models/notification")
 const LikeModel = require("../../models/like");
 const NotiModel = require("../../models/notifications");
 const NotiCheckModel = require("../../models/notiCheck");
+const FollowModel = require("../../models/follow");
 
 //================Type Sections==================
 const CategoryType = require("../types/categoryType");
@@ -26,6 +27,7 @@ const UserType = require("../types/userType");
 const NotificationType = require("../types/notificationType");
 const NotiType = require("../types/notiType");
 const NotiCheckType = require("../types/notiCheckType");
+const FollowType = require("../types/followType");
 
 const RootQuery = new GraphQLObjectType({
   name: "RootQueryType",
@@ -365,35 +367,36 @@ const RootQuery = new GraphQLObjectType({
     get_notification_by_user: {
       type: new GraphQLList(NotiType),
       resolve: (parent, args, context) => {
-        return NotiModel.find({ ownerId: context.id });
+        return NotiModel.find({ ownerId: context.id }).sort({ createdAt: -1 });
       },
     },
     get_notification_check_by_user: {
       type: new GraphQLList(NotiCheckType),
       resolve: (parent, args, context) => {
-        return NotiCheckModel.find({ ownerId: context.id });
+        return NotiCheckModel.find({ ownerId: context.id }).sort({
+          createdAt: -1,
+        });
       },
     },
-    // get_news_by_following: {
-    //   type: NewsType,
-    //   resolve: async (parent, args, context) => {
-    //     try {
-    //       const currentUser = await UserModel.findById(context.id);
-    //       if (currentUser) {
-    //         const userPost = await NewsModel.find({ createBy: context.id });
-    //         const friPost = await UserModel(
-    //           currentUser.following.map((res) => {
-    //             return res.id;
-    //           })
-    //         );
-    //         console.log(friPost);
-    //       }
-    //     } catch (error) {
-    //       console.log(error);
-    //       throw error;
-    //     }
+    //==============follow===========
+    // get_follower: {
+    //   type: new GraphQLList(FollowType),
+    //   resolve: (parent, args, context) => {
+    //     return FollowModel.find({ followTo: context.id });
     //   },
     // },
+    // get_following: {
+    //   type: new GraphQLList(FollowType),
+    //   resolve: (parent, args, context) => {
+    //     return FollowModel.find({ followTo: context.id });
+    //   },
+    // },
+    get_follows: {
+      type: new GraphQLList(FollowType),
+      resolve: (parent, args, context) => {
+        return FollowModel.find({});
+      },
+    },
   },
 });
 
