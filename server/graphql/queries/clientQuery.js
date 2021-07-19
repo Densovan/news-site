@@ -15,6 +15,8 @@ const Category = require("../../models/category");
 const Types = require("../../models/type");
 const NotificationModel = require("../../models/notification")
 const LikeModel = require("../../models/like");
+const NotiModel = require("../../models/notifications");
+const NotiCheckModel = require("../../models/notiCheck");
 
 //================Type Sections==================
 const CategoryType = require("../types/categoryType");
@@ -22,6 +24,8 @@ const Type = require("../types/type");
 const NewsType = require("../types/newsType");
 const UserType = require("../types/userType");
 const NotificationType = require("../types/notificationType");
+const NotiType = require("../types/notiType");
+const NotiCheckType = require("../types/notiCheckType");
 
 const RootQuery = new GraphQLObjectType({
   name: "RootQueryType",
@@ -356,6 +360,18 @@ const RootQuery = new GraphQLObjectType({
           console.log(e);
           throw e
         }
+      }
+    },
+    get_notification_by_user: {
+      type: new GraphQLList(NotiType),
+      resolve: (parent, args, context) => {
+        return NotiModel.find({ ownerId: context.id });
+      },
+    },
+    get_notification_check_by_user: {
+      type: new GraphQLList(NotiCheckType),
+      resolve: (parent, args, context) => {
+        return NotiCheckModel.find({ ownerId: context.id });
       },
     },
     // get_news_by_following: {

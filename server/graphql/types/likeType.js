@@ -19,6 +19,9 @@ const LikeType = new GraphQLObjectType({
     postId: {
       type: GraphQLID,
     },
+    ownerId: {
+      type: GraphQLID,
+    },
     message: {
       type: GraphQLString,
     },

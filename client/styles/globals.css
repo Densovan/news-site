@@ -2117,3 +2117,12 @@ body {
     height: 197px;
   }
 }
+
+.card_notification{
+  padding-top: 8px;
+  padding-bottom: 8px;
+  cursor: pointer;
+}
+.card_notification:hover{
+  background-color: #CCD0D5;
+}

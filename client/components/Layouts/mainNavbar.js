@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useRouter } from "next/router";
+import moment from 'moment';
 import {
   Drawer,
   Affix,
@@ -11,6 +12,10 @@ import {
   Divider,
   Dropdown,
   Avatar,
+  Button,
+  Badge,
+  List, 
+  Typography
 } from "antd";
 import {
   HiOutlineCog,
@@ -19,6 +24,7 @@ import {
   HiOutlineBookOpen,
   HiOutlinePencil,
   HiOutlineUser,
+  HiOutlineBell
 } from "react-icons/hi";
 const { SubMenu } = Menu;
 const { Header } = Layout;
@@ -28,9 +34,8 @@ import { HiMenu } from "react-icons/hi";
 import AuthContext from "../../contexts/authContext";
 import Logout from "../Layouts/logout";
 import { useQuery } from "@apollo/client";
-import { GET_USER } from "../../graphql/query";
+import { GET_NOTIFICATION_BY_USER, GET_NOTIFICATION_CHECK_BY_USER, GET_USER } from "../../graphql/query";
 import { TiUser, TiUserAdd } from "react-icons/ti";
-import { AiOutlineBell } from "react-icons/ai";
 
 const MainNavbar = () => {
   const [state, setState] = useState({
@@ -39,7 +44,9 @@ const MainNavbar = () => {
 
   const { loggedIn } = useContext(AuthContext);
   const { loading, data, error } = useQuery(GET_USER);
-  if (loading) return "";
+  const { loading:laoding_notification, data:notification } = useQuery(GET_NOTIFICATION_BY_USER);
+  const { loading: loading_check_notification, data:check_notification } = useQuery(GET_NOTIFICATION_CHECK_BY_USER)
+  if (loading || laoding_notification || loading_check_notification) return "";
 
   const showDrawer = () => {
     setState({
@@ -51,6 +58,7 @@ const MainNavbar = () => {
       visible: false,
     });
   };
+  console.log(check_notification.get_notification_check_by_user);
   return (
     <React.Fragment>
       {loggedIn === false && (
@@ -141,12 +149,48 @@ const MainNavbar = () => {
                   <a>About Us</a>
                 </ActiveLink>
               </Menu.Item>
-              {/* <Menu.Item key="5">
-                <div>
-                  <AiOutlineBell size={29} />
-                </div>
-              </Menu.Item> */}
               <Menu.Item key="5">
+                <Badge count={notification.get_notification_by_user.length} overflowCount={10} style={{ marginTop:6, marginLeft: -10 }}>
+                  <Popover placement="bottom" content={
+                    <div style={{ width: 360, height: '90%' }}>
+                      <Row justify="space-between" align="middle" style={{ paddingLeft:8,paddingRight:8, paddingTop: 10 }}>
+                        <Col>
+                          <Typography.Title level={5}>Notifications</Typography.Title>
+                        </Col>
+                        <Col>
+                          <Link href="/notifications">
+                            <Button>Show All</Button>
+                          </Link>
+                        </Col>
+                      </Row>
+                      <Row>
+                        {check_notification.get_notification_check_by_user.map((notifications)=> {
+                          return(
+                            <List.Item style={{ width: '100%', height: '90%' }}>
+                              <List.Item.Meta
+                                className="card_notification"
+                                style={{ paddingLeft:8,paddingRight:8, borderRadius: 8 }}
+                                avatar={<Avatar src={notifications.user.image} size={60}/>}
+                                description={
+                                  <div>
+                                    <a style={{ paddingRight: 10 }}>{notifications.user.fullname}</a>
+                                    <span>{notifications.news.title}</span>
+                                    <div>
+                                      <span style={{ fontSize: 12, color: 'red' }}>{moment(parseInt(notifications.createdAt)).fromNow()}</span>
+                                    </div>
+                                  </div>}
+                              />
+                            </List.Item>
+                          )
+                        })}
+                      </Row>
+                    </div>
+                  } trigger="click">
+                    <Button shape="circle" icon={<HiOutlineBell style={{  fontSize: '24px', color: '#08c' }}/>} size="large" />
+                  </Popover>
+                </Badge>
+              </Menu.Item>
+              <Menu.Item key="6">
                 <div style={{ cursor: "pointer" }}>
                   <Popover
                     placement="bottom"
