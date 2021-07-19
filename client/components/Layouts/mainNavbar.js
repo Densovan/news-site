@@ -152,8 +152,9 @@ const MainNavbar = () => {
               <Menu.Item key="5">
                 <Badge count={notification.get_notification_by_user.length} overflowCount={10} style={{ marginTop:6, marginLeft: -10 }}>
                   <Popover placement="bottom" content={
-                    <div style={{ width: 360, height: '90%' }}>
-                      <Row justify="space-between" align="middle" style={{ paddingLeft:8,paddingRight:8, paddingTop: 10 }}>
+                    <div className="contain-notification">
+                    <div className="drop-notification">
+                      <Row justify="space-between" align="middle" className="header-notification">
                         <Col>
                           <Typography.Title level={5}>Notifications</Typography.Title>
                         </Col>
@@ -166,17 +167,16 @@ const MainNavbar = () => {
                       <Row>
                         {check_notification.get_notification_check_by_user.map((notifications)=> {
                           return(
-                            <List.Item style={{ width: '100%', height: '90%' }}>
+                            <List.Item style={{ width: '100%', height: '90%' }} className="box-notification">
                               <List.Item.Meta
                                 className="card_notification"
                                 style={{ paddingLeft:8,paddingRight:8, borderRadius: 8 }}
                                 avatar={<Avatar src={notifications.user.image} size={60}/>}
                                 description={
                                   <div>
-                                    <a style={{ paddingRight: 10 }}>{notifications.user.fullname}</a>
-                                    <span>{notifications.news.title}</span>
+                                    <div><strong>{notifications.user.fullname} </strong> {notifications.type} {notifications.news.title}</div>
                                     <div>
-                                      <span style={{ fontSize: 12, color: 'red' }}>{moment(parseInt(notifications.createdAt)).fromNow()}</span>
+                                      <strong style={{ fontSize: 12, color: 'red' }}>{moment(parseInt(notifications.createdAt)).fromNow()}</strong>
                                     </div>
                                   </div>}
                               />
@@ -184,6 +184,7 @@ const MainNavbar = () => {
                           )
                         })}
                       </Row>
+                    </div>
                     </div>
                   } trigger="click">
                     <Button shape="circle" icon={<HiOutlineBell style={{  fontSize: '24px', color: '#08c' }}/>} size="large" />

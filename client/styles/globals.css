@@ -39,6 +39,9 @@ body {
   margin-right: auto !important;
   margin-left: auto !important;
   width: 64%;
+  display: flex;
+  justify-content: space-between;
+  background-color: #262e3c;
 }
 .top-title {
   font-weight: 900;
@@ -266,6 +269,12 @@ body {
 }
 .header {
   background-color: #262e3c;
+  position: fixed;
+  top: 0;
+  left: 0;
+  margin: auto;
+  width: 100%;
+  z-index: 99;
 }
 /* .container-header {
   margin-left: auto;
@@ -390,10 +399,14 @@ body {
   font-size: 12px;
 }
 .ant-popover-content .ant-popover-inner-content {
-  padding: 10px;
+  padding: 0px;
 }
 .ant-popover-inner {
-  border-radius: 9px !important;
+  border-radius: 8px !important;
+}
+.ant-popover{
+  position: fixed;
+  border-radius: 8px !important;
 }
 .date-avatar {
   display: flex;
@@ -2125,4 +2138,18 @@ body {
 }
 .card_notification:hover{
   background-color: #CCD0D5;
+}
+.ant-list-item{
+  padding: 0px;
+}
+.drop-notification{
+  width: 380px;
+  height: 90vh;
+  overflow: auto;
+}
+.contain-notification .drop-notification .header-notification{
+  padding: 20px 20px 20px 20px;
+}
+.box-notification{
+  padding: 0px 6px 0px 6px;
 }

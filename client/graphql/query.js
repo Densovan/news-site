@@ -456,6 +456,7 @@ const GET_NOTIFICATION_CHECK_BY_USER = gql`
   query{
     get_notification_check_by_user{
       id
+      type
       user{
         fullname
         image
