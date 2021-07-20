@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import { useRouter } from "next/router";
 import MainNavbar from "../../components/Layouts/mainNavbar";
+import GlobalHeader from "../../components/Layouts/globalHeader";
 import Footer from "../../components/Layouts/footer";
 import { GET_NEWS_BY_SLUG, GET_USER } from "../../graphql/query";
 import { useQuery } from "@apollo/client";
@@ -63,9 +64,9 @@ const SinglePage = () => {
   const result = <Output data={JSON.parse(des)} />;
   return (
     <React.Fragment>
-      <MainNavbar />
+      <GlobalHeader />
       <div className="container">
-        <div style={{ marginTop: 16 }}>
+        <div style={{ marginTop: 80 }}>
           <Row gutter={[16, 16]}>
             <Col sm={24} md={2}>
               {loggedIn === true && (

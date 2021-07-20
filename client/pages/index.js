@@ -6,11 +6,12 @@ import Feature from "./features/feature";
 import TopNavbar from "../components/Layouts/topNavbar";
 import MainNavbar from "../components/Layouts/mainNavbar";
 import Footer from "../components/Layouts/footer";
+import GlobalHeader from "../components/Layouts/globalHeader";
 
 const Index = () => {
   return (
     <React.Fragment>
-      <MainNavbar />
+      <GlobalHeader />
       <div className="index-banner">
         <div className="content-banner">
           <Row gutter={[32, 32]}>
