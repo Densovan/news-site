@@ -14,6 +14,9 @@ const questionSchema = new mongoose.Schema(
       type: String,
       // required: true,
     },
+    ownerId: {
+      type: String,
+    },
   },
   {
     timestamps: true,

@@ -104,8 +104,13 @@ const UNFOLLOW = gql`
 `;
 
 const COMMENT = gql`
-  mutation ($userId: ID, $postId: ID, $question: String) {
-    comment(userId: $userId, postId: $postId, question: $question) {
+  mutation ($userId: ID, $postId: ID, $question: String, $ownerId: ID) {
+    comment(
+      userId: $userId
+      postId: $postId
+      question: $question
+      ownerId: $ownerId
+    ) {
       message
     }
   }
@@ -133,12 +138,19 @@ const EDIT_COMMENT = gql`
 `;
 
 const REPLY_COMMENT = gql`
-  mutation ($userId: ID, $postId: ID, $answer: String, $questionId: ID) {
+  mutation (
+    $userId: ID
+    $postId: ID
+    $answer: String
+    $questionId: ID
+    $ownerId: ID
+  ) {
     reply(
       userId: $userId
       postId: $postId
       answer: $answer
       questionId: $questionId
+      ownerId: $ownerId
     ) {
       message
     }
@@ -161,8 +173,8 @@ const EDIT_REPLY = gql`
 `;
 
 const LIKE_ARTICLE = gql`
-  mutation ($postId: ID!) {
-    like(postId: $postId) {
+  mutation ($postId: ID!, $ownerId: ID) {
+    like(postId: $postId, ownerId: $ownerId) {
       message
     }
   }

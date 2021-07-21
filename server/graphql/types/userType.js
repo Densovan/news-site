@@ -10,6 +10,7 @@ const {
 } = graphql;
 const News = require("../../models/news");
 const User = require("../../models/user");
+const Follow = require("../../models/follow");
 
 const userType = new GraphQLObjectType({
   name: "user",
@@ -43,6 +44,32 @@ const userType = new GraphQLObjectType({
       type: GraphQLList(usersType),
     },
     follower: { type: GraphQLList(usersType) },
+
+    get_following: {
+      type: GraphQLList(followType),
+      resolve: (parent, args) => {
+        return Follow.find({ followBy: parent.id });
+      },
+    },
+    get_follower: {
+      type: GraphQLList(followType),
+      resolve: (parent, args) => {
+        return Follow.find({ followTo: parent.id });
+      },
+    },
+
+    // following_user: {
+    //   type: GraphQLList(followType),
+    //   resolve: (parent, args) => {
+    //     return Follow.find({ followingId: parent.id });
+    //   },
+    // },
+    // follower_user: {
+    //   type: GraphQLList(followType),
+    //   resolve: (parent, args) => {
+    //     return Follow.find({ followerId: parent.id });
+    //   },
+    // },
   }),
 });
 
@@ -50,5 +77,4 @@ module.exports = userType;
 
 const newsType = require("./newsType");
 const usersType = require("./userType");
-
-// const followingType = require("./followingType");
+const followType = require("./followType");

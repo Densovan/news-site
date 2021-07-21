@@ -212,11 +212,7 @@ const GET_ALL_NEWS = gql`
 
 const GET_ALL_NEWS_BY_TYPE_NEWS = gql`
   query ($limit: Int!, $offset: Int!) {
-    get_allnews_by_type(
-      limit: $limit
-      offset: $offset
-      id: "60b125935b23dcef7bea2dad"
-    ) {
+    get_all_news_by_type_news(limit: $limit, offset: $offset) {
       title
       createdAt
       id
@@ -242,11 +238,7 @@ const GET_ALL_NEWS_BY_TYPE_NEWS = gql`
 
 const GET_ALL_NEWS_BY_TYPE_LEARN = gql`
   query ($limit: Int!, $offset: Int!) {
-    get_allnews_by_type(
-      limit: $limit
-      offset: $offset
-      id: "60ab9d4a314c8a3b207849e6"
-    ) {
+    get_all_news_by_type_learn(limit: $limit, offset: $offset) {
       title
       createdAt
       id
@@ -272,11 +264,7 @@ const GET_ALL_NEWS_BY_TYPE_LEARN = gql`
 
 const GET_ALL_NEWS_BY_TYPE_FEATURE = gql`
   query ($limit: Int!, $offset: Int!) {
-    get_allnews_by_type(
-      limit: $limit
-      offset: $offset
-      id: "60ab789315cdbd63c5d57fa0"
-    ) {
+    get_all_news_by_type_feature(limit: $limit, offset: $offset) {
       title
       slug
       createdAt
@@ -383,12 +371,7 @@ const GET_NEWS_BY_CATS = gql`
 
 const GET_NEWS_LEARN_BY_CAT = gql`
   query ($id: ID, $limit: Int!, $offset: Int!) {
-    get_allnews_type_by_cat(
-      id: $id
-      limit: $limit
-      offset: $offset
-      typeId: "60ab9d4a314c8a3b207849e6"
-    ) {
+    get_allnews_type_by_cat_learn(id: $id, limit: $limit, offset: $offset) {
       title
       createdAt
       id
@@ -413,12 +396,7 @@ const GET_NEWS_LEARN_BY_CAT = gql`
 
 const GET_NEWS_NEWS_BY_CAT = gql`
   query ($id: ID, $limit: Int!, $offset: Int!) {
-    get_allnews_type_by_cat(
-      id: $id
-      limit: $limit
-      offset: $offset
-      typeId: "60b125935b23dcef7bea2dad"
-    ) {
+    get_allnews_type_by_cat_news(id: $id, limit: $limit, offset: $offset) {
       title
       createdAt
       id
@@ -443,12 +421,7 @@ const GET_NEWS_NEWS_BY_CAT = gql`
 
 const GET_NEWS_FEATURE_BY_CAT = gql`
   query ($id: ID, $limit: Int!, $offset: Int!) {
-    get_allnews_type_by_cat(
-      id: $id
-      limit: $limit
-      offset: $offset
-      typeId: "60ab789315cdbd63c5d57fa0"
-    ) {
+    get_allnews_type_by_cat_feature(id: $id, limit: $limit, offset: $offset) {
       title
       createdAt
       id

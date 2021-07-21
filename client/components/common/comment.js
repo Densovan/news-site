@@ -15,6 +15,7 @@ const FormComment = (props) => {
   const router = useRouter();
   const {
     articleId,
+    ownerId,
     commentId,
     object,
     getName,
@@ -34,6 +35,7 @@ const FormComment = (props) => {
 
   if (loading) return <div>Loading...</div>;
 
+  // console.log(ownerId);
   // return to reset data
   const handleReset = () => {
     if (keyBtn === "editReplyQuestion") {
@@ -76,6 +78,7 @@ const FormComment = (props) => {
               postId: articleId,
               answer: values.comment,
               questionId: commentId,
+              ownerId: ownerId,
             },
           }).then(async (data) => {
             console.log(data);
@@ -122,6 +125,7 @@ const FormComment = (props) => {
               userId: user.get_user.id,
               postId: articleId,
               question: values.comment,
+              ownerId: ownerId,
             },
           }).then(async (data) => {
             console.log(data);

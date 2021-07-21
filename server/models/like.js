@@ -6,6 +6,9 @@ const likeSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    ownerId: {
+      type: String,
+    },
     postId: {
       type: String,
       required: true,

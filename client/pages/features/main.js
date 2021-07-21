@@ -1,16 +1,23 @@
-import React from "react";
-import { Col, Row, Breadcrumb } from "antd";
+import React, { useState } from "react";
+import { Col, Row, Spin } from "antd";
 import { CaretRightOutlined } from "@ant-design/icons";
 import { useQuery } from "@apollo/client";
 import { GET_ALL_NEWS_BY_TYPE_FEATURE } from "../../graphql/query";
 import Link from "next/link";
 import moment from "moment";
 import Output from "editorjs-react-renderer";
-
+import InfiniteScroll from "react-infinite-scroll-component";
 import Loader from "../../components/loaders/laoder";
 
 const main = () => {
-  const { loading, data } = useQuery(GET_ALL_NEWS_BY_TYPE_FEATURE, {
+  const server = process.env.API_SECRET;
+  const server_local = process.env.API_SECRET_LOCAL;
+  const develop = process.env.NODE_ENV;
+  const URL_ACCESS = develop === "development" ? server_local : server;
+
+  const [hasMoreItems, setHasMoreItems] = useState(true);
+
+  const { loading, data, fetchMore } = useQuery(GET_ALL_NEWS_BY_TYPE_FEATURE, {
     variables: { limit: 6, offset: 0 },
   });
   if (loading)
@@ -22,16 +29,22 @@ const main = () => {
   return (
     <div>
       <Row gutter={[12, 12]}>
-        {data.get_allnews_by_type.map((res) => {
+        {data.get_all_news_by_type_feature.map((res, index) => {
           const result = <Output data={JSON.parse(res.des)} />;
           return (
-            <Col className="content-top-stories" sm={24} md={12} lg={8}>
+            <Col
+              key={index}
+              className="content-top-stories"
+              sm={24}
+              md={12}
+              lg={8}
+            >
               <Link href={`/detail/${res.slug}`}>
                 <div className="learn-card">
                   <div
                     className="learn-style"
                     style={{
-                      backgroundImage: `url("http://localhost:3500/public/uploads//${res.thumnail}")`,
+                      backgroundImage: `url(${URL_ACCESS}/public/uploads//${res.thumnail})`,
                     }}
                   ></div>
                   <div className="content-learn">
@@ -84,6 +97,38 @@ const main = () => {
           );
         })}
       </Row>
+      <InfiniteScroll
+        dataLength={data.get_all_news_by_type_feature.length}
+        next={async () => {
+          fetchMore({
+            variables: {
+              offset: data.get_all_news_by_type_feature.length,
+            },
+            updateQuery: (prev, { fetchMoreResult }) => {
+              if (!fetchMoreResult) return prev;
+
+              if (fetchMoreResult.get_all_news_by_type_feature.length < 6) {
+                setHasMoreItems(false);
+              }
+              return Object.assign({}, prev, {
+                get_all_news_by_type_feature: [
+                  ...prev.get_all_news_by_type_feature,
+                  ...fetchMoreResult.get_all_news_by_type_feature,
+                ],
+              });
+            },
+          });
+        }}
+        hasMore={hasMoreItems}
+        loader={
+          // <Content style={{ marginTop: "50px" }}>
+          <center style={{ marginTop: "50px" }}>
+            <Spin></Spin>
+          </center>
+          // </Content>
+        }
+        endMessage={null}
+      ></InfiniteScroll>
     </div>
   );
 };

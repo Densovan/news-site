@@ -17,6 +17,9 @@ const answerSchema = new mongoose.Schema(
     questionId: {
       type: String,
     },
+    ownerId: {
+      type: String,
+    },
   },
   {
     timestamps: true,

@@ -21,6 +21,11 @@ import AuthContext from "../../contexts/authContext";
 import ImgCrop from "antd-img-crop";
 
 const ChangeProfilePicture = () => {
+  const server = process.env.API_SECRET;
+  const server_local = process.env.API_SECRET_LOCAL;
+  const develop = process.env.NODE_ENV;
+  const URL_ACCESS = develop === "development" ? server_local : server;
+
   //======state for chagte profile image
   const [state, setState] = useState({
     imageUrl: null,
@@ -29,11 +34,11 @@ const ChangeProfilePicture = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { loggedIn } = useContext(AuthContext);
 
+  //===========update Userdata============
+  const [update_user] = useMutation(UPDATE_USER);
   //===========get data form graphql===============
   const { loading, data, refetch } = useQuery(GET_USER);
   if (loading) return "";
-  //===========update Userdata============
-  const [update_user] = useMutation(UPDATE_USER);
 
   const onPreview = async (file) => {
     let src = file.url;
@@ -136,7 +141,7 @@ const ChangeProfilePicture = () => {
                       <Upload
                         name="file"
                         showUploadList={false}
-                        action="http://localhost:3500/upload/profile"
+                        action={`${URL_ACCESS}/upload/profile`}
                         // beforeUpload={beforeUpload}
                         onChange={handleChange}
                         onPreview={onPreview}

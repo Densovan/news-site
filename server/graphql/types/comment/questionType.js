@@ -16,6 +16,9 @@ const QuestionType = new GraphQLObjectType({
     createdAt: {
       type: GraphQLString,
     },
+    ownerId: {
+      type: GraphQLID,
+    },
     updateAt: {
       type: GraphQLString,
     },

@@ -25,6 +25,11 @@ if (typeof window !== "undefined") {
 }
 
 const Addstory = () => {
+  const server = process.env.API_SECRET;
+  const server_local = process.env.API_SECRET_LOCAL;
+  const develop = process.env.NODE_ENV;
+  const URL_ACCESS = develop === "development" ? server_local : server;
+
   const [title, setTitle] = useState("");
   const [des, setDescr] = useState("");
   const { loggedIn } = useContext(AuthContext);
@@ -302,18 +307,14 @@ const Addstory = () => {
                         <Upload.Dragger
                           name="file"
                           className="avatar-uploader"
-                          action="http://localhost:3500/upload/images"
+                          action={`${URL_ACCESS}/upload/images`}
                           beforeUpload={beforeUpload}
                           onChange={handleChange}
                         >
                           {state.imageUrl ? (
                             <img
-                              // src={`${`https://backend.vitaminair.org/`}/public/uploads/${
-                              //   state.imageUrl
-                              // }`}
                               src={
-                                "http://localhost:3500/public/uploads/" +
-                                state.imageUrl
+                                `${URL_ACCESS}/public/uploads/` + state.imageUrl
                               }
                               alt="avatar"
                               style={{ width: "100%" }}

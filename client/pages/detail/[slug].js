@@ -25,6 +25,11 @@ import FormComment from "../../components/common/comment";
 import CommentList from "../../components/commentList";
 
 const SinglePage = () => {
+  const server = process.env.API_SECRET;
+  const server_local = process.env.API_SECRET_LOCAL;
+  const develop = process.env.NODE_ENV;
+  const URL_ACCESS = develop === "development" ? server_local : server;
+
   const { loggedIn } = useContext(AuthContext);
   const router = useRouter();
   const { slug } = router.query;
@@ -54,7 +59,7 @@ const SinglePage = () => {
     );
   const { id, title, thumnail, des, user, createdAt, comment, reply, like } =
     data.get_news_by_slug;
-
+  // console.log(user.id);
   const result = <Output data={JSON.parse(des)} />;
   return (
     <React.Fragment>
@@ -65,7 +70,12 @@ const SinglePage = () => {
             <Col sm={24} md={2}>
               {loggedIn === true && (
                 <div className="nav_left">
-                  <FormLike articleId={id} dataLike={like} myUser={myUser} />
+                  <FormLike
+                    articleId={id}
+                    dataLike={like}
+                    myUser={myUser}
+                    ownPostuserId={user.id}
+                  />
                   <div className="btn_box">
                     <button style={{ cursor: "pointer" }} className="share-bg">
                       <HiOutlineShare className="share" size={23} />
@@ -84,9 +94,7 @@ const SinglePage = () => {
             <Col sm={24} md={16}>
               <div>
                 <div className="thumail">
-                  <img
-                    src={"http://localhost:3500/public/uploads/" + thumnail}
-                  />
+                  <img src={`${URL_ACCESS}/public/uploads/` + thumnail} />
                 </div>
                 <div className="article_title">
                   <h1>{title}</h1>
@@ -117,12 +125,17 @@ const SinglePage = () => {
                     <div style={{ marginTop: 20 }}>
                       <h3>Comment({reply.length + comment.length})</h3>
                       <div>
-                        <FormComment user={user} articleId={id} />
+                        <FormComment
+                          user={user}
+                          articleId={id}
+                          ownerId={user.id}
+                        />
                         <CommentList
                           articleId={id}
                           comments={comment}
                           reply={reply}
                           fullname={user.fullname}
+                          ownerId={user.id}
                         />
                       </div>
                     </div>

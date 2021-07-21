@@ -10,8 +10,13 @@ const authLink = setContext((_, { headers }) => {
     },
   };
 });
+const server = process.env.API_SECRET;
+const server_local = process.env.API_SECRET_LOCAL;
+const develop = process.env.NODE_ENV;
 
-const result = " http://localhost:3500/api";
+const URL_ACCESS = develop === "development" ? server_local : server;
+
+const result = `${URL_ACCESS}/api`;
 
 const httpLink = createHttpLink({
   uri: result,
@@ -22,7 +27,7 @@ const client = new ApolloClient({
   link: authLink.concat(httpLink),
   // uri: "http://localhost:3600/graphql",
   // uri: "http://localhost:3500/api",
-  cache
+  cache,
 });
 
 export default client;

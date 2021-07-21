@@ -13,8 +13,6 @@ import {
   HiOutlineUserGroup,
 } from "react-icons/hi";
 import Link from "next/link";
-import Follower from "../../pages/dashboard/follows/follower";
-import Following from "../../pages/dashboard/follows/following";
 
 const Profile = () => {
   const { loggedIn } = useContext(AuthContext);
@@ -158,12 +156,6 @@ const Profile = () => {
                         </Row>
                       </div>
                     </div>
-                  )}
-                  {show === "follower" && (
-                    <Follower userFollow={data.get_user.follower} />
-                  )}
-                  {show === "following" && (
-                    <Following userFollow={data.get_user.following} />
                   )}
                 </Col>
               </Row>
