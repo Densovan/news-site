@@ -2168,6 +2168,30 @@ body {
 .contain-notification .drop-notification .header-notification{
   padding: 20px 20px 20px 20px;
 }
+.container-box{
+  cursor: pointer;
+  border-radius:4px;
+  position: relative;
+  margin-left: 6px;
+  margin-right: 6px;
+}
 .box-notification{
-  padding: 0px 6px 0px 6px;
+  padding: 8px 8px 8px 8px;
+  align-items: flex-start;
+  display: flex;
+  width:100%;
+  cursor: pointer;
+  border-radius:4px;
+}
+.box-notification:hover{
+  background-color: #0e76a8;
+}
+.container-box .icon-menu{
+  position:absolute;
+  top:25%;
+  right:10px;
+  opacity: 0;
+}
+.container-box:hover .icon-menu{
+  opacity: 1;
 }

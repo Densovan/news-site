@@ -16,6 +16,7 @@ import {
   Badge,
   List,
   Typography,
+  Skeleton
 } from 'antd';
 import {
   HiOutlineCog,
@@ -25,6 +26,7 @@ import {
   HiOutlinePencil,
   HiOutlineUser,
   HiOutlineBell,
+  HiOutlineMenu,
 } from 'react-icons/hi';
 const { SubMenu } = Menu;
 const { Header } = Layout;
@@ -199,50 +201,34 @@ const GlobalHeader = () => {
                             {check_notification.get_notification_check_by_user.map(
                               (notifications) => {
                                 return (
-                                  <List.Item
-                                    style={{ width: '100%', height: '90%' }}
-                                    className="box-notification"
-                                  >
-                                    <List.Item.Meta
-                                      className="card_notification"
-                                      style={{
-                                        paddingLeft: 8,
-                                        paddingRight: 8,
-                                        borderRadius: 8,
-                                      }}
-                                      avatar={
-                                        <Avatar
-                                          src={notifications.user.image}
-                                          size={60}
-                                        />
-                                      }
-                                      description={
-                                        <div>
-                                          <div>
-                                            <strong>
-                                              {notifications.user.fullname}{' '}
-                                            </strong>{' '}
-                                            {notifications.type}{' '}
-                                            {notifications.news.title}
-                                          </div>
-                                          <div>
-                                            <strong
-                                              style={{
-                                                fontSize: 12,
-                                                color: 'red',
-                                              }}
-                                            >
-                                              {moment(
-                                                parseInt(
-                                                  notifications.createdAt,
-                                                ),
-                                              ).fromNow()}
-                                            </strong>
-                                          </div>
+                                  <Skeleton avatar title={false} style={{ paddingRight: 10, paddingLeft: 10 }} loading={false} active>
+                                    <div className="container-box">
+                                      <div className="box-notification">
+                                        <div style={{ paddingRight: 8 }}>
+                                          <Avatar
+                                            src={notifications.user.image}
+                                            size={60}
+                                          />
                                         </div>
-                                      }
-                                    />
-                                  </List.Item>
+                                        <div>
+                                          <strong>
+                                            {notifications.user.fullname}{' '}
+                                          </strong>{' '}
+                                          {notifications.type}{' '}
+                                          {notifications.news.title}
+                                        </div>
+                                      </div>
+                                      <div className="icon-menu">
+                                        <Popover placement="bottom" content={
+                                          <div>
+                                            Remove this notification
+                                          </div>
+                                        } trigger="click">
+                                          <Button shape="circle" icon={<HiOutlineMenu/>}/>
+                                        </Popover>
+                                      </div>
+                                    </div>
+                                  </Skeleton>
                                 );
                               },
                             )}
@@ -259,9 +245,9 @@ const GlobalHeader = () => {
                             console.log("Refresh");
                           else
                             await checkNotifications({
-                                variables: { ownerId: data.get_user.id }
+                              variables: { ownerId: data.get_user.id }
                             }).then((response) => {
-                                console.log(response);
+                              console.log(response);
                             })
                         }catch(e){
                             console.log(e);
