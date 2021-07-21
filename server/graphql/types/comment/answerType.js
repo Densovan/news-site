@@ -49,4 +49,5 @@ const AnswerType = new GraphQLObjectType({
   }),
 });
 module.exports = AnswerType;
-const userType = require("../userType");
+const userType = require("../userType");const Question = require("../../../models/comment/question");
+

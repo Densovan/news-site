@@ -180,6 +180,14 @@ const LIKE_ARTICLE = gql`
   }
 `;
 
+const NOTIFICATION_CHECK = gql`
+  mutation ($ownerId: ID!){
+    notification_check(ownerId: $ownerId){
+      message
+    }
+  }
+`
+
 export {
   // LIKE,
   ADD_NEWS,
@@ -195,4 +203,5 @@ export {
   EDIT_COMMENT,
   EDIT_REPLY,
   LIKE_ARTICLE,
+  NOTIFICATION_CHECK
 };

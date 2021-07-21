@@ -444,6 +444,31 @@ const GET_NEWS_FEATURE_BY_CAT = gql`
   }
 `;
 
+const GET_NOTIFICATION_BY_USER = gql`
+  query{
+    get_notification_by_user{
+      postId
+    }
+  }
+`;
+
+const GET_NOTIFICATION_CHECK_BY_USER = gql`
+  query{
+    get_notification_check_by_user{
+      id
+      type
+      user{
+        fullname
+        image
+      }
+      news{
+        title
+      }
+      createdAt
+    }
+  }
+`;
+
 export {
   GET_USER_BY_ID,
   GET_NEWS_FEATURE_BY_CAT,
@@ -461,4 +486,6 @@ export {
   GET_ALL_NEWS_BY_TYPE_NEWS,
   GET_ALL_NEWS_BY_TYPE_LEARN,
   GET_ALL_NEWS_BY_TYPE_FEATURE,
+  GET_NOTIFICATION_BY_USER,
+  GET_NOTIFICATION_CHECK_BY_USER
 };

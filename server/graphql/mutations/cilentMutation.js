@@ -6,6 +6,7 @@ const {
   GraphQLInt,
   GraphQLID,
   GraphQLBoolean,
+  GraphQLList,
 } = graphql;
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -16,6 +17,7 @@ const userType = require("../types/userType");
 const questionType = require("../types/comment/questionType");
 const answerType = require("../types/comment/answerType");
 const likeType = require("../types/likeType");
+const NotificationType = require("../types/notificationType");
 const followType = require("../types/followType");
 const notiType = require("../types/notiType");
 const noticheckType = require("../types/notiCheckType");
@@ -28,6 +30,8 @@ const UserModel = require("../../models/user");
 const QuestionModel = require("../../models/comment/question");
 const AnswerModel = require("../../models/comment/answer");
 const LikeModel = require("../../models/like");
+const NotificationModel = require("../../models/notification");
+const { findOne } = require("../../models/user");
 const FollowModel = require("../../models/follow");
 const NotiModel = require("../../models/notifications");
 const NoticheckModel = require("../../models/notiCheck");
@@ -573,6 +577,7 @@ const RootMutation = new GraphQLObjectType({
               ...args,
               ownerId: args.ownerId,
               userId: context.id,
+              count: 1,
             });
             await like.save();
             if (context.id === args.ownerId) {
@@ -611,6 +616,7 @@ const RootMutation = new GraphQLObjectType({
               ...args,
               ownerId: args.ownerId,
               userId: context.id,
+              count: 1,
             });
             await like.save();
             const noti = new NotiModel({
@@ -627,6 +633,100 @@ const RootMutation = new GraphQLObjectType({
         }
       },
     },
+
+    // =============== notification ===============
+    notification: {
+      type: NotificationType,
+      args: {
+        postId: { type: GraphQLID },
+      },
+      resolve: async (parents, args, context) => {
+        try {
+          const existingUser = await NotificationModel.findOne({
+            userId: context.id,
+          });
+          if (!existingUser) {
+            const notification = new NotificationModel({
+              ...args,
+              userId: context.id,
+              postId: args.postId,
+            });
+            await notification.save();
+            return {
+              message: "success",
+            };
+          } else if (context.id === existingUser.userId) {
+            await NotificationModel.findOneAndUpdate(
+              {
+                userId: context.id,
+              },
+              {
+                $push: {
+                  postId: args.postId,
+                },
+              }
+            );
+            return {
+              message: "success 2",
+            };
+          } else {
+            console.log("hello3");
+          }
+        } catch {
+          console.log(error);
+          throw error;
+        }
+      },
+    },
+    // follow: {
+    //   type: followType,
+    //   args: {
+    //     followTo: { type: GraphQLNonNull(GraphQLID) },
+    //     followBy: { type: GraphQLID },
+    //     userId: { type: GraphQLID },
+    //   },
+    //   resolve: async (parent, args, context) => {
+    //     try {
+    //       const existingFollow = await FollowModel.findOne({
+    //         followingId: args.followingId,
+    //         followerId: context.id,
+    //         userId: context.id,
+    //       });
+    //       if (!existingFollow) {
+    //         const follow = new FollowModel({
+    //           followingId: args.followingId,
+    //           followerId: context.id,
+    //           userId: context.id,
+    //         });
+    //         await follow.save();
+    //         return { message: "Follow Successfully" };
+    //       }
+    //       if (
+    //         context.id === existingFollow.followerId &&
+    //         context.id === existingFollow.userId &&
+    //         args.followingId === existingFollow.followingId
+    //       ) {
+    //         await FollowModel.findOneAndDelete({
+    //           userId: context.id,
+    //           followingId: args.followingId,
+    //           followerId: context.id,
+    //         });
+    //         return { message: "Unfollow Successfully" };
+    //       } else {
+    //         const follow = new FollowModel({
+    //           followingId: args.followingId,
+    //           followerId: context.id,
+    //           userId: context.id,
+    //         });
+    //         await follow.save();
+    //         return { message: "Follow Successfully" };
+    //       }
+    //     } catch (error) {
+    //       console.log(error);
+    //       throw error;
+    //     }
+    //   },
+    // },
 
     follow: {
       type: followType,

@@ -4,7 +4,8 @@ const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLList } = graphql;
 //=========modell===============
 const question = require("../../../models/comment/question");
 const answer = require("../../../models/comment/answer");
-const user = require("../../../models/user");
+const User = require("../../../models/user");
+const News = require("../../../models/news");
 
 const QuestionType = new GraphQLObjectType({
   name: "question",
@@ -13,6 +14,7 @@ const QuestionType = new GraphQLObjectType({
     message: {
       type: GraphQLString,
     },
+    userId: { type: GraphQLID },
     createdAt: {
       type: GraphQLString,
     },
@@ -28,6 +30,12 @@ const QuestionType = new GraphQLObjectType({
         return User.findById(parents.userId);
       },
     },
+    article:{
+      type: newsType,
+      resolve: (parents, args) => {
+        return News.findById(parents.postId);
+      },
+    },
     postId: {
       type: GraphQLID,
     },
@@ -37,14 +45,9 @@ const QuestionType = new GraphQLObjectType({
     answerId: {
       type: GraphQLID,
     },
-    user: {
-      type: userType,
-      resolve: (parent, args) => {
-        return user.findById(parent.userId);
-      },
-    },
   }),
 });
 module.exports = QuestionType;
 
 const userType = require("../userType");
+const newsType = require("../newsType");
