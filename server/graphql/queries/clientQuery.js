@@ -335,7 +335,10 @@ const RootQuery = new GraphQLObjectType({
     get_notification_by_user: {
       type: new GraphQLList(NotiType),
       resolve: (parent, args, context) => {
-        return NotiModel.find({ ownerId: context.id }).sort({ createdAt: -1 });
+        return NotiModel.find({
+          ownerId: context.id,
+          // followTo: context.id,
+        }).sort({ createdAt: -1 });
       },
     },
     get_notification_check_by_user: {

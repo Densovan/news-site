@@ -38,6 +38,73 @@ const RootMutation = new GraphQLObjectType({
   name: "RootMutationType",
   fields: {
     //============add Posts============
+    // add_news: {
+    //   type: NewsType,
+    //   args: {
+    //     title: { type: new GraphQLNonNull(GraphQLString) },
+    //     des: { type: new GraphQLNonNull(GraphQLString) },
+    //     category: { type: new GraphQLNonNull(GraphQLID) },
+    //     type: { type: new GraphQLNonNull(GraphQLID) },
+    //     thumnail: { type: new GraphQLNonNull(GraphQLString) },
+    //     slug: { type: GraphQLString },
+    //   },
+    //   resolve: async (parents, args, context) => {
+    //     try {
+    //       const existingSlug = await NewsModel.findOne({ title: args.title });
+    //       const existingFollower = await FollowModel.findOne({
+    //         followTo: context.id,
+    //       });
+    //       // const followBy = existingFollower.map((res) => res.followBy);
+    //       // const followTo1 = followTo.fineOne({})
+    //       // console.log("followTo", followBy);
+    //       // console.log("context", context.id);
+    //       if (existingSlug) {
+    //         return { message: "This Title already exist!", status: 400 };
+    //       } else {
+    //         if (existingFollower.followTo === context.id) {
+    //           const noti = new NotiModel({
+    //             // ownerId: followBy,
+    //             type: "new",
+    //             userId: context.id,
+    //             followTo: context.id,
+    //           });
+    //           await noti.save();
+    //           const news = new NewsModel({
+    //             ...args,
+    //             createBy: context.id,
+    //             slug: args.title
+    //               .replace(/[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g, "-")
+    //               .toLowerCase(),
+    //             // slug: args.title.replace(/\s+/g, "-").toLowerCase(),
+    //           });
+    //           await news.save();
+    //           return {
+    //             message: "Created Successfully",
+    //             status: 200,
+    //           };
+    //         } else {
+    //           const news = new NewsModel({
+    //             ...args,
+    //             createBy: context.id,
+    //             slug: args.title
+    //               .replace(/[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g, "-")
+    //               .toLowerCase(),
+    //             // slug: args.title.replace(/\s+/g, "-").toLowerCase(),
+    //           });
+    //           await news.save();
+    //           return {
+    //             message: "Created",
+    //             status: 200,
+    //           };
+    //         }
+    //       }
+    //     } catch (error) {
+    //       console.log(error);
+    //       throw error;
+    //     }
+    //   },
+    // },
+
     add_news: {
       type: NewsType,
       args: {
@@ -74,6 +141,7 @@ const RootMutation = new GraphQLObjectType({
         }
       },
     },
+
     delete_news: {
       type: NewsType,
       args: {
@@ -559,56 +627,6 @@ const RootMutation = new GraphQLObjectType({
         }
       },
     },
-
-    // follow: {
-    //   type: followType,
-    //   args: {
-    //     followTo: { type: GraphQLNonNull(GraphQLID) },
-    //     followBy: { type: GraphQLID },
-    //     userId: { type: GraphQLID },
-    //   },
-    //   resolve: async (parent, args, context) => {
-    //     try {
-    //       const existingFollow = await FollowModel.findOne({
-    //         followingId: args.followingId,
-    //         followerId: context.id,
-    //         userId: context.id,
-    //       });
-    //       if (!existingFollow) {
-    //         const follow = new FollowModel({
-    //           followingId: args.followingId,
-    //           followerId: context.id,
-    //           userId: context.id,
-    //         });
-    //         await follow.save();
-    //         return { message: "Follow Successfully" };
-    //       }
-    //       if (
-    //         context.id === existingFollow.followerId &&
-    //         context.id === existingFollow.userId &&
-    //         args.followingId === existingFollow.followingId
-    //       ) {
-    //         await FollowModel.findOneAndDelete({
-    //           userId: context.id,
-    //           followingId: args.followingId,
-    //           followerId: context.id,
-    //         });
-    //         return { message: "Unfollow Successfully" };
-    //       } else {
-    //         const follow = new FollowModel({
-    //           followingId: args.followingId,
-    //           followerId: context.id,
-    //           userId: context.id,
-    //         });
-    //         await follow.save();
-    //         return { message: "Follow Successfully" };
-    //       }
-    //     } catch (error) {
-    //       console.log(error);
-    //       throw error;
-    //     }
-    //   },
-    // },
 
     follow: {
       type: followType,

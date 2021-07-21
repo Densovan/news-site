@@ -34,6 +34,12 @@ const NotiCheckType = new GraphQLObjectType({
     type: {
       type: GraphQLString,
     },
+    followTo: {
+      type: GraphQLString,
+    },
+    followBy: {
+      type: GraphQLString,
+    },
     message: {
       type: GraphQLString,
     },

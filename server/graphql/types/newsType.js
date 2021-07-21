@@ -27,6 +27,7 @@ const NewsType = new GraphQLObjectType({
     updateAt: {
       type: GraphQLString,
     },
+    followTo: { type: GraphQLString },
     status: {
       type: GraphQLString,
     },

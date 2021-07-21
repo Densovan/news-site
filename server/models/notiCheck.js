@@ -27,6 +27,12 @@ const notiCheckSchema = new mongoose.Schema(
     type: {
       type: String,
     },
+    followTo: {
+      type: String,
+    },
+    followBy: {
+      type: String,
+    },
     questionId: { type: String },
   },
   { timestamps: true }

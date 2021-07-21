@@ -37,7 +37,12 @@ const NotiType = new GraphQLObjectType({
     message: {
       type: GraphQLString,
     },
-
+    followTo: {
+      type: GraphQLString,
+    },
+    followBy: {
+      type: GraphQLString,
+    },
     questionId: { type: GraphQLID },
     user: {
       type: userType,
