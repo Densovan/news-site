@@ -50,11 +50,13 @@ const GlobalHeader = () => {
 
   const { loggedIn } = useContext(AuthContext);
   const { loading, data, error } = useQuery(GET_USER);
-  const { loading: laoding_notification, data: notification } = useQuery(
-    GET_NOTIFICATION_BY_USER,
-  );
+  const { loading: laoding_notification, data: notification } = useQuery(GET_NOTIFICATION_BY_USER,{
+    pollInterval: 500,
+  });
   const { loading: loading_check_notification, data: check_notification } =
-    useQuery(GET_NOTIFICATION_CHECK_BY_USER);
+    useQuery(GET_NOTIFICATION_CHECK_BY_USER, {
+      pollInterval: 500,
+    });
   const [checkNotifications] = useMutation(NOTIFICATION_CHECK);
 
   useEffect(() => {
@@ -65,7 +67,6 @@ const GlobalHeader = () => {
   })
 
   if (loading || laoding_notification || loading_check_notification) return '';
-  console.log(notifications);
   const showDrawer = () => {
     setState({
       visible: true,
@@ -254,6 +255,9 @@ const GlobalHeader = () => {
                     <Button
                       onClick={async () => {
                         try{
+                          if (notification.get_notification_by_user.length === 0)
+                            console.log("Refresh");
+                          else
                             await checkNotifications({
                                 variables: { ownerId: data.get_user.id }
                             }).then((response) => {
