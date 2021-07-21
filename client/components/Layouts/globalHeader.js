@@ -1,6 +1,6 @@
-import React, { useState, useContext,  useEffect } from 'react';
-import { useRouter } from 'next/router';
-import moment from 'moment';
+import React, { useState, useContext, useEffect } from "react";
+import { useRouter } from "next/router";
+import moment from "moment";
 import {
   Drawer,
   Affix,
@@ -16,8 +16,8 @@ import {
   Badge,
   List,
   Typography,
-  Skeleton
-} from 'antd';
+  Skeleton,
+} from "antd";
 import {
   HiOutlineCog,
   HiLogout,
@@ -27,22 +27,22 @@ import {
   HiOutlineUser,
   HiOutlineBell,
   HiOutlineMenu,
-} from 'react-icons/hi';
+} from "react-icons/hi";
 const { SubMenu } = Menu;
 const { Header } = Layout;
-import Link from 'next/link';
-import ActiveLink from '../../components/activeLink';
-import { HiMenu } from 'react-icons/hi';
-import AuthContext from '../../contexts/authContext';
-import Logout from '../Layouts/logout';
-import { useQuery, useMutation } from '@apollo/client';
+import Link from "next/link";
+import ActiveLink from "../../components/activeLink";
+import { HiMenu } from "react-icons/hi";
+import AuthContext from "../../contexts/authContext";
+import Logout from "../Layouts/logout";
+import { useQuery, useMutation } from "@apollo/client";
 import {
   GET_NOTIFICATION_BY_USER,
   GET_NOTIFICATION_CHECK_BY_USER,
   GET_USER,
-} from '../../graphql/query';
-import { NOTIFICATION_CHECK } from '../../graphql/mutation';
-import { TiUser, TiUserAdd } from 'react-icons/ti';
+} from "../../graphql/query";
+import { NOTIFICATION_CHECK } from "../../graphql/mutation";
+import { TiUser, TiUserAdd } from "react-icons/ti";
 
 const GlobalHeader = () => {
   const [notifications, setNotifications] = useState([]);
@@ -52,9 +52,12 @@ const GlobalHeader = () => {
 
   const { loggedIn } = useContext(AuthContext);
   const { loading, data, error } = useQuery(GET_USER);
-  const { loading: laoding_notification, data: notification } = useQuery(GET_NOTIFICATION_BY_USER,{
-    pollInterval: 500,
-  });
+  const { loading: laoding_notification, data: notification } = useQuery(
+    GET_NOTIFICATION_BY_USER,
+    {
+      pollInterval: 500,
+    }
+  );
   const { loading: loading_check_notification, data: check_notification } =
     useQuery(GET_NOTIFICATION_CHECK_BY_USER, {
       pollInterval: 500,
@@ -62,13 +65,12 @@ const GlobalHeader = () => {
   const [checkNotifications] = useMutation(NOTIFICATION_CHECK);
 
   useEffect(() => {
-    if(check_notification === undefined)
-      return;
+    if (check_notification === undefined) return;
     if (check_notification.get_notification_check_by_user.length > 0)
-      setNotifications(check_notification.get_notification_check_by_user)
-  })
+      setNotifications(check_notification.get_notification_check_by_user);
+  });
 
-  if (loading || laoding_notification || loading_check_notification) return '';
+  if (loading || laoding_notification || loading_check_notification) return "";
   const showDrawer = () => {
     setState({
       visible: true,
@@ -170,7 +172,7 @@ const GlobalHeader = () => {
               </Menu>
             </div>
             <div>
-              <div style={{ display: 'flex', alignItems: 'center' }}>
+              <div style={{ display: "flex", alignItems: "center" }}>
                 <Badge
                   count={notification.get_notification_by_user.length}
                   overflowCount={10}
@@ -201,7 +203,16 @@ const GlobalHeader = () => {
                             {check_notification.get_notification_check_by_user.map(
                               (notifications) => {
                                 return (
-                                  <Skeleton avatar title={false} style={{ paddingRight: 10, paddingLeft: 10 }} loading={false} active>
+                                  <Skeleton
+                                    avatar
+                                    title={false}
+                                    style={{
+                                      paddingRight: 10,
+                                      paddingLeft: 10,
+                                    }}
+                                    loading={false}
+                                    active
+                                  >
                                     <div className="container-box">
                                       <div className="box-notification">
                                         <div style={{ paddingRight: 8 }}>
@@ -212,25 +223,30 @@ const GlobalHeader = () => {
                                         </div>
                                         <div>
                                           <strong>
-                                            {notifications.user.fullname}{' '}
-                                          </strong>{' '}
-                                          {notifications.type}{' '}
+                                            {notifications.user.fullname}{" "}
+                                          </strong>{" "}
+                                          {notifications.type}{" "}
                                           {notifications.news.title}
                                         </div>
                                       </div>
                                       <div className="icon-menu">
-                                        <Popover placement="bottom" content={
-                                          <div>
-                                            Remove this notification
-                                          </div>
-                                        } trigger="click">
-                                          <Button shape="circle" icon={<HiOutlineMenu/>}/>
+                                        <Popover
+                                          placement="bottom"
+                                          content={
+                                            <div>Remove this notification</div>
+                                          }
+                                          trigger="click"
+                                        >
+                                          <Button
+                                            shape="circle"
+                                            icon={<HiOutlineMenu />}
+                                          />
                                         </Popover>
                                       </div>
                                     </div>
                                   </Skeleton>
                                 );
-                              },
+                              }
                             )}
                           </Row>
                         </div>
@@ -240,23 +256,25 @@ const GlobalHeader = () => {
                   >
                     <Button
                       onClick={async () => {
-                        try{
-                          if (notification.get_notification_by_user.length === 0)
+                        try {
+                          if (
+                            notification.get_notification_by_user.length === 0
+                          )
                             console.log("Refresh");
                           else
                             await checkNotifications({
-                              variables: { ownerId: data.get_user.id }
+                              variables: { ownerId: data.get_user.id },
                             }).then((response) => {
                               console.log(response);
-                            })
-                        }catch(e){
-                            console.log(e);
+                            });
+                        } catch (e) {
+                          console.log(e);
                         }
                       }}
                       shape="circle"
                       icon={
                         <HiOutlineBell
-                          style={{ height: 38, fontSize: 24, color: '#08c' }}
+                          style={{ height: 38, fontSize: 24, color: "#08c" }}
                         />
                       }
                       style={{ height: 40, width: 40, paddingTop: 0 }}
@@ -337,8 +355,8 @@ const GlobalHeader = () => {
                       src={data.get_user.image}
                       style={{
                         height: 38,
-                        objectFit: 'center',
-                        borderRadius: '50%',
+                        objectFit: "center",
+                        borderRadius: "50%",
                       }}
                     />
                   </Button>
@@ -363,7 +381,7 @@ const GlobalHeader = () => {
                 <img
                   alt="img"
                   className="logo-mobile"
-                  style={{ height: '40px' }}
+                  style={{ height: "40px" }}
                   src="/assets/images/logo.png"
                 />
               </Link>
@@ -404,8 +422,8 @@ const GlobalHeader = () => {
           >
             <Menu
               style={{
-                background: '#262e3c',
-                width: '280px',
+                background: "#262e3c",
+                width: "280px",
                 // paddingLeft: "12px",
               }}
               onClick={onClose}
@@ -433,7 +451,7 @@ const GlobalHeader = () => {
               </Link> */}
               </Menu.Item>
               <Menu.Item key="2">
-                {' '}
+                {" "}
                 <Link href="/news" exact activeClassName="is-active">
                   NEWS
                 </Link>
@@ -468,7 +486,7 @@ const GlobalHeader = () => {
                 <img
                   alt="img"
                   className="logo-mobile"
-                  style={{ height: '40px' }}
+                  style={{ height: "40px" }}
                   src="/assets/images/logo.png"
                 />
               </Link>
@@ -488,7 +506,7 @@ const GlobalHeader = () => {
               //     alt="image"
               //   />
               // </Link>
-              <div style={{ cursor: 'pointer' }}>
+              <div style={{ cursor: "pointer" }}>
                 <Popover
                   placement="bottom"
                   content={
@@ -564,8 +582,8 @@ const GlobalHeader = () => {
           >
             <Menu
               style={{
-                background: '#262e3c',
-                width: '280px',
+                background: "#262e3c",
+                width: "280px",
                 // paddingLeft: "12px",
               }}
               onClick={onClose}
@@ -593,7 +611,7 @@ const GlobalHeader = () => {
               </Link> */}
               </Menu.Item>
               <Menu.Item key="2">
-                {' '}
+                {" "}
                 <Link href="/news" exact activeClassName="is-active">
                   NEWS
                 </Link>
