@@ -209,7 +209,8 @@ const Editstory = () => {
 
   return (
     <React.Fragment>
-      <MainNavbar />
+      {/* <MainNavbar /> */}
+      <GlobalHeader />
       <br></br>
       {loggedIn === true && (
         <div className="container">

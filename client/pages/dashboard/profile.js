@@ -13,6 +13,7 @@ import {
   HiOutlineUserGroup,
 } from "react-icons/hi";
 import Link from "next/link";
+import GlobalHeader from "../../components/Layouts/globalHeader";
 
 const Profile = () => {
   const { loggedIn } = useContext(AuthContext);
@@ -23,7 +24,8 @@ const Profile = () => {
 
   return (
     <React.Fragment>
-      <MainNavbar />
+      {/* <MainNavbar /> */}
+      <GlobalHeader />
       <div className="brand-bg"></div>
       <div className="container">
         {loggedIn === true && (

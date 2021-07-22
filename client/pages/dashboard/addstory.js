@@ -8,6 +8,7 @@ import MainNavbar from "../../components/Layouts/mainNavbar";
 import Footer from "../../components/Layouts/footer";
 import AuthContext from "../../contexts/authContext";
 import { useRouter } from "next/router";
+import GlobalHeader from "../../components/Layouts/globalHeader";
 // const { EDITOR_JS_TOOLS } = require("../../components/Layouts/tools");
 // window = {};
 let CustomEditor;
@@ -238,7 +239,8 @@ const Addstory = () => {
 
   return (
     <React.Fragment>
-      <MainNavbar />
+      {/* <MainNavbar /> */}
+      <GlobalHeader />
       <br></br>
       {loggedIn === true && (
         <div className="container">

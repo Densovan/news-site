@@ -19,6 +19,7 @@ import MainNavbar from "../../components/Layouts/mainNavbar";
 import Footer from "../../components/Layouts/footer";
 import AuthContext from "../../contexts/authContext";
 import ImgCrop from "antd-img-crop";
+import GlobalHeader from "../../components/Layouts/globalHeader";
 
 const ChangeProfilePicture = () => {
   const server = process.env.API_SECRET;
@@ -105,7 +106,8 @@ const ChangeProfilePicture = () => {
 
   return (
     <React.Fragment>
-      <MainNavbar />
+      {/* <MainNavbar /> */}
+      <GlobalHeader />
       <br></br>
       {loggedIn === true && (
         <div className="container">

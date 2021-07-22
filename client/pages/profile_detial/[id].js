@@ -17,6 +17,7 @@ import {
 } from "react-icons/hi";
 import { CaretRightOutlined } from "@ant-design/icons";
 import Output from "editorjs-react-renderer";
+import GlobalHeader from "../../components/Layouts/globalHeader";
 
 const Profile_detail = () => {
   const { loggedIn } = useContext(AuthContext);
@@ -62,7 +63,8 @@ const Profile_detail = () => {
   console.log(data);
   return (
     <React.Fragment>
-      <MainNavbar />
+      {/* <MainNavbar /> */}
+      <GlobalHeader />
       {loggedIn === true && (
         <div>
           {data.get_user_by_id.id === currentData.get_user.id &&

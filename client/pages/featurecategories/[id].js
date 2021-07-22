@@ -13,6 +13,7 @@ import Categories from "../categories/feature";
 import Link from "next/link";
 import { CaretRightOutlined } from "@ant-design/icons";
 import InfiniteScroll from "react-infinite-scroll-component";
+import GlobalHeader from "../../components/Layouts/globalHeader";
 
 const Index = () => {
   const server = process.env.API_SECRET;
@@ -36,7 +37,8 @@ const Index = () => {
   return (
     <React.Fragment>
       {/* <TopNavbar /> */}
-      <MainNavbar />
+      {/* <MainNavbar /> */}
+      <GlobalHeader />
       <div className="container top-learns">
         {/* <center>
           <h1 className="about-main-title">Feature</h1>

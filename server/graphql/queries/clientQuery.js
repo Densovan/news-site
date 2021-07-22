@@ -13,7 +13,7 @@ const UserModel = require("../../models/user");
 const NewsModel = require("../../models/news");
 const Category = require("../../models/category");
 const Types = require("../../models/type");
-const NotificationModel = require("../../models/notification")
+const NotificationModel = require("../../models/notification");
 const LikeModel = require("../../models/like");
 const NotiModel = require("../../models/notifications");
 const NotiCheckModel = require("../../models/notiCheck");
@@ -338,14 +338,13 @@ const RootQuery = new GraphQLObjectType({
 
     query_notification: {
       type: NotificationType,
-      
     },
     get_notifications: {
       type: NotificationType,
       resolve: async (parent, args, context) => {
-        try{
+        try {
           return NotificationModel.findOne({ userId: context.id });
-        }catch{
+        } catch {
           console.log("error");
         }
       },
@@ -353,15 +352,20 @@ const RootQuery = new GraphQLObjectType({
     show_notifications: {
       type: NotificationType,
       resolve: async (parent, args, context) => {
-        const notification = await NotificationModel.findOne({ userId: context.id });
-        try{
-          await LikeModel.updateMany({ postId: notification.postId }, { count: 0 });
+        const notification = await NotificationModel.findOne({
+          userId: context.id,
+        });
+        try {
+          await LikeModel.updateMany(
+            { postId: notification.postId },
+            { count: 0 }
+          );
           return NotificationModel.findOne({ userId: context.id });
-        }catch(e){
+        } catch (e) {
           console.log(e);
-          throw e
+          throw e;
         }
-      }
+      },
     },
     get_notification_by_user: {
       type: new GraphQLList(NotiType),

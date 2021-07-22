@@ -11,12 +11,14 @@ import {
 import TopNavbar from "../components/Layouts/topNavbar";
 import MainNavbar from "../components/Layouts/mainNavbar";
 import Footer from "../components/Layouts/footer";
+import GlobalHeader from "../components/Layouts/globalHeader";
 
 const About = () => {
   return (
     <React.Fragment>
       {/* <TopNavbar /> */}
-      <MainNavbar />
+      {/* <MainNavbar /> */}
+      <GlobalHeader />
       <div className="container">
         <br></br>
         <center>

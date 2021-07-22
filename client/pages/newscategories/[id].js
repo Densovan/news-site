@@ -13,6 +13,7 @@ import Output from "editorjs-react-renderer";
 import Categories from "../categories/news";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Laoder from "../../components/loaders/laoder";
+import GlobalHeader from "../../components/Layouts/globalHeader";
 
 const AllNews = () => {
   const server = process.env.API_SECRET;
@@ -31,7 +32,8 @@ const AllNews = () => {
   return (
     <React.Fragment>
       {/* <TopNavbar /> */}
-      <MainNavbar />
+      {/* <MainNavbar /> */}
+      <GlobalHeader />
       <div className="container">
         {/* <center>
           <h1 className="top-title-allNews">All News</h1>

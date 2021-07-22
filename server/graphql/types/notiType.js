@@ -6,7 +6,14 @@ const News = require("../../models/news");
 const Like = require("../../models/like");
 const Question = require("../../models/comment/question");
 const Answer = require("../../models/comment/answer");
-const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLList } = graphql;
+const {
+  GraphQLObjectType,
+  GraphQLString,
+  GraphQLID,
+  GraphQLList,
+  GraphQLInt,
+  GraphQLBoolean,
+} = graphql;
 
 const NotiType = new GraphQLObjectType({
   name: "noti",
@@ -42,6 +49,15 @@ const NotiType = new GraphQLObjectType({
     },
     followBy: {
       type: GraphQLString,
+    },
+    count: {
+      type: GraphQLInt,
+    },
+    counted: {
+      type: GraphQLInt,
+    },
+    read: {
+      type: GraphQLBoolean,
     },
     questionId: { type: GraphQLID },
     user: {

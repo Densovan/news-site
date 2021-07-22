@@ -9,6 +9,7 @@ import Footer from "../../components/Layouts/footer";
 import AuthContext from "../../contexts/authContext";
 
 import Link from "next/link";
+import GlobalHeader from "../../components/Layouts/globalHeader";
 
 const Allstory = () => {
   const { loggedIn } = useContext(AuthContext);
@@ -91,7 +92,8 @@ const Allstory = () => {
   ];
   return (
     <React.Fragment>
-      <MainNavbar />
+      {/* <MainNavbar /> */}
+      <GlobalHeader />
       <br></br>
       {loggedIn === true && (
         <div className="container">

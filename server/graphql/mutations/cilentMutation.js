@@ -21,8 +21,6 @@ const NotificationType = require("../types/notificationType");
 const followType = require("../types/followType");
 const notiType = require("../types/notiType");
 const noticheckType = require("../types/notiCheckType");
-const followingType = require("../types/followingType");
-const followerType = require("../types/followerType");
 
 //===============model===============
 const NewsModel = require("../../models/news");
@@ -35,8 +33,6 @@ const { findOne } = require("../../models/user");
 const FollowModel = require("../../models/follow");
 const NotiModel = require("../../models/notifications");
 const NoticheckModel = require("../../models/notiCheck");
-const FollowingModel = require("../../models/following");
-const FollowerModel = require("../../models/follower");
 
 const RootMutation = new GraphQLObjectType({
   name: "RootMutationType",

@@ -9,11 +9,13 @@ import { GET_ALL_NEWS_BY_TYPE_FEATURE } from "../../graphql/query";
 import { CubeSpinner } from "react-spinners-kit";
 import Categories from "../categories/feature";
 import Main from "./main";
+import GlobalHeader from "../../components/Layouts/globalHeader";
 
 const Learn = () => {
   return (
     <React.Fragment>
-      <MainNavbar />
+      {/* <MainNavbar /> */}
+      <GlobalHeader />
       <div className="container top-learns">
         <center>
           <h1 className="top-title-allNews">Features</h1>

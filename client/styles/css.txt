@@ -413,7 +413,7 @@ body {
   font-size: 12px;
 }
 .ant-popover-content .ant-popover-inner-content {
-  padding: 10px;
+  padding: 0px;
   margin-top: -4px;
 }
 .ant-popover-inner {
@@ -2194,4 +2194,4 @@ body {
 }
 .container-box:hover .icon-menu {
   opacity: 1;
-}
+} 

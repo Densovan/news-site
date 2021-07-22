@@ -4,11 +4,13 @@ import MainNavbar from "../../components/Layouts/mainNavbar";
 import Footer from "../../components/Layouts/footer";
 import Categories from "../categories/learn";
 import Main from "./main";
+import GlobalHeader from "../../components/Layouts/globalHeader";
 
 const main = () => {
   return (
     <React.Fragment>
-      <MainNavbar />
+      {/* <MainNavbar /> */}
+      <GlobalHeader />
       <div className="container top-learns">
         <center>
           <h1 className="top-title-allNews">Learns</h1>
