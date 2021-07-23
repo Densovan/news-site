@@ -568,6 +568,31 @@ const RootMutation = new GraphQLObjectType({
       },
     },
 
+    delete_like_in_noti: {
+      type: noticheckType,
+      args: {
+        id: { type: GraphQLID },
+      },
+      
+      resolve: async (parent, args, context) => {
+        try {
+          const existingUser = await NoticheckModel.findOne({
+            _id: args.id,
+          });
+          if (existingUser.ownerId === context.id) {
+            await NoticheckModel.findByIdAndDelete({ _id: args.id });
+            return { message: "successfully" };
+          } else {
+            return { message: "sorry something wrong" };
+          }
+        } catch (error) {
+          console.log(error);
+          throw error;
+        }
+      },
+    },
+    
+
     // =============== notification ===============
     notification: {
       type: NotificationType,
