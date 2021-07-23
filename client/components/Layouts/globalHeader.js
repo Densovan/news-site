@@ -41,8 +41,9 @@ import {
   GET_NOTIFICATION_CHECK_BY_USER,
   GET_USER,
 } from "../../graphql/query";
-import { NOTIFICATION_CHECK } from "../../graphql/mutation";
+import { NOTIFICATION_CHECK, DELETE_COMMENT_NOTIFICATION,DELETE_REPLY_IN_NOTI, DELETE_LIKE_NOTIFICATION } from "../../graphql/mutation";
 import { TiUser, TiUserAdd } from "react-icons/ti";
+import Notification from "../common/notification";
 
 const GlobalHeader = () => {
   const [notifications, setNotifications] = useState([]);
@@ -63,6 +64,9 @@ const GlobalHeader = () => {
       pollInterval: 500,
     });
   const [checkNotifications] = useMutation(NOTIFICATION_CHECK);
+  const [deleteCommentNotification] = useMutation(DELETE_COMMENT_NOTIFICATION);
+  const [deleteReplyNotification] = useMutation(DELETE_REPLY_IN_NOTI);
+  const [deleteLikeNotification] = useMutation(DELETE_LIKE_NOTIFICATION);
 
   useEffect(() => {
     if (check_notification === undefined) return;
@@ -193,11 +197,6 @@ const GlobalHeader = () => {
                                 Notifications
                               </Typography.Title>
                             </Col>
-                            <Col>
-                              <Link href="/notifications">
-                                <Button>Show All</Button>
-                              </Link>
-                            </Col>
                           </Row>
                           <Row>
                             {check_notification.get_notification_check_by_user.map(
@@ -214,26 +213,67 @@ const GlobalHeader = () => {
                                     active
                                   >
                                     <div className="container-box">
-                                      <div className="box-notification">
-                                        <div style={{ paddingRight: 8 }}>
-                                          <Avatar
-                                            src={notifications.user.image}
-                                            size={60}
-                                          />
+                                      <Link href={`/detail/${notifications.news.slug}`}>
+                                        <div className="box-notification">
+                                          <div style={{ paddingRight: 8 }}>
+                                            <Avatar
+                                              src={notifications.user.image}
+                                              size={60}
+                                            />
+                                          </div>
+                                          <div>
+                                            <strong>
+                                              {notifications.user.fullname}{" "}
+                                            </strong>{" "}
+                                            {notifications.type}{" "}
+                                            {notifications.type !== "follow" && <>{notifications.news.title}</>}
+                                          </div>
                                         </div>
-                                        <div>
-                                          <strong>
-                                            {notifications.user.fullname}{" "}
-                                          </strong>{" "}
-                                          {notifications.type}{" "}
-                                          {notifications.news.title}
-                                        </div>
-                                      </div>
+                                      </Link>
                                       <div className="icon-menu">
                                         <Popover
                                           placement="bottom"
                                           content={
-                                            <div>Remove this notification</div>
+                                            <div>
+                                              <div><a onClick={() => {
+                                                if (notifications.type === "like") {
+                                                  try{
+                                                    deleteLikeNotification({
+                                                      variables: {id: notifications.id}
+                                                    }).then((response) => {
+                                                      console.log(response);
+                                                    })
+                                                  }catch(e){
+                                                    console.log(e);
+                                                  }
+                                                }
+                                                else if(notifications.type === "comment"){
+                                                  try{
+                                                    deleteCommentNotification({
+                                                      variables: {id: notifications.id}
+                                                    }).then((response) => {
+                                                      console.log(response);
+                                                    })
+                                                  }catch(e){
+                                                    console.log(e);
+                                                  }
+                                                }
+                                                else if(notifications.type === "reply"){
+                                                  try{
+                                                    deleteReplyNotification({
+                                                      variables: {id: notifications.id}
+                                                    }).then((response) => {
+                                                      console.log(response);
+                                                    })
+                                                  }catch(e){
+                                                    console.log(e);
+                                                  }
+                                                }
+                                              }}>Remove</a></div>
+                                              <div>
+                                                <a>Read</a>
+                                              </div>
+                                            </div>
                                           }
                                           trigger="click"
                                         >

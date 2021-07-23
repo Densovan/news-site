@@ -463,6 +463,7 @@ const GET_NOTIFICATION_CHECK_BY_USER = gql`
       }
       news{
         title
+        slug
       }
       createdAt
     }
