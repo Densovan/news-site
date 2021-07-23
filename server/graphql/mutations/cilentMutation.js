@@ -21,6 +21,8 @@ const NotificationType = require("../types/notificationType");
 const followType = require("../types/followType");
 const notiType = require("../types/notiType");
 const noticheckType = require("../types/notiCheckType");
+const followingType = require("../types/followingType");
+const followerType = require("../types/followerType");
 
 //===============model===============
 const NewsModel = require("../../models/news");
@@ -29,82 +31,16 @@ const QuestionModel = require("../../models/comment/question");
 const AnswerModel = require("../../models/comment/answer");
 const LikeModel = require("../../models/like");
 const NotificationModel = require("../../models/notification");
-const { findOne } = require("../../models/user");
 const FollowModel = require("../../models/follow");
 const NotiModel = require("../../models/notifications");
 const NoticheckModel = require("../../models/notiCheck");
+// const FollowingModel = require("../../models/following");
+// const FollowerModel = require("../../models/follower");
 
 const RootMutation = new GraphQLObjectType({
   name: "RootMutationType",
   fields: {
     //============add Posts============
-    // add_news: {
-    //   type: NewsType,
-    //   args: {
-    //     title: { type: new GraphQLNonNull(GraphQLString) },
-    //     des: { type: new GraphQLNonNull(GraphQLString) },
-    //     category: { type: new GraphQLNonNull(GraphQLID) },
-    //     type: { type: new GraphQLNonNull(GraphQLID) },
-    //     thumnail: { type: new GraphQLNonNull(GraphQLString) },
-    //     slug: { type: GraphQLString },
-    //   },
-    //   resolve: async (parents, args, context) => {
-    //     try {
-    //       const existingSlug = await NewsModel.findOne({ title: args.title });
-    //       const existingFollower = await FollowModel.findOne({
-    //         followTo: context.id,
-    //       });
-    //       // const followBy = existingFollower.map((res) => res.followBy);
-    //       // const followTo1 = followTo.fineOne({})
-    //       // console.log("followTo", followBy);
-    //       // console.log("context", context.id);
-    //       if (existingSlug) {
-    //         return { message: "This Title already exist!", status: 400 };
-    //       } else {
-    //         if (existingFollower.followTo === context.id) {
-    //           const noti = new NotiModel({
-    //             // ownerId: followBy,
-    //             type: "new",
-    //             userId: context.id,
-    //             followTo: context.id,
-    //           });
-    //           await noti.save();
-    //           const news = new NewsModel({
-    //             ...args,
-    //             createBy: context.id,
-    //             slug: args.title
-    //               .replace(/[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g, "-")
-    //               .toLowerCase(),
-    //             // slug: args.title.replace(/\s+/g, "-").toLowerCase(),
-    //           });
-    //           await news.save();
-    //           return {
-    //             message: "Created Successfully",
-    //             status: 200,
-    //           };
-    //         } else {
-    //           const news = new NewsModel({
-    //             ...args,
-    //             createBy: context.id,
-    //             slug: args.title
-    //               .replace(/[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g, "-")
-    //               .toLowerCase(),
-    //             // slug: args.title.replace(/\s+/g, "-").toLowerCase(),
-    //           });
-    //           await news.save();
-    //           return {
-    //             message: "Created",
-    //             status: 200,
-    //           };
-    //         }
-    //       }
-    //     } catch (error) {
-    //       console.log(error);
-    //       throw error;
-    //     }
-    //   },
-    // },
-
     add_news: {
       type: NewsType,
       args: {
@@ -141,7 +77,6 @@ const RootMutation = new GraphQLObjectType({
         }
       },
     },
-
     delete_news: {
       type: NewsType,
       args: {
@@ -351,6 +286,7 @@ const RootMutation = new GraphQLObjectType({
           const question = new QuestionModel({
             ...args,
             userId: context.id,
+            // count: 1,
             ownerId: args.ownerId,
           });
           await question.save();
@@ -424,18 +360,18 @@ const RootMutation = new GraphQLObjectType({
     },
 
     delete_comment_in_noti: {
-      type: notiType,
+      type: noticheckType,
       args: {
         id: { type: GraphQLID },
       },
       resolve: async (parent, args, context) => {
         try {
-          const existingUser = await NotiModel.findOne({
+          const existingUser = await NoticheckModel.findOne({
             _id: args.id,
           });
           // console.log(existingUser.userId);
-          if (existingUser.userId === context.id) {
-            await NotiModel.findByIdAndDelete({ _id: args.id });
+          if (existingUser.ownerId === context.id) {
+            await NoticheckModel.findByIdAndDelete({ _id: args.id });
             return { message: "successfully" };
           } else {
             return { message: "sorry something wrong" };
@@ -531,20 +467,22 @@ const RootMutation = new GraphQLObjectType({
     },
 
     delete_reply_in_noti: {
-      type: notiType,
+      type: noticheckType,
       args: {
         id: { type: GraphQLID },
       },
+      
       resolve: async (parent, args, context) => {
         try {
-          const existingUser = await NotiModel.findOne({
+          const existingUser = await NoticheckModel.findOne({
             _id: args.id,
           });
-          if (existingUser.userId === context.id) {
-            await NotiModel.findByIdAndDelete({ _id: args.id });
-            return { message: "Successfully" };
+          // console.log(existingUser.userId);
+          if (existingUser.ownerId === context.id) {
+            await NoticheckModel.findByIdAndDelete({ _id: args.id });
+            return { message: "successfully" };
           } else {
-            return { message: "sorry someting wrong" };
+            return { message: "sorry something wrong" };
           }
         } catch (error) {
           console.log(error);
@@ -573,7 +511,7 @@ const RootMutation = new GraphQLObjectType({
               ...args,
               ownerId: args.ownerId,
               userId: context.id,
-              count: 1,
+              count: 1
             });
             await like.save();
             if (context.id === args.ownerId) {
@@ -612,7 +550,7 @@ const RootMutation = new GraphQLObjectType({
               ...args,
               ownerId: args.ownerId,
               userId: context.id,
-              count: 1,
+              count: 1
             });
             await like.save();
             const noti = new NotiModel({
@@ -634,45 +572,42 @@ const RootMutation = new GraphQLObjectType({
     notification: {
       type: NotificationType,
       args: {
-        postId: { type: GraphQLID },
+        postId: { type: GraphQLID }, 
       },
       resolve: async (parents, args, context) => {
-        try {
-          const existingUser = await NotificationModel.findOne({
-            userId: context.id,
-          });
-          if (!existingUser) {
+        try{
+          const existingUser = await NotificationModel.findOne({ userId: context.id });
+          if(!existingUser){
             const notification = new NotificationModel({
               ...args,
               userId: context.id,
-              postId: args.postId,
-            });
+              postId: args.postId
+            })
             await notification.save();
             return {
-              message: "success",
-            };
-          } else if (context.id === existingUser.userId) {
-            await NotificationModel.findOneAndUpdate(
-              {
-                userId: context.id,
-              },
-              {
-                $push: {
-                  postId: args.postId,
-                },
+              message: "success"
+            }
+          }
+          else if(context.id === existingUser.userId){
+            await NotificationModel.findOneAndUpdate({
+              userId: context.id
+            },{
+              $push: {
+                postId: args.postId
               }
-            );
+            })
             return {
-              message: "success 2",
-            };
-          } else {
+              message: "success 2"
+            }
+          }
+          else{
             console.log("hello3");
           }
-        } catch {
+        }catch{
           console.log(error);
           throw error;
         }
-      },
+      }
     },
     // follow: {
     //   type: followType,

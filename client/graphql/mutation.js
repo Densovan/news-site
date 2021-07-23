@@ -187,6 +187,28 @@ const NOTIFICATION_CHECK = gql`
     }
   }
 `
+const DELETE_LIKE_NOTIFICATION = gql`
+  mutation ($id: ID!){
+    delete_like(id: $id) {
+      message
+    }
+  }
+`
+
+const DELETE_COMMENT_NOTIFICATION = gql`
+  mutation ($id: ID!){
+    delete_comment_in_noti(id: $id){
+      message
+    }
+  }
+`
+const DELETE_REPLY_IN_NOTI = gql`
+  mutation ($id: ID!){
+    delete_reply_in_noti(id: $id){
+      message
+    }
+  }
+`
 
 export {
   // LIKE,
@@ -203,5 +225,8 @@ export {
   EDIT_COMMENT,
   EDIT_REPLY,
   LIKE_ARTICLE,
-  NOTIFICATION_CHECK
+  NOTIFICATION_CHECK,
+
+  DELETE_COMMENT_NOTIFICATION,
+  DELETE_REPLY_IN_NOTI
 };
