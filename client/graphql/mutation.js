@@ -189,7 +189,7 @@ const NOTIFICATION_CHECK = gql`
 `
 const DELETE_LIKE_NOTIFICATION = gql`
   mutation ($id: ID!){
-    delete_like(id: $id) {
+    delete_like_in_noti(id: $id) {
       message
     }
   }
@@ -228,5 +228,6 @@ export {
   NOTIFICATION_CHECK,
 
   DELETE_COMMENT_NOTIFICATION,
-  DELETE_REPLY_IN_NOTI
+  DELETE_REPLY_IN_NOTI,
+  DELETE_LIKE_NOTIFICATION
 };

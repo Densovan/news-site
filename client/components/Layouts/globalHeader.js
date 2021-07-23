@@ -41,7 +41,7 @@ import {
   GET_NOTIFICATION_CHECK_BY_USER,
   GET_USER,
 } from "../../graphql/query";
-import { NOTIFICATION_CHECK, DELETE_COMMENT_NOTIFICATION,DELETE_REPLY_IN_NOTI } from "../../graphql/mutation";
+import { NOTIFICATION_CHECK, DELETE_COMMENT_NOTIFICATION,DELETE_REPLY_IN_NOTI, DELETE_LIKE_NOTIFICATION } from "../../graphql/mutation";
 import { TiUser, TiUserAdd } from "react-icons/ti";
 import Notification from "../common/notification";
 
@@ -66,6 +66,7 @@ const GlobalHeader = () => {
   const [checkNotifications] = useMutation(NOTIFICATION_CHECK);
   const [deleteCommentNotification] = useMutation(DELETE_COMMENT_NOTIFICATION);
   const [deleteReplyNotification] = useMutation(DELETE_REPLY_IN_NOTI);
+  const [deleteLikeNotification] = useMutation(DELETE_LIKE_NOTIFICATION);
 
   useEffect(() => {
     if (check_notification === undefined) return;
@@ -236,7 +237,15 @@ const GlobalHeader = () => {
                                             <div>
                                               <div><a onClick={() => {
                                                 if (notifications.type === "like") {
-                                                  console.log("like");
+                                                  try{
+                                                    deleteLikeNotification({
+                                                      variables: {id: notifications.id}
+                                                    }).then((response) => {
+                                                      console.log(response);
+                                                    })
+                                                  }catch(e){
+                                                    console.log(e);
+                                                  }
                                                 }
                                                 else if(notifications.type === "comment"){
                                                   try{
@@ -261,7 +270,9 @@ const GlobalHeader = () => {
                                                   }
                                                 }
                                               }}>Remove</a></div>
-                                              <div><a>Read</a></div>
+                                              <div>
+                                                <a>Read</a>
+                                              </div>
                                             </div>
                                           }
                                           trigger="click"
