@@ -13,6 +13,7 @@ import dynamic from "next/dynamic";
 import MainNavbar from "../../../components/Layouts/mainNavbar";
 import AuthContext from "../../../contexts/authContext";
 import Footer from "../../../components/Layouts/footer";
+import GlobalHeader from "../../../components/Layouts/globalHeader";
 let CustomEditor;
 let EDITOR_JS_TOOLS;
 if (typeof window !== "undefined") {

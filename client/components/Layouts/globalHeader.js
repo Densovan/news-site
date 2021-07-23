@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { useRouter } from "next/router";
 import moment from "moment";
 import {
+  Spin,
   Drawer,
   Affix,
   Menu,
@@ -17,17 +18,10 @@ import {
   List,
   Typography,
   Skeleton,
+  Popconfirm,
 } from "antd";
-import {
-  HiOutlineCog,
-  HiLogout,
-  HiOutlineLogout,
-  HiOutlineBookOpen,
-  HiOutlinePencil,
-  HiOutlineUser,
-  HiOutlineBell,
-  HiOutlineMenu,
-} from "react-icons/hi";
+import { QuestionCircleOutlined } from "@ant-design/icons";
+import { HiOutlineBell, HiOutlineDotsHorizontal } from "react-icons/hi";
 const { SubMenu } = Menu;
 const { Header } = Layout;
 import Link from "next/link";
@@ -41,11 +35,19 @@ import {
   GET_NOTIFICATION_CHECK_BY_USER,
   GET_USER,
 } from "../../graphql/query";
-import { NOTIFICATION_CHECK, DELETE_COMMENT_NOTIFICATION,DELETE_REPLY_IN_NOTI, DELETE_LIKE_NOTIFICATION } from "../../graphql/mutation";
+import {
+  NOTIFICATION_CHECK,
+  DELETE_COMMENT_NOTIFICATION,
+  DELETE_REPLY_IN_NOTI,
+  DELETE_LIKE_NOTIFICATION,
+} from "../../graphql/mutation";
 import { TiUser, TiUserAdd } from "react-icons/ti";
+import InfiniteScroll from "react-infinite-scroll-component";
 import Notification from "../common/notification";
 
+const { Content } = Layout;
 const GlobalHeader = () => {
+  const [hasMoreItems, setHasMoreItems] = useState(true);
   const [notifications, setNotifications] = useState([]);
   const [state, setState] = useState({
     visible: false,
@@ -59,10 +61,14 @@ const GlobalHeader = () => {
       pollInterval: 500,
     }
   );
-  const { loading: loading_check_notification, data: check_notification } =
-    useQuery(GET_NOTIFICATION_CHECK_BY_USER, {
-      pollInterval: 500,
-    });
+  const {
+    loading: loading_check_notification,
+    data: check_notification,
+    fetchMore,
+  } = useQuery(GET_NOTIFICATION_CHECK_BY_USER, {
+    variables: { limit: 100, offset: 0 },
+    pollInterval: 500,
+  });
   const [checkNotifications] = useMutation(NOTIFICATION_CHECK);
   const [deleteCommentNotification] = useMutation(DELETE_COMMENT_NOTIFICATION);
   const [deleteReplyNotification] = useMutation(DELETE_REPLY_IN_NOTI);
@@ -87,6 +93,7 @@ const GlobalHeader = () => {
   };
   return (
     <React.Fragment>
+      {/* <Affix> */}
       {loggedIn === false && (
         <Header className="header">
           <div className="navbar-container">
@@ -142,7 +149,7 @@ const GlobalHeader = () => {
         <Header className="header">
           <div className="navbar-container">
             <div className="logo" style={{ marginRight: 18 }}>
-              <Link href="/about">
+              <Link href="/">
                 <img height="100%" src="/assets/images/logo.png" />
               </Link>
             </div>
@@ -199,6 +206,12 @@ const GlobalHeader = () => {
                             </Col>
                           </Row>
                           <Row>
+                            {check_notification.get_notification_check_by_user
+                              .length === 0 && (
+                              <center>
+                                <h1 style={{ paddingLeft: "146px" }}>Empty</h1>
+                              </center>
+                            )}
                             {check_notification.get_notification_check_by_user.map(
                               (notifications) => {
                                 return (
@@ -213,7 +226,9 @@ const GlobalHeader = () => {
                                     active
                                   >
                                     <div className="container-box">
-                                      <Link href={`/detail/${notifications.news.slug}`}>
+                                      <Link
+                                        href={`/detail/${notifications.news.slug}`}
+                                      >
                                         <div className="box-notification">
                                           <div style={{ paddingRight: 8 }}>
                                             <Avatar
@@ -226,62 +241,74 @@ const GlobalHeader = () => {
                                               {notifications.user.fullname}{" "}
                                             </strong>{" "}
                                             {notifications.type}{" "}
-                                            {notifications.type !== "follow" && <>{notifications.news.title}</>}
+                                            {notifications.type !==
+                                              "follow" && (
+                                              <>{notifications.news.title}</>
+                                            )}
                                           </div>
                                         </div>
                                       </Link>
                                       <div className="icon-menu">
-                                        <Popover
-                                          placement="bottom"
-                                          content={
-                                            <div>
-                                              <div><a onClick={() => {
-                                                if (notifications.type === "like") {
-                                                  try{
-                                                    deleteLikeNotification({
-                                                      variables: {id: notifications.id}
-                                                    }).then((response) => {
-                                                      console.log(response);
-                                                    })
-                                                  }catch(e){
-                                                    console.log(e);
-                                                  }
-                                                }
-                                                else if(notifications.type === "comment"){
-                                                  try{
-                                                    deleteCommentNotification({
-                                                      variables: {id: notifications.id}
-                                                    }).then((response) => {
-                                                      console.log(response);
-                                                    })
-                                                  }catch(e){
-                                                    console.log(e);
-                                                  }
-                                                }
-                                                else if(notifications.type === "reply"){
-                                                  try{
-                                                    deleteReplyNotification({
-                                                      variables: {id: notifications.id}
-                                                    }).then((response) => {
-                                                      console.log(response);
-                                                    })
-                                                  }catch(e){
-                                                    console.log(e);
-                                                  }
-                                                }
-                                              }}>Remove</a></div>
-                                              <div>
-                                                <a>Read</a>
-                                              </div>
-                                            </div>
+                                        <Popconfirm
+                                          okText="Remove"
+                                          cancelText="No"
+                                          title="Are you sure？"
+                                          icon={
+                                            <QuestionCircleOutlined
+                                              style={{ color: "red" }}
+                                            />
                                           }
-                                          trigger="click"
+                                          onConfirm={() => {
+                                            if (notifications.type === "like") {
+                                              try {
+                                                deleteLikeNotification({
+                                                  variables: {
+                                                    id: notifications.id,
+                                                  },
+                                                }).then((response) => {
+                                                  console.log(response);
+                                                });
+                                              } catch (e) {
+                                                console.log(e);
+                                              }
+                                            } else if (
+                                              notifications.type === "comment"
+                                            ) {
+                                              try {
+                                                deleteCommentNotification({
+                                                  variables: {
+                                                    id: notifications.id,
+                                                  },
+                                                }).then((response) => {
+                                                  console.log(response);
+                                                });
+                                              } catch (e) {
+                                                console.log(e);
+                                              }
+                                            } else if (
+                                              notifications.type === "reply"
+                                            ) {
+                                              try {
+                                                deleteReplyNotification({
+                                                  variables: {
+                                                    id: notifications.id,
+                                                  },
+                                                }).then((response) => {
+                                                  console.log(response);
+                                                });
+                                              } catch (e) {
+                                                console.log(e);
+                                              }
+                                            }
+                                          }}
+                                          placement="bottom"
                                         >
-                                          <Button
-                                            shape="circle"
-                                            icon={<HiOutlineMenu />}
-                                          />
-                                        </Popover>
+                                          <div className="delete-notifications">
+                                            <HiOutlineDotsHorizontal
+                                              fontSize={24}
+                                            />
+                                          </div>
+                                        </Popconfirm>
                                       </div>
                                     </div>
                                   </Skeleton>
@@ -289,12 +316,54 @@ const GlobalHeader = () => {
                               }
                             )}
                           </Row>
+                          {/* <InfiniteScroll
+                            dataLength={
+                              check_notification.get_notification_check_by_user
+                                .length
+                            }
+                            next={async () => {
+                              fetchMore({
+                                variables: {
+                                  offset:
+                                    check_notification
+                                      .get_notification_check_by_user.length,
+                                },
+                                updateQuery: (prev, { fetchMoreResult }) => {
+                                  if (!fetchMoreResult) return prev;
+
+                                  if (
+                                    fetchMoreResult
+                                      .get_notification_check_by_user.length < 8
+                                  ) {
+                                    setHasMoreItems(false);
+                                  }
+
+                                  return Object.assign({}, prev, {
+                                    get_notification_check_by_user: [
+                                      ...prev.get_notification_check_by_user,
+                                      ...fetchMoreResult.get_notification_check_by_user,
+                                    ],
+                                  });
+                                },
+                              });
+                            }}
+                            hasMore={hasMoreItems}
+                            loader={
+                              <Content style={{ marginTop: "15px" }}>
+                                <center>
+                                  <Spin></Spin>
+                                </center>
+                              </Content>
+                            }
+                            endMessage={null}
+                          ></InfiniteScroll> */}
                         </div>
                       </div>
                     }
                     trigger="click"
                   >
-                    <Button
+                    <div
+                      className="notifications"
                       onClick={async () => {
                         try {
                           if (
@@ -311,14 +380,15 @@ const GlobalHeader = () => {
                           console.log(e);
                         }
                       }}
-                      shape="circle"
-                      icon={
-                        <HiOutlineBell
-                          style={{ height: 38, fontSize: 24, color: "#08c" }}
-                        />
-                      }
-                      style={{ height: 40, width: 40, paddingTop: 0 }}
-                    />
+                    >
+                      <HiOutlineBell
+                        style={{
+                          height: 26,
+                          fontSize: 24,
+                          color: "#ffffff",
+                        }}
+                      />
+                    </div>
                   </Popover>
                 </Badge>
                 <Popover
@@ -401,6 +471,7 @@ const GlobalHeader = () => {
           </div>
         </Header>
       )}
+      {/* </Affix> */}
 
       {/*=========== Tablet and Mobile========== */}
 

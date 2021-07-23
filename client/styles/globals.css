@@ -280,7 +280,7 @@ body {
   padding: 0 12px 0 0;
   background: #262e3c;
   box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
-  /* position: fixed; */
+  position: fixed;
   top: 0;
   left: 0;
   margin: auto;
@@ -330,7 +330,7 @@ body {
 
 .index-banner {
   background-image: url("/assets/images/banner-bg.jpg");
-  height: 30vh;
+  height: 40vh;
   /* background-image: url(/images/VA-Header.png); */
   background-repeat: no-repeat;
   height: 600px;
@@ -341,6 +341,7 @@ body {
   position: relative;
   justify-content: center;
   align-items: center;
+  margin-top: 60px;
 }
 .index-banner::before {
   content: "";
@@ -805,6 +806,7 @@ body {
   font-weight: 800;
   font-size: 50px;
   color: #262e3c;
+  margin-top: 70px;
 }
 .about-image {
   max-width: 100%;
@@ -1010,7 +1012,8 @@ body {
   font-weight: 900;
   font-size: 40px;
   color: #262e3c;
-  margin-top: 30px;
+  /* margin-top: 30px; */
+  margin-top: 100px;
 }
 .describe-style {
   overflow: hidden;
@@ -1524,6 +1527,7 @@ body {
 .profile-content {
   background-color: #ffffff;
   border-radius: 10px;
+  margin-top: 70px;
 }
 .sub-pf-content {
   margin-left: auto;
@@ -2072,7 +2076,29 @@ body {
   font-weight: 500;
   font-size: 13px;
 }
-
+.notifications {
+  height: 40px;
+  width: 40px;
+  background-color: #fdc009a9;
+  /* color: #0f73ee; */
+  color: #fdc209;
+  border-radius: 50%;
+  /* position: absolute; */
+  padding: 4px;
+  border: 3px solid transparent;
+  cursor: pointer;
+}
+.delete-notifications {
+  height: 40px;
+  width: 40px;
+  background-color: #adafb4;
+  /* color: #fdc209; */
+  border-radius: 50%;
+  /* position: absolute; */
+  padding: 4px;
+  border: 3px solid transparent;
+  cursor: pointer;
+}
 /*=============== Responsive================== */
 @media only screen and (min-width: 1068px) {
   .mobile-navbar {
@@ -2184,7 +2210,7 @@ body {
   border-radius: 4px;
 }
 .box-notification:hover {
-  background-color: #0e76a8;
+  background-color: #e4e6eb;
 }
 .container-box .icon-menu {
   position: absolute;

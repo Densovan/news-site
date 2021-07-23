@@ -66,7 +66,7 @@ const SinglePage = () => {
     <React.Fragment>
       <GlobalHeader />
       <div className="container">
-        <div style={{ marginTop: 40 }}>
+        <div style={{ marginTop: 80 }}>
           <Row gutter={[16, 16]}>
             <Col sm={24} md={2}>
               {loggedIn === true && (

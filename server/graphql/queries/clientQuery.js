@@ -378,10 +378,24 @@ const RootQuery = new GraphQLObjectType({
     },
     get_notification_check_by_user: {
       type: new GraphQLList(NotiCheckType),
+      args: {
+        limit: {
+          name: "limit",
+          type: GraphQLInt,
+        },
+        offset: {
+          name: "offset",
+          type: GraphQLInt,
+        },
+      },
       resolve: (parent, args, context) => {
-        return NotiCheckModel.find({ ownerId: context.id }).sort({
-          createdAt: -1,
-        });
+        const { limit = null, offset = null } = args;
+        return NotiCheckModel.find({ ownerId: context.id })
+          .limit(limit)
+          .skip(offset)
+          .sort({
+            createdAt: -1,
+          });
       },
     },
     //==============follow===========
