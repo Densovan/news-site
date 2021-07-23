@@ -342,24 +342,19 @@ const GlobalHeader = () => {
                   }
                   trigger="click"
                 >
-                  <Button
-                    shape="circle"
+                  <Avatar
                     style={{
                       height: 40,
                       width: 40,
                       paddingTop: 0,
                       marginLeft: 18,
+                      cursor: "pointer",
+                      border: "solid 2px #ffffff9d",
                     }}
-                  >
-                    <img
-                      src={data.get_user.image}
-                      style={{
-                        height: 38,
-                        objectFit: "center",
-                        borderRadius: "50%",
-                      }}
-                    />
-                  </Button>
+                    src={data.get_user.image}
+                    shape="circle"
+                    size="large"
+                  />
                 </Popover>
               </div>
             </div>

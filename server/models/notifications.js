@@ -15,12 +15,12 @@ const notiSchema = new mongoose.Schema(
     postId: {
       type: String,
     },
-    followTo: {
-      type: String,
-    },
-    followBy: {
-      type: String,
-    },
+    // followTo: {
+    //   type: String,
+    // },
+    // followBy: {
+    //   type: String,
+    // },
     question: {
       type: String,
     },

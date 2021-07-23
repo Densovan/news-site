@@ -15,9 +15,9 @@ const notiCheckSchema = new mongoose.Schema(
     postId: {
       type: String,
     },
-    follow: {
-      type: String,
-    },
+    // follow: {
+    //   type: String,
+    // },
     question: {
       type: String,
     },
@@ -27,12 +27,12 @@ const notiCheckSchema = new mongoose.Schema(
     type: {
       type: String,
     },
-    followTo: {
-      type: String,
-    },
-    followBy: {
-      type: String,
-    },
+    // followTo: {
+    //   type: String,
+    // },
+    // followBy: {
+    //   type: String,
+    // },
     questionId: { type: String },
   },
   { timestamps: true }

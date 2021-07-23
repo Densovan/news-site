@@ -77,7 +77,7 @@ const Profile_detail = () => {
           <div className="layout-profile">
             <div className="place-follow-btn">
               {" "}
-              <Follower articleUser={data.get_user_by_id} />
+              {/* <Follower articleUser={data.get_user_by_id} /> */}
             </div>
             <center>
               <img className="profile-img1" src={data.get_user_by_id.image} />
@@ -91,7 +91,16 @@ const Profile_detail = () => {
             <br></br>
           </div>
           <br></br>
-          <div>
+          <br></br>
+          <br></br>
+          <br></br>
+          <br></br>
+          <br></br>
+          <br></br>
+          <br></br>
+          <br></br>
+          <br></br>
+          {/* <div>
             <Row gutter={[12, 12]}>
               <Col span={8}>
                 <div className="box-pf">
@@ -146,14 +155,9 @@ const Profile_detail = () => {
                   </Row>
                 </div>
               </Col>
-              <Col span={16}>
-                {/* <br></br>
-                <center>
-                  <h1>Coming soon</h1>
-                </center> */}
-              </Col>
+              <Col span={16}></Col>
             </Row>
-          </div>
+          </div> */}
         </div>
       </div>
       <br></br>

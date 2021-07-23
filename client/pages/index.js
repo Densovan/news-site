@@ -12,6 +12,7 @@ const Index = () => {
   return (
     <React.Fragment>
       <GlobalHeader />
+      {/* <MainNavbar/> */}
       <div className="index-banner">
         <div className="content-banner">
           <Row gutter={[32, 32]}>

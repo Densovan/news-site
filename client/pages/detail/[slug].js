@@ -66,7 +66,7 @@ const SinglePage = () => {
     <React.Fragment>
       <GlobalHeader />
       <div className="container">
-        <div style={{ marginTop: 80 }}>
+        <div style={{ marginTop: 40 }}>
           <Row gutter={[16, 16]}>
             <Col sm={24} md={2}>
               {loggedIn === true && (
@@ -190,15 +190,17 @@ const SinglePage = () => {
                         </Link>
                       </center>
                     ) : (
-                      <Follower articleUser={user} />
+                      // <Follower articleUser={user} />
+                      ""
                     )}
                   </center>
                 ) : (
-                  <center>
-                    <Link href="/signin">
-                      <button className="btn-follow">Follow</button>
-                    </Link>
-                  </center>
+                  // <center>
+                  //   <Link href="/signin">
+                  //     <button className="btn-follow">Follow</button>
+                  //   </Link>
+                  // </center>
+                  ""
                 )}
 
                 <div className="pf-work">

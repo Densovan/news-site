@@ -54,7 +54,14 @@ const Profile = () => {
               <br></br>
             </div>
             <br></br>
-            <div>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            {/* <div>
               <Row gutter={[12, 12]}>
                 <Col span={8}>
                   <div className="box-pf">
@@ -161,7 +168,7 @@ const Profile = () => {
                   )}
                 </Col>
               </Row>
-            </div>
+            </div> */}
           </div>
         )}
         {loggedIn === false && window.location.replace("/")}
