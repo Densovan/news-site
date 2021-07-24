@@ -1377,9 +1377,11 @@ body {
     var(--profile-brand-color) var(--su-10),
     transparent var(--su-10)
   ); */
+  /* margin-top: 70px; */
 
   background-color: rgb(252, 226, 74);
-  height: 120px;
+  /* height: 120px; */
+  height: 180px;
   overflow: hidden;
 }
 .box-pf {

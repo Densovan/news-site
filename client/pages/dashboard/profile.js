@@ -26,6 +26,7 @@ const Profile = () => {
     <React.Fragment>
       {/* <MainNavbar /> */}
       <GlobalHeader />
+
       <div className="brand-bg"></div>
       <div className="container">
         {loggedIn === true && (

@@ -7,8 +7,10 @@ import TopNavbar from "../components/Layouts/topNavbar";
 import MainNavbar from "../components/Layouts/mainNavbar";
 import Footer from "../components/Layouts/footer";
 import GlobalHeader from "../components/Layouts/globalHeader";
+import { useRouter } from "next/router";
 
 const Index = () => {
+  const router = useRouter();
   return (
     <React.Fragment>
       <GlobalHeader />
@@ -23,7 +25,12 @@ const Index = () => {
                   As compact as the E13, but lighter. No compromise on
                   open-source performance. Perfect for students on the go
                 </p>
-                <button className="btn-banner">Get Start</button>
+                <button
+                  className="btn-banner"
+                  onClick={() => router.push("/signin")}
+                >
+                  Get Start
+                </button>
               </div>
             </Col>
             <Col sm={9}>

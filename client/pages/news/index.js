@@ -21,7 +21,7 @@ const index = () => {
         </center>
         <br></br>
         <br></br>
-        <Row gutter={[12, 12]}>
+        <Row gutter={[32, 32]}>
           <Col xs={24} md={6}>
             <Categories />
           </Col>

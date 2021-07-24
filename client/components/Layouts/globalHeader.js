@@ -2,20 +2,17 @@ import React, { useState, useContext, useEffect } from "react";
 import { useRouter } from "next/router";
 import moment from "moment";
 import {
-  Spin,
   Drawer,
-  Affix,
   Menu,
   Layout,
   Popover,
   Row,
   Col,
   Divider,
-  Dropdown,
   Avatar,
   Button,
   Badge,
-  List,
+  Empty,
   Typography,
   Skeleton,
   Popconfirm,
@@ -94,95 +91,55 @@ const GlobalHeader = () => {
   return (
     <React.Fragment>
       {/* <Affix> */}
-      {loggedIn === false && (
-        <Header className="header">
-          <div className="navbar-container">
+      <Header className="header">
+        <div className="navbar-container">
+          <div className="logo" style={{ marginRight: 18 }}>
             <Link href="/">
-              <img className="logo" src="/assets/images/logo.png" />
+              <img height="100%" src="/assets/images/logo.png" />
             </Link>
-            <Menu
-              className="left-bar"
-              // theme="dark"
-              mode="horizontal"
-              // defaultSelectedKeys={["2"]}
-            >
-              <Menu.Item className="navbar-text" key="0">
+          </div>
+          <div>
+            <Menu mode="horizontal">
+              <Menu.Item className="navbar-text" key="1">
                 <ActiveLink activeClassName="is-active" href="/">
                   <a>Home</a>
                 </ActiveLink>
               </Menu.Item>
-              <Menu.Item className="navbar-text" key="1">
+              <Menu.Item className="navbar-text" key="2">
                 <ActiveLink activeClassName="is-active" href="/news">
                   <a>News</a>
                 </ActiveLink>
               </Menu.Item>
-              <Menu.Item key="2">
+              <Menu.Item key="3">
                 <ActiveLink activeClassName="is-active" href="/learns">
                   <a>Learns</a>
                 </ActiveLink>
               </Menu.Item>
-              <Menu.Item key="3">
+              <Menu.Item key="4">
                 <ActiveLink activeClassName="is-active" href="/features">
                   <a>Features</a>
                 </ActiveLink>
               </Menu.Item>
-              <Menu.Item key="4">
+              <Menu.Item key="5">
                 <ActiveLink activeClassName="is-active" href="/about">
                   <a>About Us</a>
                 </ActiveLink>
               </Menu.Item>
-              <Menu.Item>
+            </Menu>
+          </div>
+          <div>
+            {loggedIn === false && (
+              <div style={{ display: "flex", alignItems: "center" }}>
                 <div className="top-nav-rigth">
                   <TiUser className="gmail-top-nav" />
                   <Link href="/signin">Sign in</Link>
-                  {/* <Divider className="devider-top-nav" type="vertical" />
+                  <Divider className="devider-top-nav" type="vertical" />
                   <TiUserAdd size={19} className="gmail-top-nav" />
-                  <Link href="/register">Register</Link> */}
+                  <Link href="/register">Register</Link>
                 </div>
-              </Menu.Item>
-            </Menu>
-          </div>
-        </Header>
-      )}
-
-      {loggedIn === true && (
-        <Header className="header">
-          <div className="navbar-container">
-            <div className="logo" style={{ marginRight: 18 }}>
-              <Link href="/">
-                <img height="100%" src="/assets/images/logo.png" />
-              </Link>
-            </div>
-            <div>
-              <Menu mode="horizontal">
-                <Menu.Item className="navbar-text" key="1">
-                  <ActiveLink activeClassName="is-active" href="/">
-                    <a>Home</a>
-                  </ActiveLink>
-                </Menu.Item>
-                <Menu.Item className="navbar-text" key="2">
-                  <ActiveLink activeClassName="is-active" href="/news">
-                    <a>News</a>
-                  </ActiveLink>
-                </Menu.Item>
-                <Menu.Item key="3">
-                  <ActiveLink activeClassName="is-active" href="/learns">
-                    <a>Learns</a>
-                  </ActiveLink>
-                </Menu.Item>
-                <Menu.Item key="4">
-                  <ActiveLink activeClassName="is-active" href="/features">
-                    <a>Features</a>
-                  </ActiveLink>
-                </Menu.Item>
-                <Menu.Item key="5">
-                  <ActiveLink activeClassName="is-active" href="/about">
-                    <a>About Us</a>
-                  </ActiveLink>
-                </Menu.Item>
-              </Menu>
-            </div>
-            <div>
+              </div>
+            )}
+            {loggedIn === true && (
               <div style={{ display: "flex", alignItems: "center" }}>
                 <Badge
                   count={notification.get_notification_by_user.length}
@@ -208,9 +165,10 @@ const GlobalHeader = () => {
                           <Row>
                             {check_notification.get_notification_check_by_user
                               .length === 0 && (
-                              <center>
-                                <h1 style={{ paddingLeft: "146px" }}>Empty</h1>
-                              </center>
+                              <div style={{ paddingLeft: "155px" }}>
+                                {/* <h1 style={{ paddingLeft: "146px" }}>Empty</h1> */}
+                                <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                              </div>
                             )}
                             {check_notification.get_notification_check_by_user.map(
                               (notifications) => {
@@ -424,6 +382,11 @@ const GlobalHeader = () => {
                       </li>
                       <Divider />
                       <li className="content-text">
+                        <Link href="/dashboard/profile">
+                          <span>Profile</span>
+                        </Link>
+                      </li>
+                      <li className="content-text">
                         <Link href="/dashboard/addstory">
                           <span>Write a story</span>
                         </Link>
@@ -467,10 +430,10 @@ const GlobalHeader = () => {
                   />
                 </Popover>
               </div>
-            </div>
+            )}
           </div>
-        </Header>
-      )}
+        </div>
+      </Header>
       {/* </Affix> */}
 
       {/*=========== Tablet and Mobile========== */}
@@ -495,18 +458,6 @@ const GlobalHeader = () => {
           </div>
           <Drawer
             title={
-              // <Link href="/">
-              //   <img
-              //     style={{
-              //       cursor: "pointer",
-              //       maxWidth: "100%",
-              //       marginLeft: "-10px",
-              //       // height: "100px",
-              //     }}
-              //     src="/images/vitaminair.png"
-              //     alt="logo"
-              //   />
-              // </Link>
               <div>
                 <div>
                   <div className="top-nav-rigth-mobile">
@@ -544,17 +495,6 @@ const GlobalHeader = () => {
                 >
                   HOME
                 </Link>
-                {/* <Link href="/">
-                <img
-                  style={{
-                    cursor: "pointer",
-                    maxWidth: "80%",
-                    height: "100px",
-                  }}
-                  src="/images/vitaminair.png"
-                  alt="logo"
-                />
-              </Link> */}
               </Menu.Item>
               <Menu.Item key="2">
                 {" "}
@@ -600,18 +540,6 @@ const GlobalHeader = () => {
           </div>
           <Drawer
             title={
-              // <Link href="/">
-              //   <img
-              //     style={{
-              //       cursor: "pointer",
-              //       maxWidth: "100%",
-              //       marginLeft: "-10px",
-              //       // height: "100px",
-              //     }}
-              //     src="/images/vitaminair.png"
-              //     alt="image"
-              //   />
-              // </Link>
               <div style={{ cursor: "pointer" }}>
                 <Popover
                   placement="bottom"
@@ -704,17 +632,6 @@ const GlobalHeader = () => {
                 >
                   HOME
                 </Link>
-                {/* <Link href="/">
-                <img
-                  style={{
-                    cursor: "pointer",
-                    maxWidth: "80%",
-                    height: "100px",
-                  }}
-                  src="/images/vitaminair.png"
-                  alt="logo"
-                />
-              </Link> */}
               </Menu.Item>
               <Menu.Item key="2">
                 {" "}
