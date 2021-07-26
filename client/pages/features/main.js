@@ -35,7 +35,7 @@ const main = () => {
             <Col
               key={index}
               className="content-top-stories"
-              sm={24}
+              xs={24}
               md={12}
               lg={8}
             >

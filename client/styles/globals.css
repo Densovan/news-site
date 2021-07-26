@@ -290,6 +290,21 @@ body {
   align-items: center;
   justify-content: space-between;
 }
+.mobile-navbar {
+  height: 64px;
+  padding: 0 12px 0 0;
+  background: #262e3c;
+  box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+  position: fixed;
+  top: 0;
+  left: 0;
+  margin: auto;
+  width: 100%;
+  z-index: 99;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 /* .container-header {
   margin-left: auto;
   width: 80%;
@@ -2189,7 +2204,7 @@ body {
   padding: 0px;
 }
 .drop-notification {
-  width: 380px;
+  width: 240px;
   height: 90vh;
   overflow: auto;
 }

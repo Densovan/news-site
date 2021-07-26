@@ -28,7 +28,16 @@ app.use(
   })
 );
 
-connectDB();
+// module.exports = async (arg1, arg2, arg3) => {
+//   await connectDB().then(async (mongoose) => {
+//     try {
+//       console.log("Connected to mongo!!");
+//       await command.execute(client, message, args);
+//     } finally {
+//       mongoose.connection.close();
+//     }
+//   });
+// };
 
 //set up Routes
 app.use("/auth", require("./routes/userRouter"));
@@ -66,6 +75,8 @@ app.use(
     };
   })
 );
+
+connectDB();
 
 const PORT = 3500;
 app.listen(PORT, console.log(`Server Running on Port ${PORT}`.cyan.bold));
