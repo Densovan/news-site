@@ -1,9 +1,9 @@
-import "../styles/globals.css";
 import { UserProvider } from "../contexts/userContext";
 import axios from "axios";
 import { ApolloProvider } from "@apollo/client";
 import { AuthContextProvider } from "../contexts/authContext";
 import client from "../apollo-client";
+import "../styles/globals.css";
 
 axios.defaults.withCredentials = true;
 

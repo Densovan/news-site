@@ -21,7 +21,7 @@ const Feature = () => {
 
   return (
     <React.Fragment>
-      <div style={{ marginTop: "-50px" }}>
+      <div className="feature-div">
         <h1 className="top-title">Feature</h1>
         <Row gutter={[12, 12]}>
           {data.get_all_news_by_type_feature.slice(0, 6).map((res, index) => {

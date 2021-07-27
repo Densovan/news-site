@@ -22,17 +22,13 @@ const Footer = () => {
           <br></br>
           <br></br>
           <Row gutter={[8, 8]}>
-            <Col sm={24} md={8}>
-              {/* <center> */}
-              {/* <h1 className="logo-footer"> */}
+            <Col xs={24} md={8}>
               <img
                 className="logo-footer"
                 src="/assets/images/Koompi-White1.png"
               />
-              {/* </h1> */}
-              {/* </center> */}
             </Col>
-            <Col sm={24} md={8}>
+            <Col xs={24} md={8}>
               <center className="term">
                 <a className="link-footer">Term & Condition</a>
                 <Divider
@@ -49,7 +45,7 @@ const Footer = () => {
                 <a className="link-footer">Contact Us</a>
               </center>
             </Col>
-            <Col sm={24} md={8}>
+            <Col xs={24} md={8}>
               <center className="social-footer">
                 <span>
                   <TiSocialFacebook className="facebook-scial-logo" />
@@ -70,8 +66,8 @@ const Footer = () => {
         {/* Second Navbar */}
         <Divider className="divider-footer" style={{ color: "white" }} />
         <div className="container">
-          <Row gutter={[52, 12]}>
-            <Col sm={24} md={8}>
+          <Row gutter={[12, 12]}>
+            <Col xs={24} md={8}>
               <h1 className="widget-title">informations</h1>
               <div className="content-footer">
                 <h2>
@@ -85,7 +81,7 @@ const Footer = () => {
                 </h2>
               </div>
             </Col>
-            <Col sm={24} md={8}>
+            <Col xs={24} md={8}>
               <h1 className="widget-title">help</h1>
               <div className="content-footer">
                 <h2>
@@ -99,7 +95,7 @@ const Footer = () => {
                 </h2>
               </div>
             </Col>
-            <Col sm={24} md={8}>
+            <Col xs={24} md={8}>
               <h1 className="widget-title">Newsletter Sign Up</h1>
               <div className="content-footer">
                 <p className="des-footer">

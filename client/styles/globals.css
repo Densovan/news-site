@@ -1,25 +1,20 @@
-@import "~antd/dist/antd.css";
+/* @import "~antd/dist/antd.css"; */
 /* @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400&display=swap"); */
 /* @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400&display=swap"); */
 /* @import url("https://fonts.googleapis.com/css2?family=Inter:wght00&display=swap"); */
+@import url("https://use.typekit.net/kkl0zqk.css");
+@import "~antd/dist/antd.css";
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
 * {
   font-family: "Inter", sans-serif;
-  scrollbar-color: #fce14ace #262e3c;
+  /* scrollbar-color: #fce14ace #262e3c; */
   /* scrollbar-width: thin; */
   /* scroll-behavior: smooth; */
 }
 
 body {
-  /* background: #f5f5f5; */
   background-color: #f0f2f5;
-  margin: 0;
-  padding: 0;
-  /* background-color: #f8f9fe; */
-  /* background-color: #eee; */
-  -webkit-font-smoothing: antialiased;
-  color: rgba(0, 0, 0, 0.8);
-  text-rendering: optimizeLegibility;
+  overflow-x: hidden !important;
 }
 /* html {
   scroll-behavior: smooth;
@@ -263,6 +258,8 @@ body {
 .logo-mobile {
   height: 40px !important;
   margin-top: 8px !important;
+  align-content: center;
+  align-items: center;
   position: absolute;
   -webkit-transform: translate(-50%);
   transform: translate(-50%);
@@ -270,6 +267,7 @@ body {
 }
 .buger-icon {
   position: absolute;
+  /* margin-top: 24px; */
   top: -46px;
 }
 .left-bar {
@@ -280,7 +278,8 @@ body {
   padding: 0 12px 0 0;
   background: #262e3c;
   box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
-  position: fixed;
+  /* position: fixed; */
+  position: sticky;
   top: 0;
   left: 0;
   margin: auto;
@@ -295,7 +294,8 @@ body {
   padding: 0 12px 0 0;
   background: #262e3c;
   box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
-  position: fixed;
+  /* position: fixed; */
+  position: sticky;
   top: 0;
   left: 0;
   margin: auto;
@@ -356,7 +356,7 @@ body {
   position: relative;
   justify-content: center;
   align-items: center;
-  margin-top: 60px;
+  /* margin-top: 60px; */
 }
 .index-banner::before {
   content: "";
@@ -821,7 +821,7 @@ body {
   font-weight: 800;
   font-size: 50px;
   color: #262e3c;
-  margin-top: 70px;
+  margin-top: 30px;
 }
 .about-image {
   max-width: 100%;
@@ -1027,8 +1027,8 @@ body {
   font-weight: 900;
   font-size: 40px;
   color: #262e3c;
-  /* margin-top: 30px; */
-  margin-top: 100px;
+  margin-top: 30px;
+  /* margin-top: 100px; */
 }
 .describe-style {
   overflow: hidden;
@@ -1150,6 +1150,9 @@ body {
 }
 
 /* //=============Feature============== */
+.feature-div {
+  margin-top: -50px;
+}
 
 .all-feature-btn a {
   color: #000;
@@ -1278,38 +1281,6 @@ body {
   filter: blur(10px);
 }*/
 
-.main {
-  height: 100vh;
-  background: url("https://images.unsplash.com/photo-1477346611705-65d1883cee1e?dpr=0.800000011920929&auto=format&fit=crop&w=1199&h=800&q=80&cs=tinysrgb&crop=")
-    fixed no-repeat;
-  background-size: cover;
-}
-#container {
-  width: 650px;
-  height: 500px;
-  background: inherit;
-  position: absolute;
-  overflow: hidden;
-  top: 50%;
-  left: 50%;
-  margin-left: -175px;
-  margin-top: -250px;
-  border-radius: 8px;
-  padding: 50px;
-}
-#container:before {
-  width: 700px;
-  height: 550px;
-  content: "";
-  position: absolute;
-  top: -25px;
-  left: -25px;
-  bottom: 0;
-  right: 0;
-  background: inherit;
-  box-shadow: inset 0 0 0 200px rgba(255, 255, 255, 0.2);
-  filter: blur(10px);
-}
 .register-box h1 {
   color: #fce24a;
   font-weight: 900;
@@ -2123,6 +2094,12 @@ body {
   }
 }
 @media only screen and (max-width: 1068px) {
+  .gmail-top-nav {
+    margin-top: 22px;
+  }
+  .devider-top-nav {
+    margin-top: 25px;
+  }
   .header {
     display: none;
   }
@@ -2137,6 +2114,9 @@ body {
   }
 }
 @media only screen and (max-width: 768px) {
+  .learn-div {
+    margin-top: -50px;
+  }
   .addstory-content {
     width: 85%;
   }
@@ -2204,7 +2184,7 @@ body {
   padding: 0px;
 }
 .drop-notification {
-  width: 240px;
+  width: 280px;
   height: 90vh;
   overflow: auto;
 }
@@ -2237,4 +2217,9 @@ body {
 }
 .container-box:hover .icon-menu {
   opacity: 1;
+}
+@media only screen and (max-width: 1028px) {
+  .feature-div {
+    margin-top: 0px;
+  }
 }

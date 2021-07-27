@@ -12,6 +12,11 @@ import Link from "next/link";
 import GlobalHeader from "../../components/Layouts/globalHeader";
 
 const Allstory = () => {
+  const server = process.env.API_SECRET;
+  const server_local = process.env.API_SECRET_LOCAL;
+  const develop = process.env.NODE_ENV;
+  const URL_ACCESS = develop === "development" ? server_local : server;
+
   const { loggedIn } = useContext(AuthContext);
   const [delete_news] = useMutation(DELETE_NEWS);
   const { loading, data, error, refetch } = useQuery(GET_OWN_NEWS);
@@ -28,7 +33,8 @@ const Allstory = () => {
           <img
             height="40px"
             width="40px"
-            src={"https://backend.beecolony.org/public/uploads/" + data}
+            src={`${URL_ACCESS}/public/uploads//` + data}
+            // src={"https://backend.beecolony.org/public/uploads/" + data}
             alt="avatar"
           ></img>
         );
