@@ -46,10 +46,7 @@ const columns = [
     }
 ];
 const User = () => {
-    const {data:users, loading:loading_users, error:error_users} = useQuery(GET_USERS,{
-        fetchPolicy: "network-only",
-        pollInterval: 500,
-    })
+    const {data:users, loading:loading_users, error:error_users} = useQuery(GET_USERS)
 
     if (loading_users) return <div>Error</div>;
     if (error_users) return <div>Loading...</div>;

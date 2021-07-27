@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react'; 
+import React, { useState, Fragment, useEffect, useRef } from 'react'; 
 import Image from 'next/image';
 import {Layout, Menu } from 'antd';
 import {
@@ -19,25 +19,57 @@ const { Sider } = Layout;
 const { SubMenu } = Menu;
 
 const SiderBar = ({ trigger, collapsed }) => {
+    const [alert, setAlert] = useState(false);
+    const mounted = useRef(true);
     const [state, setState] = useState({
-        selectKey: "",
-        openKey: "",
+        selectKey: "3",
+        openKey: "sub1",
     })
+    const [route, setRoute] = useState([]);
     const router = useRouter();
-    const handleClick = e => {
-        e.keyPath.map((path) => {
-            console.log(router.pathname);
-            if (router.pathname === "/about") {
-                setState({
-                    selectKey: path,
-                    openKey: path
-                })
+    const path = [["1", "/"], ["2", "/user"], ["3", "/member", "sub1"], ["4", "/member/create", "/sub1"]];
+    
+    useEffect(() => {
+        try{
+            if (route.length && !alert) {
+                return;
             }
+            mounted.current = true;
+            if (mounted.current) {
+                path.forEach(url => {
+                    if (router.pathname === url[1]) {
+                        setRoute(url[0]);
+                    }
+                });
+                // if(router.pathname === "/"){
+                //     setRoute("1");
+                // }
+                // if (router.pathname === "/user") {
+                //     setRoute("2");
+                // }
+            }
+            return () => (mounted.current = false);
+        }catch(e){
+            console.log("Sorry for have problem");
+        }
+    },[alert, route]);
+    const handleClick = e => {
+        setState({
+            selectKey: e.keyPath[0],
+            openKey: e.keyPath[1]
         })
     };
+    const selectKey = [];
+    const openKey = [];
+    if (route.length === 0) {
+        return null;
+    }
+    else{
+        selectKey.push(route);
+    }
     return(
         <Fragment>
-            <Sider trigger={trigger} collapsible collapsed={collapsed} >
+            <Sider width={240} trigger={trigger} collapsible collapsed={collapsed}>
                 <div className="logo" key="logo">
                   <Link href="/">
                     <img src="/assets/logo/logo.png" alt="logo" />
@@ -45,10 +77,11 @@ const SiderBar = ({ trigger, collapsed }) => {
                 </div>
                 <Menu
                     onClick={handleClick}
-                    defaultSelectedKeys={['1']}
-                    defaultOpenKeys={['sub1']}
+                    defaultSelectedKeys={selectKey}
+                    defaultOpenKeys={[state.openKey]}
                     mode="inline"
                     theme="dark"
+                    style={{ height: '100%', borderRight: 0 }}
                 >
                     <Menu.Item key="1" icon={<DashboardOutlined />}>
                         <Link href="/" >
@@ -121,11 +154,6 @@ const SiderBar = ({ trigger, collapsed }) => {
                             </Link>
                         </Menu.Item>
                     </SubMenu>
-                    {/* <Menu.Item key="10" icon={<ScheduleOutlined />}>
-                        <Link href="/management">
-                            <a className="noselect">Management</a>
-                        </Link>
-                    </Menu.Item> */}
                 </Menu>
             </Sider>
         </Fragment>

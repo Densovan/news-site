@@ -43,10 +43,7 @@ const columns = [
     }
 ];
 const Category = () => {
-    const {data:categories, loading:loading_category, error:error_category} = useQuery(GET_CATEGORIES, {
-        fetchPolicy: "network-only",
-        pollInterval: 500,
-    })
+    const {data:categories, loading:loading_category, error:error_category} = useQuery(GET_CATEGORIES)
 
     if (loading_category) return <div>Error</div>;
     if (error_category) return <div>Loading...</div>;

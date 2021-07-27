@@ -4,14 +4,8 @@ import { useQuery } from '@apollo/client';
 import { GET_USERS, GET_ALL_NEWS } from '../graphql/queries';
 
 export default function Home() {
-  const {data:users, loading:loading_user, error:error_user} = useQuery(GET_USERS,{
-    fetchPolicy: "network-only",
-    pollInterval: 500,
-  })
-  const {data:news, loading:loading_news, error:error_news} = useQuery(GET_ALL_NEWS,{
-    fetchPolicy: "network-only",
-    pollInterval: 500,
-  })
+  const {data:users, loading:loading_user, error:error_user} = useQuery(GET_USERS)
+  const {data:news, loading:loading_news, error:error_news} = useQuery(GET_ALL_NEWS)
   
   if (loading_user || loading_news) return <div>Error</div>;
   if (error_user || error_news) return <div>Loading...</div>;
