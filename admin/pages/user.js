@@ -11,28 +11,28 @@ const columns = [
         render: text => <a>{text}</a>
     },
     {
-        title: 'Profile',
+        title: 'PROFILE',
         dataIndex: 'profile',
         key: 'profile',
         render: text => <Avatar src={text} shape="square" />
     },
     {
-        title: 'Username',
+        title: 'USERNAME',
         dataIndex: 'username',
         key: 'username'
     },
     {
-        title: 'Email',
+        title: 'EMAIL',
         dataIndex: 'email',
         key: 'email'
     },
     {
-        title: 'Role',
+        title: 'ROLE',
         dataIndex: 'role',
         key: 'role'
     },
     {
-        title: 'Action',
+        title: 'ACTION',
         dataIndex: 'ban',
         key: 'ban',
         render: ban => {
@@ -48,13 +48,13 @@ const columns = [
 const User = () => {
     const {data:users, loading:loading_users, error:error_users} = useQuery(GET_USERS)
 
-    if (loading_users) return <div>Error</div>;
-    if (error_users) return <div>Loading...</div>;
+    if (loading_users) return <div>Loading...</div>;
+    if (error_users) return <div>Error</div>;
 
     const data = [];
     let i = 1;
     users.get_users.forEach(element => {
-        data.push({"key": i, "id": i, "email": element.email, "username":element.fullname, "role": element.role, "ban":element.ban, "image":element.image})
+        data.push({"key": i, "id": i,"profile": element.image,"email": element.email, "username":element.fullname, "role": element.role, "ban":element.ban, "image":element.image})
         i++
     });
     return(

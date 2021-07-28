@@ -10,7 +10,7 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
-const result = " http://localhost:3500/admin";
+const result = "http://localhost:3500/admin";
 
 const httpLink = createHttpLink({
   uri: result,
