@@ -21,6 +21,12 @@ const Type = new GraphQLObjectType({
         return News.find({ type: parent.id });
       },
     },
+    user:{
+      type: userType,
+      resolve: (parent, args) => {
+        return User.findById(parent.createBy);
+      },
+    }
   }),
 });
 module.exports = Type;

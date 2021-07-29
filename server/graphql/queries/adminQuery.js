@@ -56,6 +56,13 @@ const RootQuery = new GraphQLObjectType({
         return Category.find({}).sort({ createdAt: -1 });
       },
     },
+    // =========get catgory==============
+    get_types: {
+      type: new GraphQLList(Type),
+      resolve: (parent, args) => {
+        return Types.find({}).sort({ createdAt: -1 });
+      },
+    },
   },
 });
 
