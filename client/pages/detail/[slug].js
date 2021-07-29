@@ -94,12 +94,60 @@ const SinglePage = () => {
             </Col>
             <Col sm={24} md={16}>
               <div>
-                <div className="thumail">
+                <div className="arcticle-div">
+                  {/* <div className="thumail">
                   <img src={`${URL_ACCESS}/public/uploads/` + thumnail} />
+                </div> */}
+                  <div
+                    className="thumail-article"
+                    style={{
+                      backgroundImage: `url(${URL_ACCESS}/public/uploads//${thumnail})`,
+                    }}
+                  ></div>
                 </div>
+                {/* <center style={{ marginTop: "23px" }}>
+                  {loggedIn === true && (
+                    <div className="nav_left-mobile">
+                      <Row gutter={[32, 32]}>
+                        <Col span={8}>
+                          <FormLike
+                            articleId={id}
+                            dataLike={like}
+                            myUser={myUser}
+                            ownPostuserId={user.id}
+                          />
+                        </Col>
+                        <Col span={8}>
+                          <div className="btn_box">
+                            <button
+                              style={{ cursor: "pointer" }}
+                              className="share-bg"
+                            >
+                              <HiOutlineShare className="share" size={23} />
+                            </button>
+                            <div className="tt_share">31</div>
+                          </div>
+                        </Col>
+                        <Col span={8}>
+                          {" "}
+                          <div className="btn_box">
+                            <button
+                              style={{ cursor: "pointer" }}
+                              className="save-bg"
+                            >
+                              <HiOutlineBookmark className="save" size={23} />
+                            </button>
+                            <div className="tt_share">1</div>
+                          </div>
+                        </Col>
+                      </Row>
+                    </div>
+                  )}
+                </center> */}
                 <div className="article_title">
                   <h1>{title}</h1>
                 </div>
+
                 <div>
                   <Link href={`/profile_detial/${user.id}`}>
                     <div style={{ cursor: "pointer" }} className="pf_user">
@@ -117,9 +165,7 @@ const SinglePage = () => {
                     </div>
                   </Link>
                   <div style={{ color: "#262e3c", marginBottom: 20 }}>
-                    <p className="describe-style" style={{ fontSize: "20px" }}>
-                      {result}
-                    </p>
+                    <p className="describe-style-article">{result}</p>
                   </div>
                   <Divider />
                   {loggedIn === true ? (

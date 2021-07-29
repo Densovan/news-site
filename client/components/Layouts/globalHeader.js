@@ -166,7 +166,7 @@ const GlobalHeader = () => {
                           <Row>
                             {check_notification.get_notification_check_by_user
                               .length === 0 && (
-                              <div style={{ paddingLeft: "155px" }}>
+                              <div style={{ paddingLeft: "110px" }}>
                                 {/* <h1 style={{ paddingLeft: "146px" }}>Empty</h1> */}
                                 <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
                               </div>
@@ -759,11 +759,58 @@ const GlobalHeader = () => {
           )}
         </div>
 
+        {/* <Drawer
+          placement="left"
+          closable={false}
+          onClose={onClose}
+          visible={state.visible}
+        >
+          <Menu
+            style={{
+              background: "#262e3c",
+            }}
+            onClick={onClose}
+          >
+            <Menu.Item key="1">
+              <Link
+                className="simple"
+                href="/"
+                exact
+                activeClassName="is-active"
+              >
+                HOME
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="2">
+              {" "}
+              <Link href="/news" exact activeClassName="is-active">
+                NEWS
+              </Link>
+            </Menu.Item>
+            <Menu.Item>
+              <Link key="3" href="/learns" activeClassName="is-active">
+                LEARNS
+              </Link>
+            </Menu.Item>
+            <Menu.Item>
+              <Link key="4" href="/features" activeClassName="is-active">
+                FEATURES
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="5">
+              <Link href="/about" activeClassName="is-active">
+                ABOUT US
+              </Link>
+            </Menu.Item>
+          </Menu>
+        </Drawer> */}
         <Drawer
           placement="left"
           closable={false}
           onClose={onClose}
           visible={state.visible}
+          // width={200}
+          // key={placement}
         >
           <Menu
             style={{

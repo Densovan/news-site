@@ -14,12 +14,19 @@ import MainNavbar from "../../../components/Layouts/mainNavbar";
 import AuthContext from "../../../contexts/authContext";
 import Footer from "../../../components/Layouts/footer";
 import GlobalHeader from "../../../components/Layouts/globalHeader";
-let CustomEditor;
-let EDITOR_JS_TOOLS;
-if (typeof window !== "undefined") {
-  CustomEditor = dynamic(() => import("react-editor-js"));
-  EDITOR_JS_TOOLS = dynamic(() => import("../../../components/Layouts/tools"));
-}
+// let CustomEditor;
+// let EDITOR_JS_TOOLS;
+// if (typeof window !== "undefined") {
+//   CustomEditor = dynamic(() => import("react-editor-js"));
+//   EDITOR_JS_TOOLS = dynamic(() => import("../../../components/Layouts/tools"));
+// }
+const EditorJs = dynamic(
+  () =>
+    import("../../../components/Editor/editor").then(
+      (mod) => mod.EditorContainer
+    ),
+  { ssr: false }
+);
 
 const Editstory = () => {
   const server = process.env.API_SECRET;
@@ -28,6 +35,7 @@ const Editstory = () => {
   const URL_ACCESS = develop === "development" ? server_local : server;
 
   const router = useRouter();
+  const [editor, setEditor] = useState(null);
   const [current, setCurrent] = React.useState(0);
   const [titles, setTitle] = useState("");
   const { loggedIn } = useContext(AuthContext);
@@ -192,11 +200,12 @@ const Editstory = () => {
   };
 
   const onFinish = async (values) => {
+    const saveDescription = await editor.save();
     edit_news({
       variables: {
         id: id,
         ...values,
-        des: JSON.stringify(data),
+        des: JSON.stringify(saveDescription),
         thumnail: state.imageUrl === null ? thumnail : state.imageUrl,
       },
     }).then(async (res) => {
@@ -238,7 +247,7 @@ const Editstory = () => {
                     name="des"
                     initialValue={JSON.parse(des)}
                   >
-                    {CustomEditor && (
+                    {/* {CustomEditor && (
                       <CustomEditor
                         data={JSON.parse(des)}
                         tools={EDITOR_JS_TOOLS}
@@ -247,7 +256,14 @@ const Editstory = () => {
                           (instanceRef.current = instance)
                         }
                       />
-                    )}
+                    )} */}
+                    <EditorJs
+                      data={JSON.parse(des)}
+                      // initialValue={JSON.parse(des)}
+                      reInit
+                      editorRef={setEditor}
+                      placeholder="Tell your story"
+                    />
                   </Form.Item>
                 </div>
                 <div className={current === 0 && "hidden"}>
@@ -307,7 +323,7 @@ const Editstory = () => {
                   {current === 1 && (
                     <Form.Item>
                       <Button
-                        onClick={handleSave}
+                        // onClick={handleSave}
                         className="btn-submit"
                         disabled={loading ? true : false}
                         loading={loading ? true : false}

@@ -9,28 +9,19 @@ import Footer from "../../components/Layouts/footer";
 import AuthContext from "../../contexts/authContext";
 import { useRouter } from "next/router";
 import GlobalHeader from "../../components/Layouts/globalHeader";
-// const { EDITOR_JS_TOOLS } = require("../../components/Layouts/tools");
-// window = {};
-let CustomEditor;
-let EDITOR_JS_TOOLS;
-if (typeof window !== "undefined") {
-  CustomEditor = dynamic(() => import("react-editor-js"));
 
-  // EDITOR_JS_TOOLS = dynamic(() => import("../../components/Layouts/tools"));
-  // const { EDITOR_JS_TOOLS } = dynamic(
-  //   () => import("../../components/Layouts/tools"),
-  //   {
-  //     ssr: false,
-  //   }
-  // );
-}
+const EditorJs = dynamic(
+  () =>
+    import("../../components/Editor/editor").then((mod) => mod.EditorContainer),
+  { ssr: false }
+);
 
 const Addstory = () => {
   const server = process.env.API_SECRET;
   const server_local = process.env.API_SECRET_LOCAL;
   const develop = process.env.NODE_ENV;
   const URL_ACCESS = develop === "development" ? server_local : server;
-
+  const [editor, setEditor] = useState(null);
   const [title, setTitle] = useState("");
   const [des, setDescr] = useState("");
   const { loggedIn } = useContext(AuthContext);
@@ -57,12 +48,12 @@ const Addstory = () => {
     ],
   });
   const [current, setCurrent] = React.useState(0);
-  async function handleSave() {
-    const savedData = await instanceRef.current.save();
-    console.log(JSON.stringify(savedData));
-    await setData(savedData);
-    // instanceRef.current.clear();
-  }
+  // async function handleSave() {
+  //   const savedData = await instanceRef.current.save();
+  //   console.log(JSON.stringify(savedData));
+  //   await setData(savedData);
+  //   // instanceRef.current.clear();
+  // }
 
   const next = (e) => {
     // e.preventDefault();
@@ -198,11 +189,11 @@ const Addstory = () => {
   };
 
   const onFinish = async (values) => {
-    // vpreventDefault();
+    const saveDescription = await editor.save();
     add_news({
       variables: {
         ...values,
-        des: JSON.stringify(data),
+        des: JSON.stringify(saveDescription),
         thumnail: state.imageUrl,
       },
     }).then(async (res) => {
@@ -269,7 +260,7 @@ const Addstory = () => {
                       placeholder="Title"
                     />
                   </Form.Item>
-                  <Form.Item
+                  {/* <Form.Item
                     placeholder="Tell Your Story"
                     name="des"
                     rules={[
@@ -278,17 +269,22 @@ const Addstory = () => {
                         message: "Tell your story!",
                       },
                     ]}
-                  >
-                    {CustomEditor && (
+                  > */}
+                  {/* {CustomEditor && (
                       <CustomEditor
-                        tools={EDITOR_JS_TOOLS}
+                        // tools={EDITOR_JS_TOOLS}
                         placeholder="Tell your story"
                         instanceRef={(instance) =>
                           (instanceRef.current = instance)
                         }
                       />
-                    )}
-                  </Form.Item>
+                    )} */}
+                  <EditorJs
+                    reInit
+                    editorRef={setEditor}
+                    placeholder="Tell your story"
+                  />
+                  {/* </Form.Item> */}
                 </div>
                 {/* )} */}
                 {/* {current === 1 && ( */}
@@ -348,7 +344,7 @@ const Addstory = () => {
                   {current === 1 && (
                     <Form.Item>
                       <Button
-                        onClick={handleSave}
+                        // onClick={handleSave}
                         className="btn-submit"
                         disabled={loading ? true : false}
                         loading={loading ? true : false}
