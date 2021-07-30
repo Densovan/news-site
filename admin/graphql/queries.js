@@ -22,8 +22,10 @@ const GET_ALL_NEWS = gql`
             thumnail
             category
             type
-            createBy
-            slug
+            user{
+                fullname
+            }
+            createdAt
         }
     }
 
@@ -34,7 +36,9 @@ const GET_CATEGORIES = gql`
         get_categories{
             id
             name
-            createBy
+            user{
+                fullname
+            }
         }
     }
 `
@@ -44,14 +48,30 @@ const GET_TYPES = gql`
         get_types{
             id
             name
-            createBy
+            user{
+                fullname
+            }
         }
     }
+`
+
+const GET_MEMBERS = gql`
+    query{
+        get_members{
+            id
+            name
+            position
+            image
+            createdAt
+        }
+    }
+
 `
 
 export {
     GET_USERS,
     GET_ALL_NEWS,
     GET_CATEGORIES,
-    GET_TYPES
+    GET_TYPES,
+    GET_MEMBERS
 }

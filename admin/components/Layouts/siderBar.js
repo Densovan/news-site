@@ -9,8 +9,8 @@ import {
     UsergroupAddOutlined,
     UserAddOutlined,
     FolderOpenOutlined,
-    ScheduleOutlined,
-    AimOutlined
+    AimOutlined,
+    ReadOutlined
 } from '@ant-design/icons';
 
 import Link from "next/link";
@@ -38,13 +38,11 @@ const SiderBar = ({ trigger, collapsed }) => {
                 pathToolURl.forEach(url => {
                     if (router.pathname === url[1]) {
                         if (url.length === 2) {
-                            console.log(url.length);
                             setState({
                                 selectKey:url[0]
                             });
                         }
                         else if(url.length === 3){
-                            console.log(url.length);
                             setState({
                                 selectKey:url[0],
                                 openKey:url[2]
@@ -59,10 +57,15 @@ const SiderBar = ({ trigger, collapsed }) => {
         }
     },[alert, state.selectKey, state.openKey]);
     const handleClick = e => {
-        setState({
-            selectKey: e.keyPath[0],
-            openKey: e.keyPath[1]
-        })
+        if (e.keyPath.length === 2)
+            setState({
+                selectKey: e.keyPath[0],
+                openKey: e.keyPath[1]
+            })
+        else if(e.keyPath.length === 1)
+            setState({
+                selectKey: e.keyPath[0],
+            })
     };
     const selectKeyx = [];
     const openKeyx = [];
@@ -84,7 +87,7 @@ const SiderBar = ({ trigger, collapsed }) => {
                   </Link>
                 </div>
                 <Menu
-                    // onClick={handleClick}
+                    onClick={handleClick}
                     defaultSelectedKeys={selectKeyx}
                     defaultOpenKeys={openKeyx}
                     mode="inline"
@@ -100,7 +103,11 @@ const SiderBar = ({ trigger, collapsed }) => {
                             <a className="noselect" style={{ fontSize:14 }}>User</a>
                         </Link>
                     </Menu.Item>
-
+                    <Menu.Item key="11" icon={<ReadOutlined style={{ fontSize:18 }} />}>
+                        <Link href="/story">
+                            <a className="noselect" style={{ fontSize:14 }}>Story</a>
+                        </Link>
+                    </Menu.Item>
                     <SubMenu className="noselect" key="sub1" icon={<UsergroupAddOutlined style={{ fontSize:18 }} />} title="Member">
                         <Menu.Item key="3">
                             <Link href="/member">
@@ -137,27 +144,15 @@ const SiderBar = ({ trigger, collapsed }) => {
                             </Link>
                         </Menu.Item>
                     </SubMenu>
-                    <SubMenu className="noselect" key="sub4" icon={<FolderOpenOutlined style={{ fontSize:18 }}/>} title="Category">
+                    <SubMenu className="noselect" key="sub4" icon={<FolderOpenOutlined style={{ fontSize:18 }}/>} title="Feature">
                         <Menu.Item key="9">
-                            <Link href="/category">
-                                <a className="noselect" style={{ fontSize:14 }}>Category</a>
-                            </Link>
-                        </Menu.Item>
-                        <Menu.Item key="10">
-                            <Link href="/category/create">
-                                <a className="noselect" style={{ fontSize:14 }}>Add Category</a>
-                            </Link>
-                        </Menu.Item>
-                    </SubMenu>
-                    <SubMenu className="noselect" key="sub5" icon={<FolderOpenOutlined style={{ fontSize:18 }}/>} title="Type">
-                        <Menu.Item key="11">
-                            <Link href="/type">
+                            <Link href="/feature/type">
                                 <a className="noselect" style={{ fontSize:14 }}>Type</a>
                             </Link>
                         </Menu.Item>
-                        <Menu.Item key="12">
-                            <Link href="/type/create">
-                                <a className="noselect" style={{ fontSize:14 }}>Add Type</a>
+                        <Menu.Item key="10">
+                            <Link href="/feature/category">
+                                <a className="noselect" style={{ fontSize:14 }}>Category</a>
                             </Link>
                         </Menu.Item>
                     </SubMenu>

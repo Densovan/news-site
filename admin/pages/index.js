@@ -72,15 +72,15 @@ datasets: [{
 }]
 };
 export default function Home() {
-  // const {data:users, loading:loading_user, error:error_user} = useQuery(GET_USERS)
-  // const {data:news, loading:loading_news, error:error_news} = useQuery(GET_ALL_NEWS)
+  const {data:users, loading:loading_user, error:error_user} = useQuery(GET_USERS)
+  const {data:news, loading:loading_news, error:error_news} = useQuery(GET_ALL_NEWS)
   
-  // if (loading_user || loading_news) return <div>Error</div>;
-  // if (error_user || error_news) return <div>Loading...</div>;
+  if (loading_user || loading_news) return <div>Loading...</div>;
+  if (error_user || error_news) return <div>Error</div>;
   return (
     <div>
       <div>
-        <Typography.Title level={2}>Overview</Typography.Title>
+        <Typography.Title level={3}>Overview</Typography.Title>
       </div>
       <Row gutter={[16, 16]}>
         <Col span={6}>
@@ -88,7 +88,7 @@ export default function Home() {
             <div>
               <Typography.Title level={5} style={{ color: '#fff', fontWeight: '400' }}>Users</Typography.Title>
               <div>
-                <Typography.Title level={3} style={{ color: '#fff'}}>10000000</Typography.Title>
+                <Typography.Title level={3} style={{ color: '#fff'}}>{users.get_users.length}</Typography.Title>
               </div>
             </div>
             <div style={{ width: '100%', textAlign:'right'}}>
@@ -101,7 +101,7 @@ export default function Home() {
             <div>
               <Typography.Title level={5} style={{ color: '#fff', fontWeight: '400' }}>Stories</Typography.Title>
               <div>
-                <Typography.Title level={3} style={{ color: '#fff'}}>10000000</Typography.Title>
+                <Typography.Title level={3} style={{ color: '#fff'}}>{ news.get_all_news.length}</Typography.Title>
               </div>
             </div>
             <div style={{ width: '100%', textAlign:'right'}}>

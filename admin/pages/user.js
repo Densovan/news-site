@@ -1,5 +1,5 @@
 import UseTable from "../src/components/useTable";
-import { Tag, Space, Button, Avatar, Tooltip } from 'antd';
+import { Tag, Space, Button, Avatar, Tooltip, Typography } from 'antd';
 import { EditOutlined, DeleteOutlined, UserOutlined, AntDesignOutlined } from '@ant-design/icons';
 import { useQuery } from "@apollo/client";
 import { GET_USERS } from '../graphql/queries';
@@ -59,8 +59,8 @@ const User = () => {
     });
     return(
         <div className="content-table">
-            <div className="title">
-                <h1>User</h1>
+            <div>
+              <Typography.Title level={3}>User</Typography.Title>
             </div>
             <UseTable columns={columns} data={data} />
         </div>
