@@ -9,6 +9,7 @@ import Footer from "../../components/Layouts/footer";
 import AuthContext from "../../contexts/authContext";
 import { useRouter } from "next/router";
 import GlobalHeader from "../../components/Layouts/globalHeader";
+import QuillNoSSRWrapper from "../../components/Quill/textEditor";
 
 const EditorJs = dynamic(
   () =>
@@ -102,6 +103,11 @@ const Addstory = () => {
     // setTitle(e.target.value);
     console.log(e);
   };
+  const handleDescChange = (values) => {
+    console.log(values);
+    setDescr(values);
+  };
+
   const onChange1 = (e) => {
     setTitle(e.target.value);
   };
@@ -189,12 +195,13 @@ const Addstory = () => {
   };
 
   const onFinish = async (values) => {
-    const saveDescription = await editor.save();
+    // const saveDescription = await editor.save();
     add_news({
       variables: {
         ...values,
-        des: JSON.stringify(saveDescription),
+        des: des,
         thumnail: state.imageUrl,
+        // des: JSON.stringify(saveDescription),
       },
     }).then(async (res) => {
       setLoading(true);
@@ -208,6 +215,7 @@ const Addstory = () => {
         await refetch();
         setLoading(false);
         router.push("/dashboard/allstories");
+        console.log("success", values, des);
         // window.location.replace("/dashboard/allstories");
       } else if (res.data.add_news.status == 400) {
         await message.warning(res.data.add_news.message);
@@ -215,6 +223,7 @@ const Addstory = () => {
       }
     });
     console.log(values);
+    console.log(des);
   };
 
   const steps = [
@@ -257,20 +266,21 @@ const Addstory = () => {
                       value={title}
                       className="input-story"
                       size="large"
-                      placeholder="Title"
+                      placeholder="Enter Title..."
                     />
                   </Form.Item>
-                  {/* <Form.Item
+                  <Form.Item
                     placeholder="Tell Your Story"
                     name="des"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Tell your story!",
-                      },
-                    ]}
-                  > */}
-                  {/* {CustomEditor && (
+                    onChange={onChange2}
+                    // rules={[
+                    //   {
+                    //     required: true,
+                    //     message: "Tell your story!",
+                    //   },
+                    // ]}
+                  >
+                    {/* {CustomEditor && (
                       <CustomEditor
                         // tools={EDITOR_JS_TOOLS}
                         placeholder="Tell your story"
@@ -279,12 +289,16 @@ const Addstory = () => {
                         }
                       />
                     )} */}
-                  <EditorJs
+                    <QuillNoSSRWrapper
+                      handleDescChange={handleDescChange}
+                      defaultValue={des}
+                    />
+                    {/* <EditorJs
                     reInit
                     editorRef={setEditor}
                     placeholder="Tell your story"
-                  />
-                  {/* </Form.Item> */}
+                  /> */}
+                  </Form.Item>
                 </div>
                 {/* )} */}
                 {/* {current === 1 && ( */}
@@ -334,7 +348,7 @@ const Addstory = () => {
                   {current === 0 && (
                     <Button
                       className="btn-next"
-                      disabled={title.length < 1}
+                      disabled={title === ""}
                       // type="primary"
                       onClick={() => next()}
                     >
@@ -360,7 +374,7 @@ const Addstory = () => {
                     </Form.Item>
                   )}
                   {current > 0 && (
-                    <Button className="btn-next" onClick={() => prev()}>
+                    <Button className="btn-pre" onClick={() => prev()}>
                       Previous
                     </Button>
                   )}

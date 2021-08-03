@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Row, Col, Divider, Layout, Spin } from "antd";
+import parse from "html-react-parser";
 import { CaretRightOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import { useQuery } from "@apollo/client";
@@ -32,7 +33,7 @@ const AllNews = () => {
     <React.Fragment>
       <div className="content-top-stories">
         {data.get_all_news_by_type_news.map((res, index) => {
-          const result = <Output data={JSON.parse(res.des)} />;
+          // const result = <Output data={JSON.parse(res.des)} />;
           return (
             <Row gutter={[12, 12]}>
               <Col xs={24} sm={24} md={8} lg={9}>
@@ -49,12 +50,13 @@ const AllNews = () => {
                     ? res.title
                     : res.title.substring(0, 70) + " ..."}
                 </h2>
-                <p className="describe-style">
-                  {`${result.props.data.blocks[0].data.text.substring(
-                    0,
-                    120
-                  )}...`}
-                </p>
+                <div className="describe-style">
+                  {parse(
+                    res.des.length <= 120
+                      ? res.des
+                      : res.des.substring(0, 120) + "..."
+                  )}
+                </div>
                 <Row>
                   <Col xs={17} md={18}>
                     <div className="date-avatar">

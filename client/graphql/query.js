@@ -172,6 +172,7 @@ const GET_NEWS = gql`
       type
       slug
       des
+      message
       user {
         fullname
       }

@@ -105,20 +105,26 @@ const RootMutation = new GraphQLObjectType({
       },
       resolve: async (parents, args, context) => {
         try {
-          await NewsModel.findByIdAndUpdate(
-            { _id: args.id },
-            // { slug: args.title.replace(/\s+/g, "-").toLowerCase(), ...args },
-            {
-              slug: args.title
-                .replace(/[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g, "-")
-                .toLowerCase(),
-              ...args,
-            },
-            { createBy: context.id }
-          );
-          return {
-            message: "update successfull",
-          };
+          const existingSlug = await NewsModel.findOne({ title: args.title });
+          if (existingSlug) {
+            return { message: "This Title already exist!", status: 400 };
+          } else {
+            await NewsModel.findByIdAndUpdate(
+              { _id: args.id },
+              // { slug: args.title.replace(/\s+/g, "-").toLowerCase(), ...args },
+              {
+                slug: args.title
+                  .replace(/[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g, "-")
+                  .toLowerCase(),
+                ...args,
+              },
+              { createBy: context.id }
+            );
+            return {
+              message: "Update successfully",
+              status: 200,
+            };
+          }
         } catch (error) {
           console.log(error);
           throw error;
@@ -471,7 +477,7 @@ const RootMutation = new GraphQLObjectType({
       args: {
         id: { type: GraphQLID },
       },
-      
+
       resolve: async (parent, args, context) => {
         try {
           const existingUser = await NoticheckModel.findOne({
@@ -511,7 +517,7 @@ const RootMutation = new GraphQLObjectType({
               ...args,
               ownerId: args.ownerId,
               userId: context.id,
-              count: 1
+              count: 1,
             });
             await like.save();
             if (context.id === args.ownerId) {
@@ -550,7 +556,7 @@ const RootMutation = new GraphQLObjectType({
               ...args,
               ownerId: args.ownerId,
               userId: context.id,
-              count: 1
+              count: 1,
             });
             await like.save();
             const noti = new NotiModel({
@@ -573,7 +579,7 @@ const RootMutation = new GraphQLObjectType({
       args: {
         id: { type: GraphQLID },
       },
-      
+
       resolve: async (parent, args, context) => {
         try {
           const existingUser = await NoticheckModel.findOne({
@@ -591,48 +597,50 @@ const RootMutation = new GraphQLObjectType({
         }
       },
     },
-    
 
     // =============== notification ===============
     notification: {
       type: NotificationType,
       args: {
-        postId: { type: GraphQLID }, 
+        postId: { type: GraphQLID },
       },
       resolve: async (parents, args, context) => {
-        try{
-          const existingUser = await NotificationModel.findOne({ userId: context.id });
-          if(!existingUser){
+        try {
+          const existingUser = await NotificationModel.findOne({
+            userId: context.id,
+          });
+          if (!existingUser) {
             const notification = new NotificationModel({
               ...args,
               userId: context.id,
-              postId: args.postId
-            })
+              postId: args.postId,
+            });
             await notification.save();
             return {
-              message: "success"
-            }
-          }
-          else if(context.id === existingUser.userId){
-            await NotificationModel.findOneAndUpdate({
-              userId: context.id
-            },{
-              $push: {
-                postId: args.postId
+              message: "success",
+            };
+          } else if (context.id === existingUser.userId) {
+            await NotificationModel.findOneAndUpdate(
+              {
+                userId: context.id,
+              },
+              {
+                $push: {
+                  postId: args.postId,
+                },
               }
-            })
+            );
             return {
-              message: "success 2"
-            }
-          }
-          else{
+              message: "success 2",
+            };
+          } else {
             console.log("hello3");
           }
-        }catch{
+        } catch {
           console.log(error);
           throw error;
         }
-      }
+      },
     },
     // follow: {
     //   type: followType,

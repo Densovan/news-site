@@ -1,11 +1,16 @@
-import { Form, Input, Button, Select, Row, Col } from 'antd';
+import React, { useState } from 'react';
+import { Form, Input, Button, Select, Row, Col, message } from 'antd';
 import { Upload } from 'antd';
 import ImgCrop from 'antd-img-crop';
 import { FacebookOutlined, TwitterOutlined } from '@ant-design/icons';
-import React, { useState } from 'react';
+import { ADD_MEMBER } from "../../graphql/mutation";
+import { useMutation } from "@apollo/client";
 
 const CreateMember = () => {
     const formRef = React.createRef();
+    const [form] = Form.useForm();
+
+    const [addMember] = useMutation(ADD_MEMBER);
     const [fileList, setFileList] = useState([
         {
             uid: '',
@@ -14,8 +19,16 @@ const CreateMember = () => {
             url: '',
         }
     ]);
-    const onFinish = (values) => {
-        console.log(values, fileList);
+    const onFinish = async (values) => {
+        try{
+            console.log(values.username, values.position, fileList[0].name );
+            await addMember({ variables: { name: values.username, position: values.position, image: fileList[0].name }}).then(async (response) => {
+                form.resetFields();
+                message.success('Member add success');
+            })
+        }catch(error){
+            throw error
+        }
     };
 
     const onChange = ({ fileList: newFileList }) => {
@@ -41,12 +54,12 @@ const CreateMember = () => {
             <div className="title">
                 <h1>Create Member</h1>
             </div>
-            <Form layout="vertical" size="large" ref={formRef} onFinish={onFinish}>
+            <Form layout="vertical" size="large" form={form} ref={formRef} onFinish={onFinish}>
                 <Row gutter={[16, 0]}>
                     <Col span={12}>
                         <Form.Item
-                            name="firstname"
-                            label="First Name"
+                            name="username"
+                            label="Username"
                             rules={[
                                 {
                                     required: true,
@@ -58,21 +71,8 @@ const CreateMember = () => {
                     </Col>
                     <Col span={12}>
                         <Form.Item
-                            name="lastname"
-                            label="Last Name"
-                            rules={[
-                                {
-                                    required: true,
-                                },
-                            ]}
-                        >
-                            <Input />
-                        </Form.Item>
-                    </Col>
-                    <Col span={12}>
-                        <Form.Item
-                            name="tag"
-                            label="Tag"
+                            name="position"
+                            label="Position"
                             rules={[
                                 {
                                     required: true,
@@ -95,7 +95,7 @@ const CreateMember = () => {
                             </ImgCrop> 
                         </Form.Item>
                     </Col>
-                    <Col span={24}>
+                    {/* <Col span={24}>
                         <Form.Item
                             name="facebook"
                             label="Facebook"
@@ -120,7 +120,7 @@ const CreateMember = () => {
                         >
                             <Input addonBefore={<TwitterOutlined />}/>
                         </Form.Item>
-                    </Col>
+                    </Col> */}
                 </Row>
                 <Button type="primary" htmlType="submit">
                     Submit

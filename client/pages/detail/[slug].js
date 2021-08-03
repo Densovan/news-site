@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
+import parse from "html-react-parser";
 import { useRouter } from "next/router";
 import MainNavbar from "../../components/Layouts/mainNavbar";
 import GlobalHeader from "../../components/Layouts/globalHeader";
@@ -61,7 +62,8 @@ const SinglePage = () => {
   const { id, title, thumnail, des, user, createdAt, comment, reply, like } =
     data.get_news_by_slug;
   // console.log(user.id);
-  const result = <Output data={JSON.parse(des)} />;
+  // const result = <Output data={JSON.parse(des)} />;
+  // const result = {parse(des)};
   return (
     <React.Fragment>
       <GlobalHeader />
@@ -71,25 +73,78 @@ const SinglePage = () => {
             <Col sm={24} md={2}>
               {loggedIn === true && (
                 <div className="nav_left">
-                  <FormLike
-                    articleId={id}
-                    dataLike={like}
-                    myUser={myUser}
-                    ownPostuserId={user.id}
-                  />
-                  <div className="btn_box">
-                    <button style={{ cursor: "pointer" }} className="share-bg">
-                      <HiOutlineShare className="share" size={23} />
-                    </button>
-                    <div className="tt_share">31</div>
-                  </div>
-                  <div className="btn_box">
-                    <button style={{ cursor: "pointer" }} className="save-bg">
-                      <HiOutlineBookmark className="save" size={23} />
-                    </button>
-                    <div className="tt_share">1</div>
-                  </div>
+                  <Row gutter={[32, 32]}>
+                    <Col xs={8} md={24}>
+                      <FormLike
+                        articleId={id}
+                        dataLike={like}
+                        myUser={myUser}
+                        ownPostuserId={user.id}
+                      />
+                    </Col>
+                    <Col xs={8} md={24}>
+                      <div className="btn_box">
+                        <button
+                          style={{ cursor: "pointer" }}
+                          className="share-bg"
+                        >
+                          <HiOutlineShare className="share" size={23} />
+                        </button>
+                        <div className="tt_share">31</div>
+                      </div>
+                    </Col>
+                    <Col xs={8} md={24}>
+                      <div className="btn_box">
+                        <button
+                          style={{ cursor: "pointer" }}
+                          className="save-bg"
+                        >
+                          <HiOutlineBookmark className="save" size={23} />
+                        </button>
+                        <div className="tt_share">1</div>
+                      </div>
+                    </Col>
+                  </Row>
                 </div>
+                // <div>
+                //   <center style={{ marginTop: "23px" }}>
+                //     <div className="nav_left">
+                //       <Row gutter={[32, 32]}>
+                //         <Col span={8}>
+                //           <FormLike
+                //             articleId={id}
+                //             dataLike={like}
+                //             myUser={myUser}
+                //             ownPostuserId={user.id}
+                //           />
+                //         </Col>
+                //         <Col span={8}>
+                //           <div className="btn_box">
+                //             <button
+                //               style={{ cursor: "pointer" }}
+                //               className="share-bg"
+                //             >
+                //               <HiOutlineShare className="share" size={23} />
+                //             </button>
+                //             <div className="tt_share">31</div>
+                //           </div>
+                //         </Col>
+                //         <Col span={8}>
+                //           {" "}
+                //           <div className="btn_box">
+                //             <button
+                //               style={{ cursor: "pointer" }}
+                //               className="save-bg"
+                //             >
+                //               <HiOutlineBookmark className="save" size={23} />
+                //             </button>
+                //             <div className="tt_share">1</div>
+                //           </div>
+                //         </Col>
+                //       </Row>
+                //     </div>
+                //   </center>
+                // </div>
               )}
             </Col>
             <Col sm={24} md={16}>
@@ -165,7 +220,8 @@ const SinglePage = () => {
                     </div>
                   </Link>
                   <div style={{ color: "#262e3c", marginBottom: 20 }}>
-                    <p className="describe-style-article">{result}</p>
+                    {/* <p className="describe-style-article">{result}</p> */}
+                    <div className="describe-style-article">{parse(des)}</div>
                   </div>
                   <Divider />
                   {loggedIn === true ? (

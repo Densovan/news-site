@@ -1,5 +1,6 @@
 import React from "react";
 import { Row, Col } from "antd";
+import parse from "html-react-parser";
 import { CaretRightOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import { GET_ALL_NEWS_BY_TYPE_FEATURE } from "../../graphql/query";
@@ -25,12 +26,12 @@ const Feature = () => {
         <h1 className="top-title">Feature</h1>
         <Row gutter={[12, 12]}>
           {data.get_all_news_by_type_feature.slice(0, 6).map((res, index) => {
-            const result = <Output data={JSON.parse(res.des)} />;
+            // const result = <Output data={JSON.parse(res.des)} />;
             return (
               <Col
                 key={index}
                 className="content-top-stories"
-                sm={24}
+                xs={24}
                 md={12}
                 lg={8}
               >
@@ -48,12 +49,13 @@ const Feature = () => {
                           ? res.title
                           : res.title.substring(0, 20) + " ..."}
                       </h3>
-                      <p className="describe-style">
-                        {`${result.props.data.blocks[0].data.text.substring(
-                          0,
-                          50
-                        )}...`}
-                      </p>
+                      <div className="describe-style">
+                        {parse(
+                          res.des.length <= 70
+                            ? res.des
+                            : res.des.substring(0, 70) + "..."
+                        )}
+                      </div>
                       <div className="date-avatar">
                         <div className="sub-date-avatar">
                           <Link

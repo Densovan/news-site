@@ -1,4 +1,5 @@
 import React from "react";
+import parse from "html-react-parser";
 import { Row, Col } from "antd";
 import { CaretRightOutlined } from "@ant-design/icons";
 import { GET_ALL_NEWS_BY_TYPE_LEARN } from "../../graphql/query";
@@ -66,7 +67,7 @@ const Learn = () => {
         <h1 className="top-title">Learn</h1>
         <Row gutter={[12, 12]}>
           {data.get_all_news_by_type_learn.slice(0, 4).map((res, index) => {
-            const result = <Output data={JSON.parse(res.des)} />;
+            // const result = <Output data={JSON.parse(res.des)} />;
             return (
               <Col key={index} sm={8} md={8} lg={24}>
                 <div className="content-top-stories">
@@ -84,12 +85,19 @@ const Learn = () => {
                             ? res.title
                             : res.title.substring(0, 20) + " ..."}
                         </h3>
-                        <p className="describe-style">
+                        {/* <p className="describe-style">
                           {`${result.props.data.blocks[0].data.text.substring(
                             0,
                             50
                           )}...`}
-                        </p>
+                        </p> */}
+                        <div className="describe-style">
+                          {parse(
+                            res.des.length <= 70
+                              ? res.des
+                              : res.des.substring(0, 70) + "..."
+                          )}
+                        </div>
 
                         {/* <h1 className="status-news-topstory">
                             {res.types.name}
@@ -106,7 +114,7 @@ const Learn = () => {
                               .unix(res.createdAt / 1000)
                               .format("DD-MM-YYYY")}
                           </p> */}
-                        <div className="date-avatar">
+                        <div className="date-avatar-learn">
                           <div className="sub-date-avatar">
                             <Link
                               href={`/profile_detial/${

@@ -7,11 +7,13 @@ const UserModel = require("../../models/user");
 const NewsModel = require("../../models/news");
 const Category = require("../../models/category");
 const Types = require("../../models/type");
+const MemberModel = require("../../models/member");
 //================Type Sections==================
 const UserType = require("../types/userType");
 const CategoryType = require("../types/categoryType");
 const Type = require("../types/type");
 const NewsType = require("../types/newsType");
+const MemberType = require("../types/memberType");
 
 const RootQuery = new GraphQLObjectType({
   name: "RootQueryType",
@@ -56,6 +58,21 @@ const RootQuery = new GraphQLObjectType({
         return Category.find({}).sort({ createdAt: -1 });
       },
     },
+    // =========get catgory==============
+    get_types: {
+      type: new GraphQLList(Type),
+      resolve: (parent, args) => {
+        return Types.find({}).sort({ createdAt: -1 });
+      },
+    },
+    
+    // =========get member==============
+    get_members: {
+      type: new GraphQLList(MemberType),
+      resolve: (parent, args) => {
+        return MemberModel.find({}).sort({ createdAt: -1});
+      }
+    }
   },
 });
 

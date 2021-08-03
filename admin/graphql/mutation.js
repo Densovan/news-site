@@ -11,6 +11,26 @@ const ADD_CATEGORY = gql`
         }
     }
 `
+const EDIT_CATEGORY = gql`
+    mutation(
+        $id: ID!
+        $name:String!
+    ){
+        edit_cat(
+            id: $id
+            name: $name
+        ){
+            message
+        }
+    }
+`
+const DELETE_CATEGORY = gql`
+    mutation($id: ID!){
+        delete_cat(id: $id){
+            message
+        }
+    }
+`
 
 const ADD_TYPE = gql`
     mutation(
@@ -23,7 +43,26 @@ const ADD_TYPE = gql`
         }
     }
 `
-
+const EDIT_TYPE = gql`
+    mutation(
+        $id: ID!
+        $name:String!
+    ){
+        edit_type(
+            id: $id
+            name: $name
+        ){
+            message
+        }
+    }
+`
+const DELETE_TYPE = gql`
+    mutation($id: ID!){
+        delete_type(id: $id){
+            message
+        }
+    }
+`
 const ADD_MEMBER = gql`
     mutation(
         $name:String!
@@ -42,5 +81,10 @@ const ADD_MEMBER = gql`
 
 export {
     ADD_CATEGORY,
-    ADD_TYPE
+    EDIT_CATEGORY,
+    DELETE_CATEGORY,
+    EDIT_TYPE,
+    DELETE_TYPE,
+    ADD_TYPE,
+    ADD_MEMBER
 }

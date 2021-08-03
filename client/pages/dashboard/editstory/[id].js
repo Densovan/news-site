@@ -14,19 +14,15 @@ import MainNavbar from "../../../components/Layouts/mainNavbar";
 import AuthContext from "../../../contexts/authContext";
 import Footer from "../../../components/Layouts/footer";
 import GlobalHeader from "../../../components/Layouts/globalHeader";
-// let CustomEditor;
-// let EDITOR_JS_TOOLS;
-// if (typeof window !== "undefined") {
-//   CustomEditor = dynamic(() => import("react-editor-js"));
-//   EDITOR_JS_TOOLS = dynamic(() => import("../../../components/Layouts/tools"));
-// }
-const EditorJs = dynamic(
-  () =>
-    import("../../../components/Editor/editor").then(
-      (mod) => mod.EditorContainer
-    ),
-  { ssr: false }
-);
+import QuillNoSSRWrapper from "../../../components/Quill/textEditor";
+
+// const EditorJs = dynamic(
+//   () =>
+//     import("../../../components/Editor/editor").then(
+//       (mod) => mod.EditorContainer
+//     ),
+//   { ssr: false }
+// );
 
 const Editstory = () => {
   const server = process.env.API_SECRET;
@@ -35,6 +31,7 @@ const Editstory = () => {
   const URL_ACCESS = develop === "development" ? server_local : server;
 
   const router = useRouter();
+  const [des, setDescr] = useState("");
   const [editor, setEditor] = useState(null);
   const [current, setCurrent] = React.useState(0);
   const [titles, setTitle] = useState("");
@@ -119,11 +116,14 @@ const Editstory = () => {
     }
     return isJpgOrPng && isLt2M;
   };
-
+  const handleDescChange = (values) => {
+    console.log(values);
+    setDescr(values);
+  };
   const onChange = (e) => {
     // console.log(e);
   };
-  const { title, thumnail, des, user, createdAt, category, type } =
+  const { title, thumnail, user, createdAt, category, type } =
     dataNews.get_news;
 
   // ==================Get Category ID===================
@@ -200,20 +200,33 @@ const Editstory = () => {
   };
 
   const onFinish = async (values) => {
-    const saveDescription = await editor.save();
+    // const saveDescription = await editor.save();
     edit_news({
       variables: {
         id: id,
         ...values,
-        des: JSON.stringify(saveDescription),
+        des: des === "" ? dataNews.get_news.des : des,
+        // des: JSON.stringify(saveDescription),
         thumnail: state.imageUrl === null ? thumnail : state.imageUrl,
       },
     }).then(async (res) => {
       setLoading(true);
-      await refetch();
-      await message.success("update successful");
-      router.push("/dashboard/allstories");
-      // await window.location.replace("/dashboard/allstories");
+      if (res.data.edit_news.status == 200) {
+        await message.success(res.data.edit_news.message);
+        form.resetFields();
+        setState({
+          imageUrl: null,
+          loading: false,
+        });
+        await refetch();
+        setLoading(false);
+        router.push("/dashboard/allstories");
+        console.log("success", values, des);
+        // window.location.replace("/dashboard/allstories");
+      } else if (res.data.edit_news.status == 400) {
+        await message.warning(res.data.edit_news.message);
+        setLoading(false);
+      }
     });
   };
 
@@ -245,7 +258,7 @@ const Editstory = () => {
                   <Form.Item
                     label="Description"
                     name="des"
-                    initialValue={JSON.parse(des)}
+                    initialValue={dataNews.get_news.des}
                   >
                     {/* {CustomEditor && (
                       <CustomEditor
@@ -257,12 +270,16 @@ const Editstory = () => {
                         }
                       />
                     )} */}
-                    <EditorJs
+                    {/* <EditorJs
                       data={JSON.parse(des)}
-                      // initialValue={JSON.parse(des)}
+                      
                       reInit
                       editorRef={setEditor}
                       placeholder="Tell your story"
+                    /> */}
+                    <QuillNoSSRWrapper
+                      handleDescChange={handleDescChange}
+                      defaultValue={dataNews.get_news.des}
                     />
                   </Form.Item>
                 </div>

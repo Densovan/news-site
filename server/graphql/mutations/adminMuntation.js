@@ -5,6 +5,7 @@ const {
   GraphQLNonNull,
   GraphQLID,
   GraphQLBoolean,
+  GraphQLList,
 } = graphql;
 //================type===============
 const CategoryType = require("../types/categoryType");
@@ -50,6 +51,67 @@ const RootMutation = new GraphQLObjectType({
         }
       },
     },
+    edit_cat: { 
+      type: CategoryType,
+      args: {
+        id: { type: GraphQLID },
+        name: { type: new GraphQLNonNull(GraphQLString) },
+      },
+      resolve: async (parents, args, context) => {
+        try{
+          const cat = await CategoryModel.find({}).sort({ createdAt: -1 });
+
+          const key = [];
+          cat.forEach(element => {
+            if (element.id == args.id) {
+              key.push("ok")
+            }
+          });
+
+          if (key[0] == "ok") {
+            await CategoryModel.findOneAndUpdate({ _id: args.id }, {
+              ...args,
+              name: args.name
+            });
+            return { message: "edit category successful" };
+          }
+          else{
+            return { message: "you can't update category" };
+          }
+        }catch(error){
+          console.log(error);
+          throw error;
+        }
+      }
+    },
+    
+    delete_cat: {
+      type: CategoryType ,
+      args: { 
+        id: { type: GraphQLID },
+      },
+      resolve: async (parents, args, context) => {
+        try{
+          const cat = await CategoryModel.find({}).sort({ createdAt: -1 });
+          
+          const key = [];
+          cat.forEach(element => {
+            if (element.id == args.id) {
+              key.push("ok")
+            }
+          });
+          if (key[0] == "ok") {
+            await CategoryModel.findByIdAndDelete(args.id);
+            return { message: "delete category successful" }; 
+          }
+          else{
+            return { message: "you can't delete category" };
+          } 
+        }catch(e){
+          throw e
+        }
+      }
+    },
     //======================add type================
     add_type: {
       type: Type,
@@ -79,6 +141,68 @@ const RootMutation = new GraphQLObjectType({
           throw error;
         }
       },
+    },
+    edit_type: { 
+      type: Type,
+      args: {
+        id: { type: GraphQLID },
+        name: { type: new GraphQLNonNull(GraphQLString) },
+      },
+      resolve: async (parents, args, context) => {
+        try{
+          const type = await TypeModel.find({}).sort({ createdAt: -1 });
+
+          const key = [];
+          type.forEach(element => {
+            if (element.id == args.id) {
+              key.push("ok")
+            }
+          });
+
+          if (key[0] == "ok") {
+            await TypeModel.findOneAndUpdate({ _id: args.id }, {
+              ...args,
+              name: args.name
+            });
+            return { message: "Edit type successful" };
+          }
+          else{
+            return { message: "You can't update type" };
+          }
+        }catch(error){
+          console.log(error);
+          throw error;
+        }
+      }
+    },
+    
+    delete_type: {
+      type: Type,
+      args: { 
+        id: { type: GraphQLID },
+      },
+      resolve: async (parents, args, context) => {
+        try{
+          const type = await TypeModel.find({}).sort({ createdAt: -1 });
+
+          const key = [];
+          type.forEach(element => {
+            if (element.id == args.id) {
+              key.push("ok")
+            }
+          });
+
+          if (key[0] == "ok") {
+            await TypeModel.findByIdAndDelete(args.id);
+            return { message: "delete type successful" };
+          }
+          else{
+            return { message: "You can't delete type" };
+          }
+        }catch(e){
+          throw e
+        }
+      }
     },
     // ==============add memeber================
     add_member: {

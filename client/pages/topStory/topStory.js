@@ -1,4 +1,5 @@
 import React from "react";
+import parse from "html-react-parser";
 import { Row, Col, Button, Divider } from "antd";
 import { CaretRightOutlined } from "@ant-design/icons";
 import { useQuery } from "@apollo/client";
@@ -63,7 +64,7 @@ const TopStory = () => {
 
                       <Row>
                         <Col xs={12} md={18}>
-                          <div className="date-avatar">
+                          <div className="date-avatar-learn">
                             <div className="sub-date-avatar">
                               <Link
                                 href={`/profile_detial/${
@@ -152,7 +153,7 @@ const TopStory = () => {
             {dataLastNews.get_all_news_by_type_news
               .slice(1, 5)
               .map((res, index) => {
-                const result = <Output data={JSON.parse(res.des)} />;
+                // const result = <Output data={JSON.parse(res.des)} />;
                 return (
                   <div
                     key={index}
@@ -169,17 +170,26 @@ const TopStory = () => {
                         ></div>
                       </Col>
                       <Col xs={24} sm={24} md={16} lg={15}>
-                        <h2 className="title-news">
-                          {res.title.length <= 70
-                            ? res.title
-                            : res.title.substring(0, 70) + " ..."}
-                        </h2>
-                        <p className="describe-style">
+                        <div className="title-news-div">
+                          <h2 className="title-news">
+                            {res.title.length <= 60
+                              ? res.title
+                              : res.title.substring(0, 60) + " ..."}
+                          </h2>
+                        </div>
+                        {/* <p className="describe-style">
                           {`${result.props.data.blocks[0].data.text.substring(
                             0,
                             120
                           )}...`}
-                        </p>
+                        </p> */}
+                        <div className="describe-style">
+                          {parse(
+                            res.des.length <= 120
+                              ? res.des
+                              : res.des.substring(0, 120) + "..."
+                          )}
+                        </div>
 
                         <Row>
                           <Col xs={17} md={18}>

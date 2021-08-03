@@ -20,6 +20,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:3008",
+      "http://localhost:3000",
       "http://localhost:3500",
       "https://beecolony.org",
       "https://backend.beecolony.org",
@@ -70,7 +71,7 @@ app.use(
     const user = jwt.decode(token, process.env.JWTSECRET);
     return {
       context: user,
-      graphiql: false,
+      graphiql: true,
       schema: adminSchema,
     };
   })

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
+import parse from "html-react-parser";
 import TopNavbar from "../../components/Layouts/topNavbar";
 import MainNavbar from "../../components/Layouts/mainNavbar";
 import Footer from "../../components/Layouts/footer";
@@ -58,7 +59,7 @@ const Index = () => {
           <Col xs={24} md={18}>
             <Row gutter={[12, 12]}>
               {data.get_allnews_type_by_cat_learn.map((res) => {
-                const result = <Output data={JSON.parse(res.des)} />;
+                // const result = <Output data={JSON.parse(res.des)} />;
                 return (
                   <Col className="content-top-stories" sm={24} md={12} lg={8}>
                     <Link href={`/detail/${res.slug}`}>
@@ -75,12 +76,13 @@ const Index = () => {
                               ? res.title
                               : res.title.substring(0, 20) + " ..."}
                           </h3>
-                          <p className="describe-style">
-                            {`${result.props.data.blocks[0].data.text.substring(
-                              0,
-                              50
-                            )}...`}
-                          </p>
+                          <div className="describe-style">
+                            {parse(
+                              res.des.length <= 70
+                                ? res.des
+                                : res.des.substring(0, 70) + "..."
+                            )}
+                          </div>
                           <div className="date-avatar">
                             <div className="sub-date-avatar">
                               <img

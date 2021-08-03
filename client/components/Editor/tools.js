@@ -38,9 +38,9 @@ export const tools = {
   delimiter: Delimiter,
   inlineCode: InlineCode,
   simpleImage: SimpleImage,
-  // paragraph: {
-  //   config: {
-  //     placeholder: "Tell your story",
-  //   },
-  // },
+  paragraph: {
+    config: {
+      placeholder: "Tell your story",
+    },
+  },
 };
