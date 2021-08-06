@@ -510,7 +510,7 @@ body {
   /* position: absolute;
   left: 76%;
   top: 75%; */
-  margin-top: 7px;
+  /* margin-top: 7px; */
   font-weight: bold;
   border-radius: 3px;
   padding: 7px;
@@ -2426,6 +2426,85 @@ body {
 }
 .container-box:hover .icon-menu {
   opacity: 1;
+}
+.card-article{
+  margin-bottom: 10px;
+}
+.header-card-article{
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+.profile-name-time li{
+  margin-left: 4px;
+}
+.profile-name-time .news-name{
+  font-size: 10px;
+  font-weight: 600;
+}
+.card-name{
+  font-size: 13px;
+  font-weight: 700;
+}
+.news-content{
+  padding-top: 8px;
+}
+.news-content .title-text-card{
+  font-size: 16px;
+  color: #262e3c;
+  font-weight: 600;
+}
+.news-content .text-content-card{
+  font-size: 16px;
+  font-weight:300;
+  color: rgba(117, 117, 117, 1);;
+  font-size: 12px;
+}
+.img-news img{
+  float: right;
+  height: 100%;
+  object-fit: cover;
+}
+.box-news{
+  flex-wrap: wrap;
+  display: flex;
+  align-content: space-between;
+}
+.news-footer{
+  display: flex;
+  width: 100%;
+  justify-content:space-between;
+}
+.news-footer .type-category {
+  font-weight: bold;
+  border-radius: 3px;
+  padding: 7px;
+  font-size: 10px;
+  border: none;
+  background-color: transition !important;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  margin-right: 10px;
+}
+.btn-news{
+  font-weight: bold;
+  border-radius: 50%;
+  padding: 5px;
+  font-size: 10px;
+  border: none;
+  background-color: transparent !important;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  margin-right: 10px;
+}
+.ant-tag-checkable{
+  padding: 4px 20px 4px 20px;
+  background-color: #f5f5f5 !important;
+  border-radius: 20px;
+  margin-bottom:8px;
+} 
+.ant-tag-checkable-checked{
+  background-color: #f16179 !important
 }
 @media only screen and (max-width: 1028px) {
   .feature-div {

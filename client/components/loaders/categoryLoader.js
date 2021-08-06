@@ -1,42 +1,46 @@
 import React from "react";
 import ContentLoader from "react-content-loader";
+import { Card } from 'antd';
 
 const categoryLoader = () => {
   return (
     <div>
-      <ContentLoader
-        speed={2}
-        width={300}
-        height={515}
-        viewBox="0 0 300 615"
-        backgroundColor="#f5f5f5"
-        foregroundColor="#ebebeb"
-      >
-        <rect x="79" y="20" rx="0" ry="0" width="0" height="1" />
-        <rect x="4" y="1" rx="0" ry="0" width="3" height="600" />
-        <rect x="4" y="598" rx="0" ry="0" width="294" height="3" />
-        <rect x="158" y="596" rx="0" ry="0" width="5" height="3" />
-        <rect x="5" y="1" rx="0" ry="0" width="294" height="3" />
-        <rect x="296" y="1" rx="0" ry="0" width="3" height="600" />
-        <rect x="5" y="60" rx="0" ry="0" width="294" height="3" />
-        <rect x="22" y="20" rx="0" ry="0" width="129" height="23" />
-        <rect x="35" y="76" rx="4" ry="4" width="81" height="9" />
-        <rect x="271" y="22" rx="4" ry="4" width="18" height="18" />
-        <rect x="186" y="76" rx="4" ry="4" width="81" height="9" />
-        <rect x="150" y="63" rx="0" ry="0" width="2" height="44" />
-        <rect x="6" y="104" rx="0" ry="0" width="144" height="3" />
-        <rect x="152" y="106" rx="0" ry="0" width="145" height="1" />
-        <rect x="28" y="127" rx="4" ry="4" width="243" height="31" />
-        <rect x="62" y="188" rx="4" ry="4" width="148" height="19" />
-        <circle cx="39" cy="197" r="10" />
-        <circle cx="39" cy="247" r="10" />
-        <circle cx="39" cy="297" r="10" />
-        <circle cx="39" cy="347" r="10" />
-        <rect x="64" y="237" rx="4" ry="4" width="148" height="19" />
-        <rect x="65" y="287" rx="4" ry="4" width="148" height="19" />
-        <rect x="64" y="337" rx="4" ry="4" width="148" height="19" />
-        <circle cx="39" cy="547" r="10" />
-      </ContentLoader>
+      <Card className="card-article">
+        <ContentLoader height="100%" width="100%">
+          <rect x="0" y="0" rx="5" ry="5" width="40%" height="20" />
+          <rect x="0" y="42" rx="5" ry="5" width="100%" height="200" />
+          <rect x="0" y="265" rx="5" ry="5" width="100%" height="10" />
+          <rect x="0" y="285" rx="5" ry="5" width="100%" height="10" />
+          <rect x="0" y="305" rx="5" ry="5" width="100%" height="10" />
+          <rect x="0" y="335" rx="5" ry="5" width="65%" height="10" />
+          <rect x="75%" y="335" rx="5" ry="5" width="10%" height="10" />
+          <rect x="0" y="355" rx="5" ry="5" width="65%" height="10" />
+          <rect x="75%" y="355" rx="5" ry="5" width="30%" height="10" />
+          <rect x="0" y="375" rx="5" ry="5" width="65%" height="10" />
+          <rect x="75%" y="375" rx="5" ry="5" width="30%" height="10" />
+          <rect x="0" y="395" rx="5" ry="5" width="65%" height="8" />
+          <rect x="75%" y="395" rx="5" ry="5" width="30%" height="8" />
+          <rect x="0" y="415" rx="5" ry="5" width="65%" height="8" />
+          <rect x="75%" y="415" rx="5" ry="5" width="30%" height="8" />
+          <rect x="0" y="445" rx="5" ry="5" width="65%" height="8" />
+          <rect x="75%" y="445" rx="5" ry="5" width="30%" height="8" />
+          <rect x="0" y="465" rx="5" ry="5" width="65%" height="8" />
+          <rect x="75%" y="465" rx="5" ry="5" width="30%" height="8" />
+          <rect x="0" y="485" rx="5" ry="5" width="65%" height="8" />
+          <rect x="75%" y="485" rx="5" ry="5" width="30%" height="8" />
+          <rect x="0" y="505" rx="5" ry="5" width="65%" height="8" />
+          <rect x="75%" y="505" rx="5" ry="5" width="30%" height="8" />
+          <rect x="0" y="525" rx="5" ry="5" width="65%" height="8" />
+          <rect x="75%" y="525" rx="5" ry="5" width="30%" height="8" />
+          <rect x="75%" y="550" rx="5" ry="5" width="10%" height="10" />
+          <circle cx="76.5%" cy="590" r="18" />
+          <circle cx="80%" cy="590" r="18" />
+          <circle cx="83.5%" cy="590" r="18" />
+          <circle cx="87%" cy="590" r="18" />
+          <circle cx="90.5%" cy="590" r="18" />
+          <circle cx="94%" cy="590" r="18" />
+        </ContentLoader>
+      </Card>
     </div>
   );
 };
