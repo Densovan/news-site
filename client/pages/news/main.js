@@ -1,13 +1,13 @@
-import React, { useState } from "react";
-import { Row, Col, Divider, Layout, Spin } from "antd";
+import React, { useState, useEffect } from "react";
+import { Row, Col, Layout, Spin,  Card, Avatar, Tooltip, Typography, Tag, Divider, Button } from "antd";
 import parse from "html-react-parser";
-import { CaretRightOutlined } from "@ant-design/icons";
+import { CaretRightOutlined, HeartOutlined, LikeOutlined, DislikeOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import { useQuery } from "@apollo/client";
 import { GET_ALL_NEWS_BY_TYPE_NEWS } from "../../graphql/query";
 import moment from "moment";
 import Output from "editorjs-react-renderer";
-import Loader from "../../components/loaders/laoder";
+import Medium from "../../components/loaders/newsLoader";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 const { Content } = Layout;
@@ -26,90 +26,94 @@ const AllNews = () => {
   if (loading)
     return (
       <div>
-        <Loader />
+        <Medium/>
       </div>
     );
+    const news = [];
+    news.push(data.get_all_news_by_type_news);
   return (
     <React.Fragment>
       <div className="content-top-stories">
         {data.get_all_news_by_type_news.map((res, index) => {
           // const result = <Output data={JSON.parse(res.des)} />;
           return (
-            <Row gutter={[12, 12]}>
-              <Col xs={24} sm={24} md={8} lg={9}>
-                <div
-                  className="news-topstory-style"
-                  style={{
-                    backgroundImage: `url(${URL_ACCESS}/public/uploads//${res.thumnail})`,
-                  }}
-                ></div>
-              </Col>
-              <Col xs={24} sm={24} md={16} lg={15}>
-                <h2 className="title-news">
-                  {res.title.length <= 70
-                    ? res.title
-                    : res.title.substring(0, 70) + " ..."}
-                </h2>
-                <div className="describe-style">
-                  {parse(
-                    res.des.length <= 120
-                      ? res.des
-                      : res.des.substring(0, 120) + "..."
-                  )}
-                </div>
-                <Row>
-                  <Col xs={17} md={18}>
-                    <div className="date-avatar">
-                      <div className="sub-date-avatar">
-                        <Link
-                          href={`/profile_detial/${
-                            res.user.id
-                          }#${res.user.fullname
-                            .replace(
-                              /[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g,
-                              "-"
-                            )
-                            .toLowerCase()}`}
-                        >
-                          <img className="avatar-mobile" src={res.user.image} />
-                        </Link>
-                      </div>
-                      <div>
-                        <h1 className="status-news-topstory">
-                          {res.types.name}
-                          <span>
-                            <CaretRightOutlined style={{ fontSize: "10px" }} />
-                          </span>{" "}
-                          {res.categories.name}
-                        </h1>
-                        <p className="date-news">
-                          {res.user.fullname} :{" "}
-                          {moment
-                            .unix(res.createdAt / 1000)
-                            .format("DD-MM-YYYY")}
-                        </p>
-                      </div>
+            <div key={index}>
+            <Card className="card-article">
+              <Row>
+                <Col md={16} className="box-news">
+                  <div className="header-card-article">
+                    <Avatar src={res.user.image} />
+                    <div className="profile-name-time">
+                      <Tooltip placement="right" title={
+                          <div style={{ padding: 8 }}>
+                            <div className="header-card-article">
+                                <Avatar src={res.user.image} />
+                                <div className="card-name" style={{ marginLeft: 4 }}>{res.user.fullname}</div>
+                            </div>
+                            <div style={{ paddingTop:4 }}>
+                              {res.user.bio}
+                            </div>
+                          </div>
+                          } className="card-name">
+                          <li style={{ cursor: "pointer" }}>{res.user.fullname}</li>
+                      </Tooltip>
+                      <li className="news-name">{moment.unix(res.createdAt / 1000).format("DD-MM-YYYY")}</li>
                     </div>
-                  </Col>
-                  <Col xs={7} md={6}>
-                    <Link href={`/detail/${res.slug}`}>
-                      <button className="readmore">
-                        Read More <span>&rarr;</span>
+                  </div>
+                  <div className="news-content">
+                    <div className="title-text-card">
+                      {res.title.length <= 70
+                          ? res.title
+                          : res.title.substring(0, 70) + " ..."}
+                    </div>
+                    <div className="text-content-card">
+                      {parse(
+                          res.des.length <= 120
+                            ? res.des
+                            : res.des.substring(0, 100) + "..."
+                      )}
+                    </div>
+                  </div>
+                  <div className="news-footer">
+                    <div>
+                      <button className="type-category" >
+                        {res.types.name}
+                        <span>
+                          <CaretRightOutlined style={{ fontSize: "10px" }} />
+                        </span>
+                        {" "}
+                        {res.categories.name}
                       </button>
-                    </Link>
-                  </Col>
-                </Row>
-              </Col>
-              <Divider
-                style={{ marginTop: "0px", marginBottom: "10px" }}
-              ></Divider>
-            </Row>
+                      <Link href={`/detail/${res.slug}`}>
+                        <button className="readmore">
+                            Read More <span>&rarr;</span>
+                        </button>
+                      </Link>
+                    </div>
+                    <div>
+                      <button className="btn-news">
+                        <LikeOutlined style={{ fontSize: "18px" }}/>
+                      </button>
+                      <button className="btn-news">
+                        <DislikeOutlined style={{ fontSize: "18px" }}/>
+                      </button>
+                    </div>
+                  </div>
+                </Col>
+                <Col md={8}>
+                  <div className="img-news">
+                    <img height="100%" width="200" src={`${URL_ACCESS}/public/uploads//${res.thumnail}`} />
+                  </div>
+                </Col>
+              </Row>
+            </Card>
+            </div>
           );
         })}
         <InfiniteScroll
           dataLength={data.get_all_news_by_type_news.length}
           next={async () => {
-            fetchMore({
+            await fetchMore({
               variables: {
                 offset: data.get_all_news_by_type_news.length,
               },

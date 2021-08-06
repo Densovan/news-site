@@ -226,6 +226,7 @@ const GET_ALL_NEWS_BY_TYPE_NEWS = gql`
         fullname
         image
         id
+        bio
       }
       types {
         name

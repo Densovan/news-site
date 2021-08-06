@@ -6,6 +6,7 @@ import Main from "./main";
 import Footer from "../../components/Layouts/footer";
 import GlobalHeader from "../../components/Layouts/globalHeader";
 
+
 const index = () => {
   return (
     <React.Fragment>
@@ -21,12 +22,12 @@ const index = () => {
         </center>
         <br></br>
         <br></br>
-        <Row gutter={[32, 32]}>
-          <Col xs={24} md={6}>
-            <Categories />
-          </Col>
-          <Col xs={24} md={18}>
+        <Row gutter={[16, 16]}>
+          <Col xs={24} md={16}>
             <Main />
+          </Col>
+          <Col xs={24} md={8}>
+            <Categories />
           </Col>
         </Row>
       </div>
