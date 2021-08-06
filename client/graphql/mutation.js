@@ -210,9 +210,35 @@ const DELETE_REPLY_IN_NOTI = gql`
     }
   }
 `;
+const SAVE_NEWS = gql`
+  mutation (
+    $news_id: ID
+    $title: String!
+    $des: String!
+    $category: ID!
+    $createBy: ID!
+    $type: ID!
+    $thumnail: String!
+    $slug: String
+  ) {
+    save_news(
+      news_id: $news_id
+      title: $title
+      des: $des
+      category: $category
+      createBy: $createBy
+      thumnail: $thumnail
+      slug: $slug
+      type: $type
+    ) {
+      message
+    }
+  }
+`;
 
 export {
   // LIKE,
+  SAVE_NEWS,
   ADD_NEWS,
   DELETE_NEWS,
   EDIT_NEWS,

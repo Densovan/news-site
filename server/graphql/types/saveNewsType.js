@@ -7,13 +7,13 @@ const User = require("../../models/user");
 const Question = require("../../models/comment/question");
 const Answer = require("../../models/comment/answer");
 const Like = require("../../models/like");
-const Save = require("../../models/saveNews");
 
 const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLList } = graphql;
 
-const NewsType = new GraphQLObjectType({
-  name: "news",
+const SaveNewsType = new GraphQLObjectType({
+  name: "savenews",
   fields: () => ({
+    userId: { type: GraphQLID },
     title: { type: GraphQLString },
     des: { type: GraphQLString },
     category: { type: GraphQLString },
@@ -33,6 +33,9 @@ const NewsType = new GraphQLObjectType({
       type: GraphQLString,
     },
     id: {
+      type: GraphQLID,
+    },
+    news_id: {
       type: GraphQLID,
     },
     categories: {
@@ -71,12 +74,6 @@ const NewsType = new GraphQLObjectType({
         return Like.find({ postId: parent.id });
       },
     },
-    save: {
-      type: GraphQLList(saveType),
-      resolve: (parent, args) => {
-        return Save.find({ news_id: parent.id });
-      },
-    },
     // get_news_by_following: {
     //   type: GraphQLList(NewsType),
     //   resolve: (parent, args) => {
@@ -86,7 +83,7 @@ const NewsType = new GraphQLObjectType({
   }),
 });
 
-module.exports = NewsType;
+module.exports = SaveNewsType;
 
 //=============type===========
 const categoryType = require("./categoryType");
@@ -95,4 +92,3 @@ const userType = require("./userType");
 const questionType = require("./comment/questionType");
 const answerType = require("./comment/answerType");
 const likeType = require("./likeType");
-const saveType = require("./saveNewsType");

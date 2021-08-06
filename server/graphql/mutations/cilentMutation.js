@@ -23,6 +23,7 @@ const notiType = require("../types/notiType");
 const noticheckType = require("../types/notiCheckType");
 const followingType = require("../types/followingType");
 const followerType = require("../types/followerType");
+const saveNews = require("../types/saveNewsType");
 
 //===============model===============
 const NewsModel = require("../../models/news");
@@ -34,6 +35,7 @@ const NotificationModel = require("../../models/notification");
 const FollowModel = require("../../models/follow");
 const NotiModel = require("../../models/notifications");
 const NoticheckModel = require("../../models/notiCheck");
+const SaveNewsModel = require("../../models/saveNews");
 // const FollowingModel = require("../../models/following");
 // const FollowerModel = require("../../models/follower");
 
@@ -770,6 +772,56 @@ const RootMutation = new GraphQLObjectType({
                 console.log(error);
               });
           });
+        } catch (error) {
+          console.log(error);
+          throw error;
+        }
+      },
+    },
+    //============save news=================
+    save_news: {
+      type: saveNews,
+      args: {
+        news_id: { type: GraphQLID },
+        title: { type: new GraphQLNonNull(GraphQLString) },
+        des: { type: new GraphQLNonNull(GraphQLString) },
+        category: { type: new GraphQLNonNull(GraphQLID) },
+        createBy: { type: new GraphQLNonNull(GraphQLID) },
+        type: { type: new GraphQLNonNull(GraphQLID) },
+        thumnail: { type: new GraphQLNonNull(GraphQLString) },
+        slug: { type: GraphQLString },
+      },
+      resolve: async (parent, args, context) => {
+        try {
+          const existingSave = await SaveNewsModel.findOne({
+            userId: context.id,
+            news_id: args.news_id,
+          });
+          if (!existingSave) {
+            const save = new SaveNewsModel({
+              ...args,
+              userId: context.id,
+            });
+            await save.save();
+            return { message: "Successfully" };
+          }
+          if (
+            context.id === existingSave.userId &&
+            args.news_id === existingSave.news_id
+          ) {
+            await SaveNewsModel.findOneAndDelete({
+              userId: context.id,
+              news_id: args.news_id,
+            });
+            return { message: "delete successful" };
+          } else {
+            const save = new SaveNewsModel({
+              ...args,
+              userId: context.id,
+            });
+            await save.save();
+            return { message: "Successfully" };
+          }
         } catch (error) {
           console.log(error);
           throw error;

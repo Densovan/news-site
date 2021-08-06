@@ -15,6 +15,7 @@ import Like from "../../components/common/like";
 import AuthContext from "../../contexts/authContext";
 import Link from "next/link";
 import FormLike from "../../components/common/like";
+import FormSave from "../../components/common/save";
 
 import {
   // HeartOutlined,
@@ -59,8 +60,20 @@ const SinglePage = () => {
         </center>
       </div>
     );
-  const { id, title, thumnail, des, user, createdAt, comment, reply, like } =
-    data.get_news_by_slug;
+  const {
+    id,
+    title,
+    thumnail,
+    des,
+    user,
+    createdAt,
+    comment,
+    reply,
+    like,
+    category,
+    type,
+    save,
+  } = data.get_news_by_slug;
   // console.log(user.id);
   // const result = <Output data={JSON.parse(des)} />;
   // const result = {parse(des)};
@@ -70,7 +83,7 @@ const SinglePage = () => {
       <div className="container">
         <div style={{ marginTop: 40 }}>
           <Row gutter={[16, 16]}>
-            <Col sm={24} md={2}>
+            <Col xs={24} md={2}>
               {loggedIn === true && (
                 <div className="nav_left">
                   <Row gutter={[32, 32]}>
@@ -95,13 +108,24 @@ const SinglePage = () => {
                     </Col>
                     <Col xs={8} md={24}>
                       <div className="btn_box">
-                        <button
+                        {/* <button
                           style={{ cursor: "pointer" }}
                           className="save-bg"
                         >
                           <HiOutlineBookmark className="save" size={23} />
-                        </button>
-                        <div className="tt_share">1</div>
+                        </button> */}
+                        <FormSave
+                          news_id={id}
+                          title={title}
+                          des={des}
+                          category={category}
+                          type={type}
+                          slug={slug}
+                          myUser={myUser}
+                          createBy={user.id}
+                          thumnail={thumnail}
+                          save={save}
+                        />
                       </div>
                     </Col>
                   </Row>
@@ -147,7 +171,7 @@ const SinglePage = () => {
                 // </div>
               )}
             </Col>
-            <Col sm={24} md={16}>
+            <Col xs={24} md={16}>
               <div>
                 <div className="arcticle-div">
                   {/* <div className="thumail">
@@ -267,7 +291,7 @@ const SinglePage = () => {
                 </div>
               </div>
             </Col>
-            <Col sm={24} md={6}>
+            <Col xs={24} md={6}>
               <div className="pf_pre">
                 <Link href={`/profile_detial/${user.id}`}>
                   <div style={{ cursor: "pointer" }} className="pf_user">

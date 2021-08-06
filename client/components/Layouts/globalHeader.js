@@ -646,7 +646,7 @@ const GlobalHeader = () => {
                                   <Spin></Spin>
                                 </center>
                               </Content>
-                            }
+                            }mongodb+srv://den:04031998den@newstest.i0md1.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
                             endMessage={null}
                           ></InfiniteScroll> */}
                       </div>
@@ -759,67 +759,18 @@ const GlobalHeader = () => {
           )}
         </div>
 
-        {/* <Drawer
-          placement="left"
-          closable={false}
-          onClose={onClose}
-          visible={state.visible}
-        >
-          <Menu
-            style={{
-              background: "#262e3c",
-            }}
-            onClick={onClose}
-          >
-            <Menu.Item key="1">
-              <Link
-                className="simple"
-                href="/"
-                exact
-                activeClassName="is-active"
-              >
-                HOME
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="2">
-              {" "}
-              <Link href="/news" exact activeClassName="is-active">
-                NEWS
-              </Link>
-            </Menu.Item>
-            <Menu.Item>
-              <Link key="3" href="/learns" activeClassName="is-active">
-                LEARNS
-              </Link>
-            </Menu.Item>
-            <Menu.Item>
-              <Link key="4" href="/features" activeClassName="is-active">
-                FEATURES
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="5">
-              <Link href="/about" activeClassName="is-active">
-                ABOUT US
-              </Link>
-            </Menu.Item>
-          </Menu>
-        </Drawer> */}
         <Drawer
           placement="left"
           closable={false}
           onClose={onClose}
           visible={state.visible}
-          // width={200}
-          // key={placement}
         >
           <Menu
             style={{
               background: "#262e3c",
-              width: "280px",
-              // paddingLeft: "12px",
+              // width: "300px",
             }}
             onClick={onClose}
-            className="side-nav"
           >
             <Menu.Item key="1">
               <Link

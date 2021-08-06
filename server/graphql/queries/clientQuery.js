@@ -18,6 +18,7 @@ const LikeModel = require("../../models/like");
 const NotiModel = require("../../models/notifications");
 const NotiCheckModel = require("../../models/notiCheck");
 const FollowModel = require("../../models/follow");
+const SaveNewsModel = require("../../models/saveNews");
 
 //================Type Sections==================
 const CategoryType = require("../types/categoryType");
@@ -28,6 +29,8 @@ const NotificationType = require("../types/notificationType");
 const NotiType = require("../types/notiType");
 const NotiCheckType = require("../types/notiCheckType");
 const FollowType = require("../types/followType");
+const saveNews = require("../types/saveNewsType");
+const SaveNewsType = require("../types/saveNewsType");
 
 const RootQuery = new GraphQLObjectType({
   name: "RootQueryType",
@@ -415,6 +418,28 @@ const RootQuery = new GraphQLObjectType({
       type: new GraphQLList(FollowType),
       resolve: (parent, args, context) => {
         return FollowModel.find({});
+      },
+    },
+    get_save_news_by_userId: {
+      type: new GraphQLList(SaveNewsType),
+      args: {
+        limit: {
+          name: "limit",
+          type: GraphQLInt,
+        },
+        offset: {
+          name: "offset",
+          type: GraphQLInt,
+        },
+      },
+      resolve: (parent, args, context) => {
+        const { limit = null, offset = null } = args;
+        return SaveNewsModel.find({ userId: context.id })
+          .limit(limit)
+          .skip(offset)
+          .sort({
+            createdAt: -1,
+          });
       },
     },
   },
