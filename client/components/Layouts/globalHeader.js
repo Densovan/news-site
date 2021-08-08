@@ -99,7 +99,7 @@ const GlobalHeader = () => {
               <img height="100%" src="/assets/images/logo.png" />
             </Link>
           </div>
-          <div>
+          {/* <div>
             <Menu mode="horizontal">
               <Menu.Item className="navbar-text" key="1">
                 <ActiveLink activeClassName="is-active" href="/">
@@ -127,7 +127,7 @@ const GlobalHeader = () => {
                 </ActiveLink>
               </Menu.Item>
             </Menu>
-          </div>
+          </div> */}
           <div>
             {loggedIn === false && (
               <div style={{ display: "flex", alignItems: "center" }}>

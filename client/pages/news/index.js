@@ -12,13 +12,13 @@ const index = () => {
       {/* <MainNavbar /> */}
       <GlobalHeader />
       <div className="container">
-        <center>
+        {/* <center>
           <h1 className="top-title-allNews">News</h1>
           <Breadcrumb style={{ marginTop: "-24px" }}>
             <Breadcrumb.Item>Home</Breadcrumb.Item>
             <Breadcrumb.Item>News</Breadcrumb.Item>
           </Breadcrumb>
-        </center>
+        </center> */}
         <br></br>
         <br></br>
         <Row gutter={[16, 16]}>
