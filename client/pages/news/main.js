@@ -29,8 +29,6 @@ const AllNews = () => {
         <Medium/>
       </div>
     );
-    const news = [];
-    news.push(data.get_all_news_by_type_news);
   return (
     <React.Fragment>
       <div className="content-top-stories">
