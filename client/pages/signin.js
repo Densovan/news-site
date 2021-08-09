@@ -117,6 +117,17 @@ const Login = ({ history }) => {
               </Form.Item>
             </Form>
             <center>
+              <Button
+                disabled={loading ? true : false}
+                loading={loading ? true : false}
+                className="btn-login"
+                size="large"
+                htmlType="submit"
+              >
+                Sign In with Google
+              </Button>
+            </center>
+            <center>
               <span style={{ color: "white" }}>Do not have an account?</span>
               <span style={{ paddingLeft: "12px", fontWeight: "900" }}>
                 <Link href="/register">Create new account</Link>

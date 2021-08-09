@@ -63,7 +63,7 @@ const AllNews = () => {
               cursor: "pointer",
               border: "solid 2px #ffffff9d",
             }}
-            src={userData.get_user.image}
+            // src={userData.get_user.image}
             shape="circle"
             size="large"
           />

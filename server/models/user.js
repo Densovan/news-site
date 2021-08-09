@@ -28,48 +28,51 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "https://salabackend.koompi.com/public/uploads/avatar.png",
     },
+    googleId: {
+      type: String,
+      require: true,
+    },
     // followed: {
     //   type: Boolean,
     //   default: false,
     // },
-    following: [
-      {
-        email: {
-          type: String,
-          // required: true,
-        },
-        fullname: {
-          type: String,
-          // required: true,
-        },
-        followingId: {
-          type: String,
-        },
-        image: {
-          type: String,
-          // default: "",
-        },
-      },
-    ],
-    follower: [
-      {
-        email: {
-          type: String,
-          // required: true,
-        },
-        fullname: {
-          type: String,
-          // required: true,
-        },
-        followerId: {
-          type: String,
-        },
-        image: {
-          type: String,
-          // default: "",
-        },
-      },
-    ],
+    // following: [
+    //   {
+    //     email: {
+    //       type: String,
+    //       // required: true,
+    //     },
+    //     fullname: {
+    //       type: String,
+    //       // required: true,
+    //     },
+    //     followingId: {
+    //       type: String,
+    //     },
+    //     image: {
+    //       type: String,
+    //       // default: "",
+    //     },
+    //   },
+    // ],
+    // follower: [
+    //   {
+    //     email: {
+    //       type: String,
+    //       // required: true,
+    //     },
+    //     fullname: {
+    //       type: String,
+    //       // required: true,
+    //     },
+    //     followerId: {
+    //       type: String,
+    //     },
+    //     image: {
+    //       type: String,
+    //     },
+    //   },
+    // ],
   },
   {
     timestamps: true,
