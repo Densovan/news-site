@@ -5,8 +5,10 @@ import Footer from "../../components/Layouts/footer";
 import Categories from "../categories/learn";
 import Main from "./main";
 import GlobalHeader from "../../components/Layouts/globalHeader";
+import client from "../../libs/apollo-client";
+import { gql } from "@apollo/client";
 
-const main = () => {
+const main = ({ data, fetchMore }) => {
   return (
     <React.Fragment>
       {/* <MainNavbar /> */}
@@ -26,6 +28,7 @@ const main = () => {
             <Categories />
           </Col>
           <Col xs={24} md={18}>
+            {/* <Main data={data} /> */}
             <Main />
           </Col>
         </Row>
@@ -37,3 +40,38 @@ const main = () => {
 };
 
 export default main;
+
+// export async function getServerSideProps() {
+//   const { data, fetchMore } = await client.query({
+//     query: gql`
+//       query Users {
+//         get_all_news_by_type_learn(limit: 8, offset: 0) {
+//           title
+//           createdAt
+//           id
+//           category
+//           thumnail
+//           type
+//           slug
+//           des
+//           user {
+//             fullname
+//             image
+//             id
+//           }
+//           types {
+//             name
+//           }
+//           categories {
+//             name
+//           }
+//         }
+//       }
+//     `,
+//   });
+//   return {
+//     props: {
+//       data: data,
+//     },
+//   };
+// }

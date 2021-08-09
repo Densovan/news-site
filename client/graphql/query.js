@@ -342,6 +342,10 @@ const GET_NEWS_BY_SLUG = gql`
         userId
         postId
       }
+      save {
+        news_id
+        userId
+      }
     }
   }
 `;
