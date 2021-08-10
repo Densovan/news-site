@@ -81,7 +81,7 @@ app.use(cookieParser());
 
 app.use("/auth", require("./routes/userRouter"));
 app.use("/", require("./routes/uploadFile"));
-app.use("/auth", require("./routes/loginWithGoogle"));
+app.use("/", require("./routes/loginWithGoogle"));
 app.use("/public/", express.static(path.join(__dirname, "public")));
 
 //==========login with google==============
@@ -90,79 +90,51 @@ app.get(
   passport.authenticate("google", { scope: ["profile", "email"] })
 );
 
-app.get(
-  "/auth/google/callback",
-  passport.authenticate("google", {
-    failureRedirect: "/login",
-    successRedirect: "http://localhost:3008",
-  }),
-  function (req, res) {
-    // Successful authentication, redirect home.
-    res.redirect("http://localhost:3008");
-  }
-);
+// app.get(
+//   "/auth/google/callback",
+//   passport.authenticate("google", {
+//     failureRedirect: "/login",
+//     successRedirect: "http://localhost:3008",
+//   }),
+//   function (req, res) {
+//     // Successful authentication, redirect home.
+//     res.redirect("http://localhost:3008");
+//   }
+// );
 
-passport.use(
-  new GoogleStrategy(
-    {
-      clientID:
-        "677977246216-mfg0skuque596b1o2ikturiq0n6jbp60.apps.googleusercontent.com",
-      clientSecret: "zH3p3Gfs0b3R9UjcXlAjl9aU",
-      callbackURL: "/auth/google/callback",
-    },
-    function (accessToken, refreshToken, profile, done) {
-      // console.log(profile);
-      User.findOne({ googleId: profile.id }).then((currentUser) => {
-        if (currentUser) {
-          // already have this user
-          console.log("user is: ", currentUser._id);
-          done(null, currentUser);
-        } else {
-          // if not, create user in our db
-          new User({
-            fullname: `${profile.name.givenName} ${profile.name.familyName}`,
-            email: profile.emails[0].value,
-            image: profile.photos[0].value,
-            googleId: profile.id,
-          })
-            .save()
-            .then((newUser) => {
-              const token = createAccessToken(currentUser._id);
-              const refreshToken = createRefreshToken(currentUser._id);
-
-              res.cookie("token", token, {
-                httpOnly: true,
-                secure: true,
-                sameSite: "strict",
-                maxAge: accessMaxAge * 1000,
-              });
-
-              //================send the token============
-              res.cookie("refreshToken", refreshToken, {
-                httpOnly: true,
-                secure: true,
-                sameSite: "strict",
-                maxAge: refreshMaxAge * 1000,
-              });
-
-              res
-                .status(200)
-                .json({
-                  msg: "Login Successful",
-                  token: token,
-                  success: true,
-                  _id: currentUser._id,
-                })
-                .send();
-
-              console.log("created new user: ", currentUser._id);
-              done(null, newUser);
-            });
-        }
-      });
-    }
-  )
-);
+// passport.use(
+//   new GoogleStrategy(
+//     {
+//       clientID:
+//         "677977246216-mfg0skuque596b1o2ikturiq0n6jbp60.apps.googleusercontent.com",
+//       clientSecret: "zH3p3Gfs0b3R9UjcXlAjl9aU",
+//       callbackURL: "/auth/google/callback",
+//     },
+//     function (accessToken, refreshToken, profile, done) {
+//       // console.log(profile);
+//       User.findOne({ googleId: profile.id }).then((currentUser) => {
+//         if (currentUser) {
+//           // already have this user
+//           console.log("user is: ", currentUser._id);
+//           done(null, currentUser);
+//         } else {
+//           // if not, create user in our db
+//           new User({
+//             fullname: `${profile.name.givenName} ${profile.name.familyName}`,
+//             email: profile.emails[0].value,
+//             image: profile.photos[0].value,
+//             googleId: profile.id,
+//           })
+//             .save()
+//             .then((newUser) => {
+//               console.log("created new user: ", currentUser._id);
+//               done(null, newUser);
+//             });
+//         }
+//       });
+//     }
+//   )
+// );
 
 //===========client API================
 app.use(

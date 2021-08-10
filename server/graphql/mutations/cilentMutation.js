@@ -24,7 +24,7 @@ const noticheckType = require("../types/notiCheckType");
 const followingType = require("../types/followingType");
 const followerType = require("../types/followerType");
 const saveNews = require("../types/saveNewsType");
-
+const likeTopDownType = require("../types/likeTopDownType");
 //===============model===============
 const NewsModel = require("../../models/news");
 const UserModel = require("../../models/user");
@@ -36,6 +36,7 @@ const FollowModel = require("../../models/follow");
 const NotiModel = require("../../models/notifications");
 const NoticheckModel = require("../../models/notiCheck");
 const SaveNewsModel = require("../../models/saveNews");
+const LikeTopDownModel = require("../../models/likeTopDown");
 // const FollowingModel = require("../../models/following");
 // const FollowerModel = require("../../models/follower");
 
@@ -828,6 +829,79 @@ const RootMutation = new GraphQLObjectType({
         }
       },
     },
+    //==============like top down=============
+    // like_count_down: {
+    //   type: likeTopDownType,
+    //   args: {
+    //     count: { type: GraphQLInt },
+    //     // countDonw: { type: GraphQLInt },
+    //     postId: { type: GraphQLID },
+    //     ownerId: { type: GraphQLID },
+    //   },
+    //   resolve: async (parent, args, context) => {
+    //     try {
+    //       const existingCount = await LikeTopDownModel.findOne({
+    //         postId: args.postId,
+    //       });
+    //       if (existingCount.count <= 0) {
+    //         return { message: "nothing happend" };
+    //       } else if (existingCount.count > 0) {
+    //         const down = new LikeTopDownModel({
+    //           ...args,
+    //           userId: context.id,
+    //           count: count - 1,
+    //         });
+    //         await down.save();
+    //         return { message: "successfully" };
+    //       }
+    //     } catch (error) {
+    //       console.log(error);
+    //       throw error;
+    //     }
+    //   },
+    // },
+    // like_count_up: {
+    //   type: likeTopDownType,
+    //   args: {
+    //     postId: { type: GraphQLID },
+    //     ownerId: { type: GraphQLID },
+    //     type: { type: GraphQLID },
+    //   },
+    //   resolve: async (parent, args, context) => {
+    //     try {
+    //       const existingLIke = await LikeTopDownModel.findOne({
+    //         userId: context.id,
+    //         postId: args.postId,
+    //         type: "up",
+    //       });
+    //       if (!existingLIke) {
+    //         const up = new LikeTopDownModel({
+    //           ...args,
+    //           userId: context.id,
+    //           // count: +1,
+    //         });
+    //         await up.save();
+    //         return { message: "successfully" };
+    //       } else if (
+    //         context.id === existingLIke.userId &&
+    //         args.postId === existingLIke.postId &&
+    //         args.type === existingLIke.type
+    //       ) {
+    //         await LikeTopDownModel.findOneAndDelete({
+    //           userId: context.id,
+    //           postId: args.postId,
+    //         });
+    //         await LikeTopDownModel.findOneAndUpdate({
+    //           count: -1,
+    //         });
+    //         return { message: "deleted successfully" };
+    //       }
+    //     } catch (error) {
+    //       console.log(error);
+    //       throw error;
+    //     }
+    //   },
+    // },
   },
 });
 module.exports = RootMutation;

@@ -4,32 +4,41 @@ const newsSchema = new mongoose.Schema(
   {
     title: {
       type: String,
-      required: true,
+      // required: true,
     },
     des: {
       type: String,
-      required: true,
+      // required: true,
     },
     thumnail: {
       type: String,
-      required: true,
+      // required: true,
     },
     category: {
       type: String,
-      required: true,
+      // required: true,
     },
     type: {
       type: String,
-      required: true,
+      // required: true,
     },
     createBy: {
       type: String, // foreign key ID from User
-      required: true,
+      // required: true,
     },
     slug: {
       type: String,
-      require: true,
+      // require: true,
       unique: true,
+    },
+    like_count: {
+      type: Number,
+    },
+    liker_id: {
+      type: String,
+    },
+    like_type: {
+      type: String,
     },
   },
   {
