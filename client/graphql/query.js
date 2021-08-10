@@ -199,7 +199,9 @@ const GET_ALL_NEWS = gql`
       slug
       user {
         fullname
+        image
         id
+        bio
       }
       types {
         name

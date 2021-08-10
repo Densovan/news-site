@@ -1,18 +1,17 @@
-import React, { useState, useEffect } from "react";
-import { Row, Col, Layout, Spin,  Card, Avatar, Tooltip, Typography, Tag, Divider, Button } from "antd";
+import React, { useState, Fragment } from "react";
+import { Row, Col, Layout, Spin,  Card, Avatar, Tooltip, Result } from "antd";
 import parse from "html-react-parser";
-import { CaretRightOutlined, HeartOutlined, LikeOutlined, DislikeOutlined } from "@ant-design/icons";
+import { CaretRightOutlined, LikeOutlined, DislikeOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import { useQuery } from "@apollo/client";
-import { GET_ALL_NEWS_BY_TYPE_NEWS } from "../../graphql/query";
+import { GET_ALL_NEWS } from "../../graphql/query";
 import moment from "moment";
-import Output from "editorjs-react-renderer";
 import Medium from "../../components/loaders/newsLoader";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 const { Content } = Layout;
 
-const AllNews = () => {
+const AllNews = ({ selectedTags, loadingFilter }) => {
   const server = process.env.API_SECRET;
   const server_local = process.env.API_SECRET_LOCAL;
   const develop = process.env.NODE_ENV;
@@ -20,7 +19,7 @@ const AllNews = () => {
 
   const [hasMoreItems, setHasMoreItems] = useState(true);
   //=============get last News===========
-  const { loading, data, fetchMore } = useQuery(GET_ALL_NEWS_BY_TYPE_NEWS, {
+  const { loading, data:news, fetchMore } = useQuery(GET_ALL_NEWS, {
     variables: { limit: 6, offset: 0 },
   });
   if (loading)
@@ -28,15 +27,37 @@ const AllNews = () => {
       <div>
         <Medium/>
       </div>
-    );
+  );
+  const result = [];
+  if (!loadingFilter) {
+    if (selectedTags[0] === 'All') {
+      news.get_all_news.map(news => {
+        result.push(news);
+      })
+    }
+    else{
+      news.get_all_news.filter(news => {
+        return selectedTags.map(selectedTag => {
+          if (news.categories.name === selectedTag || news.types.name === selectedTag) {
+            result.push(news);
+          }
+        })
+      });
+    }
+  }
   return (
-    <React.Fragment>
-      <div className="content-top-stories">
-        {data.get_all_news_by_type_news.map((res, index) => {
-          // const result = <Output data={JSON.parse(res.des)} />;
+    <>
+      {loadingFilter ? <div> <Medium/> </div> : <Fragment>
+        {result.length === 0 && <div>
+          <Result
+            status="404"
+            title="No Data"
+            subTitle="Sorry, You can find this data."
+          />  
+        </div>}
+        {result.map((res, index) => {
           return (
-            <div key={index}>
-            <Card className="card-article">
+            <Card className="card-article" key={index}>
               <Row>
                 <Col md={16} className="box-news">
                   <div className="header-card-article">
@@ -105,27 +126,26 @@ const AllNews = () => {
                 </Col>
               </Row>
             </Card>
-            </div>
           );
         })}
         <InfiniteScroll
-          dataLength={data.get_all_news_by_type_news.length}
+          dataLength={news.get_all_news.length}
           next={async () => {
             await fetchMore({
               variables: {
-                offset: data.get_all_news_by_type_news.length,
+                offset: news.get_all_news.length,
               },
               updateQuery: (prev, { fetchMoreResult }) => {
                 if (!fetchMoreResult) return prev;
 
-                if (fetchMoreResult.get_all_news_by_type_news.length < 8) {
+                if (fetchMoreResult.get_all_news.length < 8) {
                   setHasMoreItems(false);
                 }
 
                 return Object.assign({}, prev, {
-                  get_all_news_by_type_news: [
-                    ...prev.get_all_news_by_type_news,
-                    ...fetchMoreResult.get_all_news_by_type_news,
+                  get_all_news: [
+                    ...prev.get_all_news,
+                    ...fetchMoreResult.get_all_news,
                   ],
                 });
               },
@@ -141,8 +161,9 @@ const AllNews = () => {
           }
           endMessage={null}
         ></InfiniteScroll>
-      </div>
-    </React.Fragment>
+        </Fragment>
+      }
+    </>
   );
 };
 

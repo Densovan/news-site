@@ -2,27 +2,28 @@ import React, { useState } from "react";
 import { Breadcrumb, Row, Col } from "antd";
 import MainNavbar from "../../components/Layouts/mainNavbar";
 import Categories from "../categories/news";
+import FilterNews from "./filterNews";
 import Main from "./main";
 import Footer from "../../components/Layouts/footer";
 import GlobalHeader from "../../components/Layouts/globalHeader";
-import { useQuery } from "@apollo/client";
-import { GET_ALL_NEWS_BY_TYPE_NEWS } from "../../graphql/query";
-import FilterNews from "./filterNews";
 
 const index = () => {
-  // const [state, setState] = useState({
-  //   selectedTags: ['Books']
-  // })
-  // const { data:news, loading:loadingNews, error } = useQuery(GET_ALL_NEWS_BY_TYPE_NEWS, {
-  //   variables: { limit: 6, offset: 0 },
-  //   fetchPolicy: "network-only"
-  // });
-  // if (loadingNews) return (<div>login...</div>)
-  // if (error) return (<div>error...</div>)
+  const [state, setState] = useState({
+    selectedTags: ['All'],
+    loading: false,
+  })
+
+  const handleChange = (tag, checked) => {
+    const { selectedTags } = state;
+    const nextSelectedTags = checked ? [...selectedTags, tag] : selectedTags.filter(t => t !== tag);
+    setState({ selectedTags: nextSelectedTags,loading: true });
+    setTimeout(() => {
+      setState({ selectedTags: nextSelectedTags,loading: false });
+    }, 1000)
+  }
 
   return (
     <React.Fragment>
-      {/* <MainNavbar /> */}
       <GlobalHeader />
       <div className="container">
         {/* <center>
@@ -36,11 +37,10 @@ const index = () => {
         <br></br>
         <Row gutter={[16, 16]}>
           <Col xs={24} md={16}>
-            <Main />
+            <Main selectedTags={state.selectedTags} loadingFilter={state.loading}/>
           </Col>
           <Col xs={24} md={8}>
-            {/* <FilterNews news={news}/> */}
-            <Categories/>
+            <FilterNews handleChange={handleChange} selectedTags={state.selectedTags} />
           </Col>  
         </Row>
       </div>

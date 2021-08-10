@@ -181,7 +181,7 @@ const RootQuery = new GraphQLObjectType({
         },
       },
       resolve(parents, { limit = null, offset = null }) {
-        return NewsModel.find({ type: "60b125935b23dcef7bea2dad" })
+        return NewsModel.find({ type: "60ab9d4a314c8a3b207849e6" })
           .limit(limit)
           .skip(offset)
           .sort({ createdAt: -1 });

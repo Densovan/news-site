@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import ContentLoader from 'react-content-loader'
 import { Card } from "antd";
 
 const Medium = props => (
-    <div>
+    <Fragment>
         {[0,1,2,4,5,6].map(data  => {
             return(
                 <Card className="card-article" key={data}>
@@ -20,7 +20,7 @@ const Medium = props => (
                 </Card>
             )
         })} 
-    </div>
+    </Fragment>
 )
 
 Medium.metadata = {
