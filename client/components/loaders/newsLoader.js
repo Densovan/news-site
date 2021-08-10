@@ -1,12 +1,12 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import ContentLoader from 'react-content-loader'
 import { Card } from "antd";
 
 const Medium = props => (
-    <div>
+    <Fragment>
         {[0,1,2,4,5,6].map(data  => {
             return(
-                <Card className="card-article">
+                <Card className="card-article" key={data}>
                    <ContentLoader viewBox="0 0 660 130" height="100%" width="100%" {...props}>
                      <circle cx="25" cy="21" r="20" />
                      <rect x="50" y="12" rx="3" ry="3" width="88" height="5" /> 
@@ -20,7 +20,7 @@ const Medium = props => (
                 </Card>
             )
         })} 
-    </div>
+    </Fragment>
 )
 
 Medium.metadata = {

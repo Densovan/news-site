@@ -33,6 +33,8 @@ const newsSchema = new mongoose.Schema(
     },
     like_count: {
       type: Number,
+      require: true,
+      default: 0,
     },
     liker_id: {
       type: String,

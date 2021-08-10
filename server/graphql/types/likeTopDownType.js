@@ -14,7 +14,7 @@ const LikeTopDownType = new GraphQLObjectType({
     createdAt: {
       type: GraphQLString,
     },
-    count: {
+    like_count: {
       type: GraphQLInt,
     },
     type: {

@@ -103,6 +103,7 @@ const Type = () => {
 
     const data = [];
     let i = 1;
+    console.log(types.get_types);
     types.get_types.forEach(element => {
         data.push({ "key": i, "id": i, "name": element.name, "fullname": element.user.fullname, "objectId":element.id });
         i++;

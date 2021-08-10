@@ -2,9 +2,10 @@ const mongoose = require("mongoose");
 
 const likeTopDownSchema = new mongoose.Schema(
   {
-    count: {
+    like_count: {
       type: Number,
       require: true,
+      default: 0,
     },
     // countDown: {
     //   type: Number,
