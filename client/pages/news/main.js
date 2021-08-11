@@ -1,17 +1,29 @@
 import React, { useState, Fragment } from "react";
-import { Row, Col, Layout, Spin, Card, Avatar, Tooltip, Result } from "antd";
+import {
+  Row,
+  Col,
+  Layout,
+  Spin,
+  Card,
+  Avatar,
+  Tooltip,
+  Result,
+  Input,
+} from "antd";
 import parse from "html-react-parser";
 import {
   CaretRightOutlined,
   LikeOutlined,
   DislikeOutlined,
 } from "@ant-design/icons";
+import { AiOutlinePicture } from "react-icons/ai";
 import Link from "next/link";
 import { useQuery } from "@apollo/client";
-import { GET_ALL_NEWS } from "../../graphql/query";
+import { GET_ALL_NEWS, GET_USER } from "../../graphql/query";
 import moment from "moment";
 import Medium from "../../components/loaders/newsLoader";
 import InfiniteScroll from "react-infinite-scroll-component";
+import SmallNavbar from "../../components/Layouts/smallNavbar";
 
 const { Content } = Layout;
 
@@ -30,7 +42,8 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
   } = useQuery(GET_ALL_NEWS, {
     variables: { limit: 6, offset: 0 },
   });
-  if (loading)
+  const { loading: userLoading, data: userData } = useQuery(GET_USER);
+  if (loading || userLoading)
     return (
       <div>
         <Medium />
@@ -57,6 +70,40 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
   }
   return (
     <>
+      <Row className="status-style">
+        <Col span={2}>
+          <Avatar
+            style={{
+              // height: 35,
+              // width: 35,
+              // paddingTop: 0,
+              // marginLeft: 18,
+              cursor: "pointer",
+              border: "solid 2px #ffffff9d",
+            }}
+            src={userData.get_user.image}
+            shape="circle"
+            size="middle"
+          />
+        </Col>
+        <Col span={22}>
+          <Link href="/dashboard/addstory">
+            <Input size="middle" placeholder="Write your story" />
+          </Link>
+        </Col>
+        {/* <Col span={2}>
+          <center>
+            <AiOutlinePicture size={30} />
+          </center>
+        </Col>
+        <Col span={2}>
+          <center>
+            <AiOutlinePicture size={30} />
+          </center>
+        </Col> */}
+      </Row>
+      <br></br>
+      <SmallNavbar />
       {loadingFilter ? (
         <div>
           {" "}
@@ -174,7 +221,7 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
                 updateQuery: (prev, { fetchMoreResult }) => {
                   if (!fetchMoreResult) return prev;
 
-                  if (fetchMoreResult.get_all_news.length < 8) {
+                  if (fetchMoreResult.get_all_news.length < 6) {
                     setHasMoreItems(false);
                   }
 

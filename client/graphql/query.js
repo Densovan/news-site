@@ -351,6 +351,65 @@ const GET_NEWS_BY_SLUG = gql`
     }
   }
 `;
+const GET_NEWS_BY_TITLE = gql`
+  query ($title: String) {
+    get_news_by_title(title: $title) {
+      id
+      title
+      createdAt
+      category
+      thumnail
+      type
+      slug
+      des
+      user {
+        bio
+        id
+        fullname
+        image
+        email
+        createdAt
+      }
+      types {
+        name
+      }
+      categories {
+        name
+      }
+      comment {
+        createdAt
+        id
+        question
+        user {
+          id
+          fullname
+          image
+        }
+        answerId
+      }
+      reply {
+        id
+        createdAt
+        user {
+          id
+          fullname
+          image
+        }
+        postId
+        answer
+        questionId
+      }
+      like {
+        userId
+        postId
+      }
+      save {
+        news_id
+        userId
+      }
+    }
+  }
+`;
 
 const GET_NEWS_BY_CATS = gql`
   query ($id: ID!, $limit: Int!, $offset: Int!) {
@@ -480,6 +539,7 @@ const GET_NOTIFICATION_CHECK_BY_USER = gql`
 
 export {
   GET_USER_BY_ID,
+  GET_NEWS_BY_TITLE,
   GET_NEWS_FEATURE_BY_CAT,
   GET_NEWS_NEWS_BY_CAT,
   GET_NEWS_LEARN_BY_CAT,

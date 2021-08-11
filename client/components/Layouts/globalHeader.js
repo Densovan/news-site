@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import moment from "moment";
 import {
   Drawer,
+  Input,
   Menu,
   Layout,
   Popover,
@@ -43,7 +44,7 @@ import { TiUser, TiUserAdd } from "react-icons/ti";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Notification from "../common/notification";
 
-const { Content } = Layout;
+const { Search } = Input;
 const GlobalHeader = () => {
   const [hasMoreItems, setHasMoreItems] = useState(true);
   const [notifications, setNotifications] = useState([]);
@@ -84,6 +85,7 @@ const GlobalHeader = () => {
       visible: true,
     });
   };
+  const onSearch = (value) => console.log(value);
   const onClose = () => {
     setState({
       visible: false,
@@ -98,6 +100,15 @@ const GlobalHeader = () => {
             <Link href="/">
               <img height="100%" src="/assets/images/logo.png" />
             </Link>
+          </div>
+          <div className="search-bar">
+            <Search
+              className="input-search"
+              placeholder="input search text"
+              onSearch={onSearch}
+              size="middle"
+              enterButton
+            />
           </div>
           {/* <div>
             <Menu mode="horizontal">

@@ -74,7 +74,7 @@ const Footer = () => {
                   <Link href="/1">News and Events</Link>
                 </h2>
                 <h2>
-                  <Link href="/2">Ask Me Anything</Link>
+                  <Link href="/about">About Us</Link>
                 </h2>
                 <h2>
                   <Link href="/3">Become a contributer</Link>

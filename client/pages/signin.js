@@ -116,7 +116,7 @@ const Login = ({ history }) => {
                 </center>
               </Form.Item>
             </Form>
-            <center>
+            {/* <center>
               <Button
                 disabled={loading ? true : false}
                 loading={loading ? true : false}
@@ -126,7 +126,7 @@ const Login = ({ history }) => {
               >
                 Sign In with Google
               </Button>
-            </center>
+            </center> */}
             <center>
               <span style={{ color: "white" }}>Do not have an account?</span>
               <span style={{ paddingLeft: "12px", fontWeight: "900" }}>

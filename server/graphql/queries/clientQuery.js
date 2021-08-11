@@ -325,6 +325,13 @@ const RootQuery = new GraphQLObjectType({
         return NewsModel.findOne({ slug: args.slug });
       },
     },
+    get_news_by_title: {
+      type: NewsType,
+      args: { title: { type: GraphQLString } },
+      resolve: (paren, args) => {
+        return NewsModel.findOne({ title: args.title });
+      },
+    },
 
     get_cats: {
       type: new GraphQLList(CategoryType),
