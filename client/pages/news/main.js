@@ -38,21 +38,34 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
     );
   const result = [];
   if (!loadingFilter) {
-    if (selectedTags[0] === "All") {
+    if (selectedTags.length === 0) {
       news.get_all_news.map((news) => {
         result.push(news);
       });
     } else {
-      news.get_all_news.filter((news) => {
-        return selectedTags.map((selectedTag) => {
-          if (
-            news.categories.name === selectedTag ||
-            news.types.name === selectedTag
-          ) {
-            result.push(news);
-          }
-        });
+      let selectedTag = [];
+      selectedTags.forEach(element => {
+        if (element === "All") {
+          selectedTag.push(element)
+        }
       });
+      if (selectedTag[0] == "All") {
+        news.get_all_news.map((news) => {
+        result.push(news);
+        })
+      }
+      else{
+        news.get_all_news.filter((news) => {
+          return selectedTags.map((selectedTag) => {
+            if (
+              news.categories.name === selectedTag ||
+              news.types.name === selectedTag
+            ) {
+              result.push(news);
+            }
+          });
+        });
+      }
     }
   }
   return (
