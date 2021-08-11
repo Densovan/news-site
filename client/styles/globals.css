@@ -2461,6 +2461,9 @@ body {
   color: rgba(117, 117, 117, 1);
   font-size: 12px;
 }
+.img-news{
+  height:100%;
+}
 .img-news img {
   float: right;
   height: 100%;
