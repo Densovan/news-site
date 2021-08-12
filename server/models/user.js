@@ -26,7 +26,9 @@ const userSchema = new mongoose.Schema(
     bio: { type: String, default: "404 bio not found" },
     image: {
       type: String,
-      default: "https://salabackend.koompi.com/public/uploads/avatar.png",
+      // default: "https://salabackend.koompi.com/public/uploads/avatar.png",
+      default:
+        "https://backend.beecolony.org/public/uploads/file-b361e38f-41f1-4f49-864b-a29717decebc.png",
     },
     googleId: {
       type: String,

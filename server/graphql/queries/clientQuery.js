@@ -75,9 +75,56 @@ const RootQuery = new GraphQLObjectType({
         return NewsModel.find({})
           .limit(limit)
           .skip(offset)
-          .sort({ like_count: -1 });
+          .sort({ createdAt: -1 });
       },
     },
+
+    //=============get news created at least 24h===================
+    get_all_news_today: {
+      type: new GraphQLList(NewsType),
+      args: {
+        limit: {
+          name: "limit",
+          type: GraphQLInt,
+        },
+        offset: {
+          name: "offset",
+          type: GraphQLInt,
+        },
+      },
+      resolve: (parent, { limit = null, offset = null }) => {
+        // return NewsModel.find({})
+        return NewsModel.find({
+          createdAt: { $gt: new Date(Date.now() - 24 * 60 * 60 * 1000) },
+        })
+          .limit(limit)
+          .skip(offset)
+          .sort({ createdAt: -1 });
+      },
+    },
+
+    //==============get_new_sort-top=================
+    get_all_news_top: {
+      type: new GraphQLList(NewsType),
+      args: {
+        limit: {
+          name: "limit",
+          type: GraphQLInt,
+        },
+        offset: {
+          name: "offset",
+          type: GraphQLInt,
+        },
+      },
+      resolve: (parent, { limit = null, offset = null }) => {
+        return NewsModel.find({})
+          .limit(limit)
+          .skip(offset)
+          .sort({ like_count: -1 });
+        // .sort({ createAt: -1 })
+      },
+    },
+
     get_news: {
       type: NewsType,
       args: { id: { type: GraphQLID } },

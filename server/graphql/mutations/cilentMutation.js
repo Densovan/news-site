@@ -846,7 +846,7 @@ const RootMutation = new GraphQLObjectType({
             type: "down",
           });
           const existingCount = await NewsModel.findOne({
-            postId: args.postId,
+            _id: args.postId,
           });
           if (!existingLIke) {
             if (existingCount.like_count <= 0) {

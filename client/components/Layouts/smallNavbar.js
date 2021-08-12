@@ -18,19 +18,19 @@ const smallNavbar = () => {
               <span>ALL</span>
             </div>
           </ActiveLink>
-          <ActiveLink href="/" activeClassName="small-navbar-active">
+          <ActiveLink href="/topnews" activeClassName="small-navbar-active">
+            <div className="sub1-small-navbar">
+              <AiOutlineUp style={{ padding: "0 7px 0 0" }} size={30} />
+              <span>TOP</span>
+            </div>
+          </ActiveLink>
+          <ActiveLink href="/todays" activeClassName="small-navbar-active">
             <div className="sub1-small-navbar">
               <AiOutlineCloudDownload
                 style={{ padding: "0 7px 0 0" }}
                 size={30}
               />
-              <span>NEW</span>
-            </div>
-          </ActiveLink>
-          <ActiveLink href="/" activeClassName="small-navbar-active">
-            <div className="sub1-small-navbar">
-              <AiOutlineUp style={{ padding: "0 7px 0 0" }} size={30} />
-              <span>TOP</span>
+              <span>TODAY</span>
             </div>
           </ActiveLink>
         </div>

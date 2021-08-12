@@ -213,6 +213,60 @@ const GET_ALL_NEWS = gql`
   }
 `;
 
+const GET_ALL_NEWS_TOP = gql`
+  query ($limit: Int!, $offset: Int!) {
+    get_all_news_top(limit: $limit, offset: $offset) {
+      title
+      createdAt
+      id
+      category
+      thumnail
+      type
+      des
+      slug
+      user {
+        fullname
+        image
+        id
+        bio
+      }
+      types {
+        name
+      }
+      categories {
+        name
+      }
+    }
+  }
+`;
+
+const GET_ALL_NEWS_TODAY = gql`
+  query ($limit: Int!, $offset: Int!) {
+    get_all_news_today(limit: $limit, offset: $offset) {
+      title
+      createdAt
+      id
+      category
+      thumnail
+      type
+      des
+      slug
+      user {
+        fullname
+        image
+        id
+        bio
+      }
+      types {
+        name
+      }
+      categories {
+        name
+      }
+    }
+  }
+`;
+
 const GET_ALL_NEWS_BY_TYPE_NEWS = gql`
   query ($limit: Int!, $offset: Int!) {
     get_all_news_by_type_news(limit: $limit, offset: $offset) {
@@ -538,6 +592,8 @@ const GET_NOTIFICATION_CHECK_BY_USER = gql`
 `;
 
 export {
+  GET_ALL_NEWS_TODAY,
+  GET_ALL_NEWS_TOP,
   GET_USER_BY_ID,
   GET_NEWS_BY_TITLE,
   GET_NEWS_FEATURE_BY_CAT,
