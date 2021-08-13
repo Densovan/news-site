@@ -2065,16 +2065,23 @@ body {
 .ant-drawer-header {
   background-color: #262e3c;
 }
+
 .search-bar {
-  position: absolute;
-  top: 26%;
+  position: relative;
+  top: 29%;
   left: 58%;
+}
+.input-search {
+  position: relative;
+  top: 0px;
+  width: 600px !important;
+  left: 30px;
 }
 .input-search input {
   /* border-radius: 48px !important; */
-  background: #ffffff;
-  border: 1px solid #fdc209 !important;
-  color: #848484;
+  background: #556080;
+  border: 1px solid #556080 !important;
+  /* color: #848484; */
   font-size: 14px;
   font-weight: 400;
   font-style: normal;
@@ -2082,21 +2089,31 @@ body {
   -webkit-transition: all 500ms ease 0s;
   transition: all 500ms ease 0s;
   width: 100%;
-  border-radius: 5px 5px 5px 5px;
+  border-radius: 5px;
+  width: 250px !important;
+  height: 40px !important;
+
+  /* background-color: var(--third-background) !important;
+  color: var(--color); */
 }
 .input-search input:focus {
   background: #202020;
   color: #fff;
-  border: 1px solid #fdc209;
+  border: 1px solid #556080;
   outline: none;
 }
 .ant-input-search
   > .ant-input-group
   > .ant-input-group-addon:last-child
   .ant-input-search-button {
-  background-color: #b58e19;
-  border: #fdc009a9;
+  background-color: #556080;
+  border: #556080;
+  height: 40px !important;
 }
+.ant-input-search > .ant-input-group > .ant-input-group-addon {
+  border-radius: 0 9px 9px 0 !important;
+}
+
 .btn-follow {
   /* border: 2px solid #ca6273; */
   border: none !important;
@@ -2307,7 +2324,8 @@ body {
 .notifications {
   height: 40px;
   width: 40px;
-  background-color: #fdc009a9;
+  /* background-color: #fdc009a9; */
+  background-color: #556080;
   /* color: #0f73ee; */
   color: #fdc209;
   border-radius: 50%;

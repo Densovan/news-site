@@ -100,15 +100,16 @@ const GlobalHeader = () => {
             <Link href="/">
               <img height="100%" src="/assets/images/logo.png" />
             </Link>
-          </div>
-          <div className="search-bar">
+            {/* <div className="search-bar"> */}
             <Search
               className="input-search"
               placeholder="input search text"
               onSearch={onSearch}
-              size="middle"
+              size="large"
               enterButton
+              // allowClear
             />
+            {/* </div> */}
           </div>
           {/* <div>
             <Menu mode="horizontal">
