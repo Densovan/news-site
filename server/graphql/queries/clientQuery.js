@@ -19,6 +19,7 @@ const NotiModel = require("../../models/notifications");
 const NotiCheckModel = require("../../models/notiCheck");
 const FollowModel = require("../../models/follow");
 const SaveNewsModel = require("../../models/saveNews");
+const LikeTopDownModel = require("../../models/likeTopDown");
 
 //================Type Sections==================
 const CategoryType = require("../types/categoryType");
@@ -31,6 +32,7 @@ const NotiCheckType = require("../types/notiCheckType");
 const FollowType = require("../types/followType");
 const saveNews = require("../types/saveNewsType");
 const SaveNewsType = require("../types/saveNewsType");
+const likeTopDownType = require("../types/likeTopDownType");
 
 const RootQuery = new GraphQLObjectType({
   name: "RootQueryType",
@@ -442,7 +444,13 @@ const RootQuery = new GraphQLObjectType({
           });
       },
     },
-  },
+    get_count_up_down: {
+      type: new GraphQLList(likeTopDownType),
+      resolve: (parent, args, context) => {
+        return LikeTopDownModel.find({ userId:context.id })
+      }
+    }
+  }
 });
 
 module.exports = RootQuery;

@@ -35,6 +35,9 @@ const NewsType = new GraphQLObjectType({
     id: {
       type: GraphQLID,
     },
+    like_count:{
+      type:graphql.GraphQLInt
+    },
     categories: {
       type: categoryType,
       resolve: (parents, args) => {

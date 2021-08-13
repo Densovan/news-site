@@ -3,15 +3,14 @@ import { Row, Col, Layout, Spin, Card, Avatar, Tooltip, Result } from "antd";
 import parse from "html-react-parser";
 import {
   CaretRightOutlined,
-  LikeOutlined,
-  DislikeOutlined,
 } from "@ant-design/icons";
 import Link from "next/link";
 import { useQuery } from "@apollo/client";
-import { GET_ALL_NEWS } from "../../graphql/query";
+import { GET_ALL_NEWS, GET_LIKE_COUNT_DOWN } from "../../graphql/query";
 import moment from "moment";
 import Medium from "../../components/loaders/newsLoader";
 import InfiniteScroll from "react-infinite-scroll-component";
+import NewLike from "../../components/common/news.like";
 
 const { Content } = Layout;
 
@@ -29,8 +28,10 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
     fetchMore,
   } = useQuery(GET_ALL_NEWS, {
     variables: { limit: 6, offset: 0 },
+    pollInterval: 1000
   });
-  if (loading)
+  const { data:like_count_down, loading:like_count_down_loading } = useQuery(GET_LIKE_COUNT_DOWN);
+  if (loading || like_count_down_loading)
     return (
       <div>
         <Medium />
@@ -154,14 +155,7 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
                           </button>
                         </Link>
                       </div>
-                      <div>
-                        <button className="btn-news">
-                          <LikeOutlined style={{ fontSize: "18px" }} />
-                        </button>
-                        <button className="btn-news">
-                          <DislikeOutlined style={{ fontSize: "18px" }} />
-                        </button>
-                      </div>
+                      <NewLike postId={res.id} ownerId={res.user.id} likeCount={res.like_count} like_count_down={like_count_down}/>
                     </div>
                   </Col>
                   <Col md={8}>
