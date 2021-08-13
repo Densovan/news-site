@@ -11,20 +11,21 @@ import {
   Input,
 } from "antd";
 import parse from "html-react-parser";
-import {
-  CaretRightOutlined,
-  LikeOutlined,
-  DislikeOutlined,
-} from "@ant-design/icons";
+import { CaretRightOutlined } from "@ant-design/icons";
 import { AiOutlinePicture, AiOutlineLink } from "react-icons/ai";
 import Link from "next/link";
 import { useQuery } from "@apollo/client";
-import { GET_ALL_NEWS, GET_USER } from "../../graphql/query";
+import {
+  GET_ALL_NEWS,
+  GET_USER,
+  GET_LIKE_COUNT_DOWN,
+} from "../../graphql/query";
 import moment from "moment";
 import Medium from "../../components/loaders/newsLoader";
 import InfiniteScroll from "react-infinite-scroll-component";
 import SmallNavbar from "../../components/Layouts/smallNavbar";
 import AuthContext from "../../contexts/authContext";
+import NewLike from "../../components/common/news.like";
 
 const { Content } = Layout;
 
@@ -43,9 +44,12 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
     fetchMore,
   } = useQuery(GET_ALL_NEWS, {
     variables: { limit: 6, offset: 0 },
+    pollInterval: 1000,
   });
   const { loading: userLoading, data: userData } = useQuery(GET_USER);
-  if (loading || userLoading)
+  const { data: like_count_down, loading: like_count_down_loading } =
+    useQuery(GET_LIKE_COUNT_DOWN);
+  if (loading || userLoading || like_count_down_loading)
     return (
       <div>
         <Medium />
@@ -53,21 +57,33 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
     );
   const result = [];
   if (!loadingFilter) {
-    if (selectedTags[0] === "All") {
+    if (selectedTags.length === 0) {
       news.get_all_news.map((news) => {
         result.push(news);
       });
     } else {
-      news.get_all_news.filter((news) => {
-        return selectedTags.map((selectedTag) => {
-          if (
-            news.categories.name === selectedTag ||
-            news.types.name === selectedTag
-          ) {
-            result.push(news);
-          }
-        });
+      let selectedTag = [];
+      selectedTags.forEach((element) => {
+        if (element === "All") {
+          selectedTag.push(element);
+        }
       });
+      if (selectedTag[0] == "All") {
+        news.get_all_news.map((news) => {
+          result.push(news);
+        });
+      } else {
+        news.get_all_news.filter((news) => {
+          return selectedTags.map((selectedTag) => {
+            if (
+              news.categories.name === selectedTag ||
+              news.types.name === selectedTag
+            ) {
+              result.push(news);
+            }
+          });
+        });
+      }
     }
   }
   return (
@@ -198,14 +214,12 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
                           </button>
                         </Link>
                       </div>
-                      <div>
-                        <button className="btn-news">
-                          <LikeOutlined style={{ fontSize: "18px" }} />
-                        </button>
-                        <button className="btn-news">
-                          <DislikeOutlined style={{ fontSize: "18px" }} />
-                        </button>
-                      </div>
+                      <NewLike
+                        postId={res.id}
+                        ownerId={res.user.id}
+                        likeCount={res.like_count}
+                        like_count_down={like_count_down}
+                      />
                     </div>
                   </Col>
                   <Col xs={24} md={8}>

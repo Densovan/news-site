@@ -62,6 +62,7 @@ const RootMutation = new GraphQLObjectType({
           } else {
             const news = new NewsModel({
               ...args,
+              like_count:0,
               createBy: context.id,
               slug: args.title
                 .replace(/[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g, "-")
@@ -836,7 +837,6 @@ const RootMutation = new GraphQLObjectType({
         postId: { type: GraphQLID },
         ownerId: { type: GraphQLID },
         type: { type: GraphQLID },
-        like_count: { type: GraphQLInt },
       },
       resolve: async (parent, args, context) => {
         try {
@@ -848,6 +848,7 @@ const RootMutation = new GraphQLObjectType({
           const existingCount = await NewsModel.findOne({
             _id: args.postId,
           });
+          const news = await NewsModel.findById(args.postId);
           if (!existingLIke) {
             if (existingCount.like_count <= 0) {
               return { message: "nothing happend" };
@@ -856,10 +857,11 @@ const RootMutation = new GraphQLObjectType({
                 ...args,
                 userId: context.id,
                 type: "down",
+                like_count:1
               });
               await NewsModel.findOneAndUpdate(
                 { _id: args.postId },
-                { like_count: args.like_count }
+                { like_count: news.like_count-1 }
               );
               await down.save();
               return { message: "successfully" };
@@ -871,8 +873,13 @@ const RootMutation = new GraphQLObjectType({
           ) {
             await NewsModel.findOneAndUpdate(
               { _id: args.postId },
-              { like_count: args.like_count }
+              { like_count: news.like_count+1 }
             );
+            // await LikeTopDownModel.findOneAndUpdate(
+            //   { _id: args.postId },
+            //   { userId: context.id },
+            //   { like_count: 0 }
+            // )
             return { message: "deleted successfully" };
           }
         } catch (error) {
@@ -887,7 +894,7 @@ const RootMutation = new GraphQLObjectType({
         postId: { type: GraphQLID },
         ownerId: { type: GraphQLID },
         type: { type: GraphQLID },
-        like_count: { type: GraphQLInt },
+        // like_count: { type: GraphQLInt },
       },
       resolve: async (parent, args, context) => {
         try {
@@ -896,6 +903,7 @@ const RootMutation = new GraphQLObjectType({
             postId: args.postId,
             type: "up",
           });
+          const news = await NewsModel.findById(args.postId);
           if (!existingLIke) {
             const up = new LikeTopDownModel({
               ...args,
@@ -904,7 +912,7 @@ const RootMutation = new GraphQLObjectType({
             });
             await NewsModel.findOneAndUpdate(
               { _id: args.postId },
-              { like_count: args.like_count }
+              { like_count: news.like_count+1 }
             );
             await up.save();
             return { message: "successfully" };
@@ -919,7 +927,7 @@ const RootMutation = new GraphQLObjectType({
             });
             await NewsModel.findOneAndUpdate(
               { _id: args.postId },
-              { like_count: args.like_count }
+              { like_count: news.like_count-1 }
             );
             return { message: "deleted successfully" };
           }

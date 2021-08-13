@@ -210,6 +210,29 @@ const DELETE_REPLY_IN_NOTI = gql`
     }
   }
 `;
+
+const LIKE_COUNT_UP = gql`
+  mutation (
+    $postId: ID! 
+    $ownerId: ID!  
+  ) {
+    like_count_up (
+      postId: $postId 
+      ownerId: $ownerId 
+    ) {
+      message
+    }
+  }
+`
+
+const LIKE_COUNT_DOWN = gql`
+  mutation ($postId: ID! $ownerId: ID!) {
+    like_count_down(postId: $postId ownerId: $ownerId) {
+      message
+    }
+  }
+`
+
 const SAVE_NEWS = gql`
   mutation (
     $news_id: ID
@@ -236,6 +259,8 @@ const SAVE_NEWS = gql`
   }
 `;
 
+
+
 export {
   // LIKE,
   SAVE_NEWS,
@@ -256,4 +281,6 @@ export {
   DELETE_COMMENT_NOTIFICATION,
   DELETE_REPLY_IN_NOTI,
   DELETE_LIKE_NOTIFICATION,
+  LIKE_COUNT_UP,
+  LIKE_COUNT_DOWN
 };

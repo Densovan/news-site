@@ -193,6 +193,7 @@ const GET_ALL_NEWS = gql`
       createdAt
       id
       category
+      like_count
       thumnail
       type
       des
@@ -591,6 +592,18 @@ const GET_NOTIFICATION_CHECK_BY_USER = gql`
   }
 `;
 
+const GET_LIKE_COUNT_DOWN = gql`
+  query {
+    get_count_up_down{
+      id
+      userId
+      postId
+      type
+      like_count
+    }
+  }
+`
+
 export {
   GET_ALL_NEWS_TODAY,
   GET_ALL_NEWS_TOP,
@@ -613,4 +626,5 @@ export {
   GET_ALL_NEWS_BY_TYPE_FEATURE,
   GET_NOTIFICATION_BY_USER,
   GET_NOTIFICATION_CHECK_BY_USER,
+  GET_LIKE_COUNT_DOWN
 };
