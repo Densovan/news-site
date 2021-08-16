@@ -25,6 +25,7 @@ const followingType = require("../types/followingType");
 const followerType = require("../types/followerType");
 const saveNews = require("../types/saveNewsType");
 const likeTopDownType = require("../types/likeTopDownType");
+const voteType = require("../types/voteType");
 //===============model===============
 const NewsModel = require("../../models/news");
 const UserModel = require("../../models/user");
@@ -37,6 +38,7 @@ const NotiModel = require("../../models/notifications");
 const NoticheckModel = require("../../models/notiCheck");
 const SaveNewsModel = require("../../models/saveNews");
 const LikeTopDownModel = require("../../models/likeTopDown");
+const VoteModel = require("../../models/vote");
 // const FollowingModel = require("../../models/following");
 // const FollowerModel = require("../../models/follower");
 
@@ -62,7 +64,6 @@ const RootMutation = new GraphQLObjectType({
           } else {
             const news = new NewsModel({
               ...args,
-              like_count:0,
               createBy: context.id,
               slug: args.title
                 .replace(/[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g, "-")
@@ -859,6 +860,7 @@ const RootMutation = new GraphQLObjectType({
                 type: "down",
                 like_count:1
               });
+              console.log(news.like_count);
               await NewsModel.findOneAndUpdate(
                 { _id: args.postId },
                 { like_count: news.like_count-1 }
@@ -937,6 +939,99 @@ const RootMutation = new GraphQLObjectType({
         }
       },
     },
+    voteUpDown:{
+      type: voteType,
+      args: {
+        postId: { type: GraphQLID },
+        ownerId: { type: GraphQLID },
+        type: { type: GraphQLString }
+      },
+      resolve: async (parent, args, context) => {
+        try {
+          const existingVote = await VoteModel.findOne({
+            userId: context.id,
+            postId: args.postId,
+          });
+          const news = await NewsModel.findById(args.postId);
+          console.log(news.voteUp, news.voteDown);
+          if(!existingVote){
+            if (args.type === 'up') {
+              const up = new VoteModel({
+                ...args,
+                userId: context.id,
+                voteUp: 1
+              });
+              await NewsModel.findOneAndUpdate(
+                { _id: args.postId },
+                { voteUp: news.voteUp + 1, voteDown: news.voteDown - 1}
+              );
+              await up.save();
+              return { message: "add successfully" }; 
+            }
+            else if (args.type === 'down') {
+              const up = new VoteModel({
+                ...args,
+                userId: context.id,
+                voteDown: 1
+              });
+              await up.save();
+              await NewsModel.findOneAndUpdate(
+                { _id: args.postId },
+                { voteUp: news.voteUp - 1, voteDown: news.voteDown + 1 }
+              );
+              return { message: "add successfully" }; 
+            }
+          }
+          else if(existingVote){
+            if(existingVote.voteDown === 1 && args.type === "down"){
+              await NewsModel.findOneAndUpdate(
+                { _id: args.postId },
+                { voteUp: news.voteUp+1 , voteDown: news.voteDown-1 }
+              );
+              await VoteModel.findOneAndDelete({
+                userId: context.id,
+                postId: args.postId,
+              });
+              return { message: "delete successfully" }; 
+            }
+            else if(existingVote.voteUp === 1 && args.type === "up"){
+              await NewsModel.findOneAndUpdate(
+                { _id: args.postId },
+                { voteUp: news.voteUp-1 , voteDown: news.voteDown+1 }
+              );
+              await VoteModel.findOneAndDelete({
+                userId: context.id,
+                postId: args.postId,
+              });
+              return { message: "delete successfully" }; 
+            }
+            else if(existingVote.voteUp === 0 && args.type === "up"){
+              await NewsModel.findOneAndUpdate(
+                { _id: args.postId },
+                { voteUp: news.voteUp+2 , voteDown: news.voteDown-2 }
+              );
+              await VoteModel.findOneAndUpdate({ postId: args.postId, userId: context.id },{ type: args.type ,voteUp: 1, voteDown:0})
+              return { message: "add successfully" }; 
+            }
+            else if(existingVote.voteDown === 0 && args.type === "down"){
+              await NewsModel.findOneAndUpdate(
+                { _id: args.postId },
+                { voteUp: news.voteUp-2 , voteDown: news.voteDown+2 }
+              );
+              await VoteModel.findOneAndUpdate({ postId: args.postId, userId: context.id },{ type: args.type ,voteDown: 1, voteUp:0})
+              console.log(news.voteUp-2, news.voteDown);
+              return { message: "add successfully" }; 
+            }
+            else{
+              return { message: "error" }; 
+            }
+          }
+        } catch (error) {
+          console.log(error);
+          throw error;
+        }
+      },
+    }
   },
 });
 module.exports = RootMutation;

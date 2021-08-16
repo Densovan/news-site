@@ -92,6 +92,7 @@ const NewsLike = ({ postId, ownerId, likeCount, like_count_down }) => {
             console.log("error!!");
         }
     }
+    console.log(likeCount);
     return(
         <Fragment>
             <div>

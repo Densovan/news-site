@@ -9,7 +9,7 @@ const Answer = require("../../models/comment/answer");
 const Like = require("../../models/like");
 const Save = require("../../models/saveNews");
 
-const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLList } = graphql;
+const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLList, GraphQLInt } = graphql;
 
 const NewsType = new GraphQLObjectType({
   name: "news",
@@ -36,7 +36,13 @@ const NewsType = new GraphQLObjectType({
       type: GraphQLID,
     },
     like_count:{
-      type:graphql.GraphQLInt
+      type:GraphQLInt
+    },
+    voteUp:{
+      type:GraphQLInt
+    },
+    voteDown:{
+      type:GraphQLInt
     },
     categories: {
       type: categoryType,
