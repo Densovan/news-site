@@ -1023,7 +1023,7 @@ const RootMutation = new GraphQLObjectType({
               return { message: "add successfully" }; 
             }
             else{
-              return { message: "error" }; 
+              return { message: "nothing happend" }; 
             }
           }
         } catch (error) {
