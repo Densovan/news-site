@@ -62,7 +62,7 @@ const RootMutation = new GraphQLObjectType({
           } else {
             const news = new NewsModel({
               ...args,
-              like_count:0,
+              like_count: 0,
               createBy: context.id,
               slug: args.title
                 .replace(/[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g, "-")
@@ -836,7 +836,7 @@ const RootMutation = new GraphQLObjectType({
       args: {
         postId: { type: GraphQLID },
         ownerId: { type: GraphQLID },
-        type: { type: GraphQLID },
+        type: { type: GraphQLString },
       },
       resolve: async (parent, args, context) => {
         try {
@@ -844,6 +844,11 @@ const RootMutation = new GraphQLObjectType({
             userId: context.id,
             postId: args.postId,
             type: "down",
+          });
+          const existingLIked = await LikeTopDownModel.findOne({
+            userId: context.id,
+            postId: args.postId,
+            type: "up",
           });
           const existingCount = await NewsModel.findOne({
             _id: args.postId,
@@ -857,11 +862,11 @@ const RootMutation = new GraphQLObjectType({
                 ...args,
                 userId: context.id,
                 type: "down",
-                like_count:1
+                // like_count: 1,
               });
               await NewsModel.findOneAndUpdate(
                 { _id: args.postId },
-                { like_count: news.like_count-1 }
+                { like_count: news.like_count - 1 }
               );
               await down.save();
               return { message: "successfully" };
@@ -873,14 +878,26 @@ const RootMutation = new GraphQLObjectType({
           ) {
             await NewsModel.findOneAndUpdate(
               { _id: args.postId },
-              { like_count: news.like_count+1 }
+              { like_count: news.like_count + 1 }
             );
-            // await LikeTopDownModel.findOneAndUpdate(
-            //   { _id: args.postId },
-            //   { userId: context.id },
-            //   { like_count: 0 }
-            // )
+            await LikeTopDownModel.findOneAndDelete({
+              postId: args.postId,
+              userId: context.id,
+              type: "down",
+            });
             return { message: "deleted successfully" };
+          } else if (existingLIked) {
+            await LikeTopDownModel.findOneAndUpdate(
+              { postId: args.postId },
+              { ...args, userId: context.id, type: "down" }
+              // like_count: 1,
+            );
+            await NewsModel.findOneAndUpdate(
+              { _id: args.postId },
+              { like_count: news.like_count - 2 }
+            );
+            // await down.save();
+            return { message: "successfully" };
           }
         } catch (error) {
           console.log(error);
@@ -893,43 +910,34 @@ const RootMutation = new GraphQLObjectType({
       args: {
         postId: { type: GraphQLID },
         ownerId: { type: GraphQLID },
-        type: { type: GraphQLID },
+        type: { type: GraphQLString },
         // like_count: { type: GraphQLInt },
       },
       resolve: async (parent, args, context) => {
         try {
-          const existingLIke = await LikeTopDownModel.findOne({
-            userId: context.id,
+          const existingLike = await LikeTopDownModel.findOne({
             postId: args.postId,
+            userId: context.id,
             type: "up",
           });
-          const news = await NewsModel.findById(args.postId);
-          if (!existingLIke) {
-            const up = new LikeTopDownModel({
-              ...args,
-              userId: context.id,
+          const existingLiked = await LikeTopDownModel.findOne({
+            postId: args.postId,
+            userId: context.id,
+            type: "down",
+          });
+          if (!existingLike && !existingLiked) {
+            const save = new LikeTopDownModel({
+              ownerId: args.id,
               type: "up",
-            });
-            await NewsModel.findOneAndUpdate(
-              { _id: args.postId },
-              { like_count: news.like_count+1 }
-            );
-            await up.save();
-            return { message: "successfully" };
-          } else if (
-            context.id === existingLIke.userId &&
-            args.postId === existingLIke.postId &&
-            "up" === existingLIke.type
-          ) {
-            await LikeTopDownModel.findOneAndDelete({
               userId: context.id,
               postId: args.postId,
             });
-            await NewsModel.findOneAndUpdate(
-              { _id: args.postId },
-              { like_count: news.like_count-1 }
-            );
-            return { message: "deleted successfully" };
+            await save.save();
+            return { message: "+1" };
+          } else if (existingLiked) {
+            return { message: "+2" };
+          } else if (existingLike) {
+            return { message: "+1" };
           }
         } catch (error) {
           console.log(error);

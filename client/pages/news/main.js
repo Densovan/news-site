@@ -44,7 +44,7 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
     fetchMore,
   } = useQuery(GET_ALL_NEWS, {
     variables: { limit: 6, offset: 0 },
-    pollInterval: 1000,
+    // pollInterval: 1000,
   });
   const { loading: userLoading, data: userData } = useQuery(GET_USER);
   const { data: like_count_down, loading: like_count_down_loading } =
@@ -128,7 +128,6 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
         </Col> */}
         </Row>
       )}
-      <br></br>
       <SmallNavbar />
       {loadingFilter ? (
         <div>

@@ -32,6 +32,7 @@ router.post("/refresh-token", async (req, res) => {
       if (!err) {
         const result = await User.findById(user.id);
         const token = createAccessToken(result._id);
+        // console.log(result._id);
 
         res.cookie("token", token, {
           httpOnly: true,
@@ -50,7 +51,7 @@ router.post("/refresh-token", async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    res.status(500);
+    res.json(false);
   }
 });
 
@@ -76,7 +77,7 @@ router.get("/verifyToken", async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    res.status(500);
+    res.json(false);
   }
 });
 
@@ -119,7 +120,7 @@ router.post("/login", async (req, res) => {
     res
       .status(200)
       .json({
-        msg: "Login Successful",
+        msg: "Login Successfully",
         token: token,
         success: true,
         _id: existingUser._id,
@@ -217,7 +218,7 @@ router.post("/", async (req, res) => {
     res
       .status(200)
       .json({
-        msg: "Login Successful",
+        msg: "Login Successfully",
         token: token,
         success: true,
         _id: saveUser._id,

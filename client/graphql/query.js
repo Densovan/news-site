@@ -217,6 +217,7 @@ const GET_ALL_NEWS = gql`
 const GET_ALL_NEWS_TOP = gql`
   query ($limit: Int!, $offset: Int!) {
     get_all_news_top(limit: $limit, offset: $offset) {
+      like_count
       title
       createdAt
       id
@@ -244,6 +245,7 @@ const GET_ALL_NEWS_TOP = gql`
 const GET_ALL_NEWS_TODAY = gql`
   query ($limit: Int!, $offset: Int!) {
     get_all_news_today(limit: $limit, offset: $offset) {
+      like_count
       title
       createdAt
       id
@@ -594,7 +596,7 @@ const GET_NOTIFICATION_CHECK_BY_USER = gql`
 
 const GET_LIKE_COUNT_DOWN = gql`
   query {
-    get_count_up_down{
+    get_count_up_down {
       id
       userId
       postId
@@ -602,7 +604,7 @@ const GET_LIKE_COUNT_DOWN = gql`
       like_count
     }
   }
-`
+`;
 
 export {
   GET_ALL_NEWS_TODAY,
@@ -626,5 +628,5 @@ export {
   GET_ALL_NEWS_BY_TYPE_FEATURE,
   GET_NOTIFICATION_BY_USER,
   GET_NOTIFICATION_CHECK_BY_USER,
-  GET_LIKE_COUNT_DOWN
+  GET_LIKE_COUNT_DOWN,
 };
