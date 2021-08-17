@@ -31,7 +31,12 @@ const newsSchema = new mongoose.Schema(
       // require: true,
       unique: true,
     },
-    like_count: {
+    // like_count: {
+    //   type: Number,
+    //   require: true,
+    //   default: 0,
+    // },
+    voteCount: {
       type: Number,
       require: true,
       default: 0,

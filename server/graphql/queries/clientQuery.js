@@ -20,6 +20,7 @@ const NotiCheckModel = require("../../models/notiCheck");
 const FollowModel = require("../../models/follow");
 const SaveNewsModel = require("../../models/saveNews");
 const LikeTopDownModel = require("../../models/likeTopDown");
+const VoteModel = require("../../models/vote");
 
 //================Type Sections==================
 const CategoryType = require("../types/categoryType");
@@ -33,6 +34,7 @@ const FollowType = require("../types/followType");
 const saveNews = require("../types/saveNewsType");
 const SaveNewsType = require("../types/saveNewsType");
 const likeTopDownType = require("../types/likeTopDownType");
+const voteType = require("../types/voteType");
 
 const RootQuery = new GraphQLObjectType({
   name: "RootQueryType",
@@ -122,7 +124,7 @@ const RootQuery = new GraphQLObjectType({
         return NewsModel.find({})
           .limit(limit)
           .skip(offset)
-          .sort({ like_count: -1 });
+          .sort({ voteCount: -1 });
         // .sort({ createAt: -1 })
       },
     },
@@ -501,10 +503,16 @@ const RootQuery = new GraphQLObjectType({
     get_count_up_down: {
       type: new GraphQLList(likeTopDownType),
       resolve: (parent, args, context) => {
-        return LikeTopDownModel.find({ userId:context.id })
-      }
-    }
-  }
+        return LikeTopDownModel.find({ userId: context.id });
+      },
+    },
+    get_vote_up_down: {
+      type: new GraphQLList(voteType),
+      resolve: (parent, args, context) => {
+        return VoteModel.find({ userId: context.id });
+      },
+    },
+  },
 });
 
 module.exports = RootQuery;

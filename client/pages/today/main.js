@@ -18,7 +18,7 @@ import { useQuery } from "@apollo/client";
 import {
   GET_ALL_NEWS_TODAY,
   GET_USER,
-  GET_LIKE_COUNT_DOWN,
+  GET_VOTE_UP_DOWN,
 } from "../../graphql/query";
 import moment from "moment";
 import Medium from "../../components/loaders/newsLoader";
@@ -44,12 +44,11 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
     fetchMore,
   } = useQuery(GET_ALL_NEWS_TODAY, {
     variables: { limit: 6, offset: 0 },
-    pollInterval: 1000,
   });
   const { loading: userLoading, data: userData } = useQuery(GET_USER);
-  const { data: like_count_down, loading: like_count_down_loading } =
-    useQuery(GET_LIKE_COUNT_DOWN);
-  if (loading || userLoading || like_count_down_loading)
+  const { data: vote_up_down, loading: vote_up_down_loading } =
+    useQuery(GET_VOTE_UP_DOWN);
+  if (loading || userLoading || vote_up_down_loading)
     return (
       <div>
         <Medium />
@@ -216,8 +215,8 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
                       <NewLike
                         postId={res.id}
                         ownerId={res.user.id}
-                        likeCount={res.like_count}
-                        like_count_down={like_count_down}
+                        voteCount={res.voteCount}
+                        vote_up_down={vote_up_down}
                       />
                     </div>
                   </Col>
@@ -254,7 +253,7 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
                   }
 
                   return Object.assign({}, prev, {
-                    get_all_news: [
+                    get_all_news_today: [
                       ...prev.get_all_news_today,
                       ...fetchMoreResult.get_all_news_today,
                     ],

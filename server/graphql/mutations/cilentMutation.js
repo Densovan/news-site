@@ -25,6 +25,7 @@ const followingType = require("../types/followingType");
 const followerType = require("../types/followerType");
 const saveNews = require("../types/saveNewsType");
 const likeTopDownType = require("../types/likeTopDownType");
+const voteType = require("../types/voteType");
 //===============model===============
 const NewsModel = require("../../models/news");
 const UserModel = require("../../models/user");
@@ -37,6 +38,7 @@ const NotiModel = require("../../models/notifications");
 const NoticheckModel = require("../../models/notiCheck");
 const SaveNewsModel = require("../../models/saveNews");
 const LikeTopDownModel = require("../../models/likeTopDown");
+const VoteModel = require("../../models/vote");
 // const FollowingModel = require("../../models/following");
 // const FollowerModel = require("../../models/follower");
 
@@ -62,7 +64,6 @@ const RootMutation = new GraphQLObjectType({
           } else {
             const news = new NewsModel({
               ...args,
-              like_count: 0,
               createBy: context.id,
               slug: args.title
                 .replace(/[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g, "-")
@@ -831,8 +832,9 @@ const RootMutation = new GraphQLObjectType({
       },
     },
     //==============like top down=============
-    like_count_down: {
-      type: likeTopDownType,
+
+    voteUpDown: {
+      type: voteType,
       args: {
         postId: { type: GraphQLID },
         ownerId: { type: GraphQLID },
@@ -840,104 +842,95 @@ const RootMutation = new GraphQLObjectType({
       },
       resolve: async (parent, args, context) => {
         try {
-          const existingLIke = await LikeTopDownModel.findOne({
+          const existingVote = await VoteModel.findOne({
             userId: context.id,
             postId: args.postId,
-            type: "down",
-          });
-          const existingLIked = await LikeTopDownModel.findOne({
-            userId: context.id,
-            postId: args.postId,
-            type: "up",
-          });
-          const existingCount = await NewsModel.findOne({
-            _id: args.postId,
           });
           const news = await NewsModel.findById(args.postId);
-          if (!existingLIke) {
-            if (existingCount.like_count <= 0) {
-              return { message: "nothing happend" };
-            } else if (existingCount.like_count > 0) {
-              const down = new LikeTopDownModel({
+          if (!existingVote) {
+            if (args.type === "up") {
+              const up = new VoteModel({
                 ...args,
                 userId: context.id,
-                type: "down",
-                // like_count: 1,
+                voteUp: 1,
               });
+              await up.save();
               await NewsModel.findOneAndUpdate(
                 { _id: args.postId },
-                { like_count: news.like_count - 1 }
+                { voteCount: news.voteCount + 1 }
               );
-              await down.save();
-              return { message: "successfully" };
+              return { message: "add successfully" };
+            } else if (args.type === "down") {
+              const up = new VoteModel({
+                ...args,
+                userId: context.id,
+                voteDown: 1,
+              });
+              await up.save();
+              await NewsModel.findOneAndUpdate(
+                { _id: args.postId },
+                { voteCount: news.voteCount - 1 }
+              );
+              return { message: "add successfully" };
             }
-          } else if (
-            context.id === existingLIke.userId &&
-            args.postId === existingLIke.postId &&
-            "down" === existingLIke.type
-          ) {
-            await NewsModel.findOneAndUpdate(
-              { _id: args.postId },
-              { like_count: news.like_count + 1 }
-            );
-            await LikeTopDownModel.findOneAndDelete({
-              postId: args.postId,
-              userId: context.id,
-              type: "down",
-            });
-            return { message: "deleted successfully" };
-          } else if (existingLIked) {
-            await LikeTopDownModel.findOneAndUpdate(
-              { postId: args.postId },
-              { ...args, userId: context.id, type: "down" }
-              // like_count: 1,
-            );
-            await NewsModel.findOneAndUpdate(
-              { _id: args.postId },
-              { like_count: news.like_count - 2 }
-            );
-            // await down.save();
-            return { message: "successfully" };
-          }
-        } catch (error) {
-          console.log(error);
-          throw error;
-        }
-      },
-    },
-    like_count_up: {
-      type: likeTopDownType,
-      args: {
-        postId: { type: GraphQLID },
-        ownerId: { type: GraphQLID },
-        type: { type: GraphQLString },
-        // like_count: { type: GraphQLInt },
-      },
-      resolve: async (parent, args, context) => {
-        try {
-          const existingLike = await LikeTopDownModel.findOne({
-            postId: args.postId,
-            userId: context.id,
-            type: "up",
-          });
-          const existingLiked = await LikeTopDownModel.findOne({
-            postId: args.postId,
-            userId: context.id,
-            type: "down",
-          });
-          if (!existingLike && !existingLiked) {
-            const save = new LikeTopDownModel({
-              ownerId: args.id,
-              type: "up",
-              userId: context.id,
-              postId: args.postId,
-            });
-            await save.save();
-            return { message: "+1" };
-          } else if (existingLiked) {
-            return { message: "+2" };
-          } else if (existingLike) {
-            return { message: "+1" };
+          } else if (existingVote) {
+            if (existingVote.voteDown === 1 && args.type === "down") {
+              await NewsModel.findOneAndUpdate(
+                { _id: args.postId },
+                { voteCount: news.voteCount + 1 }
+              );
+              await VoteModel.findOneAndDelete({
+                userId: context.id,
+                postId: args.postId,
+              });
+              return { message: "delete successfully" };
+            } else if (existingVote.voteUp === 1 && args.type === "up") {
+              await NewsModel.findOneAndUpdate(
+                { _id: args.postId },
+                { voteCount: news.voteCount - 1 }
+              );
+              await VoteModel.findOneAndDelete({
+                userId: context.id,
+                postId: args.postId,
+              });
+              return { message: "delete successfully" };
+            } else if (existingVote.voteUp === 0 && args.type === "up") {
+              if (news.voteCount <= 0) {
+                await NewsModel.findOneAndUpdate(
+                  { _id: args.postId },
+                  { voteCount: news.voteCount + 1 }
+                );
+              } else {
+                await NewsModel.findOneAndUpdate(
+                  { _id: args.postId },
+                  { voteCount: news.voteCount + 2 }
+                );
+              }
+              await VoteModel.findOneAndUpdate(
+                { postId: args.postId, userId: context.id },
+                { type: args.type, voteUp: 1, voteDown: 0 }
+              );
+              return { message: "add successfully" };
+            } else if (existingVote.voteDown === 0 && args.type === "down") {
+              if (news.voteCount <= 1) {
+                await NewsModel.findOneAndUpdate(
+                  { _id: args.postId },
+                  { voteCount: 0 }
+                );
+              } else {
+                await NewsModel.findOneAndUpdate(
+                  { _id: args.postId },
+                  { voteCount: news.voteCount - 2 }
+                );
+              }
+              await VoteModel.findOneAndUpdate(
+                { postId: args.postId, userId: context.id },
+                { type: args.type, voteDown: 1, voteUp: 0 }
+              );
+              return { message: "add successfully" };
+            } else {
+              return { message: "nothing happend" };
+            }
           }
         } catch (error) {
           console.log(error);
