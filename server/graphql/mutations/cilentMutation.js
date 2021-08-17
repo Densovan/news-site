@@ -906,6 +906,7 @@ const RootMutation = new GraphQLObjectType({
             type: "up",
           });
           const news = await NewsModel.findById(args.postId);
+          console.log(news.voteUp);
           if (!existingLIke) {
             const up = new LikeTopDownModel({
               ...args,
@@ -953,7 +954,6 @@ const RootMutation = new GraphQLObjectType({
             postId: args.postId,
           });
           const news = await NewsModel.findById(args.postId);
-          console.log(news.voteUp, news.voteDown);
           if(!existingVote){
             if (args.type === 'up') {
               const up = new VoteModel({
@@ -961,11 +961,11 @@ const RootMutation = new GraphQLObjectType({
                 userId: context.id,
                 voteUp: 1
               });
+              await up.save();
               await NewsModel.findOneAndUpdate(
                 { _id: args.postId },
-                { voteUp: news.voteUp + 1, voteDown: news.voteDown - 1}
+                { voteCount: news.voteCount + 1}
               );
-              await up.save();
               return { message: "add successfully" }; 
             }
             else if (args.type === 'down') {
@@ -977,7 +977,7 @@ const RootMutation = new GraphQLObjectType({
               await up.save();
               await NewsModel.findOneAndUpdate(
                 { _id: args.postId },
-                { voteUp: news.voteUp - 1, voteDown: news.voteDown + 1 }
+                { voteCount: news.voteCount - 1}
               );
               return { message: "add successfully" }; 
             }
@@ -986,7 +986,7 @@ const RootMutation = new GraphQLObjectType({
             if(existingVote.voteDown === 1 && args.type === "down"){
               await NewsModel.findOneAndUpdate(
                 { _id: args.postId },
-                { voteUp: news.voteUp+1 , voteDown: news.voteDown-1 }
+                { voteCount: news.voteCount+1 }
               );
               await VoteModel.findOneAndDelete({
                 userId: context.id,
@@ -997,7 +997,7 @@ const RootMutation = new GraphQLObjectType({
             else if(existingVote.voteUp === 1 && args.type === "up"){
               await NewsModel.findOneAndUpdate(
                 { _id: args.postId },
-                { voteUp: news.voteUp-1 , voteDown: news.voteDown+1 }
+                { voteCount: news.voteCount-1 }
               );
               await VoteModel.findOneAndDelete({
                 userId: context.id,
@@ -1006,20 +1006,33 @@ const RootMutation = new GraphQLObjectType({
               return { message: "delete successfully" }; 
             }
             else if(existingVote.voteUp === 0 && args.type === "up"){
-              await NewsModel.findOneAndUpdate(
-                { _id: args.postId },
-                { voteUp: news.voteUp+2 , voteDown: news.voteDown-2 }
-              );
+              if (news.voteCount <= 0 ) {
+                await NewsModel.findOneAndUpdate(
+                  { _id: args.postId },
+                  { voteCount: news.voteCount+1}
+                );
+              }else{
+                await NewsModel.findOneAndUpdate(
+                  { _id: args.postId },
+                  { voteCount: news.voteCount+2 }
+                );
+              }
               await VoteModel.findOneAndUpdate({ postId: args.postId, userId: context.id },{ type: args.type ,voteUp: 1, voteDown:0})
               return { message: "add successfully" }; 
             }
             else if(existingVote.voteDown === 0 && args.type === "down"){
-              await NewsModel.findOneAndUpdate(
-                { _id: args.postId },
-                { voteUp: news.voteUp-2 , voteDown: news.voteDown+2 }
-              );
+              if (news.voteCount <= 1 ) {
+                await NewsModel.findOneAndUpdate(
+                  { _id: args.postId },
+                  { voteCount: 0}
+                );
+              }else{
+                await NewsModel.findOneAndUpdate(
+                  { _id: args.postId },
+                  { voteCount: news.voteCount-2 }
+                );
+              }
               await VoteModel.findOneAndUpdate({ postId: args.postId, userId: context.id },{ type: args.type ,voteDown: 1, voteUp:0})
-              console.log(news.voteUp-2, news.voteDown);
               return { message: "add successfully" }; 
             }
             else{

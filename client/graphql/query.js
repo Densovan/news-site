@@ -195,6 +195,7 @@ const GET_ALL_NEWS = gql`
       category
       like_count
       thumnail
+      voteCount
       type
       des
       slug
@@ -604,6 +605,18 @@ const GET_LIKE_COUNT_DOWN = gql`
   }
 `
 
+const GET_VOTE_UP_DOWN = gql`
+  query {
+    get_vote_up_down{
+      id
+      postId
+      type
+      ownerId
+      userId
+    }
+  }
+`
+
 export {
   GET_ALL_NEWS_TODAY,
   GET_ALL_NEWS_TOP,
@@ -626,5 +639,6 @@ export {
   GET_ALL_NEWS_BY_TYPE_FEATURE,
   GET_NOTIFICATION_BY_USER,
   GET_NOTIFICATION_CHECK_BY_USER,
-  GET_LIKE_COUNT_DOWN
+  GET_LIKE_COUNT_DOWN,
+  GET_VOTE_UP_DOWN
 };

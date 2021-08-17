@@ -36,12 +36,7 @@ const newsSchema = new mongoose.Schema(
       require: true,
       default: 0,
     },
-    voteUp: {
-      type: Number,
-      require: true,
-      default: 0,
-    },
-    voteDown: {
+    voteCount: {
       type: Number,
       require: true,
       default: 0,

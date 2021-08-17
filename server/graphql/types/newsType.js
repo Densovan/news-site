@@ -38,10 +38,7 @@ const NewsType = new GraphQLObjectType({
     like_count:{
       type:GraphQLInt
     },
-    voteUp:{
-      type:GraphQLInt
-    },
-    voteDown:{
+    voteCount:{
       type:GraphQLInt
     },
     categories: {

@@ -1,7 +1,6 @@
 import React, { Fragment, useState, useEffect } from "react"
-import { useMutation, useQuery } from "@apollo/client";
-import { LIKE_COUNT_UP, LIKE_COUNT_DOWN } from "../../graphql/mutation";
-import { GET_LIKE_COUNT_DOWN } from "../../graphql/query";
+import { useMutation } from "@apollo/client";
+import { VOTE_UP_DOWN } from "../../graphql/mutation";
 import {
     LikeOutlined,
     DislikeOutlined,
@@ -9,23 +8,25 @@ import {
     DislikeFilled,
   } from "@ant-design/icons";
 
-const NewsLike = ({ postId, ownerId, likeCount, like_count_down }) => {
+const NewsLike = ({ postId, ownerId, voteCount, vote_up_down }) => {
     const [state, setState] = useState({
         like: false,
         unlike: false,
-    })
+    });
+    const [counter, setCounter] = useState({
+        count: 0
+    });
     useEffect(() => {
-        like_count_down.get_count_up_down.map(like_count_down => {
-            if (like_count_down.postId == postId && like_count_down.type == "up") {
-                setState({ like: true })
+        vote_up_down.get_vote_up_down.map(get_vote_up_down => {
+            if (get_vote_up_down.postId == postId && get_vote_up_down.type == "up") {
+                setState({ like: true, unlike: false })
             }
-            if (like_count_down.postId == postId && like_count_down.type == "down") {
-                setState({ unlike: true })
+            if (get_vote_up_down.postId == postId && get_vote_up_down.type == "down") {
+                setState({ unlike: true, like: false })
             }
         })
-    }, [postId, like_count_down])
-    const [LikeCountUp] = useMutation(LIKE_COUNT_UP);
-    const [LikeCountDown] = useMutation(LIKE_COUNT_DOWN);
+    }, [postId, vote_up_down]);
+    const [voteUpDown] = useMutation(VOTE_UP_DOWN);
     const handleLike = async () => {
         try{
             if (state.like === false) {
@@ -34,12 +35,19 @@ const NewsLike = ({ postId, ownerId, likeCount, like_count_down }) => {
                     unlike: false,
                 })
                 if (state.unlike == true) {
-                    await LikeCountDown({ variables: { 
-                            postId: postId, 
-                            ownerId: ownerId,  
-                        } 
-                    }).then(async (response) => {
-                        console.log(response);
+                    if (voteCount >= 1) {
+                        setCounter({
+                            count: counter.count + 2
+                        })
+                    }else{
+                        setCounter({
+                            count: counter.count + 1
+                        })
+                    }
+                }
+                else{
+                    setCounter({
+                        count: counter.count + 1
                     })
                 }
             }else{
@@ -47,10 +55,20 @@ const NewsLike = ({ postId, ownerId, likeCount, like_count_down }) => {
                     like: false,
                     unlike: false,
                 })
+                if (state.like == true) {
+                    setCounter({
+                        count: counter.count - 1
+                    })
+                }else{
+                    setCounter({
+                        count: counter.count - 1
+                    })
+                }
             }
-            await LikeCountUp({ variables: { 
+            await voteUpDown({ variables: { 
                     postId: postId, 
-                    ownerId: ownerId
+                    ownerId: ownerId,
+                    type: "up"
                 } 
             }).then(async (response) => {
                 console.log(response);
@@ -67,23 +85,51 @@ const NewsLike = ({ postId, ownerId, likeCount, like_count_down }) => {
                     unlike: true
                 })
                 if (state.like == true) {
-                    await LikeCountUp({ variables: { 
-                        postId: postId, 
-                        ownerId: ownerId, 
-                    } 
-                    }).then(async (response) => {
-                        console.log(response);
-                    })
+                    if (voteCount >= 1){
+                        setCounter({
+                            count: counter.count - 2
+                        })
+                    }else{
+                        setCounter({
+                            count: counter.count - 1
+                        })
+                    }
+                }else{
+                    if (voteCount >= 1) {
+                        setCounter({
+                            count: counter.count - 1
+                        })
+                    }else{
+                        setCounter({
+                            count: counter.count
+                        })
+                    }
                 }
             }else{
                 setState({
                     unlike: false,
                     like: false
                 })
+                if (state.unlike == true) {
+                    if (voteCount >= 1) {
+                        setCounter({
+                            count: counter.count + 1 
+                        })
+                    }else{
+                        setCounter({
+                            count: counter.count 
+                        })
+                    }
+                }else{
+                    setCounter({
+                        count: counter.count + 1 
+                    })
+                }
             }
-            await LikeCountDown({ variables: { 
+            await voteUpDown({ variables: { 
                     postId: postId, 
-                    ownerId: ownerId,  
+                    ownerId: ownerId,
+                    type: "down"
                 } 
             }).then(async (response) => {
                 console.log(response);
@@ -92,10 +138,12 @@ const NewsLike = ({ postId, ownerId, likeCount, like_count_down }) => {
             console.log("error!!");
         }
     }
-    console.log(likeCount);
     return(
         <Fragment>
             <div>
+              <label className="btn-news">
+                { counter.count + voteCount }
+              </label>
               <button className="btn-news" onClick={handleLike}>
                 { state.like ? (<LikeFilled style={{ fontSize: "18px" }} />):(<LikeOutlined style={{ fontSize: "18px" }} />) }
               </button>

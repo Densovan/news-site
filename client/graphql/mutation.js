@@ -233,6 +233,14 @@ const LIKE_COUNT_DOWN = gql`
   }
 `
 
+const VOTE_UP_DOWN = gql`
+  mutation ($postId: ID! $ownerId: ID! $type: String!){
+    voteUpDown(postId: $postId ownerId: $ownerId type: $type) {
+      message
+    }
+  }
+`
+
 const SAVE_NEWS = gql`
   mutation (
     $news_id: ID
@@ -282,5 +290,6 @@ export {
   DELETE_REPLY_IN_NOTI,
   DELETE_LIKE_NOTIFICATION,
   LIKE_COUNT_UP,
-  LIKE_COUNT_DOWN
+  LIKE_COUNT_DOWN,
+  VOTE_UP_DOWN
 };
