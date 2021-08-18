@@ -957,7 +957,7 @@ const RootMutation = new GraphQLObjectType({
               return { message: "delete successfully" };
               
             } else if (existingVote.voteUp === 0 && args.type === "up") {
-              if (news.voteUp <= 0) {
+              if (news.voteUp < 0) {
                 await NewsModel.findOneAndUpdate(
                   { _id: args.postId },
                   { voteCount: news.voteCount + 1 }
