@@ -97,13 +97,12 @@ const FilterNews = ({ handleChange, selectedTags }) => {
             </div>
           </Col>
           <Col span={6}>
-            <button
-              className="btn-follow"
-              // type="primary"
-              // style={{ borderRadius: "40px", fontSize: 14 }}
+            <Button
+              type="primary"
+              style={{ borderRadius: "40px", fontSize: 14 }}
             >
               Follow
-            </button>
+            </Button>
           </Col>
         </Row>
       </Card>

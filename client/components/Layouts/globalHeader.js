@@ -46,6 +46,7 @@ import Notification from "../common/notification";
 
 const { Search } = Input;
 const GlobalHeader = () => {
+  const router = useRouter();
   const [hasMoreItems, setHasMoreItems] = useState(true);
   const [notifications, setNotifications] = useState([]);
   const [state, setState] = useState({
@@ -85,7 +86,13 @@ const GlobalHeader = () => {
       visible: true,
     });
   };
-  const onSearch = (value) => console.log(value);
+  const onSearch = (value) => {
+    if (value === "") {
+      return;
+    }
+    router.replace(`/search?keyword=${value}`);
+    // setSearch(false);
+  };
   const onClose = () => {
     setState({
       visible: false,

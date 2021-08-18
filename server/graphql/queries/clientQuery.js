@@ -512,6 +512,39 @@ const RootQuery = new GraphQLObjectType({
         return VoteModel.find({ userId: context.id });
       },
     },
+
+    //==============Search title news keyword==================
+    search_news_title: {
+      type: new GraphQLList(NewsType),
+      // type: NewsType,
+      args: {
+        limit: {
+          // name: "limit",
+          type: GraphQLInt,
+        },
+        search: {
+          type: GraphQLString,
+        },
+        offset: {
+          type: GraphQLInt,
+        },
+        // title: { type: GraphQLString },
+      },
+      resolve: async (parent, args, context) => {
+        const { search = null, offset = 0, limit = 6 } = args;
+        const count = await NewsModel.countDocuments({});
+        // console.log(count);
+        return NewsModel.find({
+          title: { $regex: search, $options: "i" },
+          // totalPages: {count},
+        })
+          .limit(limit)
+          .skip(offset)
+          .sort({
+            createdAt: -1,
+          });
+      },
+    },
   },
 });
 

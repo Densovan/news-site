@@ -15,7 +15,6 @@ import { CaretRightOutlined } from "@ant-design/icons";
 import { AiOutlinePicture, AiOutlineLink } from "react-icons/ai";
 import Link from "next/link";
 import { useQuery } from "@apollo/client";
-import { GET_ALL_NEWS, GET_USER, GET_VOTE_UP_DOWN } from "../../graphql/query";
 import moment from "moment";
 import Medium from "../../components/loaders/newsLoader";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -25,7 +24,13 @@ import NewLike from "../../components/common/news.like";
 
 const { Content } = Layout;
 
-const AllNews = ({ selectedTags, loadingFilter }) => {
+const AllNews = ({
+  selectedTags,
+  loadingFilter,
+  data,
+  fetchMore,
+  userData,
+}) => {
   const { loggedIn } = useContext(AuthContext);
   const server = process.env.API_SECRET;
   const server_local = process.env.API_SECRET_LOCAL;
@@ -33,27 +38,12 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
   const URL_ACCESS = develop === "development" ? server_local : server;
 
   const [hasMoreItems, setHasMoreItems] = useState(true);
-  //=============get last News===========
-  const {
-    loading,
-    data: news,
-    fetchMore,
-  } = useQuery(GET_ALL_NEWS, {
-    variables: { limit: 6, offset: 0 },
-  });
-  const { loading: userLoading, data: userData } = useQuery(GET_USER);
-  const { data: vote_up_down, loading: vote_up_down_loading } =
-    useQuery(GET_VOTE_UP_DOWN);
-  if (loading || userLoading || vote_up_down_loading)
-    return (
-      <div>
-        <Medium />
-      </div>
-    );
+
+  console.log(data.search_news_title);
   const result = [];
   if (!loadingFilter) {
     if (selectedTags.length === 0) {
-      news.get_all_news.map((news) => {
+      data.search_news_title.map((news) => {
         result.push(news);
       });
     } else {
@@ -64,11 +54,11 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
         }
       });
       if (selectedTag[0] == "All") {
-        news.get_all_news.map((news) => {
+        data.search_news_title.map((news) => {
           result.push(news);
         });
       } else {
-        news.get_all_news.filter((news) => {
+        data.search_news_title.filter((news) => {
           return selectedTags.map((selectedTag) => {
             if (
               news.categories.name === selectedTag ||
@@ -142,12 +132,8 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
           )}
           {result.map((res, index) => {
             return (
-              <Card
-                // style={{ padding: "-10px" }}
-                className="card-article"
-                key={index}
-              >
-                <Row gutter={[8, 8]}>
+              <Card className="card-article" key={index}>
+                <Row>
                   <Col xs={24} md={16} className="box-news">
                     <div className="header-card-article">
                       <Avatar src={res.user.image} />
@@ -212,12 +198,12 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
                           </button>
                         </Link>
                       </div>
-                      <NewLike
+                      {/* <NewLike
                         postId={res.id}
                         ownerId={res.user.id}
                         voteCount={res.voteCount}
                         vote_up_down={vote_up_down}
-                      />
+                      /> */}
                     </div>
                   </Col>
                   <Col xs={24} md={8}>
@@ -239,23 +225,23 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
             );
           })}
           <InfiniteScroll
-            dataLength={news.get_all_news.length}
+            dataLength={data.search_news_title.length}
             next={async () => {
               await fetchMore({
                 variables: {
-                  offset: news.get_all_news.length,
+                  offset: data.search_news_title.length,
                 },
                 updateQuery: (prev, { fetchMoreResult }) => {
                   if (!fetchMoreResult) return prev;
 
-                  if (fetchMoreResult.get_all_news.length < 6) {
+                  if (fetchMoreResult.search_news_title.length < 6) {
                     setHasMoreItems(false);
                   }
 
                   return Object.assign({}, prev, {
-                    get_all_news: [
-                      ...prev.get_all_news,
-                      ...fetchMoreResult.get_all_news,
+                    search_news_title: [
+                      ...prev.search_news_title,
+                      ...fetchMoreResult.search_news_title,
                     ],
                   });
                 },

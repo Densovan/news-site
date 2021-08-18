@@ -26,6 +26,9 @@ const NewsType = new GraphQLObjectType({
     createdAt: {
       type: GraphQLString,
     },
+    search: {
+      type: GraphQLString,
+    },
     updateAt: {
       type: GraphQLString,
     },
@@ -40,6 +43,9 @@ const NewsType = new GraphQLObjectType({
     //   type:GraphQLInt
     // },
     voteCount: {
+      type: GraphQLInt,
+    },
+    totalPages: {
       type: GraphQLInt,
     },
     categories: {

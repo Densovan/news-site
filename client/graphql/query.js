@@ -270,6 +270,33 @@ const GET_ALL_NEWS_TODAY = gql`
     }
   }
 `;
+const GET_NEWS_SEARCH = gql`
+  query ($search: String) {
+    search_news_title(search: $search) {
+      voteCount
+      title
+      createdAt
+      id
+      category
+      thumnail
+      type
+      des
+      slug
+      user {
+        fullname
+        image
+        id
+        bio
+      }
+      types {
+        name
+      }
+      categories {
+        name
+      }
+    }
+  }
+`;
 
 const GET_ALL_NEWS_BY_TYPE_NEWS = gql`
   query ($limit: Int!, $offset: Int!) {
@@ -620,6 +647,7 @@ const GET_VOTE_UP_DOWN = gql`
 `;
 
 export {
+  GET_NEWS_SEARCH,
   GET_ALL_NEWS_TODAY,
   GET_ALL_NEWS_TOP,
   GET_USER_BY_ID,
