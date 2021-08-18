@@ -24,7 +24,7 @@ const smallNavbar = () => {
               <span>TOP</span>
             </div>
           </ActiveLink>
-          <ActiveLink href="/todays" activeClassName="small-navbar-active">
+          <ActiveLink href="/today" activeClassName="small-navbar-active">
             <div className="sub1-small-navbar">
               <AiOutlineCloudDownload
                 style={{ padding: "0 7px 0 0" }}

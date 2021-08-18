@@ -11,20 +11,21 @@ import {
   Input,
 } from "antd";
 import parse from "html-react-parser";
-import {
-  CaretRightOutlined,
-  LikeOutlined,
-  DislikeOutlined,
-} from "@ant-design/icons";
+import { CaretRightOutlined } from "@ant-design/icons";
 import { AiOutlinePicture, AiOutlineLink } from "react-icons/ai";
 import Link from "next/link";
 import { useQuery } from "@apollo/client";
-import { GET_ALL_NEWS_TOP, GET_USER } from "../../graphql/query";
+import {
+  GET_ALL_NEWS_TOP,
+  GET_USER,
+  GET_VOTE_UP_DOWN,
+} from "../../graphql/query";
 import moment from "moment";
 import Medium from "../../components/loaders/newsLoader";
 import InfiniteScroll from "react-infinite-scroll-component";
 import SmallNavbar from "../../components/Layouts/smallNavbar";
 import AuthContext from "../../contexts/authContext";
+import NewLike from "../../components/common/news.like";
 
 const { Content } = Layout;
 
@@ -45,7 +46,9 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
     variables: { limit: 6, offset: 0 },
   });
   const { loading: userLoading, data: userData } = useQuery(GET_USER);
-  if (loading || userLoading)
+  const { data: vote_up_down, loading: vote_up_down_loading } =
+    useQuery(GET_VOTE_UP_DOWN);
+  if (loading || userLoading || vote_up_down_loading)
     return (
       <div>
         <Medium />
@@ -53,25 +56,37 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
     );
   const result = [];
   if (!loadingFilter) {
-    if (selectedTags[0] === "All") {
+    if (selectedTags.length === 0) {
       news.get_all_news_top.map((news) => {
         result.push(news);
       });
     } else {
-      news.get_all_news_top.filter((news) => {
-        return selectedTags.map((selectedTag) => {
-          if (
-            news.categories.name === selectedTag ||
-            news.types.name === selectedTag
-          ) {
-            result.push(news);
-          }
-        });
+      let selectedTag = [];
+      selectedTags.forEach((element) => {
+        if (element === "All") {
+          selectedTag.push(element);
+        }
       });
+      if (selectedTag[0] == "All") {
+        news.get_all_news_top.map((news) => {
+          result.push(news);
+        });
+      } else {
+        news.get_all_news_top.filter((news) => {
+          return selectedTags.map((selectedTag) => {
+            if (
+              news.categories.name === selectedTag ||
+              news.types.name === selectedTag
+            ) {
+              result.push(news);
+            }
+          });
+        });
+      }
     }
   }
   return (
-    <>
+    <React.Fragment>
       {loggedIn === true && (
         <Row className="status-style">
           <Col span={2}>
@@ -112,7 +127,6 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
         </Col> */}
         </Row>
       )}
-      <br></br>
       <SmallNavbar />
       {loadingFilter ? (
         <div>
@@ -134,7 +148,7 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
             return (
               <Card className="card-article" key={index}>
                 <Row>
-                  <Col md={16} className="box-news">
+                  <Col xs={24} md={16} className="box-news">
                     <div className="header-card-article">
                       <Avatar src={res.user.image} />
                       <div className="profile-name-time">
@@ -171,15 +185,15 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
                     </div>
                     <div className="news-content">
                       <div className="title-text-card">
-                        {res.title.length <= 70
+                        {res.title.length <= 50
                           ? res.title
-                          : res.title.substring(0, 70) + " ..."}
+                          : res.title.substring(0, 50) + " ..."}
                       </div>
                       <div className="text-content-card">
                         {parse(
-                          res.des.length <= 120
+                          res.des.length <= 70
                             ? res.des
-                            : res.des.substring(0, 100) + "..."
+                            : res.des.substring(0, 70) + "..."
                         )}
                       </div>
                     </div>
@@ -198,23 +212,26 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
                           </button>
                         </Link>
                       </div>
-                      <div>
-                        <button className="btn-news">
-                          <LikeOutlined style={{ fontSize: "18px" }} />
-                        </button>
-                        <button className="btn-news">
-                          <DislikeOutlined style={{ fontSize: "18px" }} />
-                        </button>
-                      </div>
+                      <NewLike
+                        postId={res.id}
+                        ownerId={res.user.id}
+                        voteCount={res.voteCount}
+                        vote_up_down={vote_up_down}
+                      />
                     </div>
                   </Col>
-                  <Col md={8}>
-                    <div className="img-news">
-                      <img
+                  <Col xs={24} md={8}>
+                    <div
+                      className="image-news-style"
+                      style={{
+                        backgroundImage: `url(${URL_ACCESS}/public/uploads//${res.thumnail})`,
+                      }}
+                    >
+                      {/* <img
                         height="100%"
                         width="200"
                         src={`${URL_ACCESS}/public/uploads//${res.thumnail}`}
-                      />
+                      /> */}
                     </div>
                   </Col>
                 </Row>
@@ -236,7 +253,7 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
                   }
 
                   return Object.assign({}, prev, {
-                    get_all_news: [
+                    get_all_news_top: [
                       ...prev.get_all_news_top,
                       ...fetchMoreResult.get_all_news_top,
                     ],
@@ -256,7 +273,7 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
           ></InfiniteScroll>
         </Fragment>
       )}
-    </>
+    </React.Fragment>
   );
 };
 

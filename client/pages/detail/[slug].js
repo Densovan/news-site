@@ -88,12 +88,12 @@ const SinglePage = () => {
                 <div className="nav_left">
                   <Row gutter={[32, 32]}>
                     <Col xs={8} md={24}>
-                      <FormLike
+                      {/* <FormLike
                         articleId={id}
                         dataLike={like}
                         myUser={myUser}
                         ownPostuserId={user.id}
-                      />
+                      /> */}
                     </Col>
                     <Col xs={8} md={24}>
                       <div className="btn_box">

@@ -15,11 +15,7 @@ import { CaretRightOutlined } from "@ant-design/icons";
 import { AiOutlinePicture, AiOutlineLink } from "react-icons/ai";
 import Link from "next/link";
 import { useQuery } from "@apollo/client";
-import {
-  GET_ALL_NEWS,
-  GET_USER,
-  GET_VOTE_UP_DOWN,
-} from "../../graphql/query";
+import { GET_ALL_NEWS, GET_USER, GET_VOTE_UP_DOWN } from "../../graphql/query";
 import moment from "moment";
 import Medium from "../../components/loaders/newsLoader";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -127,7 +123,6 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
         </Col> */}
         </Row>
       )}
-      <br></br>
       <SmallNavbar />
       {loadingFilter ? (
         <div>

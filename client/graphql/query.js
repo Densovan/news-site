@@ -193,7 +193,7 @@ const GET_ALL_NEWS = gql`
       createdAt
       id
       category
-      like_count
+      voteCount
       thumnail
       voteCount
       type
@@ -218,6 +218,7 @@ const GET_ALL_NEWS = gql`
 const GET_ALL_NEWS_TOP = gql`
   query ($limit: Int!, $offset: Int!) {
     get_all_news_top(limit: $limit, offset: $offset) {
+      voteCount
       title
       createdAt
       id
@@ -245,6 +246,7 @@ const GET_ALL_NEWS_TOP = gql`
 const GET_ALL_NEWS_TODAY = gql`
   query ($limit: Int!, $offset: Int!) {
     get_all_news_today(limit: $limit, offset: $offset) {
+      voteCount
       title
       createdAt
       id
@@ -595,7 +597,7 @@ const GET_NOTIFICATION_CHECK_BY_USER = gql`
 
 const GET_LIKE_COUNT_DOWN = gql`
   query {
-    get_count_up_down{
+    get_count_up_down {
       id
       userId
       postId
@@ -603,11 +605,11 @@ const GET_LIKE_COUNT_DOWN = gql`
       like_count
     }
   }
-`
+`;
 
 const GET_VOTE_UP_DOWN = gql`
   query {
-    get_vote_up_down{
+    get_vote_up_down {
       id
       postId
       type
@@ -615,7 +617,7 @@ const GET_VOTE_UP_DOWN = gql`
       userId
     }
   }
-`
+`;
 
 export {
   GET_ALL_NEWS_TODAY,
@@ -640,5 +642,5 @@ export {
   GET_NOTIFICATION_BY_USER,
   GET_NOTIFICATION_CHECK_BY_USER,
   GET_LIKE_COUNT_DOWN,
-  GET_VOTE_UP_DOWN
+  GET_VOTE_UP_DOWN,
 };

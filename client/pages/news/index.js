@@ -36,7 +36,6 @@ const index = () => {
           </Breadcrumb>
         </center> */}
         <br></br>
-        <br></br>
         <Row gutter={[16, 16]}>
           <Col xs={24} md={16}>
             <Main

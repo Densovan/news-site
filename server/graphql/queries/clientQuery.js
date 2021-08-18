@@ -124,7 +124,7 @@ const RootQuery = new GraphQLObjectType({
         return NewsModel.find({})
           .limit(limit)
           .skip(offset)
-          .sort({ like_count: -1 });
+          .sort({ voteCount: -1 });
         // .sort({ createAt: -1 })
       },
     },
@@ -503,16 +503,16 @@ const RootQuery = new GraphQLObjectType({
     get_count_up_down: {
       type: new GraphQLList(likeTopDownType),
       resolve: (parent, args, context) => {
-        return LikeTopDownModel.find({ userId:context.id })
-      }
+        return LikeTopDownModel.find({ userId: context.id });
+      },
     },
     get_vote_up_down: {
       type: new GraphQLList(voteType),
       resolve: (parent, args, context) => {
-        return VoteModel.find({ userId:context.id })
-      }
-    }
-  }
+        return VoteModel.find({ userId: context.id });
+      },
+    },
+  },
 });
 
 module.exports = RootQuery;
