@@ -379,7 +379,7 @@ const GlobalHeader = () => {
                   content={
                     <div className="dropdown-avatar">
                       <li className="content-avatar">
-                        <Link href="/dashboard/profile">
+                        <Link href="/dashboard/allstories">
                           <div className="control-avatar">
                             {/* <Avatar
                                 className="avatar-1"
@@ -407,7 +407,7 @@ const GlobalHeader = () => {
                       </li>
                       <Divider />
                       <li className="content-text">
-                        <Link href="/dashboard/profile">
+                        <Link href="/dashboard/allstories">
                           <span>Profile</span>
                         </Link>
                       </li>
@@ -416,11 +416,11 @@ const GlobalHeader = () => {
                           <span>Write a story</span>
                         </Link>
                       </li>
-                      <li className="content-text">
+                      {/* <li className="content-text">
                         <Link href="/dashboard/allstories">
                           <span>Stories</span>
                         </Link>
-                      </li>
+                      </li> */}
                       <li
                         className="content-text"
                         style={{ paddingBottom: 12 }}

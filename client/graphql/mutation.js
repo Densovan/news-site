@@ -28,6 +28,13 @@ const DELETE_NEWS = gql`
     }
   }
 `;
+const DELETE_NEWS_SAVE = gql`
+  mutation ($id: ID!) {
+    delete_save_news(id: $id) {
+      message
+    }
+  }
+`;
 
 const EDIT_NEWS = gql`
   mutation (
@@ -212,34 +219,28 @@ const DELETE_REPLY_IN_NOTI = gql`
 `;
 
 const LIKE_COUNT_UP = gql`
-  mutation (
-    $postId: ID! 
-    $ownerId: ID!  
-  ) {
-    like_count_up (
-      postId: $postId 
-      ownerId: $ownerId 
-    ) {
+  mutation ($postId: ID!, $ownerId: ID!) {
+    like_count_up(postId: $postId, ownerId: $ownerId) {
       message
     }
   }
-`
+`;
 
 const LIKE_COUNT_DOWN = gql`
-  mutation ($postId: ID! $ownerId: ID!) {
-    like_count_down(postId: $postId ownerId: $ownerId) {
+  mutation ($postId: ID!, $ownerId: ID!) {
+    like_count_down(postId: $postId, ownerId: $ownerId) {
       message
     }
   }
-`
+`;
 
 const VOTE_UP_DOWN = gql`
-  mutation ($postId: ID! $ownerId: ID! $type: String!){
-    voteUpDown(postId: $postId ownerId: $ownerId type: $type) {
+  mutation ($postId: ID!, $ownerId: ID!, $type: String!) {
+    voteUpDown(postId: $postId, ownerId: $ownerId, type: $type) {
       message
     }
   }
-`
+`;
 
 const SAVE_NEWS = gql`
   mutation (
@@ -267,10 +268,9 @@ const SAVE_NEWS = gql`
   }
 `;
 
-
-
 export {
   // LIKE,
+  DELETE_NEWS_SAVE,
   SAVE_NEWS,
   ADD_NEWS,
   DELETE_NEWS,
@@ -291,5 +291,5 @@ export {
   DELETE_LIKE_NOTIFICATION,
   LIKE_COUNT_UP,
   LIKE_COUNT_DOWN,
-  VOTE_UP_DOWN
+  VOTE_UP_DOWN,
 };

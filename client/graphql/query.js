@@ -645,8 +645,23 @@ const GET_VOTE_UP_DOWN = gql`
     }
   }
 `;
+const GET_SAVED = gql`
+  query ($limit: Int!, $offset: Int!) {
+    get_save_news_by_userId(limit: $limit, offset: $offset) {
+      title
+      createdAt
+      id
+      category
+      thumnail
+      type
+      des
+      slug
+    }
+  }
+`;
 
 export {
+  GET_SAVED,
   GET_NEWS_SEARCH,
   GET_ALL_NEWS_TODAY,
   GET_ALL_NEWS_TOP,

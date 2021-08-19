@@ -39,6 +39,7 @@ const NoticheckModel = require("../../models/notiCheck");
 const SaveNewsModel = require("../../models/saveNews");
 const LikeTopDownModel = require("../../models/likeTopDown");
 const VoteModel = require("../../models/vote");
+const SaveNewsType = require("../types/saveNewsType");
 // const FollowingModel = require("../../models/following");
 // const FollowerModel = require("../../models/follower");
 
@@ -825,6 +826,22 @@ const RootMutation = new GraphQLObjectType({
             await save.save();
             return { message: "Successfully" };
           }
+        } catch (error) {
+          console.log(error);
+          throw error;
+        }
+      },
+    },
+
+    delete_save_news: {
+      type: SaveNewsType,
+      args: {
+        id: { type: GraphQLID },
+      },
+      resolve: async (parent, args, context) => {
+        try {
+          await SaveNewsModel.findByIdAndDelete({ _id: args.id });
+          return { message: "Remove Sucessfully" };
         } catch (error) {
           console.log(error);
           throw error;

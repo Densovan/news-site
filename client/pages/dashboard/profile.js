@@ -14,6 +14,7 @@ import {
 } from "react-icons/hi";
 import Link from "next/link";
 import GlobalHeader from "../../components/Layouts/globalHeader";
+import ProfileNavbar from "../../components/Layouts/profileNavbar";
 
 const Profile = () => {
   const { loggedIn } = useContext(AuthContext);
@@ -54,14 +55,10 @@ const Profile = () => {
               </center>
               <br></br>
             </div>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
+            <div>
+              <ProfileNavbar />
+            </div>
+
             {/* <div>
               <Row gutter={[12, 12]}>
                 <Col span={8}>
@@ -175,10 +172,7 @@ const Profile = () => {
         {loggedIn === false && window.location.replace("/")}
       </div>
       <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <Footer />
+      {/* <Footer /> */}
     </React.Fragment>
   );
 };

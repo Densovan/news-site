@@ -1,28 +1,27 @@
 import React, { useContext } from "react";
-import { Table, Tag, Divider, Popconfirm, message } from "antd";
+import Profile from "./profile";
 import { useQuery, useMutation } from "@apollo/client";
-import { GET_OWN_NEWS } from "../../graphql/query";
-import { DELETE_NEWS } from "../../graphql/mutation";
-import { BsTrash, BsPencil } from "react-icons/bs";
-import MainNavbar from "../../components/Layouts/mainNavbar";
+import { GET_SAVED } from "../../graphql/query";
+import { DELETE_NEWS_SAVE } from "../../graphql/mutation";
 import Footer from "../../components/Layouts/footer";
 import AuthContext from "../../contexts/authContext";
-
 import Link from "next/link";
-import GlobalHeader from "../../components/Layouts/globalHeader";
-import Profile from "./profile";
+import { BsTrash, BsPencil } from "react-icons/bs";
+import { Table, Tag, Divider, Popconfirm, message } from "antd";
 
-const Allstory = () => {
+const saved = () => {
   const server = process.env.API_SECRET;
   const server_local = process.env.API_SECRET_LOCAL;
   const develop = process.env.NODE_ENV;
   const URL_ACCESS = develop === "development" ? server_local : server;
-
   const { loggedIn } = useContext(AuthContext);
-  const [delete_news] = useMutation(DELETE_NEWS);
-  const { loading, data, error, refetch } = useQuery(GET_OWN_NEWS);
-  if (loading) return null;
-  if (error) return `Error! ${error.message}`;
+  const [delete_save_news] = useMutation(DELETE_NEWS_SAVE);
+  const { loading, data, refetch } = useQuery(GET_SAVED, {
+    variables: { limit: 6, offset: 0 },
+    pollInterval: 500,
+  });
+  if (loading) return "laoding...";
+  //   console.log(more);
   const columns = [
     {
       title: "Thumnail",
@@ -54,16 +53,12 @@ const Allstory = () => {
       dataIndex: "action",
       key: () => Math.random().toString(),
       render: (index, data) => {
-        const { id, title, categories, types, thumnail, des } = data;
+        const { id, slug } = data;
         return (
           <div>
-            <Link href={`/dashboard/editstory/${id}`}>
-              <Tag className="edit-button">
-                <BsPencil
-                  color="rgb(32, 166, 147)"
-                  size="15px"
-                  style={{ marginTop: "6px" }}
-                />
+            <Link href={`/detail/${slug}`}>
+              <Tag style={{ cursor: "pointer" }} color="green">
+                Check
               </Tag>
             </Link>
             <Divider type="vertical" />
@@ -73,9 +68,9 @@ const Allstory = () => {
               okText="Yes"
               cancelText="No"
               onConfirm={() => {
-                delete_news({ variables: { id: `${id}` } })
+                delete_save_news({ variables: { id: `${id}` } })
                   .then(async (res) => {
-                    await message.success(res.data.delete_news.message);
+                    await message.success(res.data.delete_save_news.message);
                     await refetch();
                   })
                   .catch((error) => {
@@ -84,12 +79,13 @@ const Allstory = () => {
                   });
               }}
             >
-              <Tag className="delete-button">
-                <BsTrash
+              <Tag style={{ cursor: "pointer" }} color="volcano">
+                Remove
+                {/* <BsTrash
                   color="#ff5858"
                   size="15px"
                   style={{ marginTop: "6px" }}
-                />
+                /> */}
               </Tag>
             </Popconfirm>
           </div>
@@ -99,30 +95,25 @@ const Allstory = () => {
   ];
   return (
     <React.Fragment>
-      {/* <MainNavbar /> */}
-      {/* <GlobalHeader /> */}
       <Profile />
-      {loggedIn === true && (
-        <div className="container">
-          <div className="profile-content">
-            <div className="sub-pf-content">
-              <h2>Your Stories</h2>
-              <Table
-                // key={data.get_own_news.id}
-                rowKey={(record) => record.id}
-                columns={columns}
-                dataSource={data.get_own_news}
-                // onChange={onChange}
-              />
-            </div>
+      <div className="container">
+        <div className="profile-content">
+          <div className="sub-pf-content">
+            <h2>Stories Saved</h2>
+            <Table
+              // key={data.get_own_news.id}
+              rowKey={(record) => record.id}
+              columns={columns}
+              dataSource={data.get_save_news_by_userId}
+              // onChange={onChange}
+            />
           </div>
         </div>
-      )}
+      </div>
       <br></br>
-      {loggedIn === false && window.location.replace("/")}
       <Footer />
     </React.Fragment>
   );
 };
 
-export default Allstory;
+export default saved;
