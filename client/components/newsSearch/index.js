@@ -7,7 +7,7 @@ import Main from "./main";
 import Footer from "../../components/Layouts/footer";
 import GlobalHeader from "../../components/Layouts/globalHeader";
 
-const index = ({ data, fetchMore, userData }) => {
+const index = ({ data, fetchMore, userData, vote_up_down }) => {
   const [state, setState] = useState({
     selectedTags: ["All"],
     loading: false,
@@ -40,6 +40,7 @@ const index = ({ data, fetchMore, userData }) => {
           <Col xs={24} md={16}>
             <Main
               data={data}
+              vote_up_down={vote_up_down}
               userData={userData}
               fetchMore={fetchMore}
               selectedTags={state.selectedTags}

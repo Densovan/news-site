@@ -14,7 +14,7 @@ const NewsLike = ({ postId, ownerId, voteCount, vote_up_down }) => {
     unlike: false,
   });
   const [counter, setCounter] = useState({
-    count: 0,
+    count: voteCount,
   });
   useEffect(() => {
     vote_up_down.get_vote_up_down.map((get_vote_up_down) => {
@@ -38,7 +38,7 @@ const NewsLike = ({ postId, ownerId, voteCount, vote_up_down }) => {
           unlike: false,
         });
         if (state.unlike == true) {
-          if (voteCount >= 1) {
+          if (voteCount > 1) {
             setCounter({
               count: counter.count + 2,
             });
@@ -88,7 +88,8 @@ const NewsLike = ({ postId, ownerId, voteCount, vote_up_down }) => {
           unlike: true,
         });
         if (state.like == true) {
-          if (voteCount >= 1) {
+          console.log("do");
+          if (voteCount > 1) {
             setCounter({
               count: counter.count - 2,
             });
@@ -98,7 +99,7 @@ const NewsLike = ({ postId, ownerId, voteCount, vote_up_down }) => {
             });
           }
         } else {
-          if (voteCount >= 1) {
+          if (voteCount > 0) {
             setCounter({
               count: counter.count - 1,
             });
@@ -114,7 +115,7 @@ const NewsLike = ({ postId, ownerId, voteCount, vote_up_down }) => {
           like: false,
         });
         if (state.unlike == true) {
-          if (voteCount >= 1) {
+          if (voteCount > 0) {
             setCounter({
               count: counter.count + 1,
             });
@@ -145,7 +146,7 @@ const NewsLike = ({ postId, ownerId, voteCount, vote_up_down }) => {
   return (
     <Fragment>
       <div>
-        <label className="btn-news">{counter.count + voteCount}</label>
+        <label className="btn-news">{counter.count}</label>
         <button className="btn-news" onClick={handleLike}>
           {state.like ? (
             <LikeFilled style={{ fontSize: "18px" }} />

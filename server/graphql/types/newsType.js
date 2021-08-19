@@ -45,7 +45,10 @@ const NewsType = new GraphQLObjectType({
     voteCount: {
       type: GraphQLInt,
     },
-    totalPages: {
+    voteUp: {
+      type: GraphQLInt,
+    },
+    voteDown: {
       type: GraphQLInt,
     },
     categories: {

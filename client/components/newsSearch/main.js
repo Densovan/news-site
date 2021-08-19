@@ -30,6 +30,7 @@ const AllNews = ({
   data,
   fetchMore,
   userData,
+  vote_up_down,
 }) => {
   const { loggedIn } = useContext(AuthContext);
   const server = process.env.API_SECRET;
@@ -39,7 +40,6 @@ const AllNews = ({
 
   const [hasMoreItems, setHasMoreItems] = useState(true);
 
-  console.log(data.search_news_title);
   const result = [];
   if (!loadingFilter) {
     if (selectedTags.length === 0) {
@@ -198,12 +198,12 @@ const AllNews = ({
                           </button>
                         </Link>
                       </div>
-                      {/* <NewLike
+                      <NewLike
                         postId={res.id}
                         ownerId={res.user.id}
                         voteCount={res.voteCount}
                         vote_up_down={vote_up_down}
-                      /> */}
+                      />
                     </div>
                   </Col>
                   <Col xs={24} md={8}>

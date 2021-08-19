@@ -876,6 +876,10 @@ const RootMutation = new GraphQLObjectType({
                 { _id: args.postId },
                 { voteCount: news.voteCount + 1 }
               );
+              await NewsModel.findOneAndUpdate(
+                { _id: args.postId },
+                { voteUp: news.voteUp + 1, voteDown: news.voteDown - 1}
+              );
               return { message: "add successfully" };
             } else if (args.type === "down") {
               const up = new VoteModel({
@@ -888,58 +892,131 @@ const RootMutation = new GraphQLObjectType({
                 { _id: args.postId },
                 { voteCount: news.voteCount - 1 }
               );
+              if (news.voteDown >= 0) {
+                await NewsModel.findOneAndUpdate(
+                  { _id: args.postId },
+                  { voteCount: news.voteCount + 0 }
+                );
+              }else{
+                await NewsModel.findOneAndUpdate(
+                  { _id: args.postId },
+                  { voteCount: news.voteCount - 1 }
+                );
+              }
+              await NewsModel.findOneAndUpdate(
+                { _id: args.postId },
+                { voteUp: news.voteUp - 1, voteDown: news.voteDown + 1}
+              );
+              // await NewsModel.findOneAndUpdate(
+              //   { _id: args.postId },
+              //   { voteCount: 0 }
+              // );
+              // if (news.voteCount <= 0) {
+              //   await NewsModel.findOneAndUpdate(
+              //     { _id: args.postId },
+              //     { voteCount: 0 }
+              //   );
+              // }else{
+              //   await NewsModel.findOneAndUpdate(
+              //     { _id: args.postId },
+              //     { voteCount: news.voteCount - 1 }
+              //   );
+              // }
               return { message: "add successfully" };
             }
           } else if (existingVote) {
             if (existingVote.voteDown === 1 && args.type === "down") {
-              await NewsModel.findOneAndUpdate(
-                { _id: args.postId },
-                { voteCount: news.voteCount + 1 }
-              );
-              await VoteModel.findOneAndDelete({
-                userId: context.id,
-                postId: args.postId,
-              });
-              return { message: "delete successfully" };
-            } else if (existingVote.voteUp === 1 && args.type === "up") {
-              await NewsModel.findOneAndUpdate(
-                { _id: args.postId },
-                { voteCount: news.voteCount - 1 }
-              );
-              await VoteModel.findOneAndDelete({
-                userId: context.id,
-                postId: args.postId,
-              });
-              return { message: "delete successfully" };
-            } else if (existingVote.voteUp === 0 && args.type === "up") {
-              if (news.voteCount <= 0) {
+              // await NewsModel.findOneAndUpdate(
+              //   { _id: args.postId },
+              //   { voteCount: news.voteCount + 1 }
+              // );
+              if(news.voteDown <= 0){
                 await NewsModel.findOneAndUpdate(
                   { _id: args.postId },
                   { voteCount: news.voteCount + 1 }
                 );
-              } else {
+              }else{
+                await NewsModel.findOneAndUpdate(
+                  { _id: args.postId },
+                  { voteCount: news.voteCount + 0 }
+                );
+              }
+              await NewsModel.findOneAndUpdate(
+                { _id: args.postId },
+                { voteUp: news.voteUp + 1, voteDown: news.voteDown - 1 }
+              );
+              await VoteModel.findOneAndDelete({
+                userId: context.id,
+                postId: args.postId,
+              });
+              return { message: "delete successfully" }; 
+            }
+            else if(existingVote.voteUp === 1 && args.type === "up"){
+              if(news.voteUp <= 0){
+                await NewsModel.findOneAndUpdate(
+                  { _id: args.postId },
+                  { voteCount: news.voteCount + 0 }
+                );
+              }else{
+                await NewsModel.findOneAndUpdate(
+                  { _id: args.postId },
+                  { voteCount: news.voteCount - 1 }
+                );
+              }
+              await NewsModel.findOneAndUpdate(
+                { _id: args.postId },
+                { voteUp: news.voteUp - 1, voteDown: news.voteDown + 1}
+              );
+              await VoteModel.findOneAndDelete({
+                userId: context.id,
+                postId: args.postId,
+              });
+              return { message: "delete successfully" };
+              
+            } else if (existingVote.voteUp === 0 && args.type === "up") {
+              if (news.voteUp < 0) {
+                await NewsModel.findOneAndUpdate(
+                  { _id: args.postId },
+                  { voteCount: news.voteCount + 1 }
+                );
+              }else{
                 await NewsModel.findOneAndUpdate(
                   { _id: args.postId },
                   { voteCount: news.voteCount + 2 }
                 );
               }
+              await NewsModel.findOneAndUpdate(
+                { _id: args.postId },
+                { voteUp: news.voteUp + 2, voteDown: news.voteDown - 2}
+              );
               await VoteModel.findOneAndUpdate(
                 { postId: args.postId, userId: context.id },
                 { type: args.type, voteUp: 1, voteDown: 0 }
               );
               return { message: "add successfully" };
             } else if (existingVote.voteDown === 0 && args.type === "down") {
-              if (news.voteCount <= 1) {
-                await NewsModel.findOneAndUpdate(
-                  { _id: args.postId },
-                  { voteCount: 0 }
-                );
+              if (news.voteDown >= -1) {
+                if (news.voteCount <= 0) {
+                  await NewsModel.findOneAndUpdate(
+                    { _id: args.postId },
+                    { voteCount: news.voteCount + 0 }
+                  );
+                }else{
+                  await NewsModel.findOneAndUpdate(
+                    { _id: args.postId },
+                    { voteCount: news.voteCount - 1 }
+                  );
+                }
               } else {
                 await NewsModel.findOneAndUpdate(
                   { _id: args.postId },
                   { voteCount: news.voteCount - 2 }
                 );
               }
+              await NewsModel.findOneAndUpdate(
+                { _id: args.postId },
+                { voteUp: news.voteUp - 2, voteDown: news.voteDown + 2}
+              );
               await VoteModel.findOneAndUpdate(
                 { postId: args.postId, userId: context.id },
                 { type: args.type, voteDown: 1, voteUp: 0 }

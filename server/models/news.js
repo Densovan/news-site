@@ -41,6 +41,16 @@ const newsSchema = new mongoose.Schema(
       require: true,
       default: 0,
     },
+    voteUp: {
+      type: Number,
+      require: true,
+      default: 0,
+    },
+    voteDown: {
+      type: Number,
+      require: true,
+      default: 0,
+    },
     liker_id: {
       type: String,
     },
