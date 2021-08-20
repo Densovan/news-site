@@ -878,7 +878,7 @@ const RootMutation = new GraphQLObjectType({
               );
               await NewsModel.findOneAndUpdate(
                 { _id: args.postId },
-                { voteUp: news.voteUp + 1, voteDown: news.voteDown - 1}
+                { voteUp: news.voteUp + 1, voteDown: news.voteDown - 1 }
               );
               return { message: "add successfully" };
             } else if (args.type === "down") {
@@ -897,7 +897,7 @@ const RootMutation = new GraphQLObjectType({
                   { _id: args.postId },
                   { voteCount: news.voteCount + 0 }
                 );
-              }else{
+              } else {
                 await NewsModel.findOneAndUpdate(
                   { _id: args.postId },
                   { voteCount: news.voteCount - 1 }
@@ -905,7 +905,7 @@ const RootMutation = new GraphQLObjectType({
               }
               await NewsModel.findOneAndUpdate(
                 { _id: args.postId },
-                { voteUp: news.voteUp - 1, voteDown: news.voteDown + 1}
+                { voteUp: news.voteUp - 1, voteDown: news.voteDown + 1 }
               );
               // await NewsModel.findOneAndUpdate(
               //   { _id: args.postId },
@@ -930,12 +930,12 @@ const RootMutation = new GraphQLObjectType({
               //   { _id: args.postId },
               //   { voteCount: news.voteCount + 1 }
               // );
-              if(news.voteDown <= 0){
+              if (news.voteDown <= 0) {
                 await NewsModel.findOneAndUpdate(
                   { _id: args.postId },
                   { voteCount: news.voteCount + 1 }
                 );
-              }else{
+              } else {
                 await NewsModel.findOneAndUpdate(
                   { _id: args.postId },
                   { voteCount: news.voteCount + 0 }
@@ -949,15 +949,14 @@ const RootMutation = new GraphQLObjectType({
                 userId: context.id,
                 postId: args.postId,
               });
-              return { message: "delete successfully" }; 
-            }
-            else if(existingVote.voteUp === 1 && args.type === "up"){
-              if(news.voteUp <= 0){
+              return { message: "delete successfully" };
+            } else if (existingVote.voteUp === 1 && args.type === "up") {
+              if (news.voteUp <= 0) {
                 await NewsModel.findOneAndUpdate(
                   { _id: args.postId },
                   { voteCount: news.voteCount + 0 }
                 );
-              }else{
+              } else {
                 await NewsModel.findOneAndUpdate(
                   { _id: args.postId },
                   { voteCount: news.voteCount - 1 }
@@ -965,21 +964,20 @@ const RootMutation = new GraphQLObjectType({
               }
               await NewsModel.findOneAndUpdate(
                 { _id: args.postId },
-                { voteUp: news.voteUp - 1, voteDown: news.voteDown + 1}
+                { voteUp: news.voteUp - 1, voteDown: news.voteDown + 1 }
               );
               await VoteModel.findOneAndDelete({
                 userId: context.id,
                 postId: args.postId,
               });
               return { message: "delete successfully" };
-              
             } else if (existingVote.voteUp === 0 && args.type === "up") {
               if (news.voteUp < 0) {
                 await NewsModel.findOneAndUpdate(
                   { _id: args.postId },
                   { voteCount: news.voteCount + 1 }
                 );
-              }else{
+              } else {
                 await NewsModel.findOneAndUpdate(
                   { _id: args.postId },
                   { voteCount: news.voteCount + 2 }
@@ -987,7 +985,7 @@ const RootMutation = new GraphQLObjectType({
               }
               await NewsModel.findOneAndUpdate(
                 { _id: args.postId },
-                { voteUp: news.voteUp + 2, voteDown: news.voteDown - 2}
+                { voteUp: news.voteUp + 2, voteDown: news.voteDown - 2 }
               );
               await VoteModel.findOneAndUpdate(
                 { postId: args.postId, userId: context.id },
@@ -1001,7 +999,7 @@ const RootMutation = new GraphQLObjectType({
                     { _id: args.postId },
                     { voteCount: news.voteCount + 0 }
                   );
-                }else{
+                } else {
                   await NewsModel.findOneAndUpdate(
                     { _id: args.postId },
                     { voteCount: news.voteCount - 1 }
@@ -1015,7 +1013,7 @@ const RootMutation = new GraphQLObjectType({
               }
               await NewsModel.findOneAndUpdate(
                 { _id: args.postId },
-                { voteUp: news.voteUp - 2, voteDown: news.voteDown + 2}
+                { voteUp: news.voteUp - 2, voteDown: news.voteDown + 2 }
               );
               await VoteModel.findOneAndUpdate(
                 { postId: args.postId, userId: context.id },

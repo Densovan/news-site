@@ -27,13 +27,12 @@ passport.deserializeUser((id, done) => {
 passport.use(
   new GoogleStrategy(
     {
-      clientID:
-        "677977246216-mfg0skuque596b1o2ikturiq0n6jbp60.apps.googleusercontent.com",
-      clientSecret: "zH3p3Gfs0b3R9UjcXlAjl9aU",
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       callbackURL: "/auth/google/callback",
     },
     function (accessToken, refreshToken, profile, done) {
-      // console.log(profile);
+      console.log(profile);
       User.findOne({ googleId: profile.id }).then((currentUser) => {
         if (currentUser) {
           // already have this user

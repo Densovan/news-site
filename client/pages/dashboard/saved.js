@@ -96,20 +96,23 @@ const saved = () => {
   return (
     <React.Fragment>
       <Profile />
-      <div className="container">
-        <div className="profile-content">
-          <div className="sub-pf-content">
-            <h2>Stories Saved</h2>
-            <Table
-              // key={data.get_own_news.id}
-              rowKey={(record) => record.id}
-              columns={columns}
-              dataSource={data.get_save_news_by_userId}
-              // onChange={onChange}
-            />
+      {loggedIn === true && (
+        <div className="container">
+          <div className="profile-content">
+            <div className="sub-pf-content">
+              <h2>Stories Saved</h2>
+              <Table
+                // key={data.get_own_news.id}
+                rowKey={(record) => record.id}
+                columns={columns}
+                dataSource={data.get_save_news_by_userId}
+                // onChange={onChange}
+              />
+            </div>
           </div>
         </div>
-      </div>
+      )}
+      {loggedIn === false && window.location.replace("/")}
       <br></br>
       <Footer />
     </React.Fragment>
