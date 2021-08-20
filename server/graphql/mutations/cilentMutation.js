@@ -888,9 +888,13 @@ const RootMutation = new GraphQLObjectType({
                 voteDown: 1,
               });
               await up.save();
+              // await NewsModel.findOneAndUpdate(
+              //   { _id: args.postId },
+              //   { voteCount: news.voteCount - 1 }
+              // );
               await NewsModel.findOneAndUpdate(
                 { _id: args.postId },
-                { voteCount: news.voteCount - 1 }
+                { voteUp: news.voteUp - 1, voteDown: news.voteDown + 1 }
               );
               if (news.voteDown >= 0) {
                 await NewsModel.findOneAndUpdate(
@@ -903,10 +907,6 @@ const RootMutation = new GraphQLObjectType({
                   { voteCount: news.voteCount - 1 }
                 );
               }
-              await NewsModel.findOneAndUpdate(
-                { _id: args.postId },
-                { voteUp: news.voteUp - 1, voteDown: news.voteDown + 1 }
-              );
               // await NewsModel.findOneAndUpdate(
               //   { _id: args.postId },
               //   { voteCount: 0 }
