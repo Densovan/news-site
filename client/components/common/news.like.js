@@ -13,9 +13,9 @@ const NewsLike = ({ postId, ownerId, voteCount, vote_up_down }) => {
     like: false,
     unlike: false,
   });
-  const [counter, setCounter] = useState({
-    count: voteCount,
-  });
+  // const [counter, setCounter] = useState({
+  //   count: voteCount,
+  // });
   useEffect(() => {
     vote_up_down.get_vote_up_down.map((get_vote_up_down) => {
       if (get_vote_up_down.postId == postId && get_vote_up_down.type == "up") {
@@ -37,35 +37,35 @@ const NewsLike = ({ postId, ownerId, voteCount, vote_up_down }) => {
           like: true,
           unlike: false,
         });
-        if (state.unlike == true) {
-          if (voteCount > 1) {
-            setCounter({
-              count: counter.count + 2,
-            });
-          } else {
-            setCounter({
-              count: counter.count + 1,
-            });
-          }
-        } else {
-          setCounter({
-            count: counter.count + 1,
-          });
-        }
+        // if (state.unlike == true) {
+        //   if (voteCount > 1) {
+        //     setCounter({
+        //       count: counter.count + 2,
+        //     });
+        //   } else {
+        //     setCounter({
+        //       count: counter.count + 1,
+        //     });
+        //   }
+        // } else {
+        //   setCounter({
+        //     count: counter.count + 1,
+        //   });
+        // }
       } else {
         setState({
           like: false,
           unlike: false,
         });
-        if (state.like == true) {
-          setCounter({
-            count: counter.count - 1,
-          });
-        } else {
-          setCounter({
-            count: counter.count - 1,
-          });
-        }
+        // if (state.like == true) {
+        //   setCounter({
+        //     count: counter.count - 1,
+        //   });
+        // } else {
+        //   setCounter({
+        //     count: counter.count - 1,
+        //   });
+        // }
       }
       await voteUpDown({
         variables: {
@@ -87,48 +87,48 @@ const NewsLike = ({ postId, ownerId, voteCount, vote_up_down }) => {
           like: false,
           unlike: true,
         });
-        if (state.like == true) {
-          console.log("do");
-          if (voteCount > 1) {
-            setCounter({
-              count: counter.count - 2,
-            });
-          } else {
-            setCounter({
-              count: counter.count - 1,
-            });
-          }
-        } else {
-          if (voteCount > 0) {
-            setCounter({
-              count: counter.count - 1,
-            });
-          } else {
-            setCounter({
-              count: counter.count,
-            });
-          }
-        }
+        // if (state.like == true) {
+        //   console.log("do");
+        //   if (voteCount > 1) {
+        //     setCounter({
+        //       count: counter.count - 2,
+        //     });
+        //   } else {
+        //     setCounter({
+        //       count: counter.count - 1,
+        //     });
+        //   }
+        // } else {
+        //   if (voteCount > 0) {
+        //     setCounter({
+        //       count: counter.count - 1,
+        //     });
+        //   } else {
+        //     setCounter({
+        //       count: counter.count,
+        //     });
+        //   }
+        // }
       } else {
         setState({
           unlike: false,
           like: false,
         });
-        if (state.unlike == true) {
-          if (voteCount > 0) {
-            setCounter({
-              count: counter.count + 1,
-            });
-          } else {
-            setCounter({
-              count: counter.count,
-            });
-          }
-        } else {
-          setCounter({
-            count: counter.count + 1,
-          });
-        }
+        // if (state.unlike == true) {
+        //   if (voteCount > 0) {
+        //     setCounter({
+        //       count: counter.count + 1,
+        //     });
+        //   } else {
+        //     setCounter({
+        //       count: counter.count,
+        //     });
+        //   }
+        // } else {
+        //   setCounter({
+        //     count: counter.count + 1,
+        //   });
+        // }
       }
       await voteUpDown({
         variables: {
@@ -146,7 +146,7 @@ const NewsLike = ({ postId, ownerId, voteCount, vote_up_down }) => {
   return (
     <Fragment>
       <div>
-        <label className="btn-news">{counter.count}</label>
+        <label className="btn-news">{voteCount}</label>
         <button className="btn-news" onClick={handleLike}>
           {state.like ? (
             <LikeFilled style={{ fontSize: "18px" }} />
