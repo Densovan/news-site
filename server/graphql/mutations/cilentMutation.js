@@ -872,10 +872,18 @@ const RootMutation = new GraphQLObjectType({
                 voteUp: 1,
               });
               await up.save();
-              await NewsModel.findOneAndUpdate(
-                { _id: args.postId },
-                { voteCount: news.voteCount + 1 }
-              );
+              if (news.voteUp >= 0) {
+                await NewsModel.findOneAndUpdate(
+                  { _id: args.postId },
+                  { voteCount: news.voteCount + 1 }
+                );
+              }
+              else {
+                await NewsModel.findOneAndUpdate(
+                  { _id: args.postId },
+                  { voteCount: news.voteCount + 0 }
+                );
+              }
               await NewsModel.findOneAndUpdate(
                 { _id: args.postId },
                 { voteUp: news.voteUp + 1, voteDown: news.voteDown - 1 }
@@ -973,16 +981,24 @@ const RootMutation = new GraphQLObjectType({
               return { message: "delete successfully" };
             } else if (existingVote.voteUp === 0 && args.type === "up") {
               if (news.voteUp < 0) {
-                await NewsModel.findOneAndUpdate(
-                  { _id: args.postId },
-                  { voteCount: news.voteCount + 1 }
-                );
+                if (news.voteCount <= 0) {
+                  await NewsModel.findOneAndUpdate(
+                    { _id: args.postId },
+                    { voteCount: news.voteCount + 0 }
+                  );
+                }else{
+                  await NewsModel.findOneAndUpdate(
+                    { _id: args.postId },
+                    { voteCount: news.voteCount + 1 }
+                  );
+                }
               } else {
                 await NewsModel.findOneAndUpdate(
                   { _id: args.postId },
                   { voteCount: news.voteCount + 2 }
                 );
               }
+
               await NewsModel.findOneAndUpdate(
                 { _id: args.postId },
                 { voteUp: news.voteUp + 2, voteDown: news.voteDown - 2 }
