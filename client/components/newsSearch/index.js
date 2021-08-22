@@ -106,6 +106,7 @@ const index = ({ data, fetchMore, userData, vote_up_down, get_all_vote }) => {
             <Main
               data={data}
               vote_up_down={vote_up_down}
+              get_all_vote={get_all_vote}
               userData={userData}
               fetchMore={fetchMore}
               selectedTags={state.selectedTags}

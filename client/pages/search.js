@@ -90,7 +90,11 @@ const search = () => {
     }
   );
   if (
-    (loading || !data || userLoading || vote_up_down_loading, loading_all_vote)
+    loading ||
+    !data ||
+    userLoading ||
+    vote_up_down_loading ||
+    loading_all_vote
   ) {
     return (
       <div className="container">
