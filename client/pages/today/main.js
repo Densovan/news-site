@@ -19,6 +19,7 @@ import {
   GET_ALL_NEWS_TODAY,
   GET_USER,
   GET_VOTE_UP_DOWN,
+  GET_ALL_VOTE_UP_DOWN,
 } from "../../graphql/query";
 import moment from "moment";
 import Medium from "../../components/loaders/newsLoader";
@@ -44,16 +45,24 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
     fetchMore,
   } = useQuery(GET_ALL_NEWS_TODAY, {
     variables: { limit: 6, offset: 0 },
+    pollInterval: 500,
   });
   const { loading: userLoading, data: userData } = useQuery(GET_USER);
   const { data: vote_up_down, loading: vote_up_down_loading } =
     useQuery(GET_VOTE_UP_DOWN);
-  if (loading || userLoading || vote_up_down_loading)
+  const { data: get_all_vote, loading: loading_all_vote } = useQuery(
+    GET_ALL_VOTE_UP_DOWN,
+    {
+      pollInterval: 500,
+    }
+  );
+  if (loading || userLoading || vote_up_down_loading || loading_all_vote)
     return (
       <div>
         <Medium />
       </div>
     );
+  console.log(news);
   const result = [];
   if (!loadingFilter) {
     if (selectedTags.length === 0) {
@@ -146,8 +155,12 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
           )}
           {result.map((res, index) => {
             return (
-              <Card className="card-article" key={index}>
-                <Row>
+              <Card
+                // style={{ padding: "-10px" }}
+                className="card-article"
+                key={index}
+              >
+                <Row gutter={[8, 8]}>
                   <Col xs={24} md={16} className="box-news">
                     <div className="header-card-article">
                       <Avatar src={res.user.image} />
@@ -217,6 +230,7 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
                         ownerId={res.user.id}
                         voteCount={res.voteCount}
                         vote_up_down={vote_up_down}
+                        get_all_vote={get_all_vote}
                       />
                     </div>
                   </Col>

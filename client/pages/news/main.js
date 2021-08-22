@@ -15,7 +15,12 @@ import { CaretRightOutlined } from "@ant-design/icons";
 import { AiOutlinePicture, AiOutlineLink } from "react-icons/ai";
 import Link from "next/link";
 import { useQuery } from "@apollo/client";
-import { GET_ALL_NEWS, GET_USER, GET_VOTE_UP_DOWN } from "../../graphql/query";
+import {
+  GET_ALL_NEWS,
+  GET_USER,
+  GET_VOTE_UP_DOWN,
+  GET_ALL_VOTE_UP_DOWN,
+} from "../../graphql/query";
 import moment from "moment";
 import Medium from "../../components/loaders/newsLoader";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -40,12 +45,18 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
     fetchMore,
   } = useQuery(GET_ALL_NEWS, {
     variables: { limit: 6, offset: 0 },
-    pollInterval: 500
+    pollInterval: 500,
   });
   const { loading: userLoading, data: userData } = useQuery(GET_USER);
   const { data: vote_up_down, loading: vote_up_down_loading } =
     useQuery(GET_VOTE_UP_DOWN);
-  if (loading || userLoading || vote_up_down_loading)
+  const { data: get_all_vote, loading: loading_all_vote } = useQuery(
+    GET_ALL_VOTE_UP_DOWN,
+    {
+      pollInterval: 500,
+    }
+  );
+  if (loading || userLoading || vote_up_down_loading || loading_all_vote)
     return (
       <div>
         <Medium />
@@ -218,6 +229,7 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
                         ownerId={res.user.id}
                         voteCount={res.voteCount}
                         vote_up_down={vote_up_down}
+                        get_all_vote={get_all_vote}
                       />
                     </div>
                   </Col>

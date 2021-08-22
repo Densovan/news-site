@@ -235,8 +235,8 @@ const LIKE_COUNT_DOWN = gql`
 `;
 
 const VOTE_UP_DOWN = gql`
-  mutation ($postId: ID!, $ownerId: ID!, $type: String!) {
-    voteUpDown(postId: $postId, ownerId: $ownerId, type: $type) {
+  mutation ($postId: ID!, $ownerId: ID!, $type: String!, $count: Int!) {
+    voteUpDown(postId: $postId, ownerId: $ownerId, type: $type, count: $count) {
       message
     }
   }

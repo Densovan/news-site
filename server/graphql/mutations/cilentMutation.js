@@ -856,6 +856,7 @@ const RootMutation = new GraphQLObjectType({
         postId: { type: GraphQLID },
         ownerId: { type: GraphQLID },
         type: { type: GraphQLString },
+        count: { type: GraphQLInt }
       },
       resolve: async (parent, args, context) => {
         try {
@@ -866,65 +867,53 @@ const RootMutation = new GraphQLObjectType({
           const news = await NewsModel.findById(args.postId);
           if (!existingVote) {
             if (args.type === "up") {
-              const up = new VoteModel({
-                ...args,
-                userId: context.id,
-                voteUp: 1,
-              });
-              await up.save();
-              if (news.voteUp >= 0) {
-                await NewsModel.findOneAndUpdate(
-                  { _id: args.postId },
-                  { voteCount: news.voteCount + 1 }
-                );
-              }
-              else {
-                await NewsModel.findOneAndUpdate(
-                  { _id: args.postId },
-                  { voteCount: news.voteCount + 0 }
-                );
-              }
+
               await NewsModel.findOneAndUpdate(
                 { _id: args.postId },
                 { voteUp: news.voteUp + 1, voteDown: news.voteDown - 1 }
               );
-              return { message: "add successfully" };
-            } else if (args.type === "down") {
+
               const up = new VoteModel({
                 ...args,
                 userId: context.id,
-                voteDown: 1,
+                voteUp: 1,
+                count: args.count,
               });
               await up.save();
-              // await NewsModel.findOneAndUpdate(
-              //   { _id: args.postId },
-              //   { voteCount: news.voteCount - 1 }
-              // );
+              
+              // if (news.voteUp >= 0) {
+              //   console.log(args.vote);
+              //   await NewsModel.findOneAndUpdate(
+              //     { _id: args.postId },
+              //     { voteCount: news.voteCount + args.vote }
+              //   );
+              // }
+              // else {
+              //   await NewsModel.findOneAndUpdate(
+              //     { _id: args.postId },
+              //     { voteCount: news.voteCount + 0 }
+              //   );
+              // }
+              return { message: "add successfully" };
+            } else if (args.type === "down") {
+
               await NewsModel.findOneAndUpdate(
                 { _id: args.postId },
                 { voteUp: news.voteUp - 1, voteDown: news.voteDown + 1 }
               );
-              if (news.voteDown >= 0) {
-                await NewsModel.findOneAndUpdate(
-                  { _id: args.postId },
-                  { voteCount: news.voteCount + 0 }
-                );
-              } else {
-                await NewsModel.findOneAndUpdate(
-                  { _id: args.postId },
-                  { voteCount: news.voteCount - 1 }
-                );
-              }
-              // await NewsModel.findOneAndUpdate(
-              //   { _id: args.postId },
-              //   { voteCount: 0 }
-              // );
-              // if (news.voteCount <= 0) {
+              const up = new VoteModel({
+                ...args,
+                userId: context.id,
+                voteDown: 1,
+                count: args.count
+              });
+              await up.save();
+              // if (news.voteDown >= 0) {
               //   await NewsModel.findOneAndUpdate(
               //     { _id: args.postId },
-              //     { voteCount: 0 }
+              //     { voteCount: news.voteCount + 0 }
               //   );
-              // }else{
+              // } else {
               //   await NewsModel.findOneAndUpdate(
               //     { _id: args.postId },
               //     { voteCount: news.voteCount - 1 }
@@ -934,106 +923,102 @@ const RootMutation = new GraphQLObjectType({
             }
           } else if (existingVote) {
             if (existingVote.voteDown === 1 && args.type === "down") {
+              // if (news.voteDown <= 0) {
+              //   await NewsModel.findOneAndUpdate(
+              //     { _id: args.postId },
+              //     { voteCount: news.voteCount + 1 }
+              //   );
+              // } else {
+              //   await NewsModel.findOneAndUpdate(
+              //     { _id: args.postId },
+              //     { voteCount: news.voteCount + 0 }
+              //   );
+              // }
               // await NewsModel.findOneAndUpdate(
               //   { _id: args.postId },
-              //   { voteCount: news.voteCount + 1 }
+              //   { voteUp: news.voteUp + 1, voteDown: news.voteDown - 1 }
               // );
-              if (news.voteDown <= 0) {
-                await NewsModel.findOneAndUpdate(
-                  { _id: args.postId },
-                  { voteCount: news.voteCount + 1 }
-                );
-              } else {
-                await NewsModel.findOneAndUpdate(
-                  { _id: args.postId },
-                  { voteCount: news.voteCount + 0 }
-                );
-              }
-              await NewsModel.findOneAndUpdate(
-                { _id: args.postId },
-                { voteUp: news.voteUp + 1, voteDown: news.voteDown - 1 }
-              );
               await VoteModel.findOneAndDelete({
                 userId: context.id,
                 postId: args.postId,
               });
               return { message: "delete successfully" };
             } else if (existingVote.voteUp === 1 && args.type === "up") {
-              if (news.voteUp <= 0) {
-                await NewsModel.findOneAndUpdate(
-                  { _id: args.postId },
-                  { voteCount: news.voteCount + 0 }
-                );
-              } else {
-                await NewsModel.findOneAndUpdate(
-                  { _id: args.postId },
-                  { voteCount: news.voteCount - 1 }
-                );
-              }
-              await NewsModel.findOneAndUpdate(
-                { _id: args.postId },
-                { voteUp: news.voteUp - 1, voteDown: news.voteDown + 1 }
-              );
+              // if (news.voteUp <= 0) {
+              //   await NewsModel.findOneAndUpdate(
+              //     { _id: args.postId },
+              //     { voteCount: news.voteCount + 0 }
+              //   );
+              // } else {
+              //   await NewsModel.findOneAndUpdate(
+              //     { _id: args.postId },
+              //     { voteCount: news.voteCount - 1 }
+              //   );
+              // }
+              // await NewsModel.findOneAndUpdate(
+              //   { _id: args.postId },
+              //   { voteUp: news.voteUp - 1, voteDown: news.voteDown + 1 }
+              // );
               await VoteModel.findOneAndDelete({
                 userId: context.id,
                 postId: args.postId,
               });
               return { message: "delete successfully" };
             } else if (existingVote.voteUp === 0 && args.type === "up") {
-              if (news.voteUp < 0) {
-                if (news.voteCount <= 0) {
-                  await NewsModel.findOneAndUpdate(
-                    { _id: args.postId },
-                    { voteCount: news.voteCount + 0 }
-                  );
-                }else{
-                  await NewsModel.findOneAndUpdate(
-                    { _id: args.postId },
-                    { voteCount: news.voteCount + 1 }
-                  );
-                }
-              } else {
-                await NewsModel.findOneAndUpdate(
-                  { _id: args.postId },
-                  { voteCount: news.voteCount + 2 }
-                );
-              }
+              // if (news.voteUp < 0) {
+              //   if (news.voteCount <= 0) {
+              //     await NewsModel.findOneAndUpdate(
+              //       { _id: args.postId },
+              //       { voteCount: news.voteCount + 0 }
+              //     );
+              //   }else{
+              //     await NewsModel.findOneAndUpdate(
+              //       { _id: args.postId },
+              //       { voteCount: news.voteCount + 1 }
+              //     );
+              //   }
+              // } else {
+              //   await NewsModel.findOneAndUpdate(
+              //     { _id: args.postId },
+              //     { voteCount: news.voteCount + 2 }
+              //   );
+              // }
 
-              await NewsModel.findOneAndUpdate(
-                { _id: args.postId },
-                { voteUp: news.voteUp + 2, voteDown: news.voteDown - 2 }
-              );
+              // await NewsModel.findOneAndUpdate(
+              //   { _id: args.postId },
+              //   { voteUp: news.voteUp + 2, voteDown: news.voteDown - 2 }
+              // );
               await VoteModel.findOneAndUpdate(
                 { postId: args.postId, userId: context.id },
-                { type: args.type, voteUp: 1, voteDown: 0 }
+                { type: args.type, voteUp: 1, voteDown: 0, count: args.count }
               );
               return { message: "add successfully" };
             } else if (existingVote.voteDown === 0 && args.type === "down") {
-              if (news.voteDown >= -1) {
-                if (news.voteCount <= 0) {
-                  await NewsModel.findOneAndUpdate(
-                    { _id: args.postId },
-                    { voteCount: news.voteCount + 0 }
-                  );
-                } else {
-                  await NewsModel.findOneAndUpdate(
-                    { _id: args.postId },
-                    { voteCount: news.voteCount - 1 }
-                  );
-                }
-              } else {
-                await NewsModel.findOneAndUpdate(
-                  { _id: args.postId },
-                  { voteCount: news.voteCount - 2 }
-                );
-              }
-              await NewsModel.findOneAndUpdate(
-                { _id: args.postId },
-                { voteUp: news.voteUp - 2, voteDown: news.voteDown + 2 }
-              );
+              // if (news.voteDown >= -1) {
+              //   if (news.voteCount <= 0) {
+              //     await NewsModel.findOneAndUpdate(
+              //       { _id: args.postId },
+              //       { voteCount: news.voteCount + 0 }
+              //     );
+              //   } else {
+              //     await NewsModel.findOneAndUpdate(
+              //       { _id: args.postId },
+              //       { voteCount: news.voteCount - 1 }
+              //     );
+              //   }
+              // } else {
+              //   await NewsModel.findOneAndUpdate(
+              //     { _id: args.postId },
+              //     { voteCount: news.voteCount - 2 }
+              //   );
+              // }
+              // await NewsModel.findOneAndUpdate(
+              //   { _id: args.postId },
+              //   { voteUp: news.voteUp - 2, voteDown: news.voteDown + 2 }
+              // );
               await VoteModel.findOneAndUpdate(
                 { postId: args.postId, userId: context.id },
-                { type: args.type, voteDown: 1, voteUp: 0 }
+                { type: args.type, voteDown: 1, voteUp: 0, count: args.count }
               );
               return { message: "add successfully" };
             } else {

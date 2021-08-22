@@ -12,6 +12,11 @@ const VoteSchema = new mongoose.Schema(
         require: true,
         default: 0,
     },
+    count:{
+      type: Number,
+      require: true,
+      default: 0,
+    },
     type: {
       type: String,
     },
