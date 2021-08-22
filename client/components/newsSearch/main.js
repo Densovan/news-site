@@ -31,6 +31,7 @@ const AllNews = ({
   fetchMore,
   userData,
   vote_up_down,
+  get_all_vote
 }) => {
   const { loggedIn } = useContext(AuthContext);
   const server = process.env.API_SECRET;
@@ -42,6 +43,7 @@ const AllNews = ({
 
   const result = [];
   if (!loadingFilter) {
+    console.log(data);
     if (selectedTags.length === 0) {
       data.search_news_title.map((news) => {
         result.push(news);
@@ -203,6 +205,7 @@ const AllNews = ({
                         ownerId={res.user.id}
                         voteCount={res.voteCount}
                         vote_up_down={vote_up_down}
+                        get_all_vote={get_all_vote}
                       />
                     </div>
                   </Col>
