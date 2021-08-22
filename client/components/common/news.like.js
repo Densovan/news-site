@@ -98,7 +98,7 @@ const NewsLike = ({ postId, ownerId, voteCount, vote_up_down, get_all_vote }) =>
             postId: postId,
             ownerId: ownerId,
             type: "up",
-            count: -1
+            count: 0
           },
         }).then(async (response) => {
           console.log(response);
@@ -191,7 +191,7 @@ const NewsLike = ({ postId, ownerId, voteCount, vote_up_down, get_all_vote }) =>
             postId: postId,
             ownerId: ownerId,
             type: "down",
-            count: 1
+            count: 0
           },
         }).then(async (response) => {
           console.log(response);
@@ -228,7 +228,7 @@ const NewsLike = ({ postId, ownerId, voteCount, vote_up_down, get_all_vote }) =>
   return (
     <Fragment>
       <div>
-        <label className="btn-news">{vote.count}</label>
+        <label className="btn-news">{vote.count > 0 ? vote.count : "0"}</label>
         <button className="btn-news" onClick={handleLike}>
           {state.like ? (
             <LikeFilled style={{ fontSize: "18px" }} />
