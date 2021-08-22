@@ -10,9 +10,18 @@ const LikeTopDownType = new GraphQLObjectType({
   name: "vote",
   fields: () => ({
     id: { type: GraphQLID },
-    message: { type: GraphQLString },
-    voteUp: { type: GraphQLInt },
-    voteDown: { type: GraphQLInt },
+    message: { 
+      type: GraphQLString 
+    },
+    voteUp: { 
+      type: GraphQLInt 
+    },
+    voteDown: { 
+      type: GraphQLInt 
+    },
+    count:{
+      type: GraphQLInt
+    },
     ownerId: { type: GraphQLID},
     postId: { type: GraphQLID},
     type: { type: GraphQLString },

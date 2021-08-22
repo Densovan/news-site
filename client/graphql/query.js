@@ -639,6 +639,20 @@ const GET_VOTE_UP_DOWN = gql`
     get_vote_up_down {
       id
       postId
+      count
+      type
+      ownerId
+      userId
+    }
+  }
+`;
+
+const GET_ALL_VOTE_UP_DOWN = gql`
+  query {
+    get_all_vote_up_down {
+      id
+      postId
+      count
       type
       ownerId
       userId
@@ -686,4 +700,5 @@ export {
   GET_NOTIFICATION_CHECK_BY_USER,
   GET_LIKE_COUNT_DOWN,
   GET_VOTE_UP_DOWN,
+  GET_ALL_VOTE_UP_DOWN
 };

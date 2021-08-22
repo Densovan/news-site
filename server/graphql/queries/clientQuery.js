@@ -513,6 +513,13 @@ const RootQuery = new GraphQLObjectType({
       },
     },
 
+    get_all_vote_up_down: {
+      type: new GraphQLList(voteType),
+      resolve: (parent, args, context) => {
+        return VoteModel.find({}).sort({ createdAt: -1 });
+      },
+    },
+
     //==============Search title news keyword==================
     search_news_title: {
       type: new GraphQLList(NewsType),
