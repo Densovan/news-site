@@ -33,10 +33,10 @@ const Follow = ({ articleUser, follows }) => {
                 followTo: articleUser.id
             }
         }).then((response) => {
-          notification.open({
+          notification['success']({
             message: response.data.follow.message,
             description:
-              'You have follow to' + articleUser.fullname,
+              'You have follow to ' + articleUser.fullname,
             onClick: () => {
               console.log('Notification Clicked!');
             },
@@ -58,8 +58,7 @@ const Follow = ({ articleUser, follows }) => {
             followTo: articleUser.id
           }
         }).then((response) => {
-          console.log(response);
-          notification.open({
+          notification['info']({
             message: response.data.follow.message,
             description:
               'You have unfollow to ' + articleUser.fullname,
