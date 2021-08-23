@@ -35,11 +35,7 @@ const Follow = ({ articleUser, follows }) => {
         }).then((response) => {
           notification['success']({
             message: response.data.follow.message,
-            description:
-              'You have follow to ' + articleUser.fullname,
-            onClick: () => {
-              console.log('Notification Clicked!');
-            },
+            description:'You have follow to ' + articleUser.fullname
           })
           setTimeout(() => {
             setState({
@@ -60,11 +56,7 @@ const Follow = ({ articleUser, follows }) => {
         }).then((response) => {
           notification['info']({
             message: response.data.follow.message,
-            description:
-              'You have unfollow to ' + articleUser.fullname,
-            onClick: () => {
-              console.log('Notification Clicked!');
-            },
+            description:'You have unfollow to ' + articleUser.fullname,
           })
           setTimeout(() => {
             setState({
