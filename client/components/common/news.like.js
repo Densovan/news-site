@@ -8,13 +8,19 @@ import {
   DislikeFilled,
 } from "@ant-design/icons";
 
-const NewsLike = ({ postId, ownerId, voteCount, vote_up_down, get_all_vote }) => {
+const NewsLike = ({
+  postId,
+  ownerId,
+  voteCount,
+  vote_up_down,
+  get_all_vote,
+}) => {
   const [state, setState] = useState({
     like: false,
     unlike: false,
   });
   const [vote, setVote] = useState({
-    count: 0
+    count: 0,
   });
   useEffect(() => {
     vote_up_down.get_vote_up_down.map((get_vote_up_down) => {
@@ -27,14 +33,14 @@ const NewsLike = ({ postId, ownerId, voteCount, vote_up_down, get_all_vote }) =>
       ) {
         setState({ unlike: true, like: false });
       }
-    })
-    let sum = 0; 
-    for (let i=0; i < get_all_vote.get_all_vote_up_down.length; i++) { 
+    });
+    let sum = 0;
+    for (let i = 0; i < get_all_vote.get_all_vote_up_down.length; i++) {
       if (get_all_vote.get_all_vote_up_down[i].postId == postId) {
-        sum += get_all_vote.get_all_vote_up_down[i].count
+        sum += get_all_vote.get_all_vote_up_down[i].count;
         setVote({
           count: sum,
-        })
+        });
       }
     }
   }, [postId, get_all_vote]);
@@ -69,19 +75,19 @@ const NewsLike = ({ postId, ownerId, voteCount, vote_up_down, get_all_vote }) =>
               postId: postId,
               ownerId: ownerId,
               type: "up",
-              count: 1
+              count: 1,
             },
           }).then(async (response) => {
             console.log(response);
           });
-        }else{
+        } else {
           console.log("+1");
           await voteUpDown({
             variables: {
               postId: postId,
               ownerId: ownerId,
               type: "up",
-              count: 1
+              count: 1,
             },
           }).then(async (response) => {
             console.log(response);
@@ -98,7 +104,7 @@ const NewsLike = ({ postId, ownerId, voteCount, vote_up_down, get_all_vote }) =>
             postId: postId,
             ownerId: ownerId,
             type: "up",
-            count: 0
+            count: 0,
           },
         }).then(async (response) => {
           console.log(response);
@@ -140,19 +146,19 @@ const NewsLike = ({ postId, ownerId, voteCount, vote_up_down, get_all_vote }) =>
               postId: postId,
               ownerId: ownerId,
               type: "down",
-              count: -1
+              count: -1,
             },
           }).then(async (response) => {
             console.log(response);
           });
-        }else{
+        } else {
           console.log("-1");
           await voteUpDown({
             variables: {
               postId: postId,
               ownerId: ownerId,
               type: "down",
-              count: -1
+              count: -1,
             },
           }).then(async (response) => {
             console.log(response);
@@ -191,7 +197,7 @@ const NewsLike = ({ postId, ownerId, voteCount, vote_up_down, get_all_vote }) =>
             postId: postId,
             ownerId: ownerId,
             type: "down",
-            count: 0
+            count: 0,
           },
         }).then(async (response) => {
           console.log(response);

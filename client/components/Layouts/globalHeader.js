@@ -205,7 +205,8 @@ const GlobalHeader = () => {
                                   >
                                     <div className="container-box">
                                       <Link
-                                        href={`/detail/${notifications.news.slug}`}
+                                        href="/"
+                                        // href={`/detail/${notifications.news.slug}`}
                                       >
                                         <div className="box-notification">
                                           <div style={{ paddingRight: 8 }}>
@@ -534,7 +535,8 @@ const GlobalHeader = () => {
                                 >
                                   <div className="container-box">
                                     <Link
-                                      href={`/detail/${notifications.news.slug}`}
+                                      href="/"
+                                      // href={`/detail/${notifications.news.slug}`}
                                     >
                                       <div className="box-notification">
                                         <div style={{ paddingRight: 8 }}>

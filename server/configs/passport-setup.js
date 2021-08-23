@@ -12,18 +12,6 @@ passport.deserializeUser((id, done) => {
   });
 });
 
-// app.get(
-//   "/auth/google/callback",
-//   passport.authenticate("google", {
-//     failureRedirect: "/login",
-//     successRedirect: "http://localhost:3008",
-//   }),
-//   function (req, res) {
-//     // Successful authentication, redirect home.
-//     res.redirect("http://localhost:3008");
-//   }
-// );
-
 passport.use(
   new GoogleStrategy(
     {
@@ -36,7 +24,7 @@ passport.use(
       User.findOne({ googleId: profile.id }).then((currentUser) => {
         if (currentUser) {
           // already have this user
-          console.log("user is: ", currentUser._id);
+          // console.log("user is: ", currentUser._id);
           done(null, currentUser);
         } else {
           // if not, create user in our db
@@ -48,7 +36,7 @@ passport.use(
           })
             .save()
             .then((newUser) => {
-              console.log("created new user: ", currentUser._id);
+              // console.log("created new user: ", currentUser._id);
               done(null, newUser);
             });
         }

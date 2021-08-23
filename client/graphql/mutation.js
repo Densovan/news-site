@@ -268,8 +268,17 @@ const SAVE_NEWS = gql`
   }
 `;
 
+const ADD_VOTE_COUNT = gql`
+  mutation ($postId: ID, $voteCount: Int) {
+    add_votecount(postId: $postId, voteCount: $voteCount) {
+      message
+    }
+  }
+`;
+
 export {
   // LIKE,
+  ADD_VOTE_COUNT,
   DELETE_NEWS_SAVE,
   SAVE_NEWS,
   ADD_NEWS,

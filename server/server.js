@@ -15,7 +15,7 @@ const dotenv = require("dotenv");
 const passport = require("passport");
 // const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const User = require("./models/userTest");
-// const passportSetup = require("./configs/passport-setup");
+const passportSetup = require("./configs/passport-setup");
 const { JWTSECRET, REFRESH_TOKEN_SECRET } = process.env;
 
 const createAccessToken = (id) => {
@@ -65,15 +65,6 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
-passport.serializeUser((user, done) => {
-  done(null, user.id);
-});
-
-passport.deserializeUser((id, done) => {
-  User.findById(id).then((user) => {
-    done(null, user);
-  });
-});
 
 app.use(cookieParser());
 
@@ -83,6 +74,7 @@ app.use("/auth", require("./routes/userRouter"));
 app.use("/", require("./routes/uploadFile"));
 app.use("/", require("./routes/loginWithGoogle"));
 app.use("/public/", express.static(path.join(__dirname, "public")));
+app.use("/", require("./routes/loginWithGoogle"));
 
 //==========login with google==============
 app.get(
@@ -105,6 +97,7 @@ app.use(
   "/api",
   //   Auth,
   graphqlHTTP(async (req) => {
+    // console.log(req.session.views + "token");
     const token = req.cookies.token;
     // console.log("token", token);
     const user = jwt.decode(token, process.env.JWTSECRET);

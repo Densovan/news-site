@@ -3,10 +3,7 @@ const passport = require("passport");
 
 router.get(
   "/auth/google/callback",
-  passport.authenticate("google", {
-    failureRedirect: "/login",
-    successRedirect: "/getuser",
-  }),
+  passport.authenticate("google"),
   function (req, res) {
     // Successful authentication, redirect home.
     res.redirect("http://localhost:3008");

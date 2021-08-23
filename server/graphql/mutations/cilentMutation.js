@@ -856,7 +856,7 @@ const RootMutation = new GraphQLObjectType({
         postId: { type: GraphQLID },
         ownerId: { type: GraphQLID },
         type: { type: GraphQLString },
-        count: { type: GraphQLInt }
+        count: { type: GraphQLInt },
       },
       resolve: async (parent, args, context) => {
         try {
@@ -867,7 +867,6 @@ const RootMutation = new GraphQLObjectType({
           const news = await NewsModel.findById(args.postId);
           if (!existingVote) {
             if (args.type === "up") {
-
               await NewsModel.findOneAndUpdate(
                 { _id: args.postId },
                 { voteUp: news.voteUp + 1, voteDown: news.voteDown - 1 }
@@ -880,7 +879,7 @@ const RootMutation = new GraphQLObjectType({
                 count: args.count,
               });
               await up.save();
-              
+
               // if (news.voteUp >= 0) {
               //   console.log(args.vote);
               //   await NewsModel.findOneAndUpdate(
@@ -896,7 +895,6 @@ const RootMutation = new GraphQLObjectType({
               // }
               return { message: "add successfully" };
             } else if (args.type === "down") {
-
               await NewsModel.findOneAndUpdate(
                 { _id: args.postId },
                 { voteUp: news.voteUp - 1, voteDown: news.voteDown + 1 }
@@ -905,7 +903,7 @@ const RootMutation = new GraphQLObjectType({
                 ...args,
                 userId: context.id,
                 voteDown: 1,
-                count: args.count
+                count: args.count,
               });
               await up.save();
               // if (news.voteDown >= 0) {
@@ -1025,6 +1023,26 @@ const RootMutation = new GraphQLObjectType({
               return { message: "nothing happend" };
             }
           }
+        } catch (error) {
+          console.log(error);
+          throw error;
+        }
+      },
+    },
+    //============set count to news model==========
+    add_votecount: {
+      type: NewsType,
+      args: {
+        voteCount: { type: GraphQLInt },
+        postId: { type: GraphQLID },
+      },
+      resolve: async (parent, args, context) => {
+        try {
+          await NewsModel.findByIdAndUpdate(
+            { _id: args.postId },
+            { voteCount: args.voteCount }
+          );
+          return { message: "successfully" };
         } catch (error) {
           console.log(error);
           throw error;
