@@ -4,6 +4,7 @@ import { FOLLOW, UNFOLLOW } from "../../graphql/mutation";
 import { Button } from "antd";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { notification  } from 'antd';
 
 const Follow = ({ articleUser, follows }) => {
   const [state, setState] = useState({
@@ -32,34 +33,55 @@ const Follow = ({ articleUser, follows }) => {
                 followTo: articleUser.id
             }
         }).then((response) => {
-          console.log(response);
-        })
-        setTimeout(() => {
+          notification.open({
+            message: response.data.follow.message,
+            description:
+              'You have follow to' + articleUser.fullname,
+            onClick: () => {
+              console.log('Notification Clicked!');
+            },
+          })
+          setTimeout(() => {
             setState({
               loading: false,
               follow: true
             })
-        }, 1000);        
+          }, 1000); 
+        })       
       }else{
         setState({
             loading: true,
             follow: false
         })
-        setTimeout(() => {
+        follow({
+          variables: {
+            followTo: articleUser.id
+          }
+        }).then((response) => {
+          console.log(response);
+          notification.open({
+            message: response.data.follow.message,
+            description:
+              'You have unfollow to ' + articleUser.fullname,
+            onClick: () => {
+              console.log('Notification Clicked!');
+            },
+          })
+          setTimeout(() => {
             setState({
               loading: false,
               follow: false
             })
-        }, 1000);
+          }, 1000);
+        })
       }
     }catch(e){
       console.log("error");
     }
   }
-  console.log(state.follow);
   return (
     <div key="1">
-      <button className="btn-follow" onClick={handleFollow}>{state.loading ? (state.follow ? "Follow..." : "Following...") :  (state.follow ? "Following" : "Follow")}</button>
+      <button className={state.loading ? "disabled btn-follow":"btn-follow"} onClick={handleFollow}>{state.loading ? (state.follow ? "Follow..." : "Following...") :  (state.follow ? "Following" : "Follow")}</button>
     </div>
     );
 };

@@ -2715,6 +2715,10 @@ body {
 .ant-tag-checkable-checked:hover {
   color: #122e3c !important;
 }
+.disabled{
+  display: block !important;
+  pointer-events: none;
+}
 @media only screen and (max-width: 1028px) {
   .feature-div {
     margin-top: 0px;
