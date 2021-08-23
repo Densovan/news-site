@@ -32,13 +32,12 @@ const NewsLike = ({ postId, ownerId, voteCount, vote_up_down, get_all_vote }) =>
     for (let i=0; i < get_all_vote.get_all_vote_up_down.length; i++) { 
       if (get_all_vote.get_all_vote_up_down[i].postId == postId) {
         sum += get_all_vote.get_all_vote_up_down[i].count
-        setVote({
-          count: sum,
-        })
       }
+      setVote({
+        count: sum,
+      })
     }
   }, [postId, get_all_vote]);
-
   const [voteUpDown] = useMutation(VOTE_UP_DOWN);
   const handleLike = async () => {
     try {
