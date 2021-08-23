@@ -4,13 +4,13 @@ import { useRouter } from "next/router";
 import MainNavbar from "../../components/Layouts/mainNavbar";
 import GlobalHeader from "../../components/Layouts/globalHeader";
 import Footer from "../../components/Layouts/footer";
-import { GET_NEWS_BY_SLUG, GET_USER } from "../../graphql/query";
+import { GET_NEWS_BY_SLUG, GET_USER, GET_FOLLOWS } from "../../graphql/query";
 import { useQuery } from "@apollo/client";
 import Output from "editorjs-react-renderer";
 import moment from "moment";
 import { Col, Row, Button, Divider } from "antd";
 import Laoder from "../../components/loaders/detailLoader";
-import Follower from "../../components/common/follower";
+import Follow from "../../components/common/follow";
 import Like from "../../components/common/like";
 import AuthContext from "../../contexts/authContext";
 import Link from "next/link";
@@ -50,9 +50,10 @@ const SinglePage = () => {
     variables: { slug },
     pollInterval: 500,
   });
+  const { data:follows, loading:follow_loading } = useQuery(GET_FOLLOWS)
   const { loading: userLoadin, data: myUser } = useQuery(GET_USER);
 
-  if (loading || userLoadin)
+  if (loading || userLoadin || follow_loading)
     return (
       <div className="container">
         <center style={{ marginTop: "100px" }}>
@@ -316,8 +317,7 @@ const SinglePage = () => {
                         </Link>
                       </center>
                     ) : (
-                      // <Follower articleUser={user} />
-                      ""
+                      <Follow articleUser={user} follows={follows} />
                     )}
                   </center>
                 ) : (
