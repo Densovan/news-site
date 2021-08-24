@@ -86,18 +86,10 @@ const UPDATE_USER = gql`
 `;
 const FOLLOW = gql`
   mutation (
-    $id: ID
-    $followerId: ID
-    $fullname: String
-    $email: String
-    $image: String
+    $followTo: ID!
   ) {
-    follow_user(
-      id: $id
-      followerId: $followerId
-      fullname: $fullname
-      email: $email
-      image: $image
+    follow(
+      followTo: $followTo
     ) {
       message
     }

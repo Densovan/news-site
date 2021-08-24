@@ -659,6 +659,15 @@ const GET_ALL_VOTE_UP_DOWN = gql`
     }
   }
 `;
+const GET_FOLLOWS = gql`
+  query {
+    get_follows {
+      id
+      followTo
+      followBy
+    }
+  }
+`;
 const GET_SAVED = gql`
   query ($limit: Int!, $offset: Int!) {
     get_save_news_by_userId(limit: $limit, offset: $offset) {
@@ -701,4 +710,5 @@ export {
   GET_LIKE_COUNT_DOWN,
   GET_VOTE_UP_DOWN,
   GET_ALL_VOTE_UP_DOWN,
+  GET_FOLLOWS,
 };

@@ -161,40 +161,50 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
               >
                 <Row gutter={[8, 8]}>
                   <Col xs={24} md={16} className="box-news">
-                    <div className="header-card-article">
-                      <Avatar src={res.user.image} />
-                      <div className="profile-name-time">
-                        <Tooltip
-                          placement="right"
-                          title={
-                            <div style={{ padding: 8 }}>
-                              <div className="header-card-article">
-                                <Avatar src={res.user.image} />
-                                <div
-                                  className="card-name"
-                                  style={{ marginLeft: 4 }}
-                                >
-                                  {res.user.fullname}
+                    <Link
+                      href={`/profile_detial/${res.user.id}#${res.user.fullname
+                        .replace(
+                          /[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g,
+                          "-"
+                        )
+                        .toLowerCase()}`}
+                    >
+                      <div className="header-card-article">
+                        <Avatar src={res.user.image} />
+
+                        <div className="profile-name-time">
+                          <Tooltip
+                            placement="right"
+                            title={
+                              <div style={{ padding: 8 }}>
+                                <div className="header-card-article">
+                                  <Avatar src={res.user.image} />
+                                  <div
+                                    className="card-name"
+                                    style={{ marginLeft: 4 }}
+                                  >
+                                    {res.user.fullname}
+                                  </div>
+                                </div>
+                                <div style={{ paddingTop: 4 }}>
+                                  {res.user.bio}
                                 </div>
                               </div>
-                              <div style={{ paddingTop: 4 }}>
-                                {res.user.bio}
-                              </div>
-                            </div>
-                          }
-                          className="card-name"
-                        >
-                          <li style={{ cursor: "pointer" }}>
-                            {res.user.fullname}
+                            }
+                            className="card-name"
+                          >
+                            <li style={{ cursor: "pointer" }}>
+                              {res.user.fullname}
+                            </li>
+                          </Tooltip>
+                          <li className="news-name">
+                            {moment
+                              .unix(res.createdAt / 1000)
+                              .format("DD-MM-YYYY")}
                           </li>
-                        </Tooltip>
-                        <li className="news-name">
-                          {moment
-                            .unix(res.createdAt / 1000)
-                            .format("DD-MM-YYYY")}
-                        </li>
+                        </div>
                       </div>
-                    </div>
+                    </Link>
                     <div className="news-content">
                       <div className="title-text-card">
                         {res.title.length <= 50

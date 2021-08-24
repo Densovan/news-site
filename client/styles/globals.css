@@ -2158,16 +2158,12 @@ body {
 }
 
 .btn-follow {
-  /* border: 2px solid #ca6273; */
   border: none !important;
-  /* color: #f16179; */
   color: #262e3c;
   background: #262e3c45;
   font-weight: bold;
-  /* background: #f1617942; */
-  padding: 4px;
-  /* width: 120px; */
-  width: 87px;
+  padding: 7px;
+  width: 120px;
   border-radius: 3px;
   cursor: pointer;
   transition: 0.4s;
@@ -2181,11 +2177,9 @@ body {
 }
 .btn-unfollow {
   border: none !important;
-  font-weight: bold;
-  /* color: #f16179;
-  background: #f1617982; */
   color: #f5f5f5;
   background: #262e3c;
+  font-weight: bold;
   padding: 7px;
   width: 120px;
   border-radius: 3px;
@@ -2714,6 +2708,10 @@ body {
 }
 .ant-tag-checkable-checked:hover {
   color: #122e3c !important;
+}
+.disabled {
+  display: block !important;
+  pointer-events: none;
 }
 @media only screen and (max-width: 1028px) {
   .feature-div {

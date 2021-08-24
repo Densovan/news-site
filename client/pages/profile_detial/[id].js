@@ -6,7 +6,7 @@ import MainNavbar from "../../components/Layouts/mainNavbar";
 import Footer from "../../components/Layouts/footer";
 import moment from "moment";
 import ContentLoader from "react-content-loader";
-import Follower from "../../components/common/follower";
+// import Follower from "../../components/common/follower";
 import AuthContext from "../../contexts/authContext";
 import { Row, Col } from "antd";
 import Link from "next/link";

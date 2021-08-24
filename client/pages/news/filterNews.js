@@ -69,7 +69,7 @@ const FilterNews = ({ handleChange, selectedTags }) => {
         <Typography.Title level={5}>Suggestions For You</Typography.Title>
         <Divider style={{ marginBottom: 20, marginTop: 16 }} />
         <Row justify="space-between" align="middle">
-          <Col style={{ display: "flex" }} span={18}>
+          <Col style={{ display: "flex" }} span={14}>
             <div style={{ marginRight: 8 }}>
               <Avatar
                 size={{ xs: 24, sm: 32, md: 48, lg: 48, xl: 48, xxl: 48 }}
@@ -96,14 +96,8 @@ const FilterNews = ({ handleChange, selectedTags }) => {
               </div>
             </div>
           </Col>
-          <Col span={6}>
-            <button
-              className="btn-follow"
-              // type="primary"
-              // style={{ borderRadius: "40px", fontSize: 14 }}
-            >
-              Follow
-            </button>
+          <Col span={10}>
+            <button className="btn-follow">Follow</button>
           </Col>
         </Row>
       </Card>
