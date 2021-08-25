@@ -9,7 +9,7 @@ const NotFound = () => {
     <React.Fragment>
       {/* <TopNavbar /> */}
       {/* <MainNavbar /> */}
-      <GlobalHeader />
+      {/* <GlobalHeader /> */}
       <div className="main-404">
         <div id="notfound">
           <div className="notfound">
