@@ -473,9 +473,9 @@ const RootQuery = new GraphQLObjectType({
     //   },
     // },
     get_follows: {
-      type: new GraphQLList(FollowType),
+      type: FollowType,
       resolve: (parent, args, context) => {
-        return FollowModel.find({});
+        return FollowModel.find({ createBy: context.id });
       },
     },
     get_save_news_by_userId: {

@@ -16,6 +16,7 @@ const passport = require("passport");
 // const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const User = require("./models/userTest");
 const passportSetup = require("./configs/passport-setup");
+const { addPath } = require("graphql/jsutils/Path");
 const { JWTSECRET, REFRESH_TOKEN_SECRET } = process.env;
 
 const createAccessToken = (id) => {
@@ -59,6 +60,7 @@ app.use(
 );
 app.use(
   cookieSession({
+    name: "helloworld",
     maxAge: 24 * 60 * 60 * 1000, //a week
     keys: [process.env.COOKIE_SESSION],
   })
@@ -96,8 +98,7 @@ app.get("/auth/logouts", (req, res) => {
 app.use(
   "/api",
   //   Auth,
-  graphqlHTTP(async (req) => {
-    // console.log(req.session.views + "token");
+  graphqlHTTP(async (req, res) => {
     const token = req.cookies.token;
     // console.log("token", token);
     const user = jwt.decode(token, process.env.JWTSECRET);
@@ -109,13 +110,13 @@ app.use(
   })
 );
 
-//===========admin API================
+//===========admin API================z
 app.use(
   "/admin",
   //   Auth,
   graphqlHTTP(async (req) => {
     const token = req.cookies.token;
-    // console.log("token", token);
+
     const user = jwt.decode(token, process.env.JWTSECRET);
     return {
       context: user,

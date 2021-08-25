@@ -16,6 +16,12 @@ const FollowType = new GraphQLObjectType({
     createdAt: {
       type: GraphQLString,
     },
+    user: {
+      type: userType,
+      resolve: (parent, args, context) => {
+        return User.findById(context.id);
+      },
+    },
     userFollower: {
       type: userType,
       resolve: (parents, args) => {

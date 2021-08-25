@@ -100,6 +100,22 @@ const GET_USER = gql`
       news {
         title
       }
+      get_following {
+        userFollowing {
+          fullname
+          image
+          id
+          email
+        }
+      }
+      get_follower {
+        userFollower {
+          fullname
+          image
+          id
+          email
+        }
+      }
       following {
         id
         email

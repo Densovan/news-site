@@ -1,6 +1,9 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect, useContext } from "react";
+import { useRouter } from "next/router";
 import { useMutation } from "@apollo/client";
 import { VOTE_UP_DOWN } from "../../graphql/mutation";
+import AuthContext from "../../contexts/authContext";
+import Link from "next/link";
 import {
   LikeOutlined,
   DislikeOutlined,
@@ -15,6 +18,8 @@ const NewsLike = ({
   vote_up_down,
   get_all_vote,
 }) => {
+  const router = useRouter();
+  const { loggedIn } = useContext(AuthContext);
   const [state, setState] = useState({
     like: false,
     unlike: false,
@@ -45,6 +50,10 @@ const NewsLike = ({
     }
   }, [postId, get_all_vote]);
   const [voteUpDown] = useMutation(VOTE_UP_DOWN);
+  const redirectLogin = async () => {
+    const signin = "http://localhost:3008/signin";
+    const newwindow = router.push(signin);
+  };
   const handleLike = async () => {
     try {
       if (state.like === false) {
@@ -234,14 +243,20 @@ const NewsLike = ({
     <Fragment>
       <div>
         <label className="btn-news">{vote.count > 0 ? vote.count : "0"}</label>
-        <button className="btn-news" onClick={handleLike}>
+        <button
+          className="btn-news"
+          onClick={loggedIn === true ? handleLike : redirectLogin}
+        >
           {state.like ? (
             <LikeFilled style={{ fontSize: "18px" }} />
           ) : (
             <LikeOutlined style={{ fontSize: "18px" }} />
           )}
         </button>
-        <button className="btn-news" onClick={handleDislike}>
+        <button
+          className="btn-news"
+          onClick={loggedIn === true ? handleDislike : redirectLogin}
+        >
           {state.unlike ? (
             <DislikeFilled style={{ fontSize: "18px" }} />
           ) : (

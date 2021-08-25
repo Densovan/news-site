@@ -22,7 +22,10 @@ const profileNavbar = () => {
               <span>Saved</span>
             </div>
           </ActiveLink>
-          <ActiveLink href="/" activeClassName="profile-navbar-active">
+          <ActiveLink
+            href="/dashboard/following"
+            activeClassName="profile-navbar-active"
+          >
             <div className="profile-navbar">
               <span>Followings</span>
             </div>
