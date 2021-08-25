@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { useMutation } from "@apollo/client";
-import { VOTE_UP_DOWN } from "../../graphql/mutation";
+import { VOTE_UP_DOWN, CHECK_TOP_NEWS } from "../../graphql/mutation";
 import {
   LikeOutlined,
   DislikeOutlined,
@@ -39,6 +39,7 @@ const NewsLike = ({ postId, ownerId, voteCount, vote_up_down, get_all_vote }) =>
     }
   }, [postId, get_all_vote]);
   const [voteUpDown] = useMutation(VOTE_UP_DOWN);
+  const [checkTopNews] = useMutation(CHECK_TOP_NEWS);
   const handleLike = async () => {
     try {
       if (state.like === false) {
@@ -112,15 +113,13 @@ const NewsLike = ({ postId, ownerId, voteCount, vote_up_down, get_all_vote }) =>
         //   });
         // }
       }
-      // await voteUpDown({
-      //   variables: {
-      //     postId: postId,
-      //     ownerId: ownerId,
-      //     type: "up",
-      //   },
-      // }).then(async (response) => {
-      //   console.log(response);
-      // });
+      await checkTopNews({
+        variables: {
+          postId: postId,
+        },
+      }).then(async (response) => {
+        console.log(response);
+      });
     } catch (e) {
       console.log("error!!");
     }
@@ -211,15 +210,13 @@ const NewsLike = ({ postId, ownerId, voteCount, vote_up_down, get_all_vote }) =>
         //   });
         // }
       }
-      // await voteUpDown({
-      //   variables: {
-      //     postId: postId,
-      //     ownerId: ownerId,
-      //     type: "down",
-      //   },
-      // }).then(async (response) => {
-      //   console.log(response);
-      // });
+      await checkTopNews({
+        variables: {
+          postId: postId,
+        },
+      }).then(async (response) => {
+        console.log(response);
+      });
     } catch (e) {
       console.log("error!!");
     }

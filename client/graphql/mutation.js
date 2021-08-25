@@ -259,6 +259,14 @@ const SAVE_NEWS = gql`
     }
   }
 `;
+const CHECK_TOP_NEWS = gql`
+  mutation($postId: ID!){
+    check_top_news(postId: $postId){
+      message
+    }
+  }
+`
+
 
 export {
   // LIKE,
@@ -284,4 +292,5 @@ export {
   LIKE_COUNT_UP,
   LIKE_COUNT_DOWN,
   VOTE_UP_DOWN,
+  CHECK_TOP_NEWS
 };
