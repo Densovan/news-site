@@ -29,22 +29,22 @@ const following = () => {
         <div className="container">
           <div className="profile-content">
             <div className="sub-pf-content">
-              <h2>Followings</h2>
+              <h2>Followers</h2>
               <Row gutter={[12, 12]}>
-                {user.get_following.map((res) => {
+                {user.get_follower.map((res) => {
                   return (
                     <Col xs={12} md={6}>
                       <Link
                         style={{ cursor: "pointer" }}
-                        href={`/profile_detial/${res.userFollowing.id}`}
+                        href={`/profile_detial/${res.userFollower.id}`}
                       >
                         <div className="box-pf">
                           <center>
                             <img
                               className="img-following"
-                              src={res.userFollowing.image}
+                              src={res.userFollower.image}
                             />
-                            <p>{res.userFollowing.fullname}</p>
+                            <p>{res.userFollower.fullname}</p>
                           </center>
                         </div>
                       </Link>

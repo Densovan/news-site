@@ -31,20 +31,22 @@ import NewLike from "../../components/common/news.like";
 const { Content } = Layout;
 
 const AllNews = ({ selectedTags, loadingFilter }) => {
+  const [hasMoreItems, setHasMoreItems] = useState(true);
   const { loggedIn } = useContext(AuthContext);
   const server = process.env.API_SECRET;
   const server_local = process.env.API_SECRET_LOCAL;
   const develop = process.env.NODE_ENV;
   const URL_ACCESS = develop === "development" ? server_local : server;
 
-  const [hasMoreItems, setHasMoreItems] = useState(true);
   //=============get last News===========
   const {
     loading,
     data: news,
     fetchMore,
+    refetch,
   } = useQuery(GET_ALL_NEWS_TOP, {
     variables: { limit: 6, offset: 0 },
+    pollInterval: 500,
   });
   const { loading: userLoading, data: userData } = useQuery(GET_USER);
   const { data: vote_up_down, loading: vote_up_down_loading } =
@@ -61,6 +63,7 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
         <Medium />
       </div>
     );
+  console.log(news);
   const result = [];
   if (!loadingFilter) {
     if (selectedTags.length === 0) {
@@ -153,43 +156,57 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
           )}
           {result.map((res, index) => {
             return (
-              <Card className="card-article" key={index}>
-                <Row>
+              <Card
+                // style={{ padding: "-10px" }}
+                className="card-article"
+                key={index}
+              >
+                <Row gutter={[8, 8]}>
                   <Col xs={24} md={16} className="box-news">
-                    <div className="header-card-article">
-                      <Avatar src={res.user.image} />
-                      <div className="profile-name-time">
-                        <Tooltip
-                          placement="right"
-                          title={
-                            <div style={{ padding: 8 }}>
-                              <div className="header-card-article">
-                                <Avatar src={res.user.image} />
-                                <div
-                                  className="card-name"
-                                  style={{ marginLeft: 4 }}
-                                >
-                                  {res.user.fullname}
+                    <Link
+                      href={`/profile_detial/${res.user.id}#${res.user.fullname
+                        .replace(
+                          /[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g,
+                          "-"
+                        )
+                        .toLowerCase()}`}
+                    >
+                      <div className="header-card-article">
+                        <Avatar src={res.user.image} />
+
+                        <div className="profile-name-time">
+                          <Tooltip
+                            placement="right"
+                            title={
+                              <div style={{ padding: 8 }}>
+                                <div className="header-card-article">
+                                  <Avatar src={res.user.image} />
+                                  <div
+                                    className="card-name"
+                                    style={{ marginLeft: 4 }}
+                                  >
+                                    {res.user.fullname}
+                                  </div>
+                                </div>
+                                <div style={{ paddingTop: 4 }}>
+                                  {res.user.bio}
                                 </div>
                               </div>
-                              <div style={{ paddingTop: 4 }}>
-                                {res.user.bio}
-                              </div>
-                            </div>
-                          }
-                          className="card-name"
-                        >
-                          <li style={{ cursor: "pointer" }}>
-                            {res.user.fullname}
+                            }
+                            className="card-name"
+                          >
+                            <li style={{ cursor: "pointer" }}>
+                              {res.user.fullname}
+                            </li>
+                          </Tooltip>
+                          <li className="news-name">
+                            {moment
+                              .unix(res.createdAt / 1000)
+                              .format("DD-MM-YYYY")}
                           </li>
-                        </Tooltip>
-                        <li className="news-name">
-                          {moment
-                            .unix(res.createdAt / 1000)
-                            .format("DD-MM-YYYY")}
-                        </li>
+                        </div>
                       </div>
-                    </div>
+                    </Link>
                     <div className="news-content">
                       <div className="title-text-card">
                         {res.title.length <= 50
@@ -225,6 +242,7 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
                         voteCount={res.voteCount}
                         vote_up_down={vote_up_down}
                         get_all_vote={get_all_vote}
+                        refetch={refetch}
                       />
                     </div>
                   </Col>

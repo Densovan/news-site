@@ -1,9 +1,9 @@
 import React, { Fragment, useState, useEffect, useContext } from "react";
 import { useRouter } from "next/router";
 import { useMutation } from "@apollo/client";
-import { VOTE_UP_DOWN } from "../../graphql/mutation";
 import AuthContext from "../../contexts/authContext";
 import Link from "next/link";
+import { VOTE_UP_DOWN, CHECK_TOP_NEWS } from "../../graphql/mutation";
 import {
   LikeOutlined,
   DislikeOutlined,
@@ -54,6 +54,7 @@ const NewsLike = ({
     const signin = "http://localhost:3008/signin";
     const newwindow = router.push(signin);
   };
+  const [checkTopNews] = useMutation(CHECK_TOP_NEWS);
   const handleLike = async () => {
     try {
       if (state.like === false) {
@@ -127,15 +128,13 @@ const NewsLike = ({
         //   });
         // }
       }
-      // await voteUpDown({
-      //   variables: {
-      //     postId: postId,
-      //     ownerId: ownerId,
-      //     type: "up",
-      //   },
-      // }).then(async (response) => {
-      //   console.log(response);
-      // });
+      await checkTopNews({
+        variables: {
+          postId: postId,
+        },
+      }).then(async (response) => {
+        console.log(response);
+      });
     } catch (e) {
       console.log("error!!");
     }
@@ -226,15 +225,13 @@ const NewsLike = ({
         //   });
         // }
       }
-      // await voteUpDown({
-      //   variables: {
-      //     postId: postId,
-      //     ownerId: ownerId,
-      //     type: "down",
-      //   },
-      // }).then(async (response) => {
-      //   console.log(response);
-      // });
+      await checkTopNews({
+        variables: {
+          postId: postId,
+        },
+      }).then(async (response) => {
+        console.log(response);
+      });
     } catch (e) {
       console.log("error!!");
     }
@@ -242,7 +239,9 @@ const NewsLike = ({
   return (
     <Fragment>
       <div>
-        <label className="btn-news">{vote.count > 0 ? vote.count : "0"}</label>
+        {/* <label className="btn-news">{vote.count > 0 ? vote.count : "0"}</label> */}
+        <label className="btn-news">{voteCount}</label>
+
         <button
           className="btn-news"
           onClick={loggedIn === true ? handleLike : redirectLogin}

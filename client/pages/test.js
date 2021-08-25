@@ -1,68 +1,29 @@
 import React from "react";
+import { GET_ALL_NEWS_TOP } from "../graphql/query";
+import { useQuery } from "@apollo/client";
 
-import client from "../apollo-client";
-import { useQuery, gql } from "@apollo/client";
-
-// const QUERY = gql`
-//   query {
-//     get_users {
-//       fullname
-//     }
-//   }
-// `;
-
-const test = ({ data }) => {
-  // const { data, loading, error } = useQuery(QUERY);
-  // if (loading) return "loading...";
-  // if (error) {
-  //   console.error(error);
-  //   return null;
-  // }
-  console.log(data);
+const test = () => {
+  const {
+    loading,
+    data: news,
+    fetchMore,
+    refetch,
+  } = useQuery(GET_ALL_NEWS_TOP, {
+    variables: { limit: 100, offset: 0 },
+    pollInterval: 500,
+  });
+  if (loading) return "loading...";
   return (
     <div>
-      {data.get_all_news_by_type_learn.map((res) => (
-        <div>
-          <h1>{res.id}</h1>
-        </div>
-      ))}
+      {news.get_all_news_top.map((res) => {
+        return (
+          <div>
+            <h1>{res.title}</h1>
+          </div>
+        );
+      })}
     </div>
   );
 };
 
 export default test;
-
-export async function getServerSideProps() {
-  const { data } = await client.query({
-    query: gql`
-      query Users {
-        get_all_news_by_type_learn(limit: 8, offset: 0) {
-          title
-          createdAt
-          id
-          category
-          thumnail
-          type
-          slug
-          des
-          user {
-            fullname
-            image
-            id
-          }
-          types {
-            name
-          }
-          categories {
-            name
-          }
-        }
-      }
-    `,
-  });
-  return {
-    props: {
-      data: data,
-    },
-  };
-}

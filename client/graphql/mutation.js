@@ -85,12 +85,8 @@ const UPDATE_USER = gql`
   }
 `;
 const FOLLOW = gql`
-  mutation (
-    $followTo: ID!
-  ) {
-    follow(
-      followTo: $followTo
-    ) {
+  mutation ($followTo: ID!) {
+    follow(followTo: $followTo) {
       message
     }
   }
@@ -259,6 +255,13 @@ const SAVE_NEWS = gql`
     }
   }
 `;
+const CHECK_TOP_NEWS = gql`
+  mutation ($postId: ID!) {
+    check_top_news(postId: $postId) {
+      message
+    }
+  }
+`;
 
 const ADD_VOTE_COUNT = gql`
   mutation ($postId: ID, $voteCount: Int) {
@@ -293,4 +296,5 @@ export {
   LIKE_COUNT_UP,
   LIKE_COUNT_DOWN,
   VOTE_UP_DOWN,
+  CHECK_TOP_NEWS,
 };

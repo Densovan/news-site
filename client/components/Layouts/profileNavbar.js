@@ -27,10 +27,13 @@ const profileNavbar = () => {
             activeClassName="profile-navbar-active"
           >
             <div className="profile-navbar">
-              <span>Followings</span>
+              <span>Followers</span>
             </div>
           </ActiveLink>
-          <ActiveLink href="/" activeClassName="profile-navbar-active">
+          <ActiveLink
+            href="/dashboard/follower"
+            activeClassName="profile-navbar-active"
+          >
             <div className="profile-navbar">
               <span>Followers</span>
             </div>

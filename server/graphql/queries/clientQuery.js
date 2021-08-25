@@ -125,7 +125,6 @@ const RootQuery = new GraphQLObjectType({
           .limit(limit)
           .skip(offset)
           .sort({ voteCount: -1 });
-        // .sort({ createAt: -1 })
       },
     },
 
@@ -473,9 +472,31 @@ const RootQuery = new GraphQLObjectType({
     //   },
     // },
     get_follows: {
-      type: FollowType,
+      type: new GraphQLList(FollowType),
       resolve: (parent, args, context) => {
-        return FollowModel.find({ createBy: context.id });
+        return FollowModel.find({});
+      },
+    },
+    get_follows_by_user: {
+      type: FollowType,
+      args: {
+        limit: {
+          name: "limit",
+          type: GraphQLInt,
+        },
+        offset: {
+          name: "offset",
+          type: GraphQLInt,
+        },
+      },
+      resolve: (parent, args, context) => {
+        const { limit = null, offset = null } = args;
+        return FollowModel.find({ createBy: context.id })
+          .limit(limit)
+          .skip(offset)
+          .sort({
+            createdAt: -1,
+          });
       },
     },
     get_save_news_by_userId: {

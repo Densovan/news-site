@@ -1029,23 +1029,29 @@ const RootMutation = new GraphQLObjectType({
         }
       },
     },
-    //============set count to news model==========
-    add_votecount: {
+    check_top_news: {
       type: NewsType,
       args: {
-        voteCount: { type: GraphQLInt },
         postId: { type: GraphQLID },
       },
       resolve: async (parent, args, context) => {
         try {
+          const vote = await VoteModel.find({}).sort({ createdAt: -1 });
+          let sum = 0;
+          for (let i = 0; i < vote.length; i++) {
+            if (vote[i].postId === args.postId) {
+              sum += vote[i].count;
+            }
+          }
           await NewsModel.findByIdAndUpdate(
             { _id: args.postId },
-            { voteCount: args.voteCount }
+            {
+              voteCount: sum,
+            }
           );
-          return { message: "successfully" };
-        } catch (error) {
-          console.log(error);
-          throw error;
+          return { message: "add successfully" };
+        } catch (e) {
+          return { message: "You have problem" };
         }
       },
     },

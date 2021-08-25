@@ -234,12 +234,13 @@ const GET_ALL_NEWS = gql`
 const GET_ALL_NEWS_TOP = gql`
   query ($limit: Int!, $offset: Int!) {
     get_all_news_top(limit: $limit, offset: $offset) {
-      voteCount
       title
       createdAt
       id
       category
+      voteCount
       thumnail
+      voteCount
       type
       des
       slug
@@ -699,7 +700,31 @@ const GET_SAVED = gql`
   }
 `;
 
+const GET_FOLLOWS_BY_USER = gql`
+  query ($limit: Int!, $offset: Int!) {
+    get_follows_by_user(limit: $limit, offset: $offset) {
+      user {
+        get_follower {
+          userFollower {
+            fullname
+            image
+            id
+          }
+        }
+        get_following {
+          userFollowing {
+            fullname
+            image
+            id
+          }
+        }
+      }
+    }
+  }
+`;
+
 export {
+  GET_FOLLOWS_BY_USER,
   GET_SAVED,
   GET_NEWS_SEARCH,
   GET_ALL_NEWS_TODAY,

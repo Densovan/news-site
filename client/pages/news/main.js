@@ -43,6 +43,7 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
     loading,
     data: news,
     fetchMore,
+    refetch,
   } = useQuery(GET_ALL_NEWS, {
     variables: { limit: 6, offset: 0 },
     pollInterval: 500,
@@ -62,6 +63,7 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
         <Medium />
       </div>
     );
+  console.log(news);
   const result = [];
   if (!loadingFilter) {
     if (selectedTags.length === 0) {
@@ -240,6 +242,7 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
                         voteCount={res.voteCount}
                         vote_up_down={vote_up_down}
                         get_all_vote={get_all_vote}
+                        refetch={refetch}
                       />
                     </div>
                   </Col>
