@@ -26,7 +26,7 @@ const index = () => {
 
   return (
     <React.Fragment>
-      {/* <GlobalHeader /> */}
+      <GlobalHeader />
       <div className="container">
         {/* <center>
           <h1 className="top-title-allNews">News</h1>
