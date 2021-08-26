@@ -868,16 +868,17 @@ const RootMutation = new GraphQLObjectType({
           if (!existingVote) {
             if (args.type === "up") {
 
-              await NewsModel.findOneAndUpdate(
-                { _id: args.postId },
-                { voteUp: news.voteUp + 1, voteDown: news.voteDown - 1 }
-              );
+              // await NewsModel.findOneAndUpdate(
+              //   { _id: args.postId },
+              //   { voteUp: news.voteUp + 1, voteDown: news.voteDown - 1 }
+              // );
 
               const up = new VoteModel({
                 ...args,
                 userId: context.id,
                 voteUp: 1,
                 count: args.count,
+                type: args.type
               });
               await up.save();
               
@@ -897,15 +898,16 @@ const RootMutation = new GraphQLObjectType({
               return { message: "add successfully" };
             } else if (args.type === "down") {
 
-              await NewsModel.findOneAndUpdate(
-                { _id: args.postId },
-                { voteUp: news.voteUp - 1, voteDown: news.voteDown + 1 }
-              );
+              // await NewsModel.findOneAndUpdate(
+              //   { _id: args.postId },
+              //   { voteUp: news.voteUp - 1, voteDown: news.voteDown + 1 }
+              // );
               const up = new VoteModel({
                 ...args,
                 userId: context.id,
                 voteDown: 1,
-                count: args.count
+                count: args.count,
+                type: args.type
               });
               await up.save();
               // if (news.voteDown >= 0) {
@@ -1040,14 +1042,17 @@ const RootMutation = new GraphQLObjectType({
         try{  
           const vote = await VoteModel.find({}).sort({ createdAt: -1 });
           let sum=0;
+          let voteCount = [];
           for (let i = 0; i < vote.length; i++) {
             if(vote[i].postId === args.postId) {
               sum += vote[i].count;
             }
+            voteCount.push(sum);
           }
           await NewsModel.findByIdAndUpdate({_id: args.postId}, {
             voteCount: sum,
           });
+          console.log(sum);
           return { message: "add successfully" };
         }catch(e){
           return { message: "You have problem"}
