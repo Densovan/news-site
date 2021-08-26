@@ -350,7 +350,8 @@ const RootQuery = new GraphQLObjectType({
           type: GraphQLInt,
         },
       },
-      resolve: (parent, args, context, { limit = null, offset = null }) => {
+      resolve: (parent, args, context) => {
+        const { limit = null, offset = null } = args;
         return NewsModel.find({ createBy: context.id })
           .limit(limit)
           .skip(offset)
@@ -364,7 +365,7 @@ const RootQuery = new GraphQLObjectType({
         id: { type: GraphQLID },
       },
       resolve: (parent, args, context) => {
-        return NewsModel.findById({ _id: args.id });
+        return NewsModel.findById({ _id: args.id }).sort({ createdAt: -1 });
       },
     },
 

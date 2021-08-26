@@ -27,7 +27,7 @@ const profileNavbar = () => {
             activeClassName="profile-navbar-active"
           >
             <div className="profile-navbar">
-              <span>Followers</span>
+              <span>Followings</span>
             </div>
           </ActiveLink>
           <ActiveLink

@@ -1,9 +1,9 @@
-import axios from "axios";
 import React, { createContext, useEffect, useState } from "react";
+import axios from "axios";
 
 const AuthContext = createContext();
 
-function AuthContextProvider(props) {
+const AuthContextProvider = (props) => {
   const server = process.env.API_SECRET;
   const server_local = process.env.API_SECRET_LOCAL;
   const develop = process.env.NODE_ENV;
@@ -25,11 +25,13 @@ function AuthContextProvider(props) {
   }, []);
   // console.log(loggedIn);
   return (
-    <AuthContext.Provider value={{ loggedIn, getLoggedIn }}>
-      {props.children}
-    </AuthContext.Provider>
+    <React.Fragment>
+      <AuthContext.Provider value={{ loggedIn, getLoggedIn }}>
+        {props.children}
+      </AuthContext.Provider>
+    </React.Fragment>
   );
-}
+};
 
 export default AuthContext;
 export { AuthContextProvider };

@@ -51,6 +51,8 @@ const GET_USER_BY_ID = gql`
         des
         user {
           fullname
+          image
+          id
         }
         types {
           name
@@ -154,8 +156,8 @@ const GET_TYPES = gql`
 `;
 
 const GET_OWN_NEWS = gql`
-  query {
-    get_own_news {
+  query ($limit: Int!, $offset: Int!) {
+    get_own_news(limit: $limit, offset: $offset) {
       title
       createdAt
       id
@@ -166,6 +168,7 @@ const GET_OWN_NEWS = gql`
       des
       user {
         fullname
+        image
       }
       types {
         name

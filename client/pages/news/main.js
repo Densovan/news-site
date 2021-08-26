@@ -63,7 +63,7 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
         <Medium />
       </div>
     );
-  console.log(news);
+  // console.log(news);
   const result = [];
   if (!loadingFilter) {
     if (selectedTags.length === 0) {

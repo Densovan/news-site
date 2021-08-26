@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import parse from "html-react-parser";
 import { useRouter } from "next/router";
 import { GET_USER_BY_ID, GET_USER } from "../../graphql/query";
 import { useQuery, useMutation } from "@apollo/client";
@@ -8,7 +9,8 @@ import moment from "moment";
 import ContentLoader from "react-content-loader";
 // import Follower from "../../components/common/follower";
 import AuthContext from "../../contexts/authContext";
-import { Row, Col } from "antd";
+import { Row, Col, Card, Avatar, Tooltip } from "antd";
+
 import Link from "next/link";
 import {
   HiOutlineClipboardCheck,
@@ -20,6 +22,10 @@ import Output from "editorjs-react-renderer";
 import GlobalHeader from "../../components/Layouts/globalHeader";
 
 const Profile_detail = () => {
+  const server = process.env.API_SECRET;
+  const server_local = process.env.API_SECRET_LOCAL;
+  const develop = process.env.NODE_ENV;
+  const URL_ACCESS = develop === "development" ? server_local : server;
   const { loggedIn } = useContext(AuthContext);
   const [show, setShow] = useState("all");
   const router = useRouter();
@@ -60,7 +66,7 @@ const Profile_detail = () => {
         </ContentLoader>
       </center>
     );
-  console.log(data);
+
   return (
     <React.Fragment>
       {/* <MainNavbar /> */}
@@ -91,73 +97,163 @@ const Profile_detail = () => {
             <br></br>
           </div>
           <br></br>
-          <br></br>
-          <br></br>
-          <br></br>
-          <br></br>
-          <br></br>
-          <br></br>
-          <br></br>
-          <br></br>
-          <br></br>
-          {/* <div>
-            <Row gutter={[12, 12]}>
-              <Col span={8}>
-                <div className="box-pf">
-                  <Row
-                    className="list-content-pf"
-                    className={
-                      show === "" ? "active-list-pf" : "a-list-content-pf"
-                    }
-                  >
-                    <Col style={{ paddingTop: "4px" }} span={3}>
-                      <HiOutlineClipboardCheck style={{ fontSize: "21px" }} />
-                    </Col>
-                    <Col style={{ paddingTop: "4px" }} span={21}>
-                      {data.get_user_by_id.news.length} {""}
-                      posts published
-                    </Col>
-                  </Row>
+          <div>
+            <Row>
+              <Col span={16}>
+                {data.get_user_by_id.news.map((res) => {
+                  return (
+                    <div>
+                      <Card
+                        className="card-article"
+                        // key={index}
+                      >
+                        {/* <h1 className="te">hello</h1> */}
+                        <Row gutter={[8, 8]}>
+                          <Col xs={24} md={16} className="box-news">
+                            <Link
+                              href={`/profile_detial/${
+                                res.user.id
+                              }#${res.user.fullname
+                                .replace(
+                                  /[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g,
+                                  "-"
+                                )
+                                .toLowerCase()}`}
+                            >
+                              <div className="header-card-article">
+                                <Avatar src={res.user.image} />
 
-                  <Row
-                    onClick={() => setShow("following")}
-                    // className="accountNavbarhover"
-                    className="list-content-pf"
-                    className={
-                      show === "following"
-                        ? "active-list-pf"
-                        : "a-list-content-pf"
-                    }
-                  >
-                    <Col style={{ paddingTop: "4px" }} span={3}>
-                      <HiOutlineUserAdd style={{ fontSize: "21px" }} />
-                    </Col>
-                    <Col style={{ paddingTop: "4px" }} span={21}>
-                      {data.get_user_by_id.following.length} following
-                    </Col>
-                  </Row>
-                  <Row
-                    onClick={() => setShow("follower")}
-                    // className="accountNavbarhover"
-                    className="list-content-pf"
-                    className={
-                      show === "follower"
-                        ? "active-list-pf"
-                        : "a-list-content-pf"
-                    }
-                  >
-                    <Col style={{ paddingTop: "4px" }} span={3}>
-                      <HiOutlineUserGroup style={{ fontSize: "21px" }} />
-                    </Col>
-                    <Col style={{ paddingTop: "4px" }} span={21}>
-                      {data.get_user_by_id.follower.length} follower
-                    </Col>
-                  </Row>
-                </div>
+                                <div className="profile-name-time">
+                                  <Tooltip
+                                    placement="right"
+                                    title={
+                                      <div style={{ padding: 8 }}>
+                                        <div className="header-card-article">
+                                          <Avatar src={res.user.image} />
+                                          <div
+                                            className="card-name"
+                                            style={{ marginLeft: 4 }}
+                                          >
+                                            {res.user.fullname}
+                                          </div>
+                                        </div>
+                                        <div style={{ paddingTop: 4 }}>
+                                          {res.user.bio}
+                                        </div>
+                                      </div>
+                                    }
+                                    className="card-name"
+                                  >
+                                    <li style={{ cursor: "pointer" }}>
+                                      {res.user.fullname}
+                                    </li>
+                                  </Tooltip>
+                                  <li className="news-name">
+                                    {moment
+                                      .unix(res.createdAt / 1000)
+                                      .format("DD-MM-YYYY")}
+                                  </li>
+                                </div>
+                              </div>
+                            </Link>
+                            <div className="news-content">
+                              <div className="title-text-card">
+                                {res.title.length <= 50
+                                  ? res.title
+                                  : res.title.substring(0, 50) + " ..."}
+                              </div>
+                              <div className="text-content-card">
+                                {parse(
+                                  res.des.length <= 70
+                                    ? res.des
+                                    : res.des.substring(0, 70) + "..."
+                                )}
+                              </div>
+                            </div>
+                            <div className="news-footer">
+                              <div>
+                                <button className="type-category">
+                                  {res.types.name}
+                                  <span>
+                                    <CaretRightOutlined
+                                      style={{ fontSize: "10px" }}
+                                    />
+                                  </span>{" "}
+                                  {res.categories.name}
+                                </button>
+                                <Link href={`/detail/${res.slug}`}>
+                                  <button className="readmore">
+                                    Read More <span>&rarr;</span>
+                                  </button>
+                                </Link>
+                              </div>
+                              {/* <NewLike
+                            postId={res.id}
+                            ownerId={res.id}
+                            voteCount={res.voteCount}
+                            vote_up_down={vote_up_down}
+                            get_all_vote={get_all_vote}
+                            refetch={refetch}
+                          /> */}
+                            </div>
+                          </Col>
+                          <Col xs={24} md={8}>
+                            <div
+                              className="image-news-style"
+                              style={{
+                                backgroundImage: `url(${URL_ACCESS}/public/uploads//${res.thumnail})`,
+                              }}
+                            >
+                              {/* <img
+                        height="100%"
+                        width="200"
+                        src={`${URL_ACCESS}/public/uploads//${res.thumnail}`}
+                      /> */}
+                            </div>
+                          </Col>
+                        </Row>
+                      </Card>
+                    </div>
+                  );
+                })}
+
+                {/* <InfiniteScroll
+                  dataLength={news.get_own_news.length}
+                  next={async () => {
+                    await fetchMore({
+                      variables: {
+                        offset: news.get_own_news.length,
+                      },
+                      updateQuery: (prev, { fetchMoreResult }) => {
+                        if (!fetchMoreResult) return prev;
+
+                        if (fetchMoreResult.get_own_news.length < 6) {
+                          setHasMoreItems(false);
+                        }
+
+                        return Object.assign({}, prev, {
+                          get_own_news: [
+                            ...prev.get_own_news,
+                            ...fetchMoreResult.get_own_news,
+                          ],
+                        });
+                      },
+                    });
+                  }}
+                  hasMore={hasMoreItems}
+                  loader={
+                    <Content style={{ marginTop: "15px" }}>
+                      <center>
+                        <Spin></Spin>
+                      </center>
+                    </Content>
+                  }
+                  endMessage={null}
+                ></InfiniteScroll> */}
               </Col>
-              <Col span={16}></Col>
+              <Col span={8}></Col>
             </Row>
-          </div> */}
+          </div>
         </div>
       </div>
       <br></br>

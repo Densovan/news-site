@@ -73,7 +73,14 @@ const Follow = ({ articleUser, follows }) => {
   return (
     <div key="1">
       <button
-        className={state.loading ? "disabled btn-follow" : "btn-unfollow"}
+        className={
+          state.loading
+            ? "disabled btn-follow"
+            : state.follow
+            ? "btn-unfollow"
+            : "btn-follow"
+        }
+        // className={state.loading ? "disabled" : ""}
         onClick={handleFollow}
       >
         {state.loading

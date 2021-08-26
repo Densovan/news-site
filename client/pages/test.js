@@ -1,27 +1,13 @@
 import React from "react";
-import { GET_ALL_NEWS_TOP } from "../graphql/query";
-import { useQuery } from "@apollo/client";
+import shuffle from "shuffle-array";
 
 const test = () => {
-  const {
-    loading,
-    data: news,
-    fetchMore,
-    refetch,
-  } = useQuery(GET_ALL_NEWS_TOP, {
-    variables: { limit: 100, offset: 0 },
-    pollInterval: 500,
-  });
-  if (loading) return "loading...";
+  const array = [1, 2, 3, 4, 5];
+  const hello = shuffle(array);
+  console.log(hello);
   return (
     <div>
-      {news.get_all_news_top.map((res) => {
-        return (
-          <div>
-            <h1>{res.title}</h1>
-          </div>
-        );
-      })}
+      <h1>hello</h1>
     </div>
   );
 };

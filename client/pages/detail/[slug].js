@@ -50,7 +50,7 @@ const SinglePage = () => {
     variables: { slug },
     pollInterval: 500,
   });
-  const { data:follows, loading:follow_loading } = useQuery(GET_FOLLOWS)
+  const { data: follows, loading: follow_loading } = useQuery(GET_FOLLOWS);
   const { loading: userLoadin, data: myUser } = useQuery(GET_USER);
 
   if (loading || userLoadin || follow_loading)

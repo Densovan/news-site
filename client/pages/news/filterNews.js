@@ -1,16 +1,28 @@
 import React, { useState } from "react";
+import suffle from "shuffle-array";
 import Link from "next/link";
 import { useQuery } from "@apollo/client";
-import { GET_CATEGORIES, GET_TYPES } from "../../graphql/query";
+import {
+  GET_CATEGORIES,
+  GET_TYPES,
+  GET_USERS,
+  GET_FOLLOWS,
+} from "../../graphql/query";
 import CategoryLoader from "../../components/loaders/categoryLoader";
 import { Card, Tag, Divider, Typography, Row, Col, Button, Avatar } from "antd";
+import Follow from "../../components/common/follow";
 
 const { CheckableTag } = Tag;
 
 const FilterNews = ({ handleChange, selectedTags }) => {
+  const { loading: usersLoading, data: usersData } = useQuery(GET_USERS, {
+    pollInterval: 500,
+  });
+  const { data: follows, loading: follow_loading } = useQuery(GET_FOLLOWS);
   const { loading, data } = useQuery(GET_CATEGORIES);
   const { loading: loadingType, data: types } = useQuery(GET_TYPES);
-  if (loading || loadingType) return <CategoryLoader />;
+  if (loading || loadingType || usersLoading || follow_loading)
+    return <CategoryLoader />;
 
   const tagsData = ["All"];
   data.get_cats.forEach((element) => {
@@ -20,6 +32,11 @@ const FilterNews = ({ handleChange, selectedTags }) => {
   types.get_types.forEach((element) => {
     typeData.push(element.name);
   });
+  function shuffleArray(inputArray) {
+    inputArray.sort(() => Math.random() - 0.5);
+  }
+  var demoArray = usersData.get_users.map((x) => x);
+  shuffleArray(demoArray);
 
   return (
     <React.Fragment>
@@ -65,41 +82,59 @@ const FilterNews = ({ handleChange, selectedTags }) => {
           ))}
         </div>
       </Card>
+
       <Card className="card-article">
         <Typography.Title level={5}>Suggestions For You</Typography.Title>
         <Divider style={{ marginBottom: 20, marginTop: 16 }} />
-        <Row justify="space-between" align="middle">
-          <Col style={{ display: "flex" }} span={14}>
-            <div style={{ marginRight: 8 }}>
-              <Avatar
-                size={{ xs: 24, sm: 32, md: 48, lg: 48, xl: 48, xxl: 48 }}
-                src="https://images2.minutemediacdn.com/image/fetch/w_736,h_485,c_fill,g_auto,f_auto/https%3A%2F%2Ftherealchamps.com%2Fwp-content%2Fuploads%2Fgetty-images%2F2018%2F08%2F137280542-850x560.jpeg"
-              />
-            </div>
-            <div>
-              <div
-                style={{ fontSize: 16, color: "#262e3c", fontWeight: "bold" }}
-              >
-                Vann Soklay
-              </div>
-              {/* {res.title.length <= 70
+        {demoArray.slice(0, 5).map((res) => {
+          return (
+            <Row
+              style={{ marginBottom: "12px" }}
+              justify="space-between"
+              align="middle"
+            >
+              <Col style={{ display: "flex" }} span={14}>
+                <div style={{ marginRight: 8 }}>
+                  <Avatar
+                    size={{ xs: 24, sm: 32, md: 48, lg: 48, xl: 48, xxl: 48 }}
+                    src={res.image}
+                    // src="https://images2.minutemediacdn.com/image/fetch/w_736,h_485,c_fill,g_auto,f_auto/https%3A%2F%2Ftherealchamps.com%2Fwp-content%2Fuploads%2Fgetty-images%2F2018%2F08%2F137280542-850x560.jpeg"
+                  />
+                </div>
+                <div>
+                  <div
+                    style={{
+                      fontSize: 16,
+                      color: "#262e3c",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {res.fullname.length <= 11
+                      ? res.fullname
+                      : res.fullname.substring(0, 11) + "..."}
+                  </div>
+                  {/* {res.title.length <= 70
                           ? res.title
                           : res.title.substring(0, 70) + " ..."} */}
-              <div
-                style={{
-                  fontSize: 12,
-                  color: "rgba(117, 117, 117, 1)",
-                  fontWeight: "400",
-                }}
-              >
-                Staff writer, The New Yorker
-              </div>
-            </div>
-          </Col>
-          <Col span={10}>
-            <button className="btn-follow">Follow</button>
-          </Col>
-        </Row>
+                  <div
+                    style={{
+                      fontSize: 12,
+                      color: "rgba(117, 117, 117, 1)",
+                      fontWeight: "400",
+                    }}
+                  >
+                    {res.bio.length <= 10
+                      ? res.bio
+                      : res.bio.substring(0, 10) + "..."}
+                  </div>
+                </div>
+              </Col>
+              <Col span={10}>
+                <Follow articleUser={res} follows={follows} />
+              </Col>
+            </Row>
+          );
+        })}
       </Card>
     </React.Fragment>
   );

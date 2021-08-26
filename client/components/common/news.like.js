@@ -1,8 +1,5 @@
 import React, { Fragment, useState, useEffect, useContext } from "react";
-import { useRouter } from "next/router";
 import { useMutation } from "@apollo/client";
-import AuthContext from "../../contexts/authContext";
-import Link from "next/link";
 import { VOTE_UP_DOWN, CHECK_TOP_NEWS } from "../../graphql/mutation";
 import {
   LikeOutlined,
@@ -10,7 +7,9 @@ import {
   LikeFilled,
   DislikeFilled,
 } from "@ant-design/icons";
-
+import Link from "next/link";
+import { useRouter } from "next/router";
+import AuthContext from "../../contexts/authContext";
 const NewsLike = ({
   postId,
   ownerId,
@@ -18,8 +17,6 @@ const NewsLike = ({
   vote_up_down,
   get_all_vote,
 }) => {
-  const router = useRouter();
-  const { loggedIn } = useContext(AuthContext);
   const [state, setState] = useState({
     like: false,
     unlike: false,
@@ -27,6 +24,8 @@ const NewsLike = ({
   const [vote, setVote] = useState({
     count: 0,
   });
+  const { loggedIn } = useContext(AuthContext);
+  const router = useRouter();
   useEffect(() => {
     vote_up_down.get_vote_up_down.map((get_vote_up_down) => {
       if (get_vote_up_down.postId == postId && get_vote_up_down.type == "up") {
@@ -50,11 +49,11 @@ const NewsLike = ({
     }
   }, [postId, get_all_vote]);
   const [voteUpDown] = useMutation(VOTE_UP_DOWN);
+  const [checkTopNews] = useMutation(CHECK_TOP_NEWS);
   const redirectLogin = async () => {
     const signin = "http://localhost:3008/signin";
     const newwindow = router.push(signin);
   };
-  const [checkTopNews] = useMutation(CHECK_TOP_NEWS);
   const handleLike = async () => {
     try {
       if (state.like === false) {
@@ -239,9 +238,7 @@ const NewsLike = ({
   return (
     <Fragment>
       <div>
-        {/* <label className="btn-news">{vote.count > 0 ? vote.count : "0"}</label> */}
-        <label className="btn-news">{voteCount}</label>
-
+        <label className="btn-news">{voteCount > 0 ? voteCount : "0"}</label>
         <button
           className="btn-news"
           onClick={loggedIn === true ? handleLike : redirectLogin}
