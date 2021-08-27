@@ -35,9 +35,12 @@ const NewsLike = ({
         get_vote_up_down.postId == postId &&
         get_vote_up_down.type == "down"
       ) {
-        setState({ unlike: true, like: false });
+        setState({ like: false, unlike: true });
       }
     });
+  }, [postId, vote_up_down]);
+
+  useEffect(() => {
     let sum = 0;
     for (let i = 0; i < get_all_vote.get_all_vote_up_down.length; i++) {
       if (get_all_vote.get_all_vote_up_down[i].postId == postId) {
@@ -48,6 +51,7 @@ const NewsLike = ({
       });
     }
   }, [postId, get_all_vote]);
+
   const [voteUpDown] = useMutation(VOTE_UP_DOWN);
   const [checkTopNews] = useMutation(CHECK_TOP_NEWS);
   const redirectLogin = async () => {
@@ -57,26 +61,15 @@ const NewsLike = ({
   const handleLike = async () => {
     try {
       if (state.like === false) {
-        setState({
-          like: true,
-          unlike: false,
-        });
-        // if (state.unlike == true) {
-        //   if (voteCount > 1) {
-        //     setCounter({
-        //       count: counter.count + 2,
-        //     });
-        //   } else {
-        //     setCounter({
-        //       count: counter.count + 1,
-        //     });
-        //   }
-        // } else {
-        //   setCounter({
-        //     count: counter.count + 1,
-        //   });
-        // }
+        // setState({
+        //   like: true,
+        //   unlike: false,
+        // });
         if (state.unlike === true) {
+          setState({
+            like: true,
+            unlike: false,
+          });
           console.log("+2");
           await voteUpDown({
             variables: {
@@ -89,6 +82,10 @@ const NewsLike = ({
             console.log(response);
           });
         } else {
+          setState({
+            like: true,
+            unlike: false,
+          });
           console.log("+1");
           await voteUpDown({
             variables: {
@@ -117,15 +114,6 @@ const NewsLike = ({
         }).then(async (response) => {
           console.log(response);
         });
-        // if (state.like == true) {
-        //   setCounter({
-        //     count: counter.count - 1,
-        //   });
-        // } else {
-        //   setCounter({
-        //     count: counter.count - 1,
-        //   });
-        // }
       }
       await checkTopNews({
         variables: {
@@ -141,11 +129,15 @@ const NewsLike = ({
   const handleDislike = async () => {
     try {
       if (state.unlike === false) {
-        setState({
-          like: false,
-          unlike: true,
-        });
+        // setState({
+        //   like: false,
+        //   unlike: true,
+        // });
         if (state.like === true) {
+          setState({
+            like: false,
+            unlike: true,
+          });
           console.log("-2");
           await voteUpDown({
             variables: {
@@ -158,6 +150,10 @@ const NewsLike = ({
             console.log(response);
           });
         } else {
+          setState({
+            like: false,
+            unlike: true,
+          });
           console.log("-1");
           await voteUpDown({
             variables: {
@@ -170,28 +166,6 @@ const NewsLike = ({
             console.log(response);
           });
         }
-        // if (state.like == true) {
-        //   console.log("do");
-        //   if (voteCount > 1) {
-        //     setCounter({
-        //       count: counter.count - 2,
-        //     });
-        //   } else {
-        //     setCounter({
-        //       count: counter.count - 1,
-        //     });
-        //   }
-        // } else {
-        //   if (voteCount > 0) {
-        //     setCounter({
-        //       count: counter.count - 1,
-        //     });
-        //   } else {
-        //     setCounter({
-        //       count: counter.count,
-        //     });
-        //   }
-        // }
       } else {
         setState({
           unlike: false,
@@ -208,21 +182,6 @@ const NewsLike = ({
         }).then(async (response) => {
           console.log(response);
         });
-        // if (state.unlike == true) {
-        //   if (voteCount > 0) {
-        //     setCounter({
-        //       count: counter.count + 1,
-        //     });
-        //   } else {
-        //     setCounter({
-        //       count: counter.count,
-        //     });
-        //   }
-        // } else {
-        //   setCounter({
-        //     count: counter.count + 1,
-        //   });
-        // }
       }
       await checkTopNews({
         variables: {
@@ -239,10 +198,7 @@ const NewsLike = ({
     <Fragment>
       <div>
         <label className="btn-news">{voteCount > 0 ? voteCount : "0"}</label>
-        <button
-          className="btn-news"
-          onClick={loggedIn === true ? handleLike : redirectLogin}
-        >
+        <button className="btn-news" onClick={handleLike}>
           {state.like ? (
             <LikeFilled style={{ fontSize: "18px" }} />
           ) : (

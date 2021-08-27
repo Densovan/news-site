@@ -326,14 +326,14 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
                               </button>
                             </Link>
                           </div>
-                          <NewLike
+                          {/* <NewLike
                             postId={res.id}
                             ownerId={res.user.id}
                             voteCount={res.voteCount}
                             vote_up_down={vote_up_down}
                             get_all_vote={get_all_vote}
                             refetch={refetch}
-                          />
+                          /> */}
                         </div>
                       </Col>
                       <Col xs={24} md={8}>
