@@ -1,132 +1,3 @@
-// import React, { useContext } from "react";
-// import { Table, Tag, Divider, Popconfirm, message } from "antd";
-// import { useQuery, useMutation } from "@apollo/client";
-// import { GET_OWN_NEWS } from "../../graphql/query";
-// import { DELETE_NEWS } from "../../graphql/mutation";
-// import { BsTrash, BsPencil } from "react-icons/bs";
-// import MainNavbar from "../../components/Layouts/mainNavbar";
-// import Footer from "../../components/Layouts/footer";
-// import AuthContext from "../../contexts/authContext";
-
-// import Link from "next/link";
-// import GlobalHeader from "../../components/Layouts/globalHeader";
-// import Profile from "./profile";
-
-// const Allstory = () => {
-//   const server = process.env.API_SECRET;
-//   const server_local = process.env.API_SECRET_LOCAL;
-//   const develop = process.env.NODE_ENV;
-//   const URL_ACCESS = develop === "development" ? server_local : server;
-
-//   const { loggedIn } = useContext(AuthContext);
-//   const [delete_news] = useMutation(DELETE_NEWS);
-//   const { loading, data, error, refetch } = useQuery(GET_OWN_NEWS);
-//   if (loading) return null;
-//   if (error) return `Error! ${error.message}`;
-//   const columns = [
-//     {
-//       title: "Thumnail",
-//       width: 100,
-//       dataIndex: "thumnail",
-//       key: () => Math.random().toString(),
-//       render: (data) => {
-//         return (
-//           <img
-//             height="40px"
-//             width="40px"
-//             src={`${URL_ACCESS}/public/uploads//` + data}
-//             // src={"https://backend.beecolony.org/public/uploads/" + data}
-//             alt="avatar"
-//           ></img>
-//         );
-//       },
-//     },
-//     {
-//       title: "Title",
-//       dataIndex: "title",
-//       key: () => Math.random().toString(),
-//       render: (data) => {
-//         return data.length <= 25 ? data : data.substring(0, 25) + " ...";
-//       },
-//     },
-//     {
-//       title: "Action",
-//       dataIndex: "action",
-//       key: () => Math.random().toString(),
-//       render: (index, data) => {
-//         const { id, title, categories, types, thumnail, des } = data;
-//         return (
-//           <div>
-//             <Link href={`/dashboard/editstory/${id}`}>
-//               <Tag className="edit-button">
-//                 <BsPencil
-//                   color="rgb(32, 166, 147)"
-//                   size="15px"
-//                   style={{ marginTop: "6px" }}
-//                 />
-//               </Tag>
-//             </Link>
-//             <Divider type="vertical" />
-//             <Popconfirm
-//               placement="topRight"
-//               title="Are you sure to delete?"
-//               okText="Yes"
-//               cancelText="No"
-//               onConfirm={() => {
-//                 delete_news({ variables: { id: `${id}` } })
-//                   .then(async (res) => {
-//                     await message.success(res.data.delete_news.message);
-//                     await refetch();
-//                   })
-//                   .catch((error) => {
-//                     console.log(error);
-//                     return null;
-//                   });
-//               }}
-//             >
-//               <Tag className="delete-button">
-//                 <BsTrash
-//                   color="#ff5858"
-//                   size="15px"
-//                   style={{ marginTop: "6px" }}
-//                 />
-//               </Tag>
-//             </Popconfirm>
-//           </div>
-//         );
-//       },
-//     },
-//   ];
-//   return (
-//     <React.Fragment>
-//       {/* <MainNavbar /> */}
-//       {/* <GlobalHeader /> */}
-//       <Profile />
-//       {loggedIn === true && (
-//         <div className="container">
-//           <div className="profile-content">
-//             <div className="sub-pf-content">
-//               <h2>Your Stories</h2>
-//               <Table
-//                 // key={data.get_own_news.id}
-//                 rowKey={(record) => record.id}
-//                 columns={columns}
-//                 dataSource={data.get_own_news}
-//                 // onChange={onChange}
-//               />
-//             </div>
-//           </div>
-//         </div>
-//       )}
-//       <br></br>
-//       {loggedIn === false && window.location.replace("/")}
-//       <Footer />
-//     </React.Fragment>
-//   );
-// };
-
-// export default Allstory;
-
 import React, { useState, Fragment, useContext } from "react";
 import {
   Row,
@@ -138,18 +9,24 @@ import {
   Tooltip,
   Result,
   Input,
+  Tag,
+  Popconfirm,
+  Divider,
+  Empty,
 } from "antd";
 import parse from "html-react-parser";
 import { CaretRightOutlined } from "@ant-design/icons";
 import { AiOutlinePicture, AiOutlineLink } from "react-icons/ai";
 import Link from "next/link";
-import { useQuery } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 import {
   GET_OWN_NEWS,
   // GET_USER,
   GET_VOTE_UP_DOWN,
   GET_ALL_VOTE_UP_DOWN,
 } from "../../graphql/query";
+import { DELETE_NEWS } from "../../graphql/mutation";
+import { BsTrash, BsPencil } from "react-icons/bs";
 import moment from "moment";
 import Medium from "../../components/loaders/newsLoader";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -170,6 +47,7 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
 
   const [hasMoreItems, setHasMoreItems] = useState(true);
   //=============get last News===========
+  const [delete_news] = useMutation(DELETE_NEWS);
   const {
     loading,
     data: news,
@@ -231,8 +109,14 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
       <Profile />
 
       <div className="container">
-        <Row>
+        <Row style={{ display: "flex" }}>
           <Col span={16}>
+            {news.get_own_news.length === 0 && (
+              <center>
+                <Empty />
+                <br></br>
+              </center>
+            )}
             {news.get_own_news.map((res, index) => {
               return (
                 <div>
@@ -246,7 +130,6 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
                     className="card-article"
                     key={index}
                   >
-                    {/* <h1 className="te">hello</h1> */}
                     <Row gutter={[8, 8]}>
                       <Col xs={24} md={16} className="box-news">
                         <Link
@@ -325,15 +208,53 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
                                 Read More <span>&rarr;</span>
                               </button>
                             </Link>
+
+                            <Link href={`/dashboard/editstory/${res.id}`}>
+                              <Tag className="edit-button">
+                                <BsPencil
+                                  color="rgb(32, 166, 147)"
+                                  size="15px"
+                                  style={{ marginTop: "6px" }}
+                                />
+                              </Tag>
+                            </Link>
+                            <Divider type="vertical" />
+                            <Popconfirm
+                              placement="topRight"
+                              title="Are you sure to delete?"
+                              okText="Yes"
+                              cancelText="No"
+                              onConfirm={() => {
+                                delete_news({ variables: { id: `${res.id}` } })
+                                  .then(async (res) => {
+                                    await message.success(
+                                      res.data.delete_news.message
+                                    );
+                                    await refetch();
+                                  })
+                                  .catch((error) => {
+                                    console.log(error);
+                                    return null;
+                                  });
+                              }}
+                            >
+                              <Tag className="delete-button">
+                                <BsTrash
+                                  color="#ff5858"
+                                  size="15px"
+                                  style={{ marginTop: "6px" }}
+                                />
+                              </Tag>
+                            </Popconfirm>
                           </div>
-                          {/* <NewLike
+                          <NewLike
                             postId={res.id}
                             ownerId={res.user.id}
                             voteCount={res.voteCount}
                             vote_up_down={vote_up_down}
                             get_all_vote={get_all_vote}
-                            refetch={refetch}
-                          /> */}
+                            // refetch={refetch}
+                          />
                         </div>
                       </Col>
                       <Col xs={24} md={8}>

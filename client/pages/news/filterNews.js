@@ -7,6 +7,7 @@ import {
   GET_TYPES,
   GET_USERS,
   GET_FOLLOWS,
+  GET_USER,
 } from "../../graphql/query";
 import CategoryLoader from "../../components/loaders/categoryLoader";
 import { Card, Tag, Divider, Typography, Row, Col, Button, Avatar } from "antd";
@@ -21,7 +22,8 @@ const FilterNews = ({ handleChange, selectedTags }) => {
   const { data: follows, loading: follow_loading } = useQuery(GET_FOLLOWS);
   const { loading, data } = useQuery(GET_CATEGORIES);
   const { loading: loadingType, data: types } = useQuery(GET_TYPES);
-  if (loading || loadingType || usersLoading || follow_loading)
+  const { loading: loadingUser, data: user } = useQuery(GET_USER);
+  if (loading || loadingType || usersLoading || follow_loading || loadingUser)
     return <CategoryLoader />;
 
   const tagsData = ["All"];
@@ -32,11 +34,22 @@ const FilterNews = ({ handleChange, selectedTags }) => {
   types.get_types.forEach((element) => {
     typeData.push(element.name);
   });
+
+  //=================>funcion<===============
+  var value = user.get_user.id;
+  var allUsers = usersData.get_users.map((x) => x);
+  allUsers = allUsers.filter(function (item) {
+    return item.id !== value;
+  });
+  console.log(allUsers);
+
   function shuffleArray(inputArray) {
     inputArray.sort(() => Math.random() - 0.5);
   }
-  var demoArray = usersData.get_users.map((x) => x);
-  shuffleArray(demoArray);
+  // var demoArray = usersData.get_users.map((x) => x);
+  shuffleArray(allUsers);
+
+  // const array = usersData.get_users.map((x) => x);
 
   return (
     <React.Fragment>
@@ -86,7 +99,7 @@ const FilterNews = ({ handleChange, selectedTags }) => {
       <Card className="card-article">
         <Typography.Title level={5}>Suggestions For You</Typography.Title>
         <Divider style={{ marginBottom: 20, marginTop: 16 }} />
-        {demoArray.slice(0, 5).map((res) => {
+        {allUsers.slice(0, 5).map((res) => {
           return (
             <Row
               style={{ marginBottom: "12px" }}

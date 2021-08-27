@@ -347,7 +347,7 @@ const GlobalHeader = () => {
                     trigger="click"
                   >
                     <div
-                      className="notifications"
+                      className="notifications disabled"
                       onClick={async () => {
                         try {
                           if (

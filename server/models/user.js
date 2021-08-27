@@ -30,10 +30,10 @@ const userSchema = new mongoose.Schema(
       default:
         "https://backend.beecolony.org/public/uploads/file-b361e38f-41f1-4f49-864b-a29717decebc.png",
     },
-    googleId: {
-      type: String,
-      require: true,
-    },
+    // googleId: {
+    //   type: String,
+    //   require: true,
+    // },
     // followed: {
     //   type: Boolean,
     //   default: false,
