@@ -33,9 +33,11 @@ const Follow = ({ articleUser, follows }) => {
             followTo: articleUser.id,
           },
         }).then((response) => {
-          notification["success"]({
+          notification.open({
+            closeIcon: true,
             message: response.data.follow.message,
             description: "You have follow to " + articleUser.fullname,
+            placement: "bottomLeft"
           });
           setTimeout(() => {
             setState({
@@ -54,9 +56,11 @@ const Follow = ({ articleUser, follows }) => {
             followTo: articleUser.id,
           },
         }).then((response) => {
-          notification["info"]({
+          notification.open({
+            closeIcon: true,
             message: response.data.follow.message,
             description: "You have unfollow to " + articleUser.fullname,
+            placement: "bottomLeft"
           });
           setTimeout(() => {
             setState({
