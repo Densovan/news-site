@@ -12,7 +12,6 @@ import {
 } from "antd";
 import parse from "html-react-parser";
 import { CaretRightOutlined } from "@ant-design/icons";
-import { AiOutlinePicture, AiOutlineLink } from "react-icons/ai";
 import Link from "next/link";
 import { useQuery } from "@apollo/client";
 import {
@@ -242,6 +241,7 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
                         voteCount={res.voteCount}
                         vote_up_down={vote_up_down}
                         get_all_vote={get_all_vote}
+                        title={res.title.substring(0, 80) + " ..."}
                         refetch={refetch}
                       />
                     </div>

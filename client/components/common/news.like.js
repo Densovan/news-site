@@ -1,19 +1,20 @@
 import React, { Fragment, useState, useEffect, useContext } from "react";
 import { useMutation } from "@apollo/client";
 import { VOTE_UP_DOWN, CHECK_TOP_NEWS } from "../../graphql/mutation";
+import { notification } from 'antd';
 import {
   LikeOutlined,
   DislikeOutlined,
   LikeFilled,
   DislikeFilled,
 } from "@ant-design/icons";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import AuthContext from "../../contexts/authContext";
 const NewsLike = ({
   postId,
   ownerId,
   voteCount,
+  title,
   vote_up_down,
   get_all_vote,
 }) => {
@@ -46,10 +47,10 @@ const NewsLike = ({
       if (get_all_vote.get_all_vote_up_down[i].postId == postId) {
         sum += get_all_vote.get_all_vote_up_down[i].count;
       }
-      setVote({
-        count: sum,
-      });
     }
+    setVote({
+      count: sum,
+    });
   }, [postId, get_all_vote]);
 
   const [voteUpDown] = useMutation(VOTE_UP_DOWN);
@@ -61,16 +62,11 @@ const NewsLike = ({
   const handleLike = async () => {
     try {
       if (state.like === false) {
-        // setState({
-        //   like: true,
-        //   unlike: false,
-        // });
         if (state.unlike === true) {
           setState({
             like: true,
             unlike: false,
           });
-          console.log("+2");
           await voteUpDown({
             variables: {
               postId: postId,
@@ -79,14 +75,18 @@ const NewsLike = ({
               count: 1,
             },
           }).then(async (response) => {
-            console.log(response);
+            notification.open({
+              closeIcon: true,
+              message: "Added to Liked news",
+              description: title,
+              placement: "bottomLeft"
+            });
           });
         } else {
           setState({
             like: true,
             unlike: false,
           });
-          console.log("+1");
           await voteUpDown({
             variables: {
               postId: postId,
@@ -95,7 +95,12 @@ const NewsLike = ({
               count: 1,
             },
           }).then(async (response) => {
-            console.log(response);
+            notification.open({
+              closeIcon: true,
+              message: "Added to Liked news",
+              description: title,
+              placement: "bottomLeft"
+            });
           });
         }
       } else {
@@ -103,7 +108,6 @@ const NewsLike = ({
           like: false,
           unlike: false,
         });
-        console.log("-1");
         await voteUpDown({
           variables: {
             postId: postId,
@@ -112,16 +116,19 @@ const NewsLike = ({
             count: 0,
           },
         }).then(async (response) => {
-          console.log(response);
+          notification.open({
+            closeIcon: true,
+            message: "Removed from Liked news",
+            description: title,
+            placement: "bottomLeft"
+          });
         });
       }
       await checkTopNews({
         variables: {
           postId: postId,
         },
-      }).then(async (response) => {
-        console.log(response);
-      });
+      })
     } catch (e) {
       console.log("error!!");
     }
@@ -129,16 +136,11 @@ const NewsLike = ({
   const handleDislike = async () => {
     try {
       if (state.unlike === false) {
-        // setState({
-        //   like: false,
-        //   unlike: true,
-        // });
         if (state.like === true) {
           setState({
             like: false,
             unlike: true,
           });
-          console.log("-2");
           await voteUpDown({
             variables: {
               postId: postId,
@@ -147,14 +149,18 @@ const NewsLike = ({
               count: -1,
             },
           }).then(async (response) => {
-            console.log(response);
+            notification.open({
+              closeIcon: true,
+              message: "You dislike this news",
+              description: title,
+              placement: "bottomLeft"
+            });
           });
         } else {
           setState({
             like: false,
             unlike: true,
           });
-          console.log("-1");
           await voteUpDown({
             variables: {
               postId: postId,
@@ -163,7 +169,12 @@ const NewsLike = ({
               count: -1,
             },
           }).then(async (response) => {
-            console.log(response);
+            notification.open({
+              closeIcon: true,
+              message: "You dislike this news",
+              description: title,
+              placement: "bottomLeft"
+            });
           });
         }
       } else {
@@ -171,7 +182,6 @@ const NewsLike = ({
           unlike: false,
           like: false,
         });
-        console.log("+1");
         await voteUpDown({
           variables: {
             postId: postId,
@@ -180,24 +190,34 @@ const NewsLike = ({
             count: 0,
           },
         }).then(async (response) => {
-          console.log(response);
+          notification.open({
+            closeIcon: true,
+            message: "Dislike removed",
+            description: title,
+            placement: "bottomLeft"
+          });
         });
       }
       await checkTopNews({
         variables: {
           postId: postId,
         },
-      }).then(async (response) => {
-        console.log(response);
-      });
+      })
     } catch (e) {
       console.log("error!!");
     }
   };
+  const handleTest = () => {
+    notification.open({
+      closeIcon: true,
+      message: "You dislike this news",
+      placement: "bottomLeft"
+    });
+  }
   return (
     <Fragment>
       <div>
-        <label className="btn-news">{voteCount > 0 ? voteCount : "0"}</label>
+        <label className="btn-news">{vote.count > 0 ? vote.count : "0"}</label>
         <button className="btn-news" onClick={handleLike}>
           {state.like ? (
             <LikeFilled style={{ fontSize: "18px" }} />
