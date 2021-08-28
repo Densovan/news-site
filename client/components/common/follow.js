@@ -67,7 +67,7 @@ const Follow = ({ articleUser, follows }) => {
         });
       }
     } catch (e) {
-      console.log("error");
+      console.log("errors");
     }
   };
   return (
