@@ -72,7 +72,7 @@ const Follow = ({ articleUser, follows }) => {
   };
   return (
     <div key="1">
-      {/* <button
+      <button
         className={
           state.loading
             ? "disabled btn-follow"
@@ -80,19 +80,6 @@ const Follow = ({ articleUser, follows }) => {
             ? "btn-unfollow"
             : "btn-follow"
         }
-        
-        onClick={handleFollow}
-      >
-        {state.loading
-          ? state.follow
-            ? "Follow..."
-            : "Following..."
-          : state.follow
-          ? "Following"
-          : "Follow"}
-      </button> */}
-      <button
-        className={state.loading ? "disabled btn-follow" : "btn-follow"}
         onClick={handleFollow}
       >
         {state.loading
@@ -103,6 +90,18 @@ const Follow = ({ articleUser, follows }) => {
           ? "Following"
           : "Follow"}
       </button>
+      {/* <button
+        className={state.loading ? "disabled btn-follow" : "btn-follow"}
+        onClick={handleFollow}
+      >
+        {state.loading
+          ? state.follow
+            ? "Follow..."
+            : "Following..."
+          : state.follow
+          ? "Following"
+          : "Follow"}
+      </button> */}
     </div>
   );
 };
