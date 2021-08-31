@@ -1,24 +1,25 @@
 import { useQuery, useMutation } from "@apollo/client";
-import { GET_USER } from "../../graphql/query";
-import { FOLLOW, UNFOLLOW } from "../../graphql/mutation";
+import { GET_FOLLOWS } from "../../graphql/query";
+import { FOLLOW } from "../../graphql/mutation";
 import { Button } from "antd";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { notification } from "antd";
 
-const Follow = ({ articleUser, follows }) => {
+const Follow = ({ articleUser, user, follows }) => {
   const [state, setState] = useState({
     loading: false,
     follow: false,
   });
   const [follow] = useMutation(FOLLOW);
   useEffect(() => {
+
     follows.get_follows.map((follow) => {
-      if (follow.followTo === articleUser.id) {
+      if (follow.followTo == articleUser.id && user.get_user.id == follow.followBy) {
         setState({
           follow: true,
         });
-      }
+      } 
     });
   }, [follows]);
   const handleFollow = async () => {
