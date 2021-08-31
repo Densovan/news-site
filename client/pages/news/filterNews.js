@@ -17,13 +17,13 @@ const { CheckableTag } = Tag;
 
 const FilterNews = ({ handleChange, selectedTags }) => {
   const { loading: usersLoading, data: usersData } = useQuery(GET_USERS, {
-    pollInterval: 500,
+    pollInterval: 1000,
   });
   const { loading: userLoading, data: user } = useQuery(GET_USER, {
-    pollInterval: 500,
+    pollInterval: 1000,
   });
   const { data: follows, loading: follow_loading } = useQuery(GET_FOLLOWS, {
-    pollInterval: 500,
+    pollInterval: 1000,
   });
   const { loading, data } = useQuery(GET_CATEGORIES);
   const { loading: loadingType, data: types } = useQuery(GET_TYPES);
