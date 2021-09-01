@@ -1,16 +1,34 @@
 import { useQuery, useSubscription } from "@apollo/client";
-import React from "react";
-import { GET_CHAT } from "../graphql/query";
+import React, { useEffect } from "react";
+import { GET_CHAT, GET_CHAT_S } from "../graphql/query";
 
 const test = () => {
-  const { loading, data } = useSubscription(GET_CHAT);
-  if (loading) return "loading...";
-  console.log(data.get_chats);
+  const { loading, data, subscribeToMore } = useQuery(GET_CHAT);
+  useEffect(() => {
+    subscribeToMore({
+      document: GET_CHAT_S,
+      updateQuery: (prev, { subscriptionData }) => {
+        if (!subscriptionData) return prev;
+        const newChat = subscriptionData.data.newChat;
+        console.log(newChat);
+        const updateNewChatList = Object.assign({}, prev, {
+          chats: [...prev.chats, newChat],
+        });
+
+        return updateNewChatList;
+      },
+    });
+  }, []);
+  // if (!loading) {
+  //   console.log(data);
+  // }
+  // console.log(data);
   return (
     <div>
-      {data.get_chats.map((res) => (
+      hello
+      {/* {data.get_chats.map((res) => (
         <div>{res.body}</div>
-      ))}
+      ))} */}
     </div>
   );
 };

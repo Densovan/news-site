@@ -24,41 +24,41 @@ const URL_ACCESS = develop === "development" ? server_local : server;
 
 const result = `${URL_ACCESS}/api`;
 
-const httpLink = createHttpLink({
-  uri: result,
-  credentials: "include",
-});
-
-// const wsLink = process.browser
-//   ? new WebSocketLink({
-//       uri: `ws://localhost:3500/api`, // Can test with your Slash GraphQL endpoint (if you're using Slash GraphQL)
-//       options: {
-//         reconnect: true,
-//       },
-//     })
-//   : null;
 // const httpLink = createHttpLink({
 //   uri: result,
 //   credentials: "include",
 // });
 
-// const splitLink = process.browser
-//   ? split(
-//       ({ query }) => {
-//         const definition = getMainDefinition(query);
-//         return (
-//           definition.kind === "OperationDefinition" &&
-//           definition.operation === "subscription"
-//         );
-//       },
-//       wsLink,
-//       authLink.concat(httpLink)
-//     )
-//   : authLink.concat(httpLink);
+const wsLink = process.browser
+  ? new WebSocketLink({
+      uri: `ws://localhost:3500/api`, // Can test with your Slash GraphQL endpoint (if you're using Slash GraphQL)
+      options: {
+        reconnect: true,
+      },
+    })
+  : null;
+const httpLink = createHttpLink({
+  uri: result,
+  credentials: "include",
+});
+
+const splitLink = process.browser
+  ? split(
+      ({ query }) => {
+        const definition = getMainDefinition(query);
+        return (
+          definition.kind === "OperationDefinition" &&
+          definition.operation === "subscription"
+        );
+      },
+      wsLink,
+      authLink.concat(httpLink)
+    )
+  : authLink.concat(httpLink);
 
 const client = new ApolloClient({
-  // splitLink,
-  link: authLink.concat(httpLink),
+  link: splitLink,
+  // link: authLink.concat(httpLink),
   credentials: "same-origin",
   cache: new InMemoryCache(),
 });
