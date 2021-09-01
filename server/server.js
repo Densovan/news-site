@@ -16,7 +16,7 @@ const passport = require("passport");
 const { PubSub } = require("graphql-subscriptions");
 // const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const User = require("./models/userTest");
-const passportSetup = require("./configs/passport-setup");
+// const passportSetup = require("./configs/passport-setup");
 const { addPath } = require("graphql/jsutils/Path");
 const { JWTSECRET, REFRESH_TOKEN_SECRET } = process.env;
 

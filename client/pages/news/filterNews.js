@@ -6,8 +6,8 @@ import {
   GET_CATEGORIES,
   GET_TYPES,
   GET_USERS,
-  GET_FOLLOWS,
   GET_USER,
+  GET_FOLLOWS,
 } from "../../graphql/query";
 import CategoryLoader from "../../components/loaders/categoryLoader";
 import { Card, Tag, Divider, Typography, Row, Col, Button, Avatar } from "antd";
@@ -17,15 +17,17 @@ const { CheckableTag } = Tag;
 
 const FilterNews = ({ handleChange, selectedTags }) => {
   const { loading: usersLoading, data: usersData } = useQuery(GET_USERS, {
-    pollInterval: 500,
+    pollInterval: 1000,
   });
-  const { data: follows, loading: follow_loading } = useQuery(GET_FOLLOWS);
-  const { loading: loadingUser, data: user } = useQuery(GET_USER, {
-    pollInterval: 500,
+  const { loading: userLoading, data: user } = useQuery(GET_USER, {
+    pollInterval: 1000,
+  });
+  const { data: follows, loading: follow_loading } = useQuery(GET_FOLLOWS, {
+    pollInterval: 1000,
   });
   const { loading, data } = useQuery(GET_CATEGORIES);
   const { loading: loadingType, data: types } = useQuery(GET_TYPES);
-  if (loading || loadingType || usersLoading || follow_loading || loadingUser)
+  if (loading || loadingType || usersLoading || follow_loading || userLoading)
     return <CategoryLoader />;
 
   const tagsData = ["All"];
@@ -145,7 +147,7 @@ const FilterNews = ({ handleChange, selectedTags }) => {
                 </div>
               </Col>
               <Col span={10}>
-                <Follow articleUser={res} follows={follows} />
+                <Follow articleUser={res} user={user} follows={follows} />
               </Col>
             </Row>
           );

@@ -48,9 +48,11 @@ const SinglePage = () => {
   // })
   const { loading, data, refetch } = useQuery(GET_NEWS_BY_SLUG, {
     variables: { slug },
-    pollInterval: 500,
+    pollInterval: 1000,
   });
-  const { data: follows, loading: follow_loading } = useQuery(GET_FOLLOWS);
+  const { data: follows, loading: follow_loading } = useQuery(GET_FOLLOWS, {
+    pollInterval: 1000,
+  });
   const { loading: userLoadin, data: myUser } = useQuery(GET_USER);
 
   if (loading || userLoadin || follow_loading)
@@ -317,7 +319,7 @@ const SinglePage = () => {
                         </Link>
                       </center>
                     ) : (
-                      <Follow articleUser={user} follows={follows} />
+                      <Follow articleUser={user} follows={follows} user={myUser} />
                     )}
                   </center>
                 ) : (

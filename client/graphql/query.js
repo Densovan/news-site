@@ -716,6 +716,9 @@ const GET_FOLLOWS = gql`
       id
       followTo
       followBy
+      user{
+        id
+      }
     }
   }
 `;
