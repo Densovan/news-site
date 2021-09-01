@@ -20,9 +20,11 @@ const FilterNews = ({ handleChange, selectedTags }) => {
     pollInterval: 500,
   });
   const { data: follows, loading: follow_loading } = useQuery(GET_FOLLOWS);
+  const { loading: loadingUser, data: user } = useQuery(GET_USER, {
+    pollInterval: 500,
+  });
   const { loading, data } = useQuery(GET_CATEGORIES);
   const { loading: loadingType, data: types } = useQuery(GET_TYPES);
-  const { loading: loadingUser, data: user } = useQuery(GET_USER);
   if (loading || loadingType || usersLoading || follow_loading || loadingUser)
     return <CategoryLoader />;
 

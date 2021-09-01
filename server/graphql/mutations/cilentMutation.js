@@ -26,6 +26,7 @@ const followerType = require("../types/followerType");
 const saveNews = require("../types/saveNewsType");
 const likeTopDownType = require("../types/likeTopDownType");
 const voteType = require("../types/voteType");
+const chattype = require("../types/chat");
 //===============model===============
 const NewsModel = require("../../models/news");
 const UserModel = require("../../models/user");
@@ -40,6 +41,9 @@ const SaveNewsModel = require("../../models/saveNews");
 const LikeTopDownModel = require("../../models/likeTopDown");
 const VoteModel = require("../../models/vote");
 const SaveNewsType = require("../types/saveNewsType");
+const Chat = require("../../models/chat");
+const { pubsub } = require("../../subscription");
+const { response } = require("express");
 // const FollowingModel = require("../../models/following");
 // const FollowerModel = require("../../models/follower");
 
@@ -824,6 +828,9 @@ const RootMutation = new GraphQLObjectType({
               userId: context.id,
             });
             await save.save();
+            const data = await save.json();
+            console.log(data);
+            pubsub.publish("newData", { newData: data });
             return { message: "Successfully" };
           }
         } catch (error) {
@@ -1058,6 +1065,26 @@ const RootMutation = new GraphQLObjectType({
         } catch (e) {
           return { message: "You have problem" };
         }
+      },
+    },
+
+    //====================chat================
+
+    chat: {
+      type: chattype,
+      args: {
+        body: { type: GraphQLString },
+      },
+      resolve: async (parent, args, context) => {
+        const chat = await Chat({
+          userId: context.id,
+          body: args.body,
+        });
+        await chat.save();
+        // const chat = await response.json();
+        console.log(chat);
+        pubsub.publish("chatmessage", { newChat: chat });
+        return { message: "successfull" };
       },
     },
   },

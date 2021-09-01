@@ -1,6 +1,14 @@
-import { ApolloClient, createHttpLink, InMemoryCache } from "@apollo/client";
+import {
+  ApolloClient,
+  createHttpLink,
+  InMemoryCache,
+  split,
+} from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
-
+// import { WebSocketLink } from "@apollo/client/link/ws";
+import { WebSocketLink } from "@apollo/link-ws";
+// import { WebSocketLink } from "apollo-link-ws";
+import { getMainDefinition } from "@apollo/client/utilities";
 const authLink = setContext((_, { headers }) => {
   return {
     headers: {
@@ -21,7 +29,35 @@ const httpLink = createHttpLink({
   credentials: "include",
 });
 
+// const wsLink = process.browser
+//   ? new WebSocketLink({
+//       uri: `ws://localhost:3500/api`, // Can test with your Slash GraphQL endpoint (if you're using Slash GraphQL)
+//       options: {
+//         reconnect: true,
+//       },
+//     })
+//   : null;
+// const httpLink = createHttpLink({
+//   uri: result,
+//   credentials: "include",
+// });
+
+// const splitLink = process.browser
+//   ? split(
+//       ({ query }) => {
+//         const definition = getMainDefinition(query);
+//         return (
+//           definition.kind === "OperationDefinition" &&
+//           definition.operation === "subscription"
+//         );
+//       },
+//       wsLink,
+//       authLink.concat(httpLink)
+//     )
+//   : authLink.concat(httpLink);
+
 const client = new ApolloClient({
+  // splitLink,
   link: authLink.concat(httpLink),
   credentials: "same-origin",
   cache: new InMemoryCache(),

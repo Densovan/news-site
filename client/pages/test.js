@@ -1,13 +1,16 @@
+import { useQuery, useSubscription } from "@apollo/client";
 import React from "react";
-import shuffle from "shuffle-array";
+import { GET_CHAT } from "../graphql/query";
 
 const test = () => {
-  const array = [1, 2, 3, 4, 5];
-  const hello = shuffle(array);
-  console.log(hello);
+  const { loading, data } = useSubscription(GET_CHAT);
+  if (loading) return "loading...";
+  console.log(data.get_chats);
   return (
     <div>
-      <h1>hello</h1>
+      {data.get_chats.map((res) => (
+        <div>{res.body}</div>
+      ))}
     </div>
   );
 };

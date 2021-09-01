@@ -21,6 +21,7 @@ const FollowModel = require("../../models/follow");
 const SaveNewsModel = require("../../models/saveNews");
 const LikeTopDownModel = require("../../models/likeTopDown");
 const VoteModel = require("../../models/vote");
+const ChatModel = require("../../models/chat");
 
 //================Type Sections==================
 const CategoryType = require("../types/categoryType");
@@ -35,6 +36,7 @@ const saveNews = require("../types/saveNewsType");
 const SaveNewsType = require("../types/saveNewsType");
 const likeTopDownType = require("../types/likeTopDownType");
 const voteType = require("../types/voteType");
+const ChatType = require("../types/chat");
 
 const RootQuery = new GraphQLObjectType({
   name: "RootQueryType",
@@ -584,6 +586,13 @@ const RootQuery = new GraphQLObjectType({
           .sort({
             createdAt: -1,
           });
+      },
+    },
+    //=============Get Chat================
+    get_chats: {
+      type: new GraphQLList(ChatType),
+      resolve: (parent, args, context) => {
+        return ChatModel.find({});
       },
     },
   },

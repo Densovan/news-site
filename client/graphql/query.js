@@ -757,7 +757,17 @@ const GET_FOLLOWS_BY_USER = gql`
   }
 `;
 
+const GET_CHAT = gql`
+  query {
+    get_chats {
+      id
+      body
+    }
+  }
+`;
+
 export {
+  GET_CHAT,
   GET_OWN_NEWS_BY_ID,
   GET_FOLLOWS_BY_USER,
   GET_SAVED,
