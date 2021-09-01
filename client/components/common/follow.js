@@ -72,7 +72,7 @@ const Follow = ({ articleUser, user, follows }) => {
         });
       }
     } catch (e) {
-      console.log("error");
+      console.log("errors");
     }
   };
   return (
@@ -85,7 +85,6 @@ const Follow = ({ articleUser, user, follows }) => {
             ? "btn-unfollow"
             : "btn-follow"
         }
-        // className={state.loading ? "disabled" : ""}
         onClick={handleFollow}
       >
         {state.loading
@@ -96,6 +95,18 @@ const Follow = ({ articleUser, user, follows }) => {
           ? "Following"
           : "Follow"}
       </button>
+      {/* <button
+        className={state.loading ? "disabled btn-follow" : "btn-follow"}
+        onClick={handleFollow}
+      >
+        {state.loading
+          ? state.follow
+            ? "Follow..."
+            : "Following..."
+          : state.follow
+          ? "Following"
+          : "Follow"}
+      </button> */}
     </div>
   );
 };

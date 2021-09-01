@@ -42,8 +42,8 @@ const RootQuery = new GraphQLObjectType({
     //=============get users===============
     get_users: {
       type: new GraphQLList(UserType),
-      resolve(parent, args) {
-        return UserModel.find({}).sort({ createAt: -1 });
+      resolve(parent, args, context) {
+        return UserModel.find({});
       },
     },
     get_user: {
@@ -363,9 +363,21 @@ const RootQuery = new GraphQLObjectType({
       type: new GraphQLList(NewsType),
       args: {
         id: { type: GraphQLID },
+        limit: {
+          name: "limit",
+          type: GraphQLInt,
+        },
+        offset: {
+          name: "offset",
+          type: GraphQLInt,
+        },
       },
       resolve: (parent, args, context) => {
-        return NewsModel.findById({ _id: args.id }).sort({ createdAt: -1 });
+        const { limit = null, offset = null } = args;
+        return NewsModel.find({ createBy: args.id })
+          .limit(limit)
+          .skip(offset)
+          .sort({ createdAt: -1 });
       },
     },
 

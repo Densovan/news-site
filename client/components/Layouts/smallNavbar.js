@@ -15,7 +15,7 @@ const smallNavbar = () => {
           <ActiveLink href="/" activeClassName="small-navbar-active">
             <div className="sub1-small-navbar">
               <AiOutlineFolderOpen style={{ padding: "0 7px 0 0" }} size={30} />
-              <span>ALL</span>
+              <span>NEW</span>
             </div>
           </ActiveLink>
           <ActiveLink href="/topnews" activeClassName="small-navbar-active">

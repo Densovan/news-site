@@ -41,6 +41,7 @@ const GET_USER_BY_ID = gql`
       gender
       createdAt
       news {
+        voteCount
         title
         createdAt
         id
@@ -88,6 +89,34 @@ const GET_USER_BY_ID = gql`
     }
   }
 `;
+
+const GET_OWN_NEWS_BY_ID = gql`
+  query ($id: ID!, $limit: Int!, $offset: Int!) {
+    get_own_news_by_id(id: $id, limit: $limit, offset: $offset) {
+      voteCount
+      title
+      createdAt
+      id
+      category
+      thumnail
+      type
+      slug
+      des
+      user {
+        fullname
+        image
+        id
+      }
+      types {
+        name
+      }
+      categories {
+        name
+      }
+    }
+  }
+`;
+
 const GET_USER = gql`
   query {
     get_user {
@@ -158,6 +187,7 @@ const GET_TYPES = gql`
 const GET_OWN_NEWS = gql`
   query ($limit: Int!, $offset: Int!) {
     get_own_news(limit: $limit, offset: $offset) {
+      voteCount
       title
       createdAt
       id
@@ -169,6 +199,7 @@ const GET_OWN_NEWS = gql`
       user {
         fullname
         image
+        id
       }
       types {
         name
@@ -730,6 +761,7 @@ const GET_FOLLOWS_BY_USER = gql`
 `;
 
 export {
+  GET_OWN_NEWS_BY_ID,
   GET_FOLLOWS_BY_USER,
   GET_SAVED,
   GET_NEWS_SEARCH,
