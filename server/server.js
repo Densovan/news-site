@@ -160,7 +160,7 @@ const server = app.listen(3500, () => {
     },
     wsServer
   );
-  console.log(`WebSockets listening on ws://localhost:3500`.magenta.bold);
+  console.log(`WebSockets! listening on ws://localhost:3500`.magenta.bold);
 });
 
 // const PORT = 3500;
