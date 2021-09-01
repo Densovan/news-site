@@ -146,7 +146,7 @@ const FilterNews = ({ handleChange, selectedTags }) => {
                 </div>
               </Col>
               <Col span={10}>
-                <Follow articleUser={res} user={user} follows={follows}/>
+                <Follow articleUser={res} user={user} follows={follows} />
               </Col>
             </Row>
           );

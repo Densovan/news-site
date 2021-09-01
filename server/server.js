@@ -13,31 +13,21 @@ const bodyParser = require("body-parser");
 const path = require("path");
 const dotenv = require("dotenv");
 const passport = require("passport");
+const { PubSub } = require("graphql-subscriptions");
 // const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const User = require("./models/userTest");
 // const passportSetup = require("./configs/passport-setup");
 const { addPath } = require("graphql/jsutils/Path");
 const { JWTSECRET, REFRESH_TOKEN_SECRET } = process.env;
 
-const createAccessToken = (id) => {
-  return jwt.sign({ id }, JWTSECRET, {
-    expiresIn: "15m",
-  });
-};
+//===============Subscription==================
 
-const createRefreshToken = (id) => {
-  return jwt.sign({ id }, REFRESH_TOKEN_SECRET, {
-    expiresIn: "7d",
-  });
-};
-const refreshMaxAge = 7 * 24 * 60 * 60;
-const accessMaxAge = 20;
+const ws = require("ws");
+const { useServer } = require("graphql-ws/lib/use/ws");
+const { execute, subscribe } = require("graphql");
+const { createServer } = require("http");
+const { SubscriptionServer } = require("subscriptions-transport-ws");
 
-// const api = require("./routes/index");
-
-// require("./auth/passport");
-// require("./passport-setup");
-// require("./models/user");
 dotenv.config();
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -104,7 +94,10 @@ app.use(
     const user = jwt.decode(token, process.env.JWTSECRET);
     return {
       context: user,
-      graphiql: true,
+      // graphiql: true,
+      graphiql: {
+        headerEditorEnabled: true,
+      },
       schema: clientSchema,
     };
   })
@@ -132,5 +125,80 @@ app.get("/test", (req, res) => {
 
 connectDB();
 
-const PORT = process.env.PORT || 3500;
-app.listen(PORT, console.log(`Server Running on Port ${PORT}`.cyan.bold));
+// const PORT = process.env.PORT || 3500;
+// app.listen(PORT, console.log(`Server Running on Port ${PORT}`.cyan.bold));
+
+const server = app.listen(3500, () => {
+  console.log(`Server Running on Port 3500`.cyan.bold);
+
+  //create and use the websocket server
+  const wsServer = new ws.Server({
+    server,
+    path,
+  });
+
+  useServer(
+    {
+      schema: clientSchema,
+      execute,
+      subscribe,
+      onConnect: () => {
+        console.log("Connected to client");
+      },
+      onSubscribe: (ctx, msg) => {
+        console.log("Subscribe");
+      },
+      onNext: (ctx, msg, args, result) => {
+        console.debug("Next");
+      },
+      onError: (ctx, msg, errors) => {
+        console.error("Error");
+      },
+      onComplete: (ctx, msg) => {
+        console.log("Complete");
+      },
+    },
+    wsServer
+  );
+  console.log(`WebSockets! listening on ws://localhost:3500`.magenta.bold);
+});
+
+// const PORT = 3500;
+// const WS_PORT = 3002;
+// app.use(cors());
+
+// const ws = createServer((req, res) => {
+//   res.writeHead(400);
+//   res.end();
+// });
+
+// ws.listen(WS_PORT, () => console.log("websocket listening on port ", WS_PORT));
+
+// const subscriptionServer = SubscriptionServer.create(
+//   {
+//     schema: clientSchema,
+//     execute,
+//     subscribe,
+//     onConnect: () => console.log("client connected"),
+//   },
+//   { server: ws, path: "/api" }
+// );
+
+// app.use(
+//   "/api",
+//   //   Auth,
+//   graphqlHTTP(async (req, res) => {
+//     const token = req.cookies.token;
+//     // console.log("token", token);
+//     const user = jwt.decode(token, process.env.JWTSECRET);
+//     return {
+//       context: user,
+//       // graphiql: true,
+//       graphiql: {
+//         headerEditorEnabled: true,
+//       },
+//       schema: clientSchema,
+//     };
+//   })
+// );
+// app.listen(PORT, () => console.log("http server listening on ", PORT));
