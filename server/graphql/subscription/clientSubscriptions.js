@@ -5,16 +5,20 @@ const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLList, GraphQLInt } =
 const pubsub = new PubSub();
 
 const ChatType = require("../../graphql/types/chat");
-
-const CHAT = "chat";
+const ChatModel = require("../../models/chat")
 
 const Subscription = new GraphQLObjectType({
   name: "Subscription",
   fields: {
     chatAdd: {
       type: ChatType,
+      resolve: (args, context) => {
+        return {
+            ChatModel: ChatModel.find({}),
+        };
+      },
       subscribe: () => {
-        pubsub.asyncIterator(CHAT);
+        pubsub.asyncIterator(ChatModel);
       },
     },
     // messages: {
