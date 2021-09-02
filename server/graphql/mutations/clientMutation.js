@@ -47,6 +47,10 @@ const { response } = require("express");
 // const FollowingModel = require("../../models/following");
 // const FollowerModel = require("../../models/follower");
 
+// const { PubSub } = require("graphql-subscriptions");
+
+// const pubsub = new PubSub();
+
 const RootMutation = new GraphQLObjectType({
   name: "RootMutationType",
   fields: {
@@ -828,9 +832,9 @@ const RootMutation = new GraphQLObjectType({
               userId: context.id,
             });
             await save.save();
-            const data = await save.json();
-            console.log(data);
-            pubsub.publish("newData", { newData: data });
+            // const data = await save.json();
+            // console.log(data);
+            // pubsub.publish("newData", { newData: data });
             return { message: "Successfully" };
           }
         } catch (error) {
@@ -1081,12 +1085,24 @@ const RootMutation = new GraphQLObjectType({
           body: args.body,
         });
         await chat.save();
+        pubsub.publish("newChat", { chat });
         // const chat = await response.json();
         console.log(chat);
-        pubsub.publish("chatmessage", { newChat: chat });
+        // pubsub.publish("chatmessage", { newChat: chat });
         return { message: "successfull" };
       },
     },
+
+    // postMessage: (parent, { user, content }) => {
+    //   const id = messages.length;
+    //   messages.push({
+    //     id,
+    //     user,
+    //     content,
+    //   });
+    //   subscribers.forEach((fn) => fn());
+    //   return id;
+    // },
   },
 });
 module.exports = RootMutation;

@@ -716,7 +716,7 @@ const GET_FOLLOWS = gql`
       id
       followTo
       followBy
-      user{
+      user {
         id
       }
     }
@@ -769,7 +769,17 @@ const GET_CHAT = gql`
   }
 `;
 
+const GET_CHAT_S = gql`
+  subscription {
+    newChat {
+      id
+      body
+    }
+  }
+`;
+
 export {
+  GET_CHAT_S,
   GET_CHAT,
   GET_OWN_NEWS_BY_ID,
   GET_FOLLOWS_BY_USER,

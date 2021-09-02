@@ -594,7 +594,7 @@ const RootQuery = new GraphQLObjectType({
       resolve: (parent, args, context) => {
         return ChatModel.find({});
       },
-    },
+    }
   },
 });
 
