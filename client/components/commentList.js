@@ -95,6 +95,7 @@ const CommentList = ({ comments, articleId, reply, ownerId }) => {
       });
     }
   };
+
   return (
     <List
       dataSource={comments}

@@ -778,6 +778,66 @@ const GET_CHAT_S = gql`
   }
 `;
 
+const GET_NOTIFICATION = gql`
+  query{
+  get_news_notification{
+    follow{
+      user{
+        fullname
+        image
+      }
+      userFollower{
+        fullname
+        image
+      }
+      count
+      read
+      type
+    }
+    news{
+      news{
+        title
+      }
+      user{
+        fullname
+        image
+      }
+      count
+      read
+      type
+    }
+    conversation{
+      news{
+        title
+      }
+      user{
+        fullname
+        image
+      }
+      userTo{
+        fullname
+        image
+      }
+      count
+      read
+      type
+    }
+    vote{
+      news{
+        title
+      }
+      user{
+        fullname
+        image
+      }
+      count
+      read
+      type
+    }
+  }
+}
+`
+
 export {
   GET_CHAT_S,
   GET_CHAT,
@@ -810,4 +870,5 @@ export {
   GET_VOTE_UP_DOWN,
   GET_ALL_VOTE_UP_DOWN,
   GET_FOLLOWS,
+  GET_NOTIFICATION
 };

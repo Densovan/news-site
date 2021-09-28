@@ -13,6 +13,7 @@ const AuthContextProvider = (props) => {
   async function getLoggedIn() {
     const loggedInRes = await axios.get(`${URL_ACCESS}/auth/verifyToken/`);
     if (loggedInRes.data === true) {
+      console.log("hello");
       await axios.post(`${URL_ACCESS}/auth/refresh-token/`);
       setInterval(async () => {
         await axios.post(`${URL_ACCESS}/auth/refresh-token/`);
