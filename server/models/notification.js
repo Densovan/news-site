@@ -6,67 +6,12 @@ const notificationSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    // postId: {
-    //    type: String,
-    //    required: true,
-    // },
-    postId: [{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "News"
-    }]
-    // like: {
-    //     count: {
-    //         type: Number,
-    //         required: true
-    //     },
-    //     userId: {
-    //       type: String,
-    //       required: true,
-    //     },
-    //     postId: {
-    //       type: String,
-    //       required: true,
-    //     },
-    // },
-    // question: {
-    //     count: {
-    //         type: Number,
-    //         required: true
-    //     },
-    //     userId: {
-    //       type: String,
-    //       required: true,
-    //     },
-    //     postId: {
-    //       type: String,
-    //       required: true,
-    //     },
-    //     question: {
-    //       type: String,
-    //       // required: true,
-    //     },
-    // },
-    // answer: {
-    //   count: {
-    //       type: Number,
-    //       required: true
-    //   },
-    //   userId: {
-    //     type: String,
-    //     required: true,
-    //   },
-    //   postId: {
-    //     type: String,
-    //     required: true,
-    //   },
-    //   answer: {
-    //     type: String,
-    //     // required: true,
-    //   },
-    //   questionId: {
-    //     type: String,
-    //   },
-    // }
+    ownerId: { type: String, required: true}, // kind id of relate with userId or ownerId
+    relateId: { type: String, required: true},
+    type: {
+      type: String,
+      required: true,
+    }
   },
   {
     timestamps: true,

@@ -16,7 +16,7 @@ const FormComment = (props) => {
   const {
     articleId,
     ownerId,
-    commentId,
+    comments,
     object,
     getName,
     keyBtn,
@@ -77,8 +77,9 @@ const FormComment = (props) => {
               userId: user.get_user.id,
               postId: articleId,
               answer: values.comment,
-              questionId: commentId,
+              questionId: comments.id,
               ownerId: ownerId,
+              userIdTo: comments.user.id
             },
           }).then(async (data) => {
             console.log(data);
@@ -122,7 +123,6 @@ const FormComment = (props) => {
         try {
           addComment({
             variables: {
-              userId: user.get_user.id,
               postId: articleId,
               question: values.comment,
               ownerId: ownerId,

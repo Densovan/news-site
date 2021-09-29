@@ -206,7 +206,7 @@ const CommentList = ({ comments, articleId, reply, ownerId }) => {
               <FormComment
                 ownerId={ownerId}
                 articleId={articleId}
-                commentId={comments.id}
+                comments={comments}
                 getCheck={getCheck}
                 keyBtn="replyComment"
                 keyAdd="Question"

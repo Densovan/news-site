@@ -22,6 +22,7 @@ const SaveNewsModel = require("../../models/saveNews");
 const LikeTopDownModel = require("../../models/likeTopDown");
 const VoteModel = require("../../models/vote");
 const ChatModel = require("../../models/chat");
+const NowsNotificationModel = require("../../models/newsNotification");
 
 //================Type Sections==================
 const CategoryType = require("../types/categoryType");
@@ -37,6 +38,7 @@ const SaveNewsType = require("../types/saveNewsType");
 const likeTopDownType = require("../types/likeTopDownType");
 const voteType = require("../types/voteType");
 const ChatType = require("../types/chat");
+const NewsNotificationType = require("../types/newsNotificationType");
 
 const RootQuery = new GraphQLObjectType({
   name: "RootQueryType",
@@ -594,6 +596,40 @@ const RootQuery = new GraphQLObjectType({
       resolve: (parent, args, context) => {
         return ChatModel.find({});
       },
+    },
+
+    get_news_notification: {
+      type: new GraphQLList(NotificationType),
+      resolve: async (parents, args, context) => {
+        const notificationConversation = await NotificationModel.find({ type: "conversation", ownerId: context.id })
+        const notificationConversationTo = await NotificationModel.find({ userId: context.id, type: "conversation" })
+        const notificationVote = await NotificationModel.find({ type: "vote", ownerId: context.id })
+        const notificationFollow = await NotificationModel.find({ userId: context.id, type: "follow" })
+        const data = []
+        if(notificationConversation.length > 0){
+          notificationConversation.forEach(element => {
+            if (element.userId !== context.id) {
+              data.push(element)
+            }
+          })
+        }
+        if(notificationVote.length > 0){
+          notificationVote.forEach(element => {
+            data.push(element)
+          })
+        }
+        if(notificationConversationTo.length > 0){
+          notificationConversationTo.forEach(element => {
+            data.push(element)
+          })
+        }
+        if(notificationFollow.length > 0){
+          notificationFollow.forEach(element => {
+            data.push(element)
+          });
+        }
+        return data
+      }
     }
   },
 });

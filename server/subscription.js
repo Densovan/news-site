@@ -6,15 +6,16 @@ const pubsub = new PubSub();
 
 const typeDefs = gql`
   type Query {
-    chats: [chat]
+    chats: [Chat]
   }
 
-  type chat {
+  type Chat {
     userId: ID
     body: String
   }
+
   type Subscription {
-    newChat: chat
+    newChat: Chat
   }
 `;
 
@@ -27,4 +28,4 @@ const resolvers = {
 };
 
 exports.pubsub = pubsub;
-exports.schema = makeExecutableSchema({ typeDefs, resolvers });
+exports.schema = makeExecutableSchema({ typeDefs, resolvers, context: { pubsub } });

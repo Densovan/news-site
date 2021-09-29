@@ -1,81 +1,112 @@
 const graphql = require("graphql");
 
 //=============model=============
-const Category = require("../../models/category");
-const Type = require("../../models/type");
+const NewsNotificationModel = require("../../models/newsNotification");
+const ConversationNotificationModel = require("../../models/conversationNotification");
+const VoteNotificationModel = require("../../models/voteNotification");
+const FollowModel = require("../../models/follow");
 const User = require("../../models/user");
-const Question = require("../../models/comment/question");
-const Answer = require("../../models/comment/answer");
-const Like = require("../../models/like");
-const News = require("../../models/news");
 
 const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLList } = graphql;
 
 const NotificationType = new GraphQLObjectType({
   name: "notification",
   fields: () => ({
+    id: { type: GraphQLID },
     message: { type: GraphQLString },
     userId: { type: GraphQLID },
-    postId: {
-      type: GraphQLID,
+    ownerId: { type:  GraphQLID },
+    relateId: { type:  GraphQLID },
+    type: { type: GraphQLString },
+    follow:{
+      type: new GraphQLList(FollowType),
+      resolve: async (parent, args, context) => {
+        if (parent.type === "follow"){
+          const data = []
+          const follow = await FollowModel.find({ followTo: context.id, followBy: parent.userId, createBy: parent.userId })
+          if (follow.length > 0) {
+            follow.forEach(element => {
+              data.push(element)
+            });
+          }
+          if (data.length > 0) {
+            return data 
+          }
+        }
+      } 
     },
-    updateAt: {
-      type: GraphQLString,
+    news: {
+      type: new GraphQLList(NewsNotificationType),
+      resolve: async (parent, args, context) => {
+        if (parent.type === "follow") {
+          const data = []
+          const news = await NewsNotificationModel.find({ userId: parent.relateId })
+          if (news.length > 0) {
+            news.forEach(element => {
+              data.push(element)
+            })
+          }
+          if(data.length > 0){
+            return data
+          }
+        }
+      }
     },
-    article:{
-      type: GraphQLList(newsType),
-      resolve: (parent, args) => {
-        return News.find({ createBy: parent.userId });
+    conversation: {
+      type: new GraphQLList(ConversationNotificationType),
+      resolve: async (parent, args, context) => {
+        if (parent.type === "conversation") {
+          const conversationOwner = await ConversationNotificationModel.find({ postId: parent.relateId, userId: parent.userId })
+          const conversationTo = await ConversationNotificationModel.find({ userId2: context.id, postId: parent.relateId })
+          if (conversationTo.length > 0) {
+            const data = []
+            conversationTo.forEach(element => {
+              if (element.ownerId !== context.id) {
+                data.push(element)
+              }
+            });
+            if (data.length > 0) {
+              return data
+            }
+          }
+          if (conversationOwner.length > 0) {
+            const data = []
+            conversationOwner.forEach(element => {
+              data.push(element)
+            });
+            if (data.length > 0) {
+              return data
+            }
+          }
+        }
       },
     },
-    // articles:{
-    //   type: newsType,
-    //   resolve: async(post) => {
-    //     var article = News.findById(
-    //       moongose.Type.ObjectId(post.userId)
-    //     )
-    //   }
-    // },
-    user: {
-      type: userType,
-      resolve: (parent, args) => {
-        return User.findById(parent.userId);
-      },
-    },
-    like: {
-      type: GraphQLList(likeType),
-      resolve: (parent, args) => {
-        return Like.find({ postId: parent.postId });
-      },
-    },
-    // like: {
-    //   type: GraphQLList(likeType),
-    //   resolve: (parent, args) => {
-    //     return Like.find(parent.postId);
-    //   },
-    // },
-    question: {
-      type: GraphQLList(questionType),
-      resolve: (parent, args) => {
-        return Question.find({ postId: parent.postId });
-      },
-    },
-    // answer: {
-    //   type: GraphQLList(answerType),
-    //   resolve: (parent, args) => {
-    //     return Answer.find(parent.postId);
-    //   },
-    // },
+    vote: {
+      type: new GraphQLList(VoteNotificationType),
+      resolve: async (parent, args, context)  => {
+        if (parent.type === "vote"){
+          const data = []
+          const vote = await VoteNotificationModel.find({ postId: parent.relateId, userId: parent.userId })
+          if (vote.length > 0) {
+            vote.forEach(element => {
+              data.push(element)
+            });
+          }
+          if(data.length > 0){
+            return data
+          }
+        }
+      }
+    }
   }),
 });
 
 module.exports = NotificationType;
 
 //=============type===========
-const categoryType = require("./categoryType");
-const type = require("./type");
+const NewsNotificationType = require("./newsNotificationType");
+const ConversationNotificationType = require("./conversationNotificationType");
+const VoteNotificationType = require("./voteNotificationType");
+const FollowType = require("./followType");
 const userType = require("./userType");
-const questionType = require("./comment/questionType");
-const answerType = require("./comment/answerType");
-const likeType = require("./likeType");
-const newsType = require("./newsType");
+

@@ -112,6 +112,7 @@ const Notification = ({ user }) => {
                                       {cube[j].user.fullname}{" "}
                                   </strong>{" "}
                                   mentioned you in a comment.{" "}
+                                  {cube[j].news.title}
                               </div>
                           </div>
                       </div>

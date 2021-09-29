@@ -40,6 +40,9 @@ const AnswerType = new GraphQLObjectType({
     ownerId: {
       type: GraphQLID,
     },
+    userIdTo: { 
+      type: GraphQLID,
+    },
     user: {
       type: userType,
       resolve: (parent, args) => {

@@ -100,9 +100,8 @@ const UNFOLLOW = gql`
 `;
 
 const COMMENT = gql`
-  mutation ($userId: ID, $postId: ID, $question: String, $ownerId: ID) {
+  mutation ($postId: ID, $question: String, $ownerId: ID) {
     comment(
-      userId: $userId
       postId: $postId
       question: $question
       ownerId: $ownerId
@@ -136,6 +135,7 @@ const EDIT_COMMENT = gql`
 const REPLY_COMMENT = gql`
   mutation (
     $userId: ID
+    $userIdTo: ID
     $postId: ID
     $answer: String
     $questionId: ID
@@ -143,6 +143,7 @@ const REPLY_COMMENT = gql`
   ) {
     reply(
       userId: $userId
+      userIdTo: $userIdTo
       postId: $postId
       answer: $answer
       questionId: $questionId

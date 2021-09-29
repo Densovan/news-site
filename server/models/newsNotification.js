@@ -1,18 +1,13 @@
 const mongoose = require("mongoose");
 
-const followSchema = new mongoose.Schema(
+const newsNotificationSchema = new mongoose.Schema(
   {
-    createBy: {
+    userId: {
       type: String,
       // required: true,
     },
-    followBy: {
+    postId: {
       type: String,
-      // required: true,
-    },
-    followTo: {
-      type: String,
-      required: true,
     },
     read: {
       type: Boolean,
@@ -25,5 +20,6 @@ const followSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Follow = mongoose.model("Follow", followSchema);
-module.exports = Follow;
+const newsNotification = mongoose.model("NewsNotification", newsNotificationSchema);
+module.exports = newsNotification
+;

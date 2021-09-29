@@ -27,6 +27,9 @@ const saveNews = require("../types/saveNewsType");
 const likeTopDownType = require("../types/likeTopDownType");
 const voteType = require("../types/voteType");
 const chattype = require("../types/chat");
+const NewsNotificationType = require("../types/newsNotificationType");
+const ConversationNotificationType = require("../types/conversationNotificationType");
+const VoteNotificationType = require("../types/voteNotificationType");
 //===============model===============
 const NewsModel = require("../../models/news");
 const UserModel = require("../../models/user");
@@ -42,21 +45,17 @@ const LikeTopDownModel = require("../../models/likeTopDown");
 const VoteModel = require("../../models/vote");
 const SaveNewsType = require("../types/saveNewsType");
 const Chat = require("../../models/chat");
+const NewsNotificationModel = require("../../models/newsNotification");
+const ConversationNotificationModel = require("../../models/conversationNotification");
+const VoteNotificationModel = require("../../models/voteNotification");
 const { pubsub } = require("../../subscription");
-const { response } = require("express");
-// const FollowingModel = require("../../models/following");
-// const FollowerModel = require("../../models/follower");
-
-// const { PubSub } = require("graphql-subscriptions");
-
-// const pubsub = new PubSub();
 
 const RootMutation = new GraphQLObjectType({
   name: "RootMutationType",
   fields: {
     //============add Posts============
     add_news: {
-      type: NewsType,
+      type: NewsType, NotificationType, NewsNotificationType,
       args: {
         title: { type: new GraphQLNonNull(GraphQLString) },
         des: { type: new GraphQLNonNull(GraphQLString) },
@@ -79,7 +78,20 @@ const RootMutation = new GraphQLObjectType({
                 .toLowerCase(),
               // slug: args.title.replace(/\s+/g, "-").toLowerCase(),
             });
-            await news.save();
+            await news.save().then((response) => {
+              const NewsNotification  = NewsNotificationModel({
+                userId: context.id,
+                postId: response.id,
+                read: false,
+                count: 1,
+                type: "news",
+              });
+              try {
+                NewsNotification.save();
+              }catch (error) {
+                throw error;
+              }
+            });
             return {
               message: "Created Successfully",
               status: 200,
@@ -292,9 +304,8 @@ const RootMutation = new GraphQLObjectType({
     },
     //===========comment section=====================
     comment: {
-      type: questionType,
+      type: questionType, ConversationNotificationType, NotificationType,
       args: {
-        userId: { type: GraphQLID },
         postId: { type: GraphQLID },
         question: { type: GraphQLString },
         ownerId: {
@@ -313,13 +324,47 @@ const RootMutation = new GraphQLObjectType({
           if (context.id === args.ownerId) {
             return { message: "nothing happen" };
           } else {
-            const noti = new NotiModel({
+            const checkNotification = await NotificationModel.findOne({ userId: context.id, ownerId: args.ownerId, relateId: args.postId, type:"conversation" });
+            if (!checkNotification) {
+              const NotificationConversation = NotificationModel({
+                userId: context.id,
+                ownerId: args.ownerId,
+                relateId: args.postId,
+                type: "conversation"
+              })
+              try{
+                NotificationConversation.save()
+              }catch(error){
+                throw error;
+              }
+            }
+
+            let conversation = await ConversationNotificationModel({
               userId: context.id,
-              postId: args.postId,
               ownerId: args.ownerId,
+              userId2: args.ownerId,
+              postId: args.postId,
               type: "comment",
-            });
-            await noti.save();
+              read: false,
+              count: 1,
+            })
+            await conversation.save();
+            // if (!checkUser) {
+            //   let Notification = await NotificationModel({
+            //     userId: context.id,
+            //     ownerId: args.ownerId,
+            //     relateId: args.postId,
+            //     type: "conversation",
+            //   })
+            //   await Notification.save();
+            // }
+            // const noti = new NotiModel({
+            //   userId: context.id,
+            //   postId: args.postId,
+            //   ownerId: args.ownerId,
+            //   type: "comment",
+            // });
+            // await noti.save();
           }
           return { message: "successful" };
         } catch (error) {
@@ -404,12 +449,13 @@ const RootMutation = new GraphQLObjectType({
     },
 
     reply: {
-      type: answerType,
+      type: answerType, NotificationType,
       args: {
         userId: { type: GraphQLID },
         postId: { type: GraphQLID },
         answer: { type: GraphQLString },
         questionId: { type: GraphQLID },
+        userIdTo: { type: GraphQLID },
         ownerId: { type: GraphQLID },
       },
       resolve: async (parent, args, context) => {
@@ -418,20 +464,63 @@ const RootMutation = new GraphQLObjectType({
             ...args,
             userId: context.id,
             ownerId: args.ownerId,
+            answer: args.answer
           });
           await answer.save();
-          if (context.id === args.ownerId) {
-            return { message: "nothing happen" };
-          } else {
-            const noti = new NotiModel({
+          const checkUser = await NotificationModel.findOne({ userId: context.id, ownerId: args.ownerId, relateId: args.postId, type:"conversation" })
+
+          if (!checkUser) {
+            let Notification = await NotificationModel({
               userId: context.id,
-              postId: args.postId,
-              type: "reply",
               ownerId: args.ownerId,
-              questionId: args.questionId,
-            });
-            await noti.save();
+              relateId: args.postId,
+              type: "conversation",
+            })
+            await Notification.save();
           }
+
+          let conversation = await ConversationNotificationModel({
+            userId: context.id,
+            ownerId: args.ownerId,
+            userId2: args.userIdTo,
+            postId: args.postId,
+            type: "reply",
+            read: false,
+            count: 1,
+          })
+          await conversation.save();
+          // if (context.id === args.ownerId) {
+          //   return { message: "nothing happen" };
+          // } else {
+          //   let conversation = await ConversationNotificationModel({
+          //     userId1: context.id,
+          //     ownerId: args.ownerId,
+          //     userId2: args.userIdTo,
+          //     postId: args.postId,
+          //     type: "reply",
+          //     read: false,
+          //     count: 1,
+          //   })
+          //   await conversation.save();
+
+          //   if (!checkUser) {
+          //     let Notification = await NotificationModel({
+          //       userId: context.id,
+          //       ownerId: args.userIdTo,
+          //       relateId: args.postId,
+          //       type: "conversation",
+          //     })
+          //     await Notification.save();
+          //   }
+          //   // const noti = new NotiModel({
+          //   //   userId: context.id,
+          //   //   postId: args.postId,
+          //   //   type: "reply",
+          //   //   ownerId: args.ownerId,
+          //   //   questionId: args.questionId,
+          //   // });
+          //   // await noti.save();
+          // }
           return { message: "successful" };
         } catch (error) {
           console.log(error);
@@ -613,49 +702,49 @@ const RootMutation = new GraphQLObjectType({
     },
 
     // =============== notification ===============
-    notification: {
-      type: NotificationType,
-      args: {
-        postId: { type: GraphQLID },
-      },
-      resolve: async (parents, args, context) => {
-        try {
-          const existingUser = await NotificationModel.findOne({
-            userId: context.id,
-          });
-          if (!existingUser) {
-            const notification = new NotificationModel({
-              ...args,
-              userId: context.id,
-              postId: args.postId,
-            });
-            await notification.save();
-            return {
-              message: "success",
-            };
-          } else if (context.id === existingUser.userId) {
-            await NotificationModel.findOneAndUpdate(
-              {
-                userId: context.id,
-              },
-              {
-                $push: {
-                  postId: args.postId,
-                },
-              }
-            );
-            return {
-              message: "success 2",
-            };
-          } else {
-            console.log("hello3");
-          }
-        } catch {
-          console.log(error);
-          throw error;
-        }
-      },
-    },
+    // notification: {
+    //   type: NotificationType,
+    //   args: {
+    //     postId: { type: GraphQLID },
+    //   },
+    //   resolve: async (parents, args, context) => {
+    //     try {
+    //       const existingUser = await NotificationModel.findOne({
+    //         userId: context.id,
+    //       });
+    //       if (!existingUser) {
+    //         const notification = new NotificationModel({
+    //           ...args,
+    //           userId: context.id,
+    //           postId: args.postId,
+    //         });
+    //         await notification.save();
+    //         return {
+    //           message: "success",
+    //         };
+    //       } else if (context.id === existingUser.userId) {
+    //         await NotificationModel.findOneAndUpdate(
+    //           {
+    //             userId: context.id,
+    //           },
+    //           {
+    //             $push: {
+    //               postId: args.postId,
+    //             },
+    //           }
+    //         );
+    //         return {
+    //           message: "success 2",
+    //         };
+    //       } else {
+    //         console.log("hello3");
+    //       }
+    //     } catch {
+    //       console.log(error);
+    //       throw error;
+    //     }
+    //   },
+    // },
     // follow: {
     //   type: followType,
     //   args: {
@@ -707,7 +796,7 @@ const RootMutation = new GraphQLObjectType({
     // },
 
     follow: {
-      type: followType,
+      type: followType, NotificationType,
       args: {
         followTo: { type: GraphQLNonNull(GraphQLID) },
       },
@@ -732,16 +821,26 @@ const RootMutation = new GraphQLObjectType({
               // follow: true,
               createBy: context.id,
               followBy: context.id,
+              count: 1,
+              type: "follow",
+              read: false
             });
             await follow.save();
-            const noti = new NotiModel({
-              ...args,
-              type: "follow",
-              ownerId: args.followTo,
+            let Notification = await NotificationModel({
               userId: context.id,
-              followBy: context.id,
-            });
-            await noti.save();
+              ownerId: context.id,
+              relateId: args.followTo,
+              type: "follow",
+            })
+            await Notification.save();
+            // const noti = new NotiModel({
+            //   ...args,
+            //   type: "follow",
+            //   ownerId: args.followTo,
+            //   userId: context.id,
+            //   followBy: context.id,
+            // });
+            // await noti.save();
             return {
               message: "Followed",
             };
@@ -862,7 +961,7 @@ const RootMutation = new GraphQLObjectType({
     //==============like top down=============
 
     voteUpDown: {
-      type: voteType,
+      type: voteType, NotificationType, VoteNotificationType,
       args: {
         postId: { type: GraphQLID },
         ownerId: { type: GraphQLID },
@@ -875,14 +974,20 @@ const RootMutation = new GraphQLObjectType({
             userId: context.id,
             postId: args.postId,
           });
-          const news = await NewsModel.findById(args.postId);
+          // const news = await NewsModel.findById(args.postId);
+          const checkUser = await NotificationModel.findOne({ userId: context.id, relateId: args.postId, type: "vote", ownerId: context.id });
+          
+          if (!checkUser) {
+            let Notification = await NotificationModel({
+              userId: context.id,
+              ownerId: args.ownerId,
+              relateId: args.postId,
+              type: "vote",
+            })
+            await Notification.save();
+          }
           if (!existingVote) {
             if (args.type === "up") {
-              // await NewsModel.findOneAndUpdate(
-              //   { _id: args.postId },
-              //   { voteUp: news.voteUp + 1, voteDown: news.voteDown - 1 }
-              // );
-
               const up = new VoteModel({
                 ...args,
                 userId: context.id,
@@ -892,25 +997,18 @@ const RootMutation = new GraphQLObjectType({
               });
               await up.save();
 
-              // if (news.voteUp >= 0) {
-              //   console.log(args.vote);
-              //   await NewsModel.findOneAndUpdate(
-              //     { _id: args.postId },
-              //     { voteCount: news.voteCount + args.vote }
-              //   );
-              // }
-              // else {
-              //   await NewsModel.findOneAndUpdate(
-              //     { _id: args.postId },
-              //     { voteCount: news.voteCount + 0 }
-              //   );
-              // }
+              let vote = await VoteNotificationModel({
+                userId: context.id,
+                ownerId: args.ownerId,
+                postId: args.postId,
+                type: "up",
+                read: false,
+                count: 1,
+              })
+              await vote.save();
+
               return { message: "add successfully" };
             } else if (args.type === "down") {
-              // await NewsModel.findOneAndUpdate(
-              //   { _id: args.postId },
-              //   { voteUp: news.voteUp - 1, voteDown: news.voteDown + 1 }
-              // );
               const up = new VoteModel({
                 ...args,
                 userId: context.id,
@@ -919,120 +1017,81 @@ const RootMutation = new GraphQLObjectType({
                 type: args.type,
               });
               await up.save();
-              // if (news.voteDown >= 0) {
-              //   await NewsModel.findOneAndUpdate(
-              //     { _id: args.postId },
-              //     { voteCount: news.voteCount + 0 }
-              //   );
-              // } else {
-              //   await NewsModel.findOneAndUpdate(
-              //     { _id: args.postId },
-              //     { voteCount: news.voteCount - 1 }
-              //   );
-              // }
+
+              let vote = await VoteNotificationModel({
+                userId: context.id,
+                ownerId: args.ownerId,
+                postId: args.postId,
+                type: "down",
+                read: false,
+                count: 1,
+              })
+              await vote.save();
+
               return { message: "add successfully" };
             }
           } else if (existingVote) {
+
             if (existingVote.voteDown === 1 && args.type === "down") {
-              // if (news.voteDown <= 0) {
-              //   await NewsModel.findOneAndUpdate(
-              //     { _id: args.postId },
-              //     { voteCount: news.voteCount + 1 }
-              //   );
-              // } else {
-              //   await NewsModel.findOneAndUpdate(
-              //     { _id: args.postId },
-              //     { voteCount: news.voteCount + 0 }
-              //   );
-              // }
-              // await NewsModel.findOneAndUpdate(
-              //   { _id: args.postId },
-              //   { voteUp: news.voteUp + 1, voteDown: news.voteDown - 1 }
-              // );
               await VoteModel.findOneAndDelete({
                 userId: context.id,
                 postId: args.postId,
               });
+
+              await VoteNotificationModel.findOneAndDelete({
+                userId: context.id,
+                postId: args.postId,
+              });
+
               return { message: "delete successfully" };
             } else if (existingVote.voteUp === 1 && args.type === "up") {
-              // if (news.voteUp <= 0) {
-              //   await NewsModel.findOneAndUpdate(
-              //     { _id: args.postId },
-              //     { voteCount: news.voteCount + 0 }
-              //   );
-              // } else {
-              //   await NewsModel.findOneAndUpdate(
-              //     { _id: args.postId },
-              //     { voteCount: news.voteCount - 1 }
-              //   );
-              // }
-              // await NewsModel.findOneAndUpdate(
-              //   { _id: args.postId },
-              //   { voteUp: news.voteUp - 1, voteDown: news.voteDown + 1 }
-              // );
               await VoteModel.findOneAndDelete({
                 userId: context.id,
                 postId: args.postId,
               });
+
+              await VoteNotificationModel.findOneAndDelete({
+                userId: context.id,
+                postId: args.postId,
+              });
+              
               return { message: "delete successfully" };
             } else if (existingVote.voteUp === 0 && args.type === "up") {
-              // if (news.voteUp < 0) {
-              //   if (news.voteCount <= 0) {
-              //     await NewsModel.findOneAndUpdate(
-              //       { _id: args.postId },
-              //       { voteCount: news.voteCount + 0 }
-              //     );
-              //   }else{
-              //     await NewsModel.findOneAndUpdate(
-              //       { _id: args.postId },
-              //       { voteCount: news.voteCount + 1 }
-              //     );
-              //   }
-              // } else {
-              //   await NewsModel.findOneAndUpdate(
-              //     { _id: args.postId },
-              //     { voteCount: news.voteCount + 2 }
-              //   );
-              // }
-
-              // await NewsModel.findOneAndUpdate(
-              //   { _id: args.postId },
-              //   { voteUp: news.voteUp + 2, voteDown: news.voteDown - 2 }
-              // );
               await VoteModel.findOneAndUpdate(
                 { postId: args.postId, userId: context.id },
                 { type: args.type, voteUp: 1, voteDown: 0, count: args.count }
               );
+
+              await VoteNotificationModel.findOneAndUpdate({
+                postId: args.postId, userId: context.id,
+              },{
+                userId: context.id,
+                ownerId: args.ownerId,
+                postId: args.postId,
+                type: "up",
+                read: false,
+                count: 1,
+              })
+
               return { message: "add successfully" };
             } else if (existingVote.voteDown === 0 && args.type === "down") {
-              // if (news.voteDown >= -1) {
-              //   if (news.voteCount <= 0) {
-              //     await NewsModel.findOneAndUpdate(
-              //       { _id: args.postId },
-              //       { voteCount: news.voteCount + 0 }
-              //     );
-              //   } else {
-              //     await NewsModel.findOneAndUpdate(
-              //       { _id: args.postId },
-              //       { voteCount: news.voteCount - 1 }
-              //     );
-              //   }
-              // } else {
-              //   await NewsModel.findOneAndUpdate(
-              //     { _id: args.postId },
-              //     { voteCount: news.voteCount - 2 }
-              //   );
-              // }
-              // await NewsModel.findOneAndUpdate(
-              //   { _id: args.postId },
-              //   { voteUp: news.voteUp - 2, voteDown: news.voteDown + 2 }
-              // );
               await VoteModel.findOneAndUpdate(
                 { postId: args.postId, userId: context.id },
                 { type: args.type, voteDown: 1, voteUp: 0, count: args.count }
               );
+              await VoteNotificationModel.findOneAndUpdate({
+                postId: args.postId, userId: context.id,
+              },{
+                userId: context.id,
+                ownerId: args.ownerId,
+                postId: args.postId,
+                type: "down",
+                read: false,
+                count: 1,
+              })
               return { message: "add successfully" };
             } else {
+              console.log("hello");
               return { message: "nothing happend" };
             }
           }
@@ -1093,16 +1152,91 @@ const RootMutation = new GraphQLObjectType({
       },
     },
 
-    // postMessage: (parent, { user, content }) => {
-    //   const id = messages.length;
-    //   messages.push({
-    //     id,
-    //     user,
-    //     content,
-    //   });
-    //   subscribers.forEach((fn) => fn());
-    //   return id;
-    // },
+    //================= follow_notification_user ====================
+    put_notification: {
+      type: NotificationType,
+      args: {
+        thirdId: {  type: GraphQLID },
+        type: { type: GraphQLString },
+      },
+      resolve: async (parent, args, context) => {
+        if(args.type === "follow"){
+          let Notification = await NotificationModel({
+            userId: context.id,
+            thirdId: args.thirdId,
+            type: args.type,
+          })
+          await Notification.save();
+          return { message: "follow successfully"}
+        }
+        else if(args.type === "conversation"){
+          const checkUser = await NotificationModel.findOne({ userId: context.id, thirdId: args.thirdId });
+          if (!checkUser) {
+            let Notification = await NotificationModel({
+              userId: context.id,
+              thirdId: args.thirdId,
+              type: args.type,
+            })
+            await Notification.save();
+            return { message: "add successfully"}
+          }
+        }
+        else{
+          return { message: "you problem to add notification"}
+        }
+      }
+    },
+    news_notification: {
+      type: NewsNotificationType,
+      args: {
+        postId: { type: GraphQLID },
+      },
+      resolve: async (parent, args, context) => {
+        try{
+          const NewsNotification  = await NewsNotificationModel({
+            userId: context.id,
+            postId: args.postId,
+            read: false,
+            count: 1,
+          });
+          await NewsNotification.save();
+          return { message: "successfully" };
+        }catch{
+          throw error;
+        }
+      }
+    },
+    conversation_notification: {
+      type: ConversationNotificationType,
+      args: {
+        ownerId: { type: GraphQLID },
+        userId2: { type: GraphQLID },
+        postId: { type: GraphQLID },
+        type: { type: GraphQLString }
+      },
+      resolve: async ( parent, args, context) => {
+        try{
+          let conversation = await ConversationNotificationModel({
+            userId1: context.id,
+            ownerId: args.ownerId,
+            userId2: args.userId2,
+            postId: args.postId,
+            type: args.type,
+            read: false,
+            count: 1,
+          })
+
+          await conversation.save();
+          return { 
+            message: "add successfully"
+          }
+
+        }catch{
+          return { message: "you problem with server"}
+          throw error;
+        }
+      }
+    }
   },
 });
 module.exports = RootMutation;

@@ -10,16 +10,16 @@ const ChatModel = require("../../models/chat")
 const Subscription = new GraphQLObjectType({
   name: "Subscription",
   fields: {
-    chatAdd: {
-      type: ChatType,
-      resolve: (args, context) => {
-        return {
-            ChatModel: ChatModel.find({}),
-        };
-      },
+    chats: {
+      type: GraphQLList(ChatType),
+      // resolve: (payload) => {
+      //   return {
+      //     customData: payload,
+      //   };
+      // },
       subscribe: () => {
-        pubsub.asyncIterator(ChatModel);
-      },
+        return pubsub.asyncIterator("chat");
+      }
     },
     // messages: {
     //   subscribe: (parent, args) => {
