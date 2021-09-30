@@ -36,7 +36,7 @@ const Notification = ({ user }) => {
             sum += cube[j].count;
             if (cube[j].type === 'follow') {
                 data.push(
-                    <div className="container-box">
+                    <div className="container-box" style={cube[j].read ? {backgroundColor:"white"} : {backgroundColor: "yellow"}}>
                         <div className="container-box-follow">
                             <div style={{ paddingRight: 8 }}>
                               <Avatar
@@ -56,7 +56,7 @@ const Notification = ({ user }) => {
             }
             if (cube[j].type === 'news'){
                 data.push(
-                    <div className="container-box">
+                    <div className="container-box" style={cube[j].read ? {backgroundColor:"white"} : {backgroundColor: "yellow"}}>
                         <div className="box-notification">
                             <div style={{ paddingRight: 8 }}>
                               <Avatar
@@ -77,7 +77,7 @@ const Notification = ({ user }) => {
             }
             if (cube[j].type === 'comment') {
                 data.push(
-                  <div className="container-box">
+                  <div className="container-box" style={cube[j].read ? {backgroundColor:"white"} : {backgroundColor: "yellow"}}>
                       <div className="box-notification">
                           <div style={{ paddingRight: 8 }}>
                             <Avatar
@@ -99,7 +99,7 @@ const Notification = ({ user }) => {
             if (cube[j].type === 'reply') {
                 if (cube[j].userTo.fullname === user.get_user.fullname) {
                   data.push(
-                      <div className="container-box">
+                      <div className="container-box" style={cube[j].read ? {backgroundColor:"white"} : {backgroundColor: "yellow"}}>
                           <div className="box-notification">
                               <div style={{ paddingRight: 8 }}>
                                 <Avatar
@@ -119,7 +119,7 @@ const Notification = ({ user }) => {
                   );
                 }else{
                 data.push(
-                    <div className="container-box">
+                    <div className="container-box" style={cube[j].read ? {backgroundColor:"white"} : {backgroundColor: "yellow"}}>
                         <div className="box-notification">
                             <div style={{ paddingRight: 8 }}>
                               <Avatar
@@ -145,7 +145,7 @@ const Notification = ({ user }) => {
             }
             if (cube[j].type === 'up') {
                 data.push(
-                    <div className="container-box">
+                    <div className="container-box" style={cube[j].read ? {backgroundColor:"white"} : {backgroundColor: "yellow"}}>
                         <div className="box-notification">
                             <div style={{ paddingRight: 8 }}>
                               <Avatar

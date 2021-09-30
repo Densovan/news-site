@@ -1153,88 +1153,36 @@ const RootMutation = new GraphQLObjectType({
     },
 
     //================= follow_notification_user ====================
-    put_notification: {
-      type: NotificationType,
-      args: {
-        thirdId: {  type: GraphQLID },
-        type: { type: GraphQLString },
-      },
-      resolve: async (parent, args, context) => {
-        if(args.type === "follow"){
-          let Notification = await NotificationModel({
-            userId: context.id,
-            thirdId: args.thirdId,
-            type: args.type,
-          })
-          await Notification.save();
-          return { message: "follow successfully"}
-        }
-        else if(args.type === "conversation"){
-          const checkUser = await NotificationModel.findOne({ userId: context.id, thirdId: args.thirdId });
-          if (!checkUser) {
-            let Notification = await NotificationModel({
-              userId: context.id,
-              thirdId: args.thirdId,
-              type: args.type,
-            })
-            await Notification.save();
-            return { message: "add successfully"}
-          }
-        }
-        else{
-          return { message: "you problem to add notification"}
-        }
-      }
-    },
-    news_notification: {
-      type: NewsNotificationType,
-      args: {
-        postId: { type: GraphQLID },
-      },
-      resolve: async (parent, args, context) => {
-        try{
-          const NewsNotification  = await NewsNotificationModel({
-            userId: context.id,
-            postId: args.postId,
-            read: false,
-            count: 1,
-          });
-          await NewsNotification.save();
-          return { message: "successfully" };
-        }catch{
-          throw error;
-        }
-      }
-    },
-    conversation_notification: {
+    read_notification_conversation: {
       type: ConversationNotificationType,
       args: {
-        ownerId: { type: GraphQLID },
-        userId2: { type: GraphQLID },
-        postId: { type: GraphQLID },
-        type: { type: GraphQLString }
+        id: { type: GraphQLID }
       },
-      resolve: async ( parent, args, context) => {
-        try{
-          let conversation = await ConversationNotificationModel({
-            userId1: context.id,
-            ownerId: args.ownerId,
-            userId2: args.userId2,
-            postId: args.postId,
-            type: args.type,
-            read: false,
-            count: 1,
-          })
+      resolve: async (parent, args, context) => {
+        await ConversationNotificationModel.findByIdAndUpdate({_id: args.id},{read: true});
+        return { message: "read successfully"}
+      }
+    },
 
-          await conversation.save();
-          return { 
-            message: "add successfully"
-          }
+    read_notification_vote: {
+      type: VoteNotificationType,
+      args: {
+        id: { type: GraphQLID }
+      },
+      resolve: async (parent, args, context) => {
+        await VoteNotificationModel.findByIdAndUpdate({ _id: args.id },{ read: true });
+        return { message: "read successfully"}
+      }
+    },
 
-        }catch{
-          return { message: "you problem with server"}
-          throw error;
-        }
+    read_notification_follow: {
+      type: followType,
+      args: {
+        id: { type: GraphQLID }
+      },
+      resolve: async (parent, args, context) => {
+        await FollowModel.findByIdAndUpdate({ _id: args.id },{ read: true });
+        return { message: "read successfully"}
       }
     }
   },

@@ -23,7 +23,6 @@ const AuthContextProvider = (props) => {
   useEffect(() => {
     getLoggedIn();
   }, []);
-  // console.log(loggedIn);
   return (
     <React.Fragment>
       <AuthContext.Provider value={{ loggedIn, getLoggedIn }}>

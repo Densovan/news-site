@@ -1,11 +1,12 @@
 import React, { useContext, useState } from "react";
+import LayoutAuth from '../components/Layouts/layoutAuth';
 import Link from "next/link";
 import { Form, Input, Button, Checkbox, message, Radio } from "antd";
 import AuthContext from "../contexts/authContext";
 import axios from "axios";
 import Cookie from "js-cookie";
 
-const Login = ({ history }) => {
+const Login = () => {
   const server = process.env.API_SECRET;
   const server_local = process.env.API_SECRET_LOCAL;
   const develop = process.env.NODE_ENV;
@@ -142,3 +143,8 @@ const Login = ({ history }) => {
 };
 
 export default Login;
+// Login.getLayout = (page) => (
+//   <LayoutAuth>
+//     {page}
+//   </LayoutAuth>
+// )

@@ -31,6 +31,7 @@ const { Content } = Layout;
 
 const AllNews = ({ selectedTags, loadingFilter }) => {
   const { loggedIn } = useContext(AuthContext);
+  // const { loggedIn } = true;
   const server = process.env.API_SECRET;
   const server_local = process.env.API_SECRET_LOCAL;
   const develop = process.env.NODE_ENV;

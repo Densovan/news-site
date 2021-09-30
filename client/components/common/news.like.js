@@ -26,6 +26,7 @@ const NewsLike = ({
     count: 0,
   });
   const { loggedIn } = useContext(AuthContext);
+  // const { loggedIn } = true;
   const router = useRouter();
   useEffect(() => {
     vote_up_down.get_vote_up_down.map((get_vote_up_down) => {
