@@ -605,6 +605,7 @@ const RootQuery = new GraphQLObjectType({
         const notificationConversationTo = await NotificationModel.find({ userId: context.id, type: "conversation" })
         const notificationVote = await NotificationModel.find({ type: "vote", ownerId: context.id })
         const notificationFollow = await NotificationModel.find({ userId: context.id, type: "follow" })
+        const notificationNews = await NotificationModel.find({ relateId: context.id, type: "follow" })
         const data = []
         if(notificationConversation.length > 0){
           notificationConversation.forEach(element => {
@@ -625,6 +626,11 @@ const RootQuery = new GraphQLObjectType({
         }
         if(notificationFollow.length > 0){
           notificationFollow.forEach(element => {
+            data.push(element)
+          });
+        }
+        if(notificationNews.length > 0){
+          notificationNews.forEach(element => {
             data.push(element)
           });
         }

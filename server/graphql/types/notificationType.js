@@ -40,11 +40,13 @@ const NotificationType = new GraphQLObjectType({
       resolve: async (parent, args, context) => {
         if (parent.type === "follow") {
           const data = []
-          const news = await NewsNotificationModel.find({ userId: parent.relateId })
-          if (news.length > 0) {
-            news.forEach(element => {
-              data.push(element)
-            })
+          if (parent.userId === context.id) {
+            const news = await NewsNotificationModel.find({ userId: parent.relateId })
+            if (news.length > 0) {
+              news.forEach(element => {
+                data.push(element)
+              })
+            }
           }
           if(data.length > 0){
             return data
