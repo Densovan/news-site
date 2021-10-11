@@ -12,14 +12,17 @@ const Follow = ({ articleUser, user, follows }) => {
     follow: false,
   });
   const [follow] = useMutation(FOLLOW);
+  // console.log(follows)
   useEffect(() => {
-
     follows.get_follows.map((follow) => {
-      if (follow.followTo == articleUser.id && user.get_user.id == follow.followBy) {
+      if (
+        follow.followTo == articleUser.id &&
+        user.get_user.id == follow.followBy
+      ) {
         setState({
           follow: true,
         });
-      } 
+      }
     });
   }, [follows]);
   const handleFollow = async () => {
@@ -38,7 +41,7 @@ const Follow = ({ articleUser, user, follows }) => {
             closeIcon: true,
             message: response.data.follow.message,
             description: "You have follow to " + articleUser.fullname,
-            placement: "bottomLeft"
+            placement: "bottomLeft",
           });
           setTimeout(() => {
             setState({
@@ -61,7 +64,7 @@ const Follow = ({ articleUser, user, follows }) => {
             closeIcon: true,
             message: response.data.follow.message,
             description: "You have unfollow to " + articleUser.fullname,
-            placement: "bottomLeft"
+            placement: "bottomLeft",
           });
           setTimeout(() => {
             setState({

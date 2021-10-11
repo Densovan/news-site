@@ -237,7 +237,7 @@ const GET_NEWS = gql`
 `;
 
 const GET_ALL_NEWS = gql`
-  query ($limit: Int!, $offset: Int!) {
+  query ($limit: Int, $offset: Int) {
     get_all_news(limit: $limit, offset: $offset) {
       title
       createdAt
@@ -266,7 +266,7 @@ const GET_ALL_NEWS = gql`
 `;
 
 const GET_ALL_NEWS_TOP = gql`
-  query ($limit: Int!, $offset: Int!) {
+  query ($limit: Int, $offset: Int) {
     get_all_news_top(limit: $limit, offset: $offset) {
       title
       createdAt
@@ -295,7 +295,7 @@ const GET_ALL_NEWS_TOP = gql`
 `;
 
 const GET_ALL_NEWS_TODAY = gql`
-  query ($limit: Int!, $offset: Int!) {
+  query ($limit: Int, $offset: Int) {
     get_all_news_today(limit: $limit, offset: $offset) {
       voteCount
       title
@@ -779,64 +779,64 @@ const GET_CHAT_S = gql`
 `;
 
 const GET_NOTIFICATION = gql`
-  query{
-  get_news_notification{
-    follow{
-      user{
-        fullname
-        image
+  query {
+    get_news_notification {
+      follow {
+        user {
+          fullname
+          image
+        }
+        userFollower {
+          fullname
+          image
+        }
+        count
+        read
+        type
       }
-      userFollower{
-        fullname
-        image
+      news {
+        news {
+          title
+        }
+        user {
+          fullname
+          image
+        }
+        count
+        read
+        type
       }
-      count
-      read
-      type
-    }
-    news{
-      news{
-        title
+      conversation {
+        news {
+          title
+        }
+        user {
+          fullname
+          image
+        }
+        userTo {
+          fullname
+          image
+        }
+        count
+        read
+        type
       }
-      user{
-        fullname
-        image
+      vote {
+        news {
+          title
+        }
+        user {
+          fullname
+          image
+        }
+        count
+        read
+        type
       }
-      count
-      read
-      type
-    }
-    conversation{
-      news{
-        title
-      }
-      user{
-        fullname
-        image
-      }
-      userTo{
-        fullname
-        image
-      }
-      count
-      read
-      type
-    }
-    vote{
-      news{
-        title
-      }
-      user{
-        fullname
-        image
-      }
-      count
-      read
-      type
     }
   }
-}
-`
+`;
 
 export {
   GET_CHAT_S,
@@ -870,5 +870,5 @@ export {
   GET_VOTE_UP_DOWN,
   GET_ALL_VOTE_UP_DOWN,
   GET_FOLLOWS,
-  GET_NOTIFICATION
+  GET_NOTIFICATION,
 };

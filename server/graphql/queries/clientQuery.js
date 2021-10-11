@@ -71,15 +71,15 @@ const RootQuery = new GraphQLObjectType({
       type: new GraphQLList(NewsType),
       args: {
         limit: {
-          name: "limit",
+          // name: "limit",
           type: GraphQLInt,
         },
         offset: {
-          name: "offset",
+          // name: "offset",
           type: GraphQLInt,
         },
       },
-      resolve: (parent, { limit = null, offset = null }) => {
+      resolve: (parent, { limit = 6, offset = 0 }) => {
         return NewsModel.find({})
           .limit(limit)
           .skip(offset)
@@ -92,15 +92,15 @@ const RootQuery = new GraphQLObjectType({
       type: new GraphQLList(NewsType),
       args: {
         limit: {
-          name: "limit",
+          // name: "limit",
           type: GraphQLInt,
         },
         offset: {
-          name: "offset",
+          // name: "offset",
           type: GraphQLInt,
         },
       },
-      resolve: (parent, { limit = null, offset = null }) => {
+      resolve: (parent, { limit = 6, offset = 0 }) => {
         // return NewsModel.find({})
         return NewsModel.find({
           createdAt: { $gt: new Date(Date.now() - 24 * 60 * 60 * 1000) },
@@ -116,15 +116,15 @@ const RootQuery = new GraphQLObjectType({
       type: new GraphQLList(NewsType),
       args: {
         limit: {
-          name: "limit",
+          // name: "limit",
           type: GraphQLInt,
         },
         offset: {
-          name: "offset",
+          // name: "offset",
           type: GraphQLInt,
         },
       },
-      resolve: (parent, { limit = null, offset = null }) => {
+      resolve: (parent, { limit = 6, offset = 0 }) => {
         return NewsModel.find({})
           .limit(limit)
           .skip(offset)
@@ -601,42 +601,57 @@ const RootQuery = new GraphQLObjectType({
     get_news_notification: {
       type: new GraphQLList(NotificationType),
       resolve: async (parents, args, context) => {
-        const notificationConversation = await NotificationModel.find({ type: "conversation", ownerId: context.id })
-        const notificationConversationTo = await NotificationModel.find({ userId: context.id, type: "conversation" })
-        const notificationVote = await NotificationModel.find({ type: "vote", ownerId: context.id })
-        const notificationFollow = await NotificationModel.find({ userId: context.id, type: "follow" })
-        const notificationNews = await NotificationModel.find({ relateId: context.id, type: "follow" })
-        const data = []
-        if(notificationConversation.length > 0){
-          notificationConversation.forEach(element => {
+        const notificationConversation = await NotificationModel.find({
+          type: "conversation",
+          ownerId: context.id,
+        });
+        const notificationConversationTo = await NotificationModel.find({
+          userId: context.id,
+          type: "conversation",
+        });
+        const notificationVote = await NotificationModel.find({
+          type: "vote",
+          ownerId: context.id,
+        });
+        const notificationFollow = await NotificationModel.find({
+          userId: context.id,
+          type: "follow",
+        });
+        const notificationNews = await NotificationModel.find({
+          relateId: context.id,
+          type: "follow",
+        });
+        const data = [];
+        if (notificationConversation.length > 0) {
+          notificationConversation.forEach((element) => {
             if (element.userId !== context.id) {
-              data.push(element)
+              data.push(element);
             }
-          })
-        }
-        if(notificationVote.length > 0){
-          notificationVote.forEach(element => {
-            data.push(element)
-          })
-        }
-        if(notificationConversationTo.length > 0){
-          notificationConversationTo.forEach(element => {
-            data.push(element)
-          })
-        }
-        if(notificationFollow.length > 0){
-          notificationFollow.forEach(element => {
-            data.push(element)
           });
         }
-        if(notificationNews.length > 0){
-          notificationNews.forEach(element => {
-            data.push(element)
+        if (notificationVote.length > 0) {
+          notificationVote.forEach((element) => {
+            data.push(element);
           });
         }
-        return data
-      }
-    }
+        if (notificationConversationTo.length > 0) {
+          notificationConversationTo.forEach((element) => {
+            data.push(element);
+          });
+        }
+        if (notificationFollow.length > 0) {
+          notificationFollow.forEach((element) => {
+            data.push(element);
+          });
+        }
+        if (notificationNews.length > 0) {
+          notificationNews.forEach((element) => {
+            data.push(element);
+          });
+        }
+        return data;
+      },
+    },
   },
 });
 

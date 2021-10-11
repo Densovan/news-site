@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import suffle from "shuffle-array";
 import Link from "next/link";
 import { useQuery } from "@apollo/client";
@@ -12,10 +12,12 @@ import {
 import CategoryLoader from "../../components/loaders/categoryLoader";
 import { Card, Tag, Divider, Typography, Row, Col, Button, Avatar } from "antd";
 import Follow from "../../components/common/follow";
+import AuthContext from "../../contexts/authContext";
 
 const { CheckableTag } = Tag;
 
 const FilterNews = ({ handleChange, selectedTags }) => {
+  const { loggedIn } = useContext(AuthContext);
   const { loading: usersLoading, data: usersData } = useQuery(GET_USERS, {
     pollInterval: 1000,
   });
@@ -40,20 +42,70 @@ const FilterNews = ({ handleChange, selectedTags }) => {
   });
 
   //=================>funcion<===============
-  console.log(user.get_user.id);
-  var value = user.get_user.id;
-  var allUsers = usersData.get_users.map((x) => x);
-  allUsers = allUsers.filter(function (item) {
-    return item.id !== value;
-  });
+  // console.log(user.get_user.id);
+  // var value = user.get_user.id;
+  // var allUsers = usersData.get_users.map((x) => x);
+  // allUsers = allUsers.filter(function (item) {
+  //   return item.id !== value;
+  // });
 
-  function shuffleArray(inputArray) {
-    inputArray.sort(() => Math.random() - 0.5);
+  // function shuffleArray(inputArray) {
+  //   inputArray.sort(() => Math.random() - 0.5);
+  // }
+  // // var demoArray = usersData.get_users.map((x) => x);
+  // shuffleArray(allUsers);
+  //=================>funcion<===============
+  // if (loggedIn === true) {
+  //   var value = user.get_user.userId;
+  //   var allUsers = usersData.get_users.map((x) => x);
+  //   allUsers = allUsers.filter(function (item) {
+  //     return item.userId !== value;
+  //   });
+
+  //   function shuffleArray(inputArray) {
+  //     inputArray.sort(() => Math.random() - 0.5);
+  //   }
+  //   // var demoArray = usersData.get_users.map((x) => x);
+  //   shuffleArray(allUsers);
+  // } else if (loggedIn === false) {
+  //   var allUsers = usersData.get_users.map((x) => x);
+  //   function shuffleArray(inputArray) {
+  //     inputArray.sort(() => Math.random() - 0.5);
+  //   }
+  //   // var demoArray = usersData.get_users.map((x) => x);
+  //   shuffleArray(allUsers);
+  // }
+
+  // const allUsers = usersData.get_users.map((x) => x);
+
+  if (loggedIn === true) {
+    var value = user.get_user.userId;
+    var allUsers = usersData.get_users.map((x) => x);
+    allUsers = allUsers.filter(function (item) {
+      return item.userId !== value;
+    });
+    // =================>funcion<===============
+    console.log(user.get_user.id);
+    var value = user.get_user.id;
+    var allUsers = usersData.get_users.map((x) => x);
+    allUsers = allUsers.filter(function (item) {
+      return item.id !== value;
+    });
+
+    function shuffleArray(inputArray) {
+      inputArray.sort(() => Math.random() - 0.5);
+    }
+    // var demoArray = usersData.get_users.map((x) => x);
+    shuffleArray(allUsers);
   }
-  // var demoArray = usersData.get_users.map((x) => x);
-  shuffleArray(allUsers);
-
-  // const array = usersData.get_users.map((x) => x);
+  if (loggedIn === false) {
+    var allUsers = usersData.get_users.map((x) => x);
+    function shuffleArray(inputArray) {
+      inputArray.sort(() => Math.random() - 0.5);
+    }
+    // var demoArray = usersData.get_users.map((x) => x);
+    shuffleArray(allUsers);
+  }
 
   return (
     <React.Fragment>
