@@ -95,6 +95,7 @@ const userType = new GraphQLObjectType({
     followerId: { type: GraphQLID },
     followingId: { type: GraphQLID },
     image: { type: GraphQLString },
+    accountId: { type: GraphQLID },
     createdAt: {
       type: GraphQLString,
     },
@@ -119,15 +120,15 @@ const userType = new GraphQLObjectType({
     get_following: {
       type: GraphQLList(followType),
       resolve: (parent, args) => {
-        return Follow.find({ followBy: parent.id });
-        // return Follow.find({ followBy: parent.userId });
+        // return Follow.find({ followBy: parent.id });
+        return Follow.find({ followBy: parent.accountId });
       },
     },
     get_follower: {
       type: GraphQLList(followType),
       resolve: (parent, args) => {
-        return Follow.find({ followTo: parent.id });
-        // return Follow.find({ followTo: parent.userId });
+        // return Follow.find({ followTo: parent.id });
+        return Follow.find({ followTo: parent.accountId });
       },
     },
   }),

@@ -20,7 +20,7 @@ const save = ({
 
   useEffect(() => {
     save.map((saves) => {
-      if (saves.userId === myUser.get_user.id) {
+      if (saves.userId === myUser.get_user.accountId) {
         setSave(true);
       }
     });

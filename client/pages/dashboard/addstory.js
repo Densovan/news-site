@@ -212,7 +212,7 @@ const Addstory = () => {
           imageUrl: null,
           loading: false,
         });
-        await refetch();
+        // await refetch();
         setLoading(false);
         router.push("/dashboard/allstories");
         console.log("success", values, des);
@@ -242,7 +242,7 @@ const Addstory = () => {
       {/* <MainNavbar /> */}
       <GlobalHeader />
       <br></br>
-      {loggedIn === true && (
+      {loggedIn && (
         <div className="container">
           <div className="profile-content">
             <div className="addstory-content">
@@ -385,7 +385,7 @@ const Addstory = () => {
         </div>
       )}
       <br></br>
-      {loggedIn === false && window.location.replace("/")}
+      {/* {!loggedIn && window.location.replace("/")} */}
       <Footer />
     </React.Fragment>
   );

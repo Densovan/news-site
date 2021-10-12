@@ -120,6 +120,7 @@ const GET_OWN_NEWS_BY_ID = gql`
 const GET_USER = gql`
   query {
     get_user {
+      accountId
       image
       bio
       fullname
@@ -197,6 +198,7 @@ const GET_OWN_NEWS = gql`
       slug
       des
       user {
+        accountId
         fullname
         image
         id
@@ -250,6 +252,7 @@ const GET_ALL_NEWS = gql`
       des
       slug
       user {
+        accountId
         fullname
         image
         id
@@ -279,6 +282,7 @@ const GET_ALL_NEWS_TOP = gql`
       des
       slug
       user {
+        accountId
         fullname
         image
         id

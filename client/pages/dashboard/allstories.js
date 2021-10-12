@@ -67,11 +67,8 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
     }
   );
   if (loading || vote_up_down_loading || loading_all_vote)
-    return (
-      <div className="container">
-        login...
-      </div>
-    );
+    return <div className="container">login...</div>;
+  console.log(news);
   // console.log(news);
   // const result = [];
   // if (!loadingFilter) {
@@ -134,7 +131,7 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
                       <Col xs={24} md={16} className="box-news">
                         <Link
                           href={`/profile_detial/${
-                            res.user.id
+                            res.user.accountId
                           }#${res.user.fullname
                             .replace(
                               /[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g,

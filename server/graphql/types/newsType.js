@@ -23,6 +23,7 @@ const NewsType = new GraphQLObjectType({
     message: { type: GraphQLString },
     slug: { type: GraphQLString },
     createBy: { type: GraphQLID },
+    accountId: { type: GraphQLID },
     createdAt: {
       type: GraphQLString,
     },
@@ -60,7 +61,8 @@ const NewsType = new GraphQLObjectType({
     user: {
       type: userType,
       resolve: (parents, args) => {
-        return User.findById(parents.createBy);
+        // return User.findById(parents.createBy);
+        return User.findOne({ accountId: parents.createBy });
       },
     },
     types: {

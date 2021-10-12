@@ -109,7 +109,7 @@ const ChangeProfilePicture = () => {
       {/* <MainNavbar /> */}
       <GlobalHeader />
       <br></br>
-      {loggedIn === true && (
+      {loggedIn && (
         <div className="container">
           <div className="profile-content">
             <div className="addstory-content">
@@ -208,7 +208,7 @@ const ChangeProfilePicture = () => {
                     <Radio value="female">Female</Radio>
                   </Radio.Group>
                 </Form.Item>
-                <Divider orientation="left" plain>
+                {/* <Divider orientation="left" plain>
                   <h3>Password</h3>
                 </Divider>
                 <Form.Item name="passwordHash" label="Old Password">
@@ -217,8 +217,8 @@ const ChangeProfilePicture = () => {
                     size="large"
                     placeholder="Old Password"
                   />
-                </Form.Item>
-                <Row gutter={[12, 12]}>
+                </Form.Item> */}
+                {/* <Row gutter={[12, 12]}>
                   <Col sm={24} md={12}>
                     <Form.Item name="newPassword" label="New Password">
                       <Input.Password
@@ -237,7 +237,7 @@ const ChangeProfilePicture = () => {
                       />
                     </Form.Item>
                   </Col>
-                </Row>
+                </Row> */}
                 <Form.Item>
                   <Button
                     className="btn-submit"
@@ -260,7 +260,7 @@ const ChangeProfilePicture = () => {
           </div>
         </div>
       )}
-      {loggedIn === false && window.location.replace("/")}
+      {!loggedIn && window.location.replace("/")}
       <br></br>
       <Footer />
     </React.Fragment>

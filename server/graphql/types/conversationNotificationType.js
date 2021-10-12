@@ -1,4 +1,11 @@
-const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLList, GraphQLBoolean, GraphQLInt } = require("graphql");
+const {
+  GraphQLObjectType,
+  GraphQLString,
+  GraphQLID,
+  GraphQLList,
+  GraphQLBoolean,
+  GraphQLInt,
+} = require("graphql");
 
 //=============model=================
 const User = require("../../models/user");
@@ -11,7 +18,7 @@ const ConversationNotificationType = new GraphQLObjectType({
     userId: { type: GraphQLID },
     postId: { type: GraphQLID },
     message: {
-        type: GraphQLString,
+      type: GraphQLString,
     },
     ownerId: { type: GraphQLID },
     userId2: { type: GraphQLID },
@@ -21,13 +28,15 @@ const ConversationNotificationType = new GraphQLObjectType({
     user: {
       type: userType,
       resolve: (parents, args) => {
-        return User.findById(parents.userId);
+        // return User.findById(parents.userId);
+        return User.findOne({ accountId: parents.userId });
       },
     },
-    userTo: { 
+    userTo: {
       type: userType,
       resolve: (parents, args) => {
-        return User.findById(parents.userId2);
+        // return User.findById(parents.userId2);
+        return User.findOne({ accountId: parents.userId2 });
       },
     },
     news: {

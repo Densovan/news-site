@@ -87,7 +87,7 @@ const SinglePage = () => {
         <div style={{ marginTop: 40 }}>
           <Row gutter={[16, 16]}>
             <Col xs={24} md={2}>
-              {loggedIn === true && (
+              {loggedIn && (
                 <div className="nav_left">
                   <Row gutter={[32, 32]}>
                     <Col xs={8} md={24}>
@@ -251,7 +251,7 @@ const SinglePage = () => {
                     <div className="describe-style-article">{parse(des)}</div>
                   </div>
                   <Divider />
-                  {loggedIn === true ? (
+                  {loggedIn ? (
                     <div style={{ marginTop: 20 }}>
                       <h3>Comment({reply.length + comment.length})</h3>
                       <div>
@@ -310,7 +310,7 @@ const SinglePage = () => {
                     <p>{user.bio}</p>
                   </center>
                 </div>
-                {loggedIn === true ? (
+                {loggedIn ? (
                   <center>
                     {user.id === myUser.get_user.id ? (
                       <center>
@@ -319,7 +319,11 @@ const SinglePage = () => {
                         </Link>
                       </center>
                     ) : (
-                      <Follow articleUser={user} follows={follows} user={myUser} />
+                      <Follow
+                        articleUser={user}
+                        follows={follows}
+                        user={myUser}
+                      />
                     )}
                   </center>
                 ) : (

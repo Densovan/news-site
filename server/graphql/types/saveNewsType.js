@@ -38,6 +38,9 @@ const SaveNewsType = new GraphQLObjectType({
     news_id: {
       type: GraphQLID,
     },
+    accountId: {
+      type: GraphQLID,
+    },
     categories: {
       type: categoryType,
       resolve: (parents, args) => {
@@ -47,7 +50,7 @@ const SaveNewsType = new GraphQLObjectType({
     user: {
       type: userType,
       resolve: (parents, args) => {
-        return User.findById(parents.createBy);
+        return User.findById({ accountId: parents.createBy });
       },
     },
     types: {

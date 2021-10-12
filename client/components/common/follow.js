@@ -12,12 +12,11 @@ const Follow = ({ articleUser, user, follows }) => {
     follow: false,
   });
   const [follow] = useMutation(FOLLOW);
-  // console.log(follows)
   useEffect(() => {
     follows.get_follows.map((follow) => {
       if (
         follow.followTo == articleUser.id &&
-        user.get_user.id == follow.followBy
+        user.get_user.accountId == follow.followBy
       ) {
         setState({
           follow: true,

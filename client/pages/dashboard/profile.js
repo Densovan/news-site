@@ -30,7 +30,7 @@ const Profile = () => {
 
       <div className="brand-bg"></div>
       <div className="container">
-        {loggedIn === true && (
+        {loggedIn && (
           <div className="container-layout-profile">
             <div className="layout-profile">
               <center>
@@ -60,7 +60,7 @@ const Profile = () => {
             </div>
           </div>
         )}
-        {loggedIn === false && window.location.replace("/")}
+        {!loggedIn && window.location.replace("/")}
       </div>
       <br></br>
       {/* <Footer /> */}

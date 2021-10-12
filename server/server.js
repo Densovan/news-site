@@ -89,12 +89,12 @@ app.use(
   "/api",
   //   Auth,
   graphqlHTTP(async (req, res) => {
-    const token = req.cookies.token;
-    // console.log("token", token);
-    const user = jwt.decode(token, process.env.JWTSECRET);
-    // const authorization = req.headers["x-access-token"].split(" ");
-    // const access_token = authorization[1];
-    // const user = jwt.decode(access_token, PRIVATE_KEY);
+    // const token = req.cookies.token;
+    // const user = jwt.decode(token, process.env.JWTSECRET);
+    const authorization = req.headers["x-access-token"].split(" ");
+    const access_token = authorization[1];
+    const user = jwt.decode(access_token, process.env.PRIVATE_KEY);
+    // console.log(user, "hello");
     return {
       context: user,
       // graphiql: true,

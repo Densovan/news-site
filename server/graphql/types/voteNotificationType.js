@@ -1,4 +1,11 @@
-const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLList, GraphQLBoolean, GraphQLInt } = require("graphql");
+const {
+  GraphQLObjectType,
+  GraphQLString,
+  GraphQLID,
+  GraphQLList,
+  GraphQLBoolean,
+  GraphQLInt,
+} = require("graphql");
 
 //=============model=================
 const User = require("../../models/user");
@@ -11,7 +18,7 @@ const VoteNotificationType = new GraphQLObjectType({
     userId: { type: GraphQLID },
     postId: { type: GraphQLID },
     message: {
-        type: GraphQLString,
+      type: GraphQLString,
     },
     ownerId: { type: GraphQLID },
     read: { type: GraphQLBoolean },
@@ -20,7 +27,8 @@ const VoteNotificationType = new GraphQLObjectType({
     user: {
       type: userType,
       resolve: (parents, args) => {
-        return User.findById(parents.userId);
+        // return User.findById(parents.userId);
+        return User.findOne({ accountId: parents.userId });
       },
     },
     news: {

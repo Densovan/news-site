@@ -81,7 +81,9 @@ const FollowType = new GraphQLObjectType({
     user: {
       type: userType,
       resolve: (parent, args, context) => {
-        return User.findOne({ userId: context.id });
+        // return User.findOne({ userId: context.id });
+        return User.findOne({ accountId: context.id });
+
         // resolve: (parents, args, context) => {
         //   return User.findById(parents.followBy);
       },

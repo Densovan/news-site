@@ -28,9 +28,11 @@ const httpLink = createHttpLink({
 //   cache: new InMemoryCache(),
 // });
 const authLink = setContext((_, { headers }) => {
+  const accessToken = localStorage.getItem("access_token"); // with SSO
   return {
     headers: {
       ...headers,
+      "x-access-token": accessToken ? `Bearer ${accessToken}` : "", // with SSO
     },
   };
 });
