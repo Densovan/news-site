@@ -1,36 +1,74 @@
-import { useQuery, useSubscription } from "@apollo/client";
-import React, { useEffect } from "react";
-import { GET_CHAT, GET_CHAT_S } from "../graphql/query";
-
-const test = () => {
-  const { loading, data, subscribeToMore } = useQuery(GET_CHAT);
-  useEffect(() => {
-    subscribeToMore({
-      document: GET_CHAT_S,
-      updateQuery: (prev, { subscriptionData }) => {
-        if (!subscriptionData) return prev;
-        const newChat = subscriptionData.data.newChat;
-        console.log(newChat);
-        const updateNewChatList = Object.assign({}, prev, {
-          chats: [...prev.chats, newChat],
-        });
-
-        return updateNewChatList;
-      },
-    });
-  }, []);
-  // if (!loading) {
-  //   console.log(data);
-  // }
-  // console.log(data);
+import React, { useState } from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
+import { useQuery } from "@apollo/client";
+import { GET_ALL_NEWS_TOP } from "../graphql/query";
+import {
+  Row,
+  Col,
+  Layout,
+  Spin,
+  Card,
+  Avatar,
+  Tooltip,
+  Result,
+  Input,
+} from "antd";
+const { Content } = Layout;
+const Test = () => {
+  const [hasMoreItems, setHasMoreItems] = useState(true);
+  const {
+    loading,
+    data: news,
+    fetchMore,
+    refetch,
+  } = useQuery(GET_ALL_NEWS_TOP, {
+    // variables: { limit: 6, offset: 0 },
+    pollInterval: 1000,
+  });
+  if (loading) return "loading...";
+  console.log(news);
   return (
     <div>
-      hello
-      {/* {data.get_chats.map((res) => (
-        <div>{res.body}</div>
-      ))} */}
+      {news.get_all_news_top.map((res) => (
+        <div>
+          <h1>{res.title}</h1>
+        </div>
+      ))}
+      {/* <InfiniteScroll
+        dataLength={news.get_all_news_top.length}
+        next={async () => {
+          await fetchMore({
+            variables: {
+              offset: news.get_all_news_top.length,
+            },
+            updateQuery: (prev, { fetchMoreResult }) => {
+              if (!fetchMoreResult) return prev;
+
+              if (fetchMoreResult.get_all_news_top.length < 6) {
+                setHasMoreItems(false);
+              }
+
+              return Object.assign({}, prev, {
+                get_all_news_top: [
+                  ...prev.get_all_news_top,
+                  ...fetchMoreResult.get_all_news_top,
+                ],
+              });
+            },
+          });
+        }}
+        hasMore={hasMoreItems}
+        loader={
+          <Content style={{ marginTop: "15px" }}>
+            <center>
+              <Spin></Spin>
+            </center>
+          </Content>
+        }
+        endMessage={null}
+      ></InfiniteScroll> */}
     </div>
   );
 };
 
-export default test;
+export default Test;

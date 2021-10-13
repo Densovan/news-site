@@ -49,7 +49,7 @@ const Login = () => {
           localStorage.setItem("access_token", access_token);
           localStorage.setItem("refresh_token", refresh_token);
           await message.success("Logged In Successfully");
-          // window.location.replace("/");
+          window.location.replace("/");
           setLoading(false);
         });
     } catch (error) {
