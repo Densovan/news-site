@@ -215,8 +215,8 @@ const RootMutation = new GraphQLObjectType({
               message: "The password is invalid!",
             };
           } else {
-            await UserModel.findByIdAndUpdate(
-              { _id: context.id },
+            await UserModel.findOneAndUpdate(
+              { accountId: context.id },
               {
                 ...args,
                 passwordHash: user.passwordHash,

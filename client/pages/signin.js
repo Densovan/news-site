@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import LayoutAuth from '../components/Layouts/layoutAuth';
+import LayoutAuth from "../components/Layouts/layoutAuth";
 import Link from "next/link";
 import { Form, Input, Button, Checkbox, message, Radio } from "antd";
 import AuthContext from "../contexts/authContext";
@@ -17,32 +17,49 @@ const Login = () => {
   const { loggedIn } = useContext(AuthContext);
   const onFinish = async (values) => {
     try {
-      await axios.post(`${URL_ACCESS}/auth/login`, values).then((res) => {
-        if (res.status === 201) {
+      // await axios.post(`${URL_ACCESS}/auth/login`, values).then((res) => {
+      //   if (res.status === 201) {
+      //     setLoading(true);
+      //     message.error(res.data.msg);
+      //     setTimeout(function () {
+      //       setLoading(false);
+      //     }, 1000);
+      //   } else if (res.status === 200) {
+      //     setLoading(true);
+      //     message.success(res.data.msg);
+      //     setTimeout(function () {
+      //       window.location.replace("/");
+      //       setLoading(false);
+      //     }, 2000);
+      //   }
+      // });
+      await axios
+        .post(
+          "https://accounts.koompi.com/login",
+          { ...values },
+          {
+            headers: { "Content-Type": "application/json" },
+            withCredentials: true,
+          }
+        )
+        .then(async (res) => {
+          const { access_token, refresh_token } = res.data;
           setLoading(true);
-          message.error(res.data.msg);
-          setTimeout(function () {
-            setLoading(false);
-          }, 1000);
-        } else if (res.status === 200) {
-          setLoading(true);
-          message.success(res.data.msg);
-          setTimeout(function () {
-            window.location.replace("/");
-            setLoading(false);
-          }, 2000);
-          // setLoading(false);
-          // getLoggedIn();
-        }
-      });
+          // Cookie.set('_sid', res.data._id, { expires: 7 })
+          localStorage.setItem("access_token", access_token);
+          localStorage.setItem("refresh_token", refresh_token);
+          await message.success("Logged In Successfully");
+          window.location.replace("/");
+          setLoading(false);
+        });
     } catch (error) {
       console.log(error);
     }
   };
   return (
     <React.Fragment>
-      {loggedIn === true && window.location.replace("/")}
-      {loggedIn === false && (
+      {loggedIn && window.location.replace("/")}
+      {!loggedIn && (
         <div className="background-signin">
           {/* <center> */}
           <div className="register-box">

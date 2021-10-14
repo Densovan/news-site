@@ -1,4 +1,3 @@
-  
 require("dotenv").config();
 const express = require("express");
 const jwt = require("jsonwebtoken");
@@ -86,23 +85,26 @@ app.get("/auth/logouts", (req, res) => {
   }
 });
 //===========client API================
-// app.use(
-//   "/api",
-//   //   Auth,
-//   graphqlHTTP(async (req, res) => {
-//     const token = req.cookies.token;
-//     // console.log("token", token);
-//     const user = jwt.decode(token, process.env.JWTSECRET);
-//     return {
-//       context: user,
-//       // graphiql: true,
-//       graphiql: {
-//         headerEditorEnabled: true,
-//       },
-//       schema: clientSchema,
-//     };
-//   })
-// );
+app.use(
+  "/api",
+  //   Auth,
+  graphqlHTTP(async (req, res) => {
+    // const token = req.cookies.token;
+    // const user = jwt.decode(token, process.env.JWTSECRET);
+    const authorization = req.headers["x-access-token"].split(" ");
+    const access_token = authorization[1];
+    const user = jwt.decode(access_token, process.env.PRIVATE_KEY);
+    // console.log(user, "hello");
+    return {
+      context: user,
+      // graphiql: true,
+      graphiql: {
+        headerEditorEnabled: true,
+      },
+      schema: clientSchema,
+    };
+  })
+);
 
 //===========admin API================z
 app.use(
@@ -110,7 +112,6 @@ app.use(
   //   Auth,
   graphqlHTTP(async (req) => {
     const token = req.cookies.token;
-
     const user = jwt.decode(token, process.env.JWTSECRET);
     return {
       context: user,
@@ -126,103 +127,10 @@ app.get("/test", (req, res) => {
 
 connectDB();
 
-// const PORT = process.env.PORT || 3500;
-// app.listen(PORT, console.log(`Server Running on Port ${PORT}`.cyan.bold));
+const PORT = process.env.PORT || 3500;
+app.listen(PORT, console.log(`Server Running on Port ${PORT}`.cyan.bold));
 
-const PORT = process.env.PORt || 3500;
-
-app.use(
-  "/api",
-  //   Auth,
-  graphqlHTTP(async (req, res) => {
-    const token = req.cookies.token;
-    // console.log("token", token);
-    const user = jwt.decode(token, process.env.JWTSECRET);
-    return {
-      context: user,
-      // graphiql: true,
-      // graphiql: {
-      //   headerEditorEnabled: true,
-      // },
-      graphiql: { subscriptionEndpoint: `ws://localhost:${PORT}/api` },
-      schema: clientSchema,
-    };
-  })
-);
-const ws = createServer(app);
-
-ws.listen(PORT, () => {
-  new SubscriptionServer(
-    {
-      execute,
-      subscribe,
-      schema: clientSchema,
-      onConnect: () => console.log("client connected"),
-    },
-    {
-      server: ws,
-      path: "/api",
-    }
-  );
-});
-
-// const server = app.listen(3500, () => {
-//   console.log(`Server Running on Port 3500`.cyan.bold);
-
-//   //create and use the websocket server
-//   const wsServer = new ws.Server({
-//     port: 3500,
-//     // server,
-//     path: "/api",
-//   });
-
-//   useServer(
-//     {
-//       schema: clientSchema,
-//       server,
-//       execute,
-//       subscribe,
-//       onConnect: () => {
-//         console.log("Connected to client");
-//       },
-//       onSubscribe: (ctx, msg) => {
-//         console.log("Subscribe");
-//       },
-//       onNext: (ctx, msg, args, result) => {
-//         console.debug("Next");
-//       },
-//       onError: (ctx, msg, errors) => {
-//         console.error("Error");
-//       },
-//       onComplete: (ctx, msg) => {
-//         console.log("Complete");
-//       },
-//     },
-//     wsServer
-//   );
-//   console.log(`WebSockets! listening on ws://localhost:3500`.magenta.bold);
-// });
-
-// const PORT = 3500;
-// const WS_PORT = 3002;
-// app.use(cors());
-
-// const ws = createServer((req, res) => {
-//   res.writeHead(400);
-//   res.end();
-// });
-
-// ws.listen(WS_PORT, () => console.log("websocket listening on port ", WS_PORT));
-
-// const subscriptionServer = SubscriptionServer.create(
-//   {
-//     schema: clientSchema,
-//     execute,
-//     subscribe,
-//     onConnect: () => console.log("client connected"),
-//   },
-//   { server: ws, path: "/api" }
-// );
+// const PORT = process.env.PORt || 3500;
 
 // app.use(
 //   "/api",
@@ -234,11 +142,27 @@ ws.listen(PORT, () => {
 //     return {
 //       context: user,
 //       // graphiql: true,
-//       graphiql: {
-//         headerEditorEnabled: true,
-//       },
+//       // graphiql: {
+//       //   headerEditorEnabled: true,
+//       // },
+//       graphiql: { subscriptionEndpoint: `ws://localhost:${PORT}/api` },
 //       schema: clientSchema,
 //     };
 //   })
 // );
-// app.listen(PORT, () => console.log("http server listening on ", PORT));
+// const ws = createServer(app);
+
+// ws.listen(PORT, () => {
+//   new SubscriptionServer(
+//     {
+//       execute,
+//       subscribe,
+//       schema: clientSchema,
+//       onConnect: () => console.log("client connected"),
+//     },
+//     {
+//       server: ws,
+//       path: "/api",
+//     }
+//   );
+// });

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import suffle from "shuffle-array";
 import Link from "next/link";
 import { useQuery } from "@apollo/client";
@@ -9,20 +9,28 @@ import {
   GET_USER,
   GET_FOLLOWS,
 } from "../../graphql/query";
+// import { GET_USER } from "../../graphql/privateQuery";
 import CategoryLoader from "../../components/loaders/categoryLoader";
 import { Card, Tag, Divider, Typography, Row, Col, Button, Avatar } from "antd";
 import Follow from "../../components/common/follow";
-
+// import AuthContext from "../../contexts/salaKoompiAuth";
+import AuthContext from "../../contexts/authContext";
 const { CheckableTag } = Tag;
 
 const FilterNews = ({ handleChange, selectedTags }) => {
+  const { loggedIn } = useContext(AuthContext);
   const { loading: usersLoading, data: usersData } = useQuery(GET_USERS, {
     pollInterval: 1000,
   });
   const { loading: userLoading, data: user } = useQuery(GET_USER, {
     pollInterval: 1000,
+    // context: { clientName: "private" },
   });
-  const { data: follows, loading: follow_loading } = useQuery(GET_FOLLOWS, {
+  const {
+    data: follows,
+    loading: follow_loading,
+    refetch: follow_refetch,
+  } = useQuery(GET_FOLLOWS, {
     pollInterval: 1000,
   });
   const { loading, data } = useQuery(GET_CATEGORIES);
@@ -39,20 +47,36 @@ const FilterNews = ({ handleChange, selectedTags }) => {
     typeData.push(element.name);
   });
 
-  //=================>funcion<===============
-  var value = user.get_user.id;
-  var allUsers = usersData.get_users.map((x) => x);
-  allUsers = allUsers.filter(function (item) {
-    return item.id !== value;
-  });
+  // //=================>funcion<===============
+  // if (loggedIn) {
+  //   var value = user.get_user.userId;
+  //   var allUsers = usersData.get_users.map((x) => x);
+  //   allUsers = allUsers.filter(function (item) {
+  //     return item.userId !== value;
+  //   });
+  //   //=================>funcion<===============
+  //   console.log(user.get_user.id);
+  //   var value = user.get_user.id;
+  //   var allUsers = usersData.get_users.map((x) => x);
+  //   allUsers = allUsers.filter(function (item) {
+  //     return item.id !== value;
+  //   });
 
-  function shuffleArray(inputArray) {
-    inputArray.sort(() => Math.random() - 0.5);
-  }
-  // var demoArray = usersData.get_users.map((x) => x);
-  shuffleArray(allUsers);
+  //   function shuffleArray(inputArray) {
+  //     inputArray.sort(() => Math.random() - 0.5);
+  //   }
+  //   shuffleArray(allUsers);
+  // }
+  // if (!loggedIn) {
+  //   var allUsers = usersData.get_users.map((x) => x);
+  //   function shuffleArray(inputArray) {
+  //     inputArray.sort(() => Math.random() - 0.5);
+  //   }
 
-  // const array = usersData.get_users.map((x) => x);
+  //   shuffleArray(allUsers);
+  // }
+
+  const allUsers = usersData.get_users.map((x) => x);
 
   return (
     <React.Fragment>
@@ -146,7 +170,19 @@ const FilterNews = ({ handleChange, selectedTags }) => {
                 </div>
               </Col>
               <Col span={10}>
-                <Follow articleUser={res} user={user} follows={follows} />
+                {loggedIn && (
+                  <Follow
+                    articleUser={res}
+                    user={user}
+                    follows={follows}
+                    refetch={follow_refetch}
+                  />
+                )}
+                {!loggedIn && (
+                  <Link href="/signin">
+                    <button className="btn-follow">Follow</button>
+                  </Link>
+                )}
               </Col>
             </Row>
           );

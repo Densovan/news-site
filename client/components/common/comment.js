@@ -79,7 +79,7 @@ const FormComment = (props) => {
               answer: values.comment,
               questionId: comments.id,
               ownerId: ownerId,
-              userIdTo: comments.user.id
+              userIdTo: comments.user.id,
             },
           }).then(async (data) => {
             console.log(data);

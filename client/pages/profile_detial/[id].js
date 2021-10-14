@@ -336,13 +336,14 @@ const Profile_detail = () => {
       pollInterval: 500,
     }
   );
-  const { loading: own_newsLoading, data: own_newsData,fetchMore } = useQuery(
-    GET_OWN_NEWS_BY_ID,
-    {
-      variables: { id, limit: 6, offset: 0 },
-      pollInterval: 500,
-    }
-  );
+  const {
+    loading: own_newsLoading,
+    data: own_newsData,
+    fetchMore,
+  } = useQuery(GET_OWN_NEWS_BY_ID, {
+    variables: { id, limit: 6, offset: 0 },
+    pollInterval: 500,
+  });
   if (
     loading ||
     currentLaoding ||

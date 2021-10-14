@@ -22,6 +22,10 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    accountId: {
+      type: String,
+      require: true,
+    },
     gender: { type: String, default: "male" },
     bio: { type: String, default: "404 bio not found" },
     image: {

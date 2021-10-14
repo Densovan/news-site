@@ -25,7 +25,7 @@ const following = () => {
   return (
     <React.Fragment>
       <Profile />
-      {loggedIn === true && (
+      {loggedIn && (
         <div className="container">
           <div className="profile-content">
             <div className="sub-pf-content">
@@ -57,7 +57,7 @@ const following = () => {
         </div>
       )}
       <br></br>
-      {loggedIn === false && window.location.replace("/")}
+      {!loggedIn && window.location.replace("/")}
       <Footer />
     </React.Fragment>
   );

@@ -31,7 +31,7 @@ import {
   GET_NOTIFICATION_BY_USER,
   GET_NOTIFICATION_CHECK_BY_USER,
   GET_USER,
-  GET_NOTIFICATION
+  GET_NOTIFICATION,
 } from "../../graphql/query";
 import {
   NOTIFICATION_CHECK,
@@ -54,8 +54,9 @@ const GlobalHeader = () => {
   });
 
   const { loggedIn } = useContext(AuthContext);
-  const { loading:loading_user, data:user, error } = useQuery(GET_USER);
-  const { data:notificationsData, loading:notification_loading } = useQuery(GET_NOTIFICATION)
+  const { loading: loading_user, data: user, error } = useQuery(GET_USER);
+  const { data: notificationsData, loading: notification_loading } =
+    useQuery(GET_NOTIFICATION);
   const { loading: laoding_notification, data: notification } = useQuery(
     GET_NOTIFICATION_BY_USER,
     {
@@ -81,7 +82,13 @@ const GlobalHeader = () => {
       setNotifications(check_notification.get_notification_check_by_user);
   });
 
-  if (loading_user || laoding_notification || loading_check_notification || notification_loading) return "";
+  if (
+    loading_user ||
+    laoding_notification ||
+    loading_check_notification ||
+    notification_loading
+  )
+    return "";
   const showDrawer = () => {
     setState({
       visible: true,
@@ -100,9 +107,9 @@ const GlobalHeader = () => {
     });
   };
 
-  let cubes = []
-  let sum = 0
-  let data1 = []
+  let cubes = [];
+  let sum = 0;
+  let data1 = [];
   // notificationsData.get_news_notification.forEach(notification => {
   //   cubes.push(notification.notification)
   // });
@@ -112,17 +119,17 @@ const GlobalHeader = () => {
   //       if (cube[j].user.fullname !== user.get_user.fullname) {
   //         sum += cube[j].count
   //         if (cube[j].type === "follow") {
-  //           data1.push(<div><strong>{cube[j].user.fullname}</strong> uploaded: {cube[j].news.title}</div>)  
+  //           data1.push(<div><strong>{cube[j].user.fullname}</strong> uploaded: {cube[j].news.title}</div>)
   //         }
   //         if (cube[j].type === "comment") {
-  //           data1.push(<div><strong>{cube[j].user.fullname}</strong> comment on your post. {cube[j].news.title}</div>)  
+  //           data1.push(<div><strong>{cube[j].user.fullname}</strong> comment on your post. {cube[j].news.title}</div>)
   //         }
   //         if (cube[j].type === "reply") {
   //           if (cube[j].userTo.fullname === user.get_user.fullname) {
-  //             data1.push(<div><strong>{cube[j].user.fullname}</strong> mentioned you in a comment</div>); 
+  //             data1.push(<div><strong>{cube[j].user.fullname}</strong> mentioned you in a comment</div>);
   //           }
   //           else{
-  //             data1.push(<div><strong>{cube[j].user.fullname}</strong> replied to <strong>{cube[j].userTo.fullname}</strong> on your post.</div>) 
+  //             data1.push(<div><strong>{cube[j].user.fullname}</strong> replied to <strong>{cube[j].userTo.fullname}</strong> on your post.</div>)
   //           }
   //         }
   //       }
@@ -178,7 +185,7 @@ const GlobalHeader = () => {
             </Menu>
           </div> */}
           <div>
-            {loggedIn === false && (
+            {!loggedIn && (
               <div style={{ display: "flex", alignItems: "center" }}>
                 <div className="top-nav-rigth">
                   <TiUser className="gmail-top-nav" />
@@ -189,7 +196,7 @@ const GlobalHeader = () => {
                 </div>
               </div>
             )}
-            {loggedIn === true && (
+            {loggedIn && (
               <div style={{ display: "flex", alignItems: "center" }}>
                 <Notification user={user} />
                 <Popover
@@ -297,7 +304,7 @@ const GlobalHeader = () => {
           </Menu>
         </div>
         <div style={{ display: "flex", alignItems: "center" }}>
-          {loggedIn === false && (
+          {!loggedIn && (
             <div className="top-nav-rigth">
               <TiUser className="gmail-top-nav" />
               <Link href="/signin">Sign in</Link>
@@ -306,7 +313,7 @@ const GlobalHeader = () => {
               <Link href="/register">Register</Link>
             </div>
           )}
-          {loggedIn === true && (
+          {loggedIn && (
             <div style={{ display: "flex", alignItems: "center" }}>
               <Badge
                 // count={notification.get_notification_by_user.length}

@@ -45,7 +45,7 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
     fetchMore,
     refetch,
   } = useQuery(GET_ALL_NEWS, {
-    variables: { limit: 6, offset: 0 },
+    // variables: { limit: 6, offset: 0 },
     pollInterval: 1000,
   });
   const { loading: userLoading, data: userData } = useQuery(GET_USER);
@@ -96,7 +96,7 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
   }
   return (
     <React.Fragment>
-      {loggedIn === true && (
+      {loggedIn && (
         <Row className="status-style">
           <Col span={2}>
             <center>
@@ -155,6 +155,7 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
             </div>
           )}
           {result.map((res, index) => {
+            // console.log(res.user.accountId, "accountId");
             return (
               <Card
                 // style={{ padding: "-10px" }}
@@ -238,7 +239,7 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
                       </div>
                       <NewLike
                         postId={res.id}
-                        ownerId={res.user.id}
+                        ownerId={res.user.accountId}
                         voteCount={res.voteCount}
                         vote_up_down={vote_up_down}
                         get_all_vote={get_all_vote}

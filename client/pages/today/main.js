@@ -44,7 +44,7 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
     data: news,
     fetchMore,
   } = useQuery(GET_ALL_NEWS_TODAY, {
-    variables: { limit: 6, offset: 0 },
+    // variables: { limit: 6, offset: 0 },
     pollInterval: 500,
   });
   const { loading: userLoading, data: userData } = useQuery(GET_USER);

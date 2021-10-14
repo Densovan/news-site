@@ -312,7 +312,7 @@ const AllNews = ({
 
   const result = [];
   if (!loadingFilter) {
-    console.log(data);
+    // console.log(data);
     if (selectedTags.length === 0) {
       data.search_news_title.map((news) => {
         result.push(news);

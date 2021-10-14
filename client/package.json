@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3008",
+    "dev": "next dev -p 3000",
     "build:staging": "env-cmd -f .env.local next build",
     "build": "next build",
-    "start": "next start -p 3008"
+    "start": "next start -p 3000"
   },
   "dependencies": {
     "@ant-design/icons": "^4.6.2",

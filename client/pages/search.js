@@ -110,7 +110,7 @@ const search = () => {
       </div>
     );
   }
-  console.log(data);
+  // console.log(data);
   return (
     <div>
       <News
