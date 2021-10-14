@@ -35,10 +35,10 @@ const index = () => {
             />
           </Col>
           <Col xs={24} md={8}>
-            {/* <FilterNews
+            <FilterNews
               handleChange={handleChange}
               selectedTags={state.selectedTags}
-            /> */}
+            />
           </Col>
         </Row>
       </div>

@@ -98,7 +98,11 @@ const Notification = ({ user }) => {
                                       {cube[j].user.fullname}{" "}
                                   </strong>{" "}
                                   have post: {" "}
-                                  {cube[j].news.title}
+                                  {
+                                    cube[j].news.title.length <= 70
+                                    ? cube[j].news.title
+                                    : cube[j].news.title.substring(0, 70) + "..."
+                                  }
                                 </li>
                                 <li style={{ paddingTop: 4, fontSize:13, color: '#38a7c8' }}>
                                   <strong>{
@@ -135,7 +139,11 @@ const Notification = ({ user }) => {
                                       {cube[j].user.fullname}{" "}
                                   </strong>{" "}
                                   comment on your post.{" "}
-                                  {cube[j].news.title}
+                                  {
+                                    cube[j].news.title.length <= 70
+                                    ? cube[j].news.title
+                                    : cube[j].news.title.substring(0, 70) + "..."
+                                  }
                                 </li>
                                 <li style={{ paddingTop: 4, fontSize:13, color: '#38a7c8' }}>
                                   <strong>{
@@ -171,7 +179,11 @@ const Notification = ({ user }) => {
                                       {cube[j].user.fullname}{" "}
                                   </strong>{" "}
                                   mentioned you in a comment.{" "}
-                                  {cube[j].news.title}
+                                  {
+                                    cube[j].news.title.length <= 70
+                                    ? cube[j].news.title
+                                    : cube[j].news.title.substring(0, 70) + "..."
+                                  }
                               </div>
                           </div>
                       </div>
@@ -200,7 +212,11 @@ const Notification = ({ user }) => {
                                       {cube[j].userTo.fullname}{" "}
                                   </strong>{" "}
                                   on post: {' '}
-                                  {cube[j].news.title}
+                                  {
+                                    cube[j].news.title.length <= 70
+                                    ? cube[j].news.title
+                                    : cube[j].news.title.substring(0, 70) + "..."
+                                  }
                                 </li>
                                 <li style={{ paddingTop: 4, fontSize:13, color: '#38a7c8' }}>
                                   <strong>{
@@ -237,7 +253,11 @@ const Notification = ({ user }) => {
                                       {cube[j].user.fullname}{" "}
                                   </strong>{" "}
                                   like on your post: {' '}
-                                  {cube[j].news.title}
+                                  {
+                                    cube[j].news.title.length <= 65
+                                    ? cube[j].news.title
+                                    : cube[j].news.title.substring(0, 65) + "..."
+                                  }
                                 </li>
                                 <li style={{ paddingTop: 4, fontSize:13, color: '#38a7c8' }}>
                                   <strong>{
