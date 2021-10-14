@@ -93,13 +93,15 @@ const FollowType = new GraphQLObjectType({
     userFollower: {
       type: userType,
       resolve: (parents, args) => {
-        return User.findById(parents.followBy);
+        // return User.findById(parents.followBy);
+        return User.findOne({ accountId: parents.followBy });
       },
     },
     userFollowing: {
       type: userType,
       resolve: (parents, args) => {
-        return User.findById(parents.followTo);
+        // return User.findById(parents.followTo);
+        return User.findOne({ accountId: parents.followTo });
       },
     },
   }),

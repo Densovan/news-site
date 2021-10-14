@@ -4,7 +4,7 @@ import { Badge, Popover, Row, Col, Typography, Avatar } from "antd";
 import { CaretRightOutlined } from "@ant-design/icons";
 import { HiOutlineBell } from "react-icons/hi";
 import moment from "moment";
-// import pretty from "pretty-date";
+import pretty from "pretty-date";
 
 const Notification = ({ user }) => {
   const server = process.env.API_SECRET;
@@ -21,6 +21,7 @@ const Notification = ({ user }) => {
   if (loading_notifications) {
     <div>Loading....</div>;
   }
+  // console.log(notifications);
   let cubes = [];
   let sum = 0;
   let data = [];
@@ -70,6 +71,7 @@ const Notification = ({ user }) => {
                 </Row>
                 <Row>
                   {data.map((item) => {
+                    console.log(item.type);
                     return (
                       <div
                         className="container-box"

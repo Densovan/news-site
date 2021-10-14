@@ -80,6 +80,7 @@ const SinglePage = () => {
   // console.log(user.id);
   // const result = <Output data={JSON.parse(des)} />;
   // const result = {parse(des)};
+  // console.log(data.get_news_by_slug);
   return (
     <React.Fragment>
       <GlobalHeader />
@@ -258,14 +259,16 @@ const SinglePage = () => {
                         <FormComment
                           user={user}
                           articleId={id}
-                          ownerId={user.id}
+                          // ownerId={user.id}
+                          ownerId={user.accountId}
                         />
                         <CommentList
                           articleId={id}
                           comments={comment}
                           reply={reply}
                           fullname={user.fullname}
-                          ownerId={user.id}
+                          ownerId={user.accountId}
+                          // ownerId={user.id}
                         />
                       </div>
                     </div>

@@ -450,6 +450,7 @@ const GET_NEWS_BY_SLUG = gql`
         image
         email
         createdAt
+        accountId
       }
       types {
         name
@@ -462,6 +463,7 @@ const GET_NEWS_BY_SLUG = gql`
         id
         question
         user {
+          accountId
           id
           fullname
           image
@@ -472,6 +474,7 @@ const GET_NEWS_BY_SLUG = gql`
         id
         createdAt
         user {
+          accountId
           id
           fullname
           image
@@ -721,6 +724,7 @@ const GET_FOLLOWS = gql`
       followTo
       followBy
       user {
+        accountId
         id
       }
     }
@@ -745,8 +749,10 @@ const GET_FOLLOWS_BY_USER = gql`
   query ($limit: Int!, $offset: Int!) {
     get_follows_by_user(limit: $limit, offset: $offset) {
       user {
+        accountId
         get_follower {
           userFollower {
+            accountId
             fullname
             image
             id
@@ -754,6 +760,7 @@ const GET_FOLLOWS_BY_USER = gql`
         }
         get_following {
           userFollowing {
+            accountId
             fullname
             image
             id
@@ -789,10 +796,12 @@ const GET_NOTIFICATION = gql`
         user {
           fullname
           image
+          accountId
         }
         userFollower {
           fullname
           image
+          accountId
         }
         count
         read
@@ -807,6 +816,7 @@ const GET_NOTIFICATION = gql`
         user {
           fullname
           image
+          accountId
         }
         count
         read
@@ -819,10 +829,13 @@ const GET_NOTIFICATION = gql`
           thumnail
         }
         user {
+          accountId
           fullname
           image
+          accountId
         }
         userTo {
+          accountId
           fullname
           image
         }
@@ -839,6 +852,7 @@ const GET_NOTIFICATION = gql`
         user {
           fullname
           image
+          accountId
         }
         count
         read

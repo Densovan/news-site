@@ -28,6 +28,9 @@ const ConversationNotificationType = new GraphQLObjectType({
     createdAt: {
       type: GraphQLString,
     },
+    accountId: {
+      type: GraphQLID,
+    },
     user: {
       type: userType,
       resolve: (parents, args) => {

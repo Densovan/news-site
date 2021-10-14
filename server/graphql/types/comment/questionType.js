@@ -27,10 +27,11 @@ const QuestionType = new GraphQLObjectType({
     user: {
       type: userType,
       resolve: (parents, args) => {
-        return User.findById(parents.userId);
+        // return User.findById(parents.userId);
+        return User.findOne({ accountId: parents.userId });
       },
     },
-    article:{
+    article: {
       type: newsType,
       resolve: (parents, args) => {
         return News.findById(parents.postId);
