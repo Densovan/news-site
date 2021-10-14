@@ -1,8 +1,9 @@
+import { useState } from 'react'
 import { GET_NOTIFICATION } from '../../graphql/query';
 import { useQuery, useMutation } from '@apollo/client';
 import { Badge, Popover, Row, Col, Typography, Avatar } from 'antd';
 import { CaretRightOutlined } from '@ant-design/icons';
-import { HiOutlineBell } from 'react-icons/hi';
+import { HiOutlineBell, HiBell } from 'react-icons/hi';
 import moment from 'moment';
 import pretty from 'pretty-date';
 
@@ -11,6 +12,12 @@ const Notification = ({ user }) => {
   const server_local = process.env.API_SECRET_LOCAL;
   const develop = process.env.NODE_ENV;
   const URL_ACCESS = develop === "development" ? server_local : server;
+
+  const [visible, setVisible] = useState(false);
+
+  const handleVisibleChange = visible => {
+    setVisible(visible);
+  }
 
   const { data: notifications, loading: loading_notifications } =
     useQuery(GET_NOTIFICATION,{
@@ -122,24 +129,40 @@ const Notification = ({ user }) => {
             </div>
           }
           trigger="click"
+          visible={visible}
+          onVisibleChange={handleVisibleChange}
         >
           <div
             className="notifications"
             onClick={async () => {
               try {
-                console.log('');
+                setVisible(true)
               } catch (e) {
                 console.log(e);
               }
             }}
           >
-            <HiOutlineBell
+            {visible ? <>
+              <HiBell
               style={{
                 height: 26,
+                paddingLeft: 2,
+                fontSize: 24,
+                color: '#38a7c8',
+              }}
+            />
+            </>
+            :
+            <>
+              <HiOutlineBell
+              style={{
+                height: 26,
+                paddingLeft: 2,
                 fontSize: 24,
                 color: '#ffffff',
               }}
             />
+            </>}
           </div>
         </Popover>
       </Badge>
