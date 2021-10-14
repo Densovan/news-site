@@ -40,7 +40,6 @@ const FilterNews = ({ handleChange, selectedTags }) => {
   });
 
   //=================>funcion<===============
-  console.log(user.get_user.id);
   var value = user.get_user.id;
   var allUsers = usersData.get_users.map((x) => x);
   allUsers = allUsers.filter(function (item) {

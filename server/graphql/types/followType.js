@@ -3,7 +3,7 @@ const graphql = require("graphql");
 //=============model=================
 const User = require("../../models/user");
 
-const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLBoolean, GraphQLInt } = graphql;
+const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLBoolean, GraphQLInt, GraphQLList } = graphql;
 
 const FollowType = new GraphQLObjectType({
   name: "follow",

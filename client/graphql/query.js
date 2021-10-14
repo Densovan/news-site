@@ -793,10 +793,12 @@ const GET_NOTIFICATION = gql`
       count
       read
       type
+      createdAt
     }
     news{
       news{
         title
+        thumnail
       }
       user{
         fullname
@@ -805,10 +807,12 @@ const GET_NOTIFICATION = gql`
       count
       read
       type
+      createdAt
     }
     conversation{
       news{
         title
+        thumnail
       }
       user{
         fullname
@@ -821,10 +825,12 @@ const GET_NOTIFICATION = gql`
       count
       read
       type
+      createdAt
     }
     vote{
       news{
         title
+        thumnail
       }
       user{
         fullname
@@ -833,6 +839,7 @@ const GET_NOTIFICATION = gql`
       count
       read
       type
+      createdAt
     }
   }
 }

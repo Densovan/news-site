@@ -18,6 +18,9 @@ const NotificationType = new GraphQLObjectType({
     ownerId: { type:  GraphQLID },
     relateId: { type:  GraphQLID },
     type: { type: GraphQLString },
+    createdAt: {
+      type: GraphQLString,
+    },
     follow:{
       type: new GraphQLList(FollowType),
       resolve: async (parent, args, context) => {

@@ -24,7 +24,7 @@ import {
 import moment from "moment";
 import Medium from "../../components/loaders/newsLoader";
 import InfiniteScroll from "react-infinite-scroll-component";
-import SmallNavbar from "../../components/Layouts/smallNavbar";
+import FilterNavbar from "../../components/Layouts/filterNavbar";
 import AuthContext from "../../contexts/authContext";
 import NewLike from "../../components/common/news.like";
 
@@ -136,7 +136,7 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
         </Col> */}
         </Row>
       )}
-      <SmallNavbar />
+      <FilterNavbar />
       {loadingFilter ? (
         <div>
           {" "}

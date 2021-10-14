@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import { Breadcrumb, Row, Col } from "antd";
-import MainNavbar from "../../components/Layouts/mainNavbar";
-import Categories from "../categories/news";
+import { Row, Col } from "antd";
 import FilterNews from "../news/filterNews";
 import Main from "./main";
 import Footer from "../../components/Layouts/footer";
@@ -28,14 +26,6 @@ const index = () => {
     <React.Fragment>
       <GlobalHeader />
       <div className="container">
-        {/* <center>
-          <h1 className="top-title-allNews">News</h1>
-          <Breadcrumb style={{ marginTop: "-24px" }}>
-            <Breadcrumb.Item>Home</Breadcrumb.Item>
-            <Breadcrumb.Item>News</Breadcrumb.Item>
-          </Breadcrumb>
-        </center> */}
-
         <br></br>
         <Row gutter={[16, 16]}>
           <Col xs={24} md={16}>

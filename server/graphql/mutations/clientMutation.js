@@ -87,6 +87,9 @@ const RootMutation = new GraphQLObjectType({
                 read: false,
                 count: 1,
                 type: "news",
+                checkNotification:[
+                  { userId: context.id, read: false, hire: false, count: 1 },
+                ]
               });
               try {
                 NewsNotification.save();
@@ -834,7 +837,6 @@ const RootMutation = new GraphQLObjectType({
           } else {
             const follow = new FollowModel({
               ...args,
-              // follow: true,
               createBy: context.id,
               followBy: context.id,
               count: 1,
