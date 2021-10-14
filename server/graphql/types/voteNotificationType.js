@@ -24,6 +24,9 @@ const VoteNotificationType = new GraphQLObjectType({
     read: { type: GraphQLBoolean },
     count: { type: GraphQLInt },
     type: { type: GraphQLString },
+    createdAt: {
+      type: GraphQLString,
+    },
     user: {
       type: userType,
       resolve: (parents, args) => {

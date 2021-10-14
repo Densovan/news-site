@@ -18,12 +18,16 @@ const NewsNotificationType = new GraphQLObjectType({
     id: { type: GraphQLID },
     userId: { type: GraphQLID },
     postId: { type: GraphQLID },
+    createdAt: {
+      type: GraphQLString,
+    },
     message: {
       type: GraphQLString,
     },
     type: { type: GraphQLString },
     read: { type: GraphQLBoolean },
     count: { type: GraphQLInt },
+    // checkNotifications: [Schema.Types.Mixed],
     user: {
       type: userType,
       resolve: (parents, args) => {

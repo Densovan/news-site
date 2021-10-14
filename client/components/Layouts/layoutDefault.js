@@ -1,10 +1,10 @@
 import React from "react";
-import NavBar from "../global/Navbar";
+// import NavBar from "../global/Navbar";
 
 const LayoutPage = ({ loggedIn, children }) => {
     return(
         <div className="site-layout">
-            <NavBar auth={loggedIn}/>
+            {/* <NavBar auth={loggedIn}/> */}
             { children }
         </div>
     )

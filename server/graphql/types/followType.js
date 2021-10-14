@@ -62,6 +62,7 @@ const {
   GraphQLID,
   GraphQLBoolean,
   GraphQLInt,
+  GraphQLList,
 } = graphql;
 
 const FollowType = new GraphQLObjectType({

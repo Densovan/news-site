@@ -48,36 +48,35 @@ const FilterNews = ({ handleChange, selectedTags }) => {
   });
 
   // //=================>funcion<===============
-  if (loggedIn) {
-    var value = user.get_user.userId;
-    var allUsers = usersData.get_users.map((x) => x);
-    allUsers = allUsers.filter(function (item) {
-      return item.userId !== value;
-    });
-    //=================>funcion<===============
-    console.log(user.get_user.id);
-    var value = user.get_user.id;
-    var allUsers = usersData.get_users.map((x) => x);
-    allUsers = allUsers.filter(function (item) {
-      return item.id !== value;
-    });
+  // if (loggedIn) {
+  //   var value = user.get_user.userId;
+  //   var allUsers = usersData.get_users.map((x) => x);
+  //   allUsers = allUsers.filter(function (item) {
+  //     return item.userId !== value;
+  //   });
+  //   //=================>funcion<===============
+  //   console.log(user.get_user.id);
+  //   var value = user.get_user.id;
+  //   var allUsers = usersData.get_users.map((x) => x);
+  //   allUsers = allUsers.filter(function (item) {
+  //     return item.id !== value;
+  //   });
 
-    function shuffleArray(inputArray) {
-      inputArray.sort(() => Math.random() - 0.5);
-    }
-    // var demoArray = usersData.get_users.map((x) => x);
-    shuffleArray(allUsers);
-  }
-  if (!loggedIn) {
-    var allUsers = usersData.get_users.map((x) => x);
-    function shuffleArray(inputArray) {
-      inputArray.sort(() => Math.random() - 0.5);
-    }
-    // var demoArray = usersData.get_users.map((x) => x);
-    shuffleArray(allUsers);
-  }
+  //   function shuffleArray(inputArray) {
+  //     inputArray.sort(() => Math.random() - 0.5);
+  //   }
+  //   shuffleArray(allUsers);
+  // }
+  // if (!loggedIn) {
+  //   var allUsers = usersData.get_users.map((x) => x);
+  //   function shuffleArray(inputArray) {
+  //     inputArray.sort(() => Math.random() - 0.5);
+  //   }
 
-  // const allUsers = usersData.get_users.map((x) => x);
+  //   shuffleArray(allUsers);
+  // }
+
+  const allUsers = usersData.get_users.map((x) => x);
 
   return (
     <React.Fragment>
