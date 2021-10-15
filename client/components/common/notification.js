@@ -51,9 +51,9 @@ const Notification = ({ user }) => {
   for (let i = 0; i < cubes.length; i++){
     var cube = cubes[i];
     for (let j = 0; j < cube.length; j++){  
-        if (cube[j].user.fullname !== user.get_user.fullname) {
-            sum += cube[j].count;
-            data.push(cube[j])
+        if (cube[j].user.fullname !== user.get_user.fullname || cube[j].type === "follow") {
+          sum += cube[j].count;
+          data.push(cube[j])
         }
     }
   }
@@ -81,19 +81,44 @@ const Notification = ({ user }) => {
                           <div className="box-notification">
                               <div className="avatar-notification">
                                 <div><CaretRightOutlined /></div>
-                                <div style={{ paddingRight: 8 }}>
-                                  <Avatar
-                                    src={item.user.image}
-                                    size={40}
-                                  />
-                                </div>
+                                { item.type !== "follow" ?
+                                    <>
+                                      <div style={{ paddingRight: 8 }}>
+                                        <Avatar
+                                          src={item.user.image}
+                                          size={40}
+                                        />
+                                      </div>
+                                    </>
+                                  :
+                                    <>
+                                      <div style={{ paddingRight: 8 }}>
+                                        <Avatar
+                                          src={item.userFollower.image}
+                                          size={40}
+                                        />
+                                      </div>
+                                    </>
+                                }
                               </div>
                               <div className="text-notification">
                                 <div style={{ paddingRight: 8 }}>
                                   <li>
-                                    <strong>
-                                      {item.user.fullname}
-                                    </strong>{" "}
+                                    { item.type !== "follow" ?
+                                        <>
+                                          <strong>
+                                            {item.user.fullname}
+                                          </strong>
+                                          {" "}
+                                        </>
+                                      :
+                                        <>
+                                          <strong>
+                                            {item.userFollower.fullname}
+                                          </strong>
+                                          {" "}
+                                        </>
+                                    }
                                     { item.type === "up" && "like on your post: "}
                                     { item.type === "comment" && "comment on your post: "}
                                     { item.type === "reply" && (item.userTo.fullname == user.get_user.fullname ? "mentioned you in a comment: " : <>replied to <strong>{item.userTo.fullname}</strong> on your post: </>)}  
