@@ -26,6 +26,7 @@ const Notification = ({ user }) => {
   if (loading_notifications) {
     <div>Loading....</div>;
   }
+  // console.log(notifications);
   let cubes = [];
   let sum = 0;
   let data = [];

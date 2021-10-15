@@ -74,12 +74,12 @@ const FormComment = (props) => {
         try {
           replyComment({
             variables: {
-              userId: user.get_user.id,
+              userId: user.get_user.accountId,
               postId: articleId,
               answer: values.comment,
               questionId: comments.id,
               ownerId: ownerId,
-              userIdTo: comments.user.id,
+              userIdTo: comments.user.accountId,
             },
           }).then(async (data) => {
             console.log(data);
@@ -93,7 +93,7 @@ const FormComment = (props) => {
           editComment({
             variables: {
               id: object.id,
-              userId: user.get_user.id,
+              userId: user.get_user.accountId,
               postId: articleId,
               question: values.comment,
             },

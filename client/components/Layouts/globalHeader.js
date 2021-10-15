@@ -24,7 +24,7 @@ import { HiOutlineBell, HiOutlineDotsHorizontal } from "react-icons/hi";
 import Link from "next/link";
 import { HiMenu } from "react-icons/hi";
 import AuthContext from "../../contexts/authContext";
-import Logout from "../Layouts/logout";
+// import Logout from "../Layouts/logouts";
 import Notification from "../common/notification";
 import { useQuery, useMutation } from "@apollo/client";
 import {
@@ -105,6 +105,12 @@ const GlobalHeader = () => {
     setState({
       visible: false,
     });
+  };
+
+  const Logouts = () => {
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
+    window.location.reload();
   };
 
   let cubes = [];
@@ -259,7 +265,7 @@ const GlobalHeader = () => {
                         className="content-text"
                         style={{ paddingBottom: 12 }}
                       >
-                        <Logout />
+                        <span onClick={Logouts}>Logout</span>
                       </li>
                     </div>
                   }
@@ -579,7 +585,7 @@ const GlobalHeader = () => {
                     </li>
                     <Divider />
                     <li className="content-text" style={{ paddingBottom: 12 }}>
-                      <Logout />
+                      <span onClick={Logouts}>Logout</span>
                     </li>
                   </div>
                 }

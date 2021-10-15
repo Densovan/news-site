@@ -87,9 +87,9 @@ const RootMutation = new GraphQLObjectType({
                 read: false,
                 count: 1,
                 type: "news",
-                checkNotification:[
+                checkNotification: [
                   { userId: context.id, read: false, hire: false, count: 1 },
-                ]
+                ],
               });
               try {
                 NewsNotification.save();

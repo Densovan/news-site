@@ -16,7 +16,8 @@ const AnswerType = new GraphQLObjectType({
     user: {
       type: userType,
       resolve: (parents, args) => {
-        return User.findById(parents.userId);
+        // return User.findById(parents.userId);
+        return user.findOne({ accountId: parents.userId });
       },
     },
     postId: {
@@ -40,17 +41,18 @@ const AnswerType = new GraphQLObjectType({
     ownerId: {
       type: GraphQLID,
     },
-    userIdTo: { 
+    userIdTo: {
       type: GraphQLID,
     },
-    user: {
-      type: userType,
-      resolve: (parent, args) => {
-        return user.findById(parent.userId);
-      },
-    },
+    // user: {
+    //   type: userType,
+    //   resolve: (parent, args) => {
+    //     // return user.findById(parent.userId);
+    //     return user.findOne({ accoutId: parent.userId });
+    //   },
+    // },
   }),
 });
 module.exports = AnswerType;
-const userType = require("../userType");const Question = require("../../../models/comment/question");
-
+const userType = require("../userType");
+const Question = require("../../../models/comment/question");
