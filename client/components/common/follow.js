@@ -15,7 +15,7 @@ const Follow = ({ articleUser, user, follows }) => {
   useEffect(() => {
     follows.get_follows.map((follow) => {
       if (
-        follow.followTo == articleUser.id &&
+        follow.followTo == articleUser.accountId &&
         user.get_user.accountId == follow.followBy
       ) {
         setState({
@@ -33,7 +33,7 @@ const Follow = ({ articleUser, user, follows }) => {
         });
         follow({
           variables: {
-            followTo: articleUser.id,
+            followTo: articleUser.accountId,
           },
         }).then((response) => {
           notification.open({
@@ -56,7 +56,7 @@ const Follow = ({ articleUser, user, follows }) => {
         });
         follow({
           variables: {
-            followTo: articleUser.id,
+            followTo: articleUser.accountId,
           },
         }).then((response) => {
           notification.open({

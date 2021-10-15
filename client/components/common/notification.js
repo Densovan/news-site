@@ -22,6 +22,7 @@ const Notification = ({ user }) => {
   if (loading_notifications) {
     <div>Loading....</div>;
   }
+  // console.log(notifications);
   let cubes = [];
   let sum = 0;
   let data = [];
@@ -71,6 +72,7 @@ const Notification = ({ user }) => {
                 </Row>
                 <Row>
                   {data.map((item) => {
+                    console.log(item.type);
                     return (
                       <div
                         className="container-box"
