@@ -2595,13 +2595,16 @@ body {
   align-items: center;
 }
 .text-notification{
+  width:100%;
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 .box-notification .image-container{
   height: 60px;
-  width: 80%;
+  width: 120px;
   padding-right: 4px;
+  float: right;
 }
 .box-notification .image-container img{
   height: 100%;

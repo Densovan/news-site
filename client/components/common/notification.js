@@ -138,14 +138,14 @@ const Notification = ({ user }) => {
                                     }</strong>
                                   </li>
                                 </div>
-                                { item.type !== "follow" ? 
+                              </div>
+                              { item.type !== "follow" ? 
                                     <div className="image-container">
                                       <img src={`${URL_ACCESS}/public/uploads/${item.news.thumnail}`}/>
                                     </div>
                                   :
                                     ''
-                                } 
-                              </div>
+                              } 
                           </div>
                         </div>
                       )
