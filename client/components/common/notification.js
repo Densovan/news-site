@@ -57,6 +57,11 @@ const Notification = ({ user }) => {
         }
     }
   }
+
+  var numArray = data;
+  numArray.sort(function(a, b) {
+    return b.createdAt - a.createdAt;
+  });
   return (
     <>
       <Badge count={sum} overflowCount={10}>

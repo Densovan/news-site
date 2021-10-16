@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Form, Input, Button, Checkbox, message, Radio } from "antd";
+import LayoutAuth from "../components/Layouts/layoutAuth";
 import AuthContext from "../contexts/authContext";
 import axios from "axios";
 import Link from "next/link";
@@ -167,3 +168,8 @@ const Register = ({ history }) => {
 };
 
 export default Register;
+// Register.getLayout = (page) => (
+//   <LayoutAuth>
+//     {page}
+//   </LayoutAuth>
+// )

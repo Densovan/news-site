@@ -16,8 +16,6 @@ import GlobalHeader from "../components/Layouts/globalHeader";
 const About = () => {
   return (
     <React.Fragment>
-      {/* <TopNavbar /> */}
-      {/* <MainNavbar /> */}
       <GlobalHeader />
       <div className="container">
         <br></br>

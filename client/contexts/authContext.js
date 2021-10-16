@@ -36,6 +36,8 @@
 // export { AuthContextProvider };
 import React, { createContext, useEffect, useState } from "react";
 import axios from "axios";
+import LayoutAuth from '../components/Layouts/layoutAuth';
+import LayoutDefault from '../components/Layouts/layoutDefault';
 
 const AuthContext = createContext();
 

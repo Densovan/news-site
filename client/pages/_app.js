@@ -41,6 +41,7 @@ function MyApp({ Component, pageProps }) {
   //     <Component {...pageProps} loggedIn={loggedIn} />
   //   </ApolloProvider>
   // );
+  const getLayout = Component.getLayout || ((page) => <LayoutDefault>{page}</LayoutDefault>)
   return(
     <ApolloProvider client={client}>
       <AuthContextProvider>
