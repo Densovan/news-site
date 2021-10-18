@@ -1,10 +1,15 @@
-import React from "react";
-// import NavBar from "../global/Navbar";
+import React, { useState, useContext, useEffect } from "react";
+import GlobalHeader from "./globalHeader";
+import AuthContext from "../../contexts/authContext";
 
-const LayoutPage = ({ loggedIn, children }) => {
+
+const LayoutPage = ({ children, loggedIn }) => {
+
+    console.log(loggedIn);
+
     return(
         <div className="site-layout">
-            {/* <NavBar auth={loggedIn}/> */}
+            <GlobalHeader loggedIn={loggedIn} />
             { children }
         </div>
     )
