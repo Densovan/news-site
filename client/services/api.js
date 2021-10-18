@@ -1,11 +1,11 @@
-import Axios from "axios";
+import axios from "axios";
 
 let urls = {
-    development: 'http://localhost:3500/',
+    development: 'https://accounts.koompi.com/',
     production: 'https://accounts.koompi.com/'
 }
 
-const api = Axios.create({
+const api = axios.create({
     baseURL: urls[process.env.NODE_ENV],
     headers: {
         'Accept': 'application/json',

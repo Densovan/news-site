@@ -4,7 +4,7 @@ import { useQuery, useMutation } from "@apollo/client";
 import { GET_SAVED } from "../../graphql/query";
 import { DELETE_NEWS_SAVE } from "../../graphql/mutation";
 import Footer from "../../components/Layouts/footer";
-import AuthContext from "../../contexts/authContext";
+import { useAuth } from "../../layouts/layoutAuth";
 import Link from "next/link";
 import { BsTrash, BsPencil } from "react-icons/bs";
 import { Table, Tag, Divider, Popconfirm, message } from "antd";
@@ -14,7 +14,7 @@ const saved = () => {
   const server_local = process.env.API_SECRET_LOCAL;
   const develop = process.env.NODE_ENV;
   const URL_ACCESS = develop === "development" ? server_local : server;
-  const { loggedIn } = useContext(AuthContext);
+  const { isAuthenticated } = useAuth();
   const [delete_save_news] = useMutation(DELETE_NEWS_SAVE);
   const { loading, data, refetch } = useQuery(GET_SAVED, {
     variables: { limit: 6, offset: 0 },
@@ -96,7 +96,7 @@ const saved = () => {
   return (
     <React.Fragment>
       <Profile />
-      {loggedIn === true && (
+      {isAuthenticated === true && (
         <div className="container">
           <div className="profile-content">
             <div className="sub-pf-content">
@@ -112,7 +112,7 @@ const saved = () => {
           </div>
         </div>
       )}
-      {loggedIn === false && window.location.replace("/")}
+      {isAuthenticated === false && window.location.replace("/")}
       <br></br>
       <Footer />
     </React.Fragment>

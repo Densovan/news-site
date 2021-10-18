@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useContext } from "react";
+import React, { useState } from "react";
 import {
   Row,
   Col,
@@ -16,22 +16,17 @@ import {
 } from "antd";
 import parse from "html-react-parser";
 import { CaretRightOutlined } from "@ant-design/icons";
-import { AiOutlinePicture, AiOutlineLink } from "react-icons/ai";
 import Link from "next/link";
 import { useQuery, useMutation } from "@apollo/client";
 import {
   GET_OWN_NEWS,
-  // GET_USER,
   GET_VOTE_UP_DOWN,
   GET_ALL_VOTE_UP_DOWN,
 } from "../../graphql/query";
 import { DELETE_NEWS } from "../../graphql/mutation";
 import { BsTrash, BsPencil } from "react-icons/bs";
 import moment from "moment";
-import Medium from "../../components/loaders/newsLoader";
 import InfiniteScroll from "react-infinite-scroll-component";
-import SmallNavbar from "../../components/Layouts/smallNavbar";
-import AuthContext from "../../contexts/authContext";
 import NewLike from "../../components/common/news.like";
 import Profile from "./profile";
 import Footer from "../../components/Layouts/footer";
@@ -39,7 +34,6 @@ import Footer from "../../components/Layouts/footer";
 const { Content } = Layout;
 
 const AllNews = ({ selectedTags, loadingFilter }) => {
-  const { loggedIn } = useContext(AuthContext);
   const server = process.env.API_SECRET;
   const server_local = process.env.API_SECRET_LOCAL;
   const develop = process.env.NODE_ENV;
@@ -66,41 +60,7 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
       pollInterval: 500,
     }
   );
-  if (loading || vote_up_down_loading || loading_all_vote)
-    return <div className="container">login...</div>;
-  console.log(news);
-  // console.log(news);
-  // const result = [];
-  // if (!loadingFilter) {
-  //   if (selectedTags.length === 0) {
-  //     news.get_all_news.map((news) => {
-  //       result.push(news);
-  //     });
-  //   } else {
-  //     let selectedTag = [];
-  //     selectedTags.forEach((element) => {
-  //       if (element === "All") {
-  //         selectedTag.push(element);
-  //       }
-  //     });
-  //     if (selectedTag[0] == "All") {
-  //       news.get_all_news.map((news) => {
-  //         result.push(news);
-  //       });
-  //     } else {
-  //       news.get_all_news.filter((news) => {
-  //         return selectedTags.map((selectedTag) => {
-  //           if (
-  //             news.categories.name === selectedTag ||
-  //             news.types.name === selectedTag
-  //           ) {
-  //             result.push(news);
-  //           }
-  //         });
-  //       });
-  //     }
-  //   }
-  // }
+  if (loading || vote_up_down_loading || loading_all_vote) return <div className="container">login...</div>;
   return (
     <React.Fragment>
       <Profile />

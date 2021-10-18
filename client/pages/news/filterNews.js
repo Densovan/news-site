@@ -9,16 +9,14 @@ import {
   GET_USER,
   GET_FOLLOWS,
 } from "../../graphql/query";
-// import { GET_USER } from "../../graphql/privateQuery";
 import CategoryLoader from "../../components/loaders/categoryLoader";
 import { Card, Tag, Divider, Typography, Row, Col, Button, Avatar } from "antd";
 import Follow from "../../components/common/follow";
-// import AuthContext from "../../contexts/salaKoompiAuth";
-import AuthContext from "../../contexts/authContext";
+import { useAuth } from "../../layouts/layoutAuth";
 const { CheckableTag } = Tag;
 
 const FilterNews = ({ handleChange, selectedTags }) => {
-  const { loggedIn } = useContext(AuthContext);
+  const { isAuthenticated } = useAuth()
   const { loading: usersLoading, data: usersData } = useQuery(GET_USERS, {
     pollInterval: 1000,
   });
@@ -170,7 +168,7 @@ const FilterNews = ({ handleChange, selectedTags }) => {
                 </div>
               </Col>
               <Col span={10}>
-                {loggedIn && (
+                {isAuthenticated && (
                   <Follow
                     articleUser={res}
                     user={user}
@@ -178,7 +176,7 @@ const FilterNews = ({ handleChange, selectedTags }) => {
                     refetch={follow_refetch}
                   />
                 )}
-                {!loggedIn && (
+                {!isAuthenticated && (
                   <Link href="/signin">
                     <button className="btn-follow">Follow</button>
                   </Link>

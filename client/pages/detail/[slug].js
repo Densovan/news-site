@@ -1,25 +1,18 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
+import React, { useContext } from "react";
 import parse from "html-react-parser";
 import { useRouter } from "next/router";
-import MainNavbar from "../../components/Layouts/mainNavbar";
-import GlobalHeader from "../../components/Layouts/globalHeader";
 import Footer from "../../components/Layouts/footer";
 import { GET_NEWS_BY_SLUG, GET_USER, GET_FOLLOWS } from "../../graphql/query";
 import { useQuery } from "@apollo/client";
-import Output from "editorjs-react-renderer";
 import moment from "moment";
-import { Col, Row, Button, Divider } from "antd";
+import { Col, Row, Divider } from "antd";
 import Laoder from "../../components/loaders/detailLoader";
 import Follow from "../../components/common/follow";
-import Like from "../../components/common/like";
-import AuthContext from "../../contexts/authContext";
+import { useAuth } from "../../layouts/layoutAuth";
 import Link from "next/link";
-import FormLike from "../../components/common/like";
 import FormSave from "../../components/common/save";
 
 import {
-  // HeartOutlined,
-  // HeartFilled,
   HiOutlineShare,
   HiOutlineBookmark,
 } from "react-icons/hi";
@@ -33,19 +26,9 @@ const SinglePage = () => {
   const develop = process.env.NODE_ENV;
   const URL_ACCESS = develop === "development" ? server_local : server;
 
-  const { loggedIn } = useContext(AuthContext);
+  const { isAuthenticated } = useAuth()
   const router = useRouter();
   const { slug } = router.query;
-  // const [dataSlug, setDataSlug] = useState({
-  //   id: "",
-  //   title: "",
-  //   thumnail: "",
-  //   des: "",
-  //   user: "",
-  //   createdAt: "",
-  //   comment: [],
-  //   reply: []
-  // })
   const { loading, data, refetch } = useQuery(GET_NEWS_BY_SLUG, {
     variables: { slug },
     pollInterval: 1000,
@@ -77,18 +60,13 @@ const SinglePage = () => {
     type,
     save,
   } = data.get_news_by_slug;
-  // console.log(user.id);
-  // const result = <Output data={JSON.parse(des)} />;
-  // const result = {parse(des)};
-  // console.log(data.get_news_by_slug);
   return (
     <React.Fragment>
-      <GlobalHeader />
       <div className="container">
         <div style={{ marginTop: 40 }}>
           <Row gutter={[16, 16]}>
             <Col xs={24} md={2}>
-              {loggedIn && (
+              {isAuthenticated && (
                 <div className="nav_left">
                   <Row gutter={[32, 32]}>
                     <Col xs={8} md={24}>
@@ -252,7 +230,7 @@ const SinglePage = () => {
                     <div className="describe-style-article">{parse(des)}</div>
                   </div>
                   <Divider />
-                  {loggedIn ? (
+                  {isAuthenticated ? (
                     <div style={{ marginTop: 20 }}>
                       <h3>Comment({reply.length + comment.length})</h3>
                       <div>
@@ -313,7 +291,7 @@ const SinglePage = () => {
                     <p>{user.bio}</p>
                   </center>
                 </div>
-                {loggedIn ? (
+                {isAuthenticated ? (
                   <center>
                     {user.id === myUser.get_user.id ? (
                       <center>

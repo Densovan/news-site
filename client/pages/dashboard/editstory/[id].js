@@ -9,9 +9,7 @@ import {
 import { useRouter } from "next/router";
 import { EDIT_NEWS } from "../../../graphql/mutation";
 import { useQuery, useMutation } from "@apollo/client";
-import dynamic from "next/dynamic";
-import MainNavbar from "../../../components/Layouts/mainNavbar";
-import AuthContext from "../../../contexts/authContext";
+import { useAuth } from "../../../layouts/layoutAuth";
 import Footer from "../../../components/Layouts/footer";
 import GlobalHeader from "../../../components/Layouts/globalHeader";
 import QuillNoSSRWrapper from "../../../components/Quill/textEditor";
@@ -30,12 +28,13 @@ const Editstory = () => {
   const develop = process.env.NODE_ENV;
   const URL_ACCESS = develop === "development" ? server_local : server;
 
+  const { isAuthenticated } = useAuth();
+
   const router = useRouter();
   const [des, setDescr] = useState("");
   const [editor, setEditor] = useState(null);
   const [current, setCurrent] = React.useState(0);
   const [titles, setTitle] = useState("");
-  const { loggedIn } = useContext(AuthContext);
   const [state, setState] = useState({
     imageUrl: null,
     loading: false,
@@ -235,7 +234,7 @@ const Editstory = () => {
       {/* <MainNavbar /> */}
       <GlobalHeader />
       <br></br>
-      {loggedIn === true && (
+      {isAuthenticated === true && (
         <div className="container">
           <div className="profile-content">
             <div className="sub-pf-content">
@@ -368,7 +367,7 @@ const Editstory = () => {
           </div>
         </div>
       )}
-      {loggedIn === false && window.location.replace("/")}
+      {isAuthenticated === false && window.location.replace("/")}
       <br></br>
       <Footer />
     </React.Fragment>

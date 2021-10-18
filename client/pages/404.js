@@ -1,15 +1,9 @@
 import React from "react";
-import TopNavbar from "../components/Layouts/topNavbar";
-import MainNavbar from "../components/Layouts/mainNavbar";
 import Footer from "../components/Layouts/footer";
-import GlobalHeader from "../components/Layouts/globalHeader";
 
 const NotFound = () => {
   return (
     <React.Fragment>
-      {/* <TopNavbar /> */}
-      {/* <MainNavbar /> */}
-      {/* <GlobalHeader /> */}
       <div className="main-404">
         <div id="notfound">
           <div className="notfound">

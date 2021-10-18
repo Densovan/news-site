@@ -4,11 +4,9 @@ import { GET_CATEGORIES, GET_TYPES, GET_OWN_NEWS } from "../../graphql/query";
 import { ADD_NEWS } from "../../graphql/mutation";
 import { useQuery, useMutation } from "@apollo/client";
 import dynamic from "next/dynamic";
-import MainNavbar from "../../components/Layouts/mainNavbar";
 import Footer from "../../components/Layouts/footer";
-import AuthContext from "../../contexts/authContext";
+import { useAuth } from "../../layouts/layoutAuth";
 import { useRouter } from "next/router";
-import GlobalHeader from "../../components/Layouts/globalHeader";
 import QuillNoSSRWrapper from "../../components/Quill/textEditor";
 
 const EditorJs = dynamic(
@@ -22,10 +20,11 @@ const Addstory = () => {
   const server_local = process.env.API_SECRET_LOCAL;
   const develop = process.env.NODE_ENV;
   const URL_ACCESS = develop === "development" ? server_local : server;
+
+  const { isAuthenticated, user } = useAuth();
   const [editor, setEditor] = useState(null);
   const [title, setTitle] = useState("");
   const [des, setDescr] = useState("");
-  const { loggedIn } = useContext(AuthContext);
   const instanceRef = React.useRef(null);
   const [add_news] = useMutation(ADD_NEWS);
   const { refetch } = useQuery(GET_OWN_NEWS);
@@ -123,7 +122,6 @@ const Addstory = () => {
       error: catError,
     } = useQuery(GET_CATEGORIES);
     if (catLoading) return null;
-    console.log(catData);
     if (catError) return `Error! ${error.message}`;
     return (
       <Form.Item
@@ -239,10 +237,8 @@ const Addstory = () => {
 
   return (
     <React.Fragment>
-      {/* <MainNavbar /> */}
-      <GlobalHeader />
       <br></br>
-      {loggedIn && (
+      {isAuthenticated && (
         <div className="container">
           <div className="profile-content">
             <div className="addstory-content">
@@ -385,7 +381,7 @@ const Addstory = () => {
         </div>
       )}
       <br></br>
-      {/* {!loggedIn && window.location.replace("/")} */}
+      {!isAuthenticated && window.location.replace("/")}
       <Footer />
     </React.Fragment>
   );
