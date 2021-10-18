@@ -41,7 +41,7 @@ const About = () => {
                   turpis. Donec sit amet eros. Lorem ipsum dolor sit amet,
                   consecvtetuer. Mauris fermentum dictum magna. Sed laoreet
                   aliquam leo. Ut tellus dolor, dapibus eget, elementum vel,
-                  cursus eleifend, elit. Aenean auctor wisi et urna. Aliquam
+                  cursus eleifend, elit. Aenean auctor wisi et urna. Aliquamset
                   erat volutpat. Duis ac turpis. Integer rutrum ante eu lacus.
                   Vestibulum libero nisl, porta vel, scelerisque eget, malesuada
                   at, neque.{" "}
@@ -76,7 +76,7 @@ const About = () => {
                 <p>
                   Vestibulum sed ante. Donec sagittis euismod purus. Sed ut
                   perspiciatis unde omnis iste natus error sit. voluptatem
-                  accusantium doloremque.
+                  accusantium doloremque.d
                 </p>
                 {/* <button className="mission-btn">Read More</button> */}
               </div>
