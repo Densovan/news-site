@@ -235,7 +235,7 @@ const Editstory = () => {
       {/* <MainNavbar /> */}
       <GlobalHeader />
       <br></br>
-      {loggedIn === true && (
+      {loggedIn && (
         <div className="container">
           <div className="profile-content">
             <div className="sub-pf-content">
@@ -368,7 +368,7 @@ const Editstory = () => {
           </div>
         </div>
       )}
-      {loggedIn === false && window.location.replace("/")}
+      {/* {loggedIn === false && window.location.replace("/")} */}
       <br></br>
       <Footer />
     </React.Fragment>
