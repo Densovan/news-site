@@ -27,11 +27,11 @@ const NewsNotificationType = new GraphQLObjectType({
     type: { type: GraphQLString },
     read: { type: GraphQLBoolean },
     count: { type: GraphQLInt },
-    // checkNotification: { type: GraphQLList },
+    checkNotification: { type: new GraphQLList(checknotificationType) },
 
-    checkNotification: {
-      type: GraphQLList(checknotificationType),
-    },
+    // checkNotification: {
+    //   type: GraphQLList(checknotificationType),
+    // },
     // checkNotifications: [Schema.Types.Mixed],
     user: {
       type: userType,

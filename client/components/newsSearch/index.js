@@ -5,7 +5,6 @@ import { Breadcrumb, Row, Col } from "antd";
 import FilterNews from "./filterNews";
 import Main from "./main";
 import Footer from "../../components/Layouts/footer";
-import GlobalHeader from "../../components/Layouts/globalHeader";
 
 const index = ({ data, fetchMore, userData, vote_up_down, get_all_vote }) => {
   const [state, setState] = useState({
@@ -26,7 +25,6 @@ const index = ({ data, fetchMore, userData, vote_up_down, get_all_vote }) => {
 
   return (
     <React.Fragment>
-      <GlobalHeader />
       <div className="container">
         {/* <center>
           <h1 className="top-title-allNews">News</h1>

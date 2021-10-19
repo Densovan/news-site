@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { useQuery } from "@apollo/client";
 import { GET_FOLLOWS_BY_USER } from "../../graphql/query";
 import Footer from "../../components/Layouts/footer";
-import AuthContext from "../../contexts/authContext";
+import { useAuth } from "../../layouts/layoutAuth";
 import Profile from "./profile";
 import Link from "next/link";
 import { Row, Col } from "antd";
@@ -12,7 +12,8 @@ const following = () => {
   const server_local = process.env.API_SECRET_LOCAL;
   const develop = process.env.NODE_ENV;
   const URL_ACCESS = develop === "development" ? server_local : server;
-  const { loggedIn } = useContext(AuthContext);
+ 
+  const { isAuthenticated } = useAuth();
 
   const { loading, data, fetchMore } = useQuery(GET_FOLLOWS_BY_USER, {
     variables: { limit: 6, offset: 0 },
@@ -21,11 +22,10 @@ const following = () => {
   if (loading) return "loading...";
   // console.log(data.get_follows_by_user);
   const { user } = data.get_follows_by_user;
-  console.log(user);
   return (
     <React.Fragment>
       <Profile />
-      {loggedIn && (
+      {isAuthenticated && (
         <div className="container">
           <div className="profile-content">
             <div className="sub-pf-content">
@@ -57,7 +57,7 @@ const following = () => {
         </div>
       )}
       <br></br>
-      {!loggedIn && window.location.replace("/")}
+      {!isAuthenticated && window.location.replace("/")}
       <Footer />
     </React.Fragment>
   );

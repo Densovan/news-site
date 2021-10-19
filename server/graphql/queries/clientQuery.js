@@ -15,14 +15,12 @@ const Category = require("../../models/category");
 const Types = require("../../models/type");
 const NotificationModel = require("../../models/notification");
 const LikeModel = require("../../models/like");
-const NotiModel = require("../../models/notifications");
 const NotiCheckModel = require("../../models/notiCheck");
 const FollowModel = require("../../models/follow");
 const SaveNewsModel = require("../../models/saveNews");
 const LikeTopDownModel = require("../../models/likeTopDown");
 const VoteModel = require("../../models/vote");
 const ChatModel = require("../../models/chat");
-const NowsNotificationModel = require("../../models/newsNotification");
 
 //================Type Sections==================
 const CategoryType = require("../types/categoryType");
@@ -33,12 +31,10 @@ const NotificationType = require("../types/notificationType");
 const NotiType = require("../types/notiType");
 const NotiCheckType = require("../types/notiCheckType");
 const FollowType = require("../types/followType");
-const saveNews = require("../types/saveNewsType");
 const SaveNewsType = require("../types/saveNewsType");
 const likeTopDownType = require("../types/likeTopDownType");
 const voteType = require("../types/voteType");
 const ChatType = require("../types/chat");
-const NewsNotificationType = require("../types/newsNotificationType");
 
 const RootQuery = new GraphQLObjectType({
   name: "RootQueryType",

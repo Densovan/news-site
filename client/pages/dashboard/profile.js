@@ -3,21 +3,13 @@ import { useQuery, useMutation } from "@apollo/client";
 import { Row, Col, Empty, Divider } from "antd";
 import { HiOutlineCake } from "react-icons/hi";
 import { GET_USER } from "../../graphql/query";
-import AuthContext from "../../contexts/authContext";
-import MainNavbar from "../../components/Layouts/mainNavbar";
-import Footer from "../../components/Layouts/footer";
+import { useAuth } from "../../layouts/layoutAuth";
 import moment from "moment";
-import {
-  HiOutlineClipboardCheck,
-  HiOutlineUserAdd,
-  HiOutlineUserGroup,
-} from "react-icons/hi";
-import Link from "next/link";
 import GlobalHeader from "../../components/Layouts/globalHeader";
 import ProfileNavbar from "../../components/Layouts/profileNavbar";
 
 const Profile = () => {
-  const { loggedIn } = useContext(AuthContext);
+  const { isAuthenticated, user } = useAuth();
   const [show, setShow] = useState("all");
   //===========get data form graphql===============
   const { loading, data, refetch } = useQuery(GET_USER);
@@ -25,17 +17,14 @@ const Profile = () => {
 
   return (
     <React.Fragment>
-      {/* <MainNavbar /> */}
-      <GlobalHeader />
-
       <div className="brand-bg"></div>
       <div className="container">
-        {loggedIn && (
+        {isAuthenticated && (
           <div className="container-layout-profile">
             <div className="layout-profile">
               <center>
-                <img className="profile-img1" src={data.get_user.image} />
-                <h2 className="name-pf">{data.get_user.fullname}</h2>
+                <img className="profile-img1" src={user && user.user.get_user.image} />
+                <h2 className="name-pf">{user && user.user.get_user.fullname}</h2>
                 <div className="date-pf-join">
                   <Row>
                     <Col style={{ paddingTop: "4px" }} span={3}>
@@ -45,13 +34,13 @@ const Profile = () => {
                       <h3>
                         Joined On :{" "}
                         {moment
-                          .unix(data.get_user.createdAt / 1000)
+                          .unix(user && user.user.get_user.createdAt / 1000)
                           .format("LL")}
                       </h3>
                     </Col>
                   </Row>
                 </div>
-                <h4 style={{ marginTop: "12px" }}>{data.get_user.bio}</h4>
+                <h4 style={{ marginTop: "12px" }}>{user && user.user.get_user.bio}</h4>
               </center>
               <br></br>
             </div>
@@ -60,10 +49,9 @@ const Profile = () => {
             </div>
           </div>
         )}
-        {!loggedIn && window.location.replace("/")}
+        {!isAuthenticated && window.location.replace("/")}
       </div>
       <br></br>
-      {/* <Footer /> */}
     </React.Fragment>
   );
 };

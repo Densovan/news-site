@@ -14,6 +14,7 @@ import parse from "html-react-parser";
 import { CaretRightOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import { useQuery } from "@apollo/client";
+import { useAuth } from "../../layouts/layoutAuth";
 import {
   GET_ALL_NEWS,
   GET_USER,
@@ -23,15 +24,12 @@ import {
 import moment from "moment";
 import Medium from "../../components/loaders/newsLoader";
 import InfiniteScroll from "react-infinite-scroll-component";
-import FilterNavbar from "../../components/Layouts/filterNavbar";
-import AuthContext from "../../contexts/authContext";
 import NewLike from "../../components/common/news.like";
 
 const { Content } = Layout;
 
 const AllNews = ({ selectedTags, loadingFilter }) => {
-  const { loggedIn } = useContext(AuthContext);
-  // const { loggedIn } = true;
+  const { isAuthenticated } = useAuth();
   const server = process.env.API_SECRET;
   const server_local = process.env.API_SECRET_LOCAL;
   const develop = process.env.NODE_ENV;
@@ -96,48 +94,6 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
   }
   return (
     <React.Fragment>
-      {loggedIn && (
-        <Row className="status-style">
-          <Col span={2}>
-            <center>
-              <Avatar
-                style={{
-                  height: 35,
-                  width: 35,
-                  // paddingTop: 0,
-                  // marginLeft: 18,
-                  cursor: "pointer",
-                  border: "solid 2px #ffffff9d",
-                }}
-                src={userData.get_user.image}
-                shape="circle"
-                // size="large"
-              />
-            </center>
-          </Col>
-          <Col span={22}>
-            <Link href="/dashboard/addstory">
-              <Input size="middle" placeholder="Write your story" />
-            </Link>
-          </Col>
-          {/* <Col span={4}>
-          <div className="icon-small-navbar">
-            <div className="icon1-small-navbar">
-              <Link href="/dashboard/addstory">
-                <AiOutlinePicture size={20} />
-              </Link>
-            </div>
-            <div className="icon1-small-navbar">
-              <Link href="/dashboard/addstory">
-                <AiOutlineLink size={20} />
-              </Link>
-            </div>
-          </div>
-        </Col> */}
-        </Row>
-      )}
-      {/* <SmallNavbar /> */}
-      <FilterNavbar />
       {loadingFilter ? (
         <div>
           {" "}
