@@ -45,6 +45,7 @@ const GlobalHeader = () => {
     setVisible(visible);
   };
   const { isAuthenticated, user } = useAuth();
+  // console.log(isAuthenticated);
   const [authenticate, setAuthenticate] = useState(null);
   useEffect(() => {
     if (user) {

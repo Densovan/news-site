@@ -5,7 +5,7 @@ const { GraphQLObjectType, GraphQLInt, GraphQLBoolean } = graphql;
 const followers = new GraphQLObjectType({
   name: "followers",
   fields: () => ({
-    followingId: { type: GraphQLInt },
+    followersId: { type: GraphQLInt },
   }),
 });
 

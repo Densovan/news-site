@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Cookie from "js-cookie";
 import LayoutDefault from "../layouts/layoutDefault";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -19,6 +20,27 @@ const Login = () => {
 
   const onFinish = async (values) => {
     try {
+      // await api
+      //   .post(
+      //     "/login",
+      //     { ...values },
+      //     {
+      //       headers: { "Content-Type": "application/json" },
+      //       withCredentials: true,
+      //     }
+      //   )
+      //   .then(async (res) => {
+      //     setState({
+      //       loading: true,
+      //     });
+      //     const { access_token, refresh_token } = res.data;
+      // Cookie.set("access_token", access_token, { expires: 15 * 60 * 1000 });
+      // Cookie.set("refresh_token", refresh_token, { expires: 7 });
+      //     // localStorage.setItem("access_token", access_token);
+      //     // localStorage.setItem("refresh_token", refresh_token);
+      //     await message.success("Logged In Successfully");
+      //     window.location.replace("/");
+      //   });
       const {
         data: { refresh_token, access_token, success },
       } = await api.post("login", {
@@ -29,8 +51,10 @@ const Login = () => {
         setState({
           loading: true,
         });
-        localStorage.setItem("access_token", access_token);
-        localStorage.setItem("refresh_token", refresh_token);
+        // localStorage.setItem("access_token", access_token);
+        // localStorage.setItem("refresh_token", refresh_token);
+        Cookie.set("access_token", access_token, { expires: 15 * 60 * 1000 });
+        Cookie.set("refresh_token", refresh_token, { expires: 7 });
         await message.success("Logged In Successfully");
         // router.push("/");
         window.location.replace("/");

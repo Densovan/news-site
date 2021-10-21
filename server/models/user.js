@@ -44,14 +44,14 @@ const userSchema = new mongoose.Schema(
     // },
     // followings: [
     //   {
-    //     followingId: {
+    //     followingsId: {
     //       type: String,
     //     },
     //   },
     // ],
     // followers: [
     //   {
-    //     followerId: {
+    //     followersId: {
     //       type: String,
     //     },
     //   },

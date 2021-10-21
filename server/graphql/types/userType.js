@@ -112,10 +112,15 @@ const userType = new GraphQLObjectType({
     userId: {
       type: GraphQLID,
     },
-    following: {
-      type: GraphQLList(usersType),
+    followings: {
+      type: GraphQLList(followingsType),
     },
-    follower: { type: GraphQLList(usersType) },
+    followers: { type: GraphQLList(followersType) },
+
+    following: {
+      type: GraphQLList(userType),
+    },
+    follower: { type: GraphQLList(userType) },
 
     get_following: {
       type: GraphQLList(followType),
@@ -136,6 +141,8 @@ const userType = new GraphQLObjectType({
 
 module.exports = userType;
 
+const followingsType = require("./followingsType");
+const followersType = require("./followersType");
 const newsType = require("./newsType");
 const usersType = require("./userType");
 const followType = require("./followType");

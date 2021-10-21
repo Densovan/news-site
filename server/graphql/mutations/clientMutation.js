@@ -1221,6 +1221,31 @@ const RootMutation = new GraphQLObjectType({
         return { message: "read successfully" };
       },
     },
+
+    //=====================> new login wiht SSO <=====================
+
+    // new_login: {
+    //   type:userType,
+    //   args:{
+
+    //   }
+    // }
+
+    //================>test follow<======================
+    // follow_test:{
+    //   type:userType,
+    //   args:{
+    //     followingsId:{type:GraphQLID},
+    //     followersId:{type:GraphQLID}
+    //   },
+    //   resolve:async(parent,args,context) =>{
+    //    const follow =  await UserModel({
+    //      followings:[{
+    //       followingsId:context.id,
+    //      }]
+    //    })
+    //   }
+    // }
   },
 });
 module.exports = RootMutation;

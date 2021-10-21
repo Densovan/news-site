@@ -650,6 +650,7 @@ const RootQuery = new GraphQLObjectType({
             data.push(element);
           });
         }
+        // console.log(data);
         return data;
       },
     },

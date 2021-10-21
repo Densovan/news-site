@@ -3,6 +3,7 @@ import { setContext } from "@apollo/client/link/context";
 const server = process.env.API_SECRET;
 const server_local = process.env.API_SECRET_LOCAL;
 const develop = process.env.NODE_ENV;
+import Cookies from "js-cookie";
 
 const URL_ACCESS = develop === "development" ? server_local : server;
 console.log(URL_ACCESS);
@@ -28,12 +29,13 @@ const httpLink = createHttpLink({
 //   cache: new InMemoryCache(),
 // });
 const authLink = setContext((_, { headers }) => {
-  const accessToken = localStorage.getItem("access_token"); // with SSO
+  let accessToken = Cookies.get("access_token");
+  // const accessToken = localStorage.getItem("access_token"); // with SSO
   // console.log("Apollo Get Token: ", accessToken);
   return {
     headers: {
       ...headers,
-      "x-access-token": accessToken ? `Bearer ${accessToken}` : "", // with SSO
+      authorization: accessToken ? `Bearer ${accessToken}` : "", // with SSO
     },
   };
 });
@@ -48,69 +50,29 @@ const client = new ApolloClient({
 
 export default client;
 
-// import {
-//   ApolloClient,
-//   createHttpLink,
-//   InMemoryCache,
-//   split,
-// } from "@apollo/client";
-// import { setContext } from "@apollo/client/link/context";
-// import { WebSocketLink } from "@apollo/client/link/ws";
-// // import { WebSocketLink } from "@apollo/link-ws";
-// // import { WebSocketLink } from "apollo-link-ws";
-// import { getMainDefinition } from "@apollo/client/utilities";
-// const authLink = setContext((_, { headers }) => {
-//   return {
-//     headers: {
-//       ...headers,
-//     },
-//   };
-// });
+// import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
+// import Cookies from "js-cookie";
+// const baseUrl = process.env.API_URL;
 // const server = process.env.API_SECRET;
 // const server_local = process.env.API_SECRET_LOCAL;
 // const develop = process.env.NODE_ENV;
 
 // const URL_ACCESS = develop === "development" ? server_local : server;
 
-// const result = `${URL_ACCESS}/api`;
-
-// // const httpLink = createHttpLink({
-// //   uri: result,
-// //   credentials: "include",
-// // });
-
-// const wsLink = process.browser
-//   ? new WebSocketLink({
-//       uri: `ws://localhost:3500/api`, // Can test with your Slash GraphQL endpoint (if you're using Slash GraphQL)
-//       options: {
-//         reconnect: true,
+// function createApolloClient() {
+//   // let accessToken = Cookies.get("access_token");
+//   const accessToken = localStorage.getItem("access_token");
+//   return new ApolloClient({
+//     ssrMode: typeof window === "undefined",
+//     link: new HttpLink({
+//       uri: `${URL_ACCESS}/api`,
+//       credentials: "include",
+//       headers: {
+//         "x-access-token": accessToken ? `Bearer ${accessToken}` : "",
 //       },
-//     })
-//   : null;
-// const httpLink = createHttpLink({
-//   uri: result,
-//   credentials: "include",
-// });
+//     }),
+//     cache: new InMemoryCache(),
+//   });
+// }
 
-// const splitLink = process.browser
-//   ? split(
-//       ({ query }) => {
-//         const definition = getMainDefinition(query);
-//         return (
-//           definition.kind === "OperationDefinition" &&
-//           definition.operation === "subscription"
-//         );
-//       },
-//       wsLink,
-//       authLink.concat(httpLink)
-//     )
-//   : authLink.concat(httpLink);
-
-// const client = new ApolloClient({
-//   link: splitLink,
-//   // link: authLink.concat(httpLink),
-//   credentials: "same-origin",
-//   cache: new InMemoryCache(),
-// });
-
-// export default client;
+// export default createApolloClient;
