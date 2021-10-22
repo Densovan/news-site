@@ -47,6 +47,7 @@ const NewsNotificationModel = require("../../models/newsNotification");
 const ConversationNotificationModel = require("../../models/conversationNotification");
 const VoteNotificationModel = require("../../models/voteNotification");
 const { pubsub } = require("../../subscription");
+const { default: axios } = require("axios");
 
 const RootMutation = new GraphQLObjectType({
   name: "RootMutationType",
@@ -1224,12 +1225,38 @@ const RootMutation = new GraphQLObjectType({
 
     //=====================> new login wiht SSO <=====================
 
-    // new_login: {
-    //   type:userType,
-    //   args:{
-
-    //   }
-    // }
+    new_login: {
+      type: userType,
+      args: {
+        email: { type: GraphQLString },
+        accountId: { type: GraphQLID },
+        fullname: { type: GraphQLString },
+      },
+      resolve: async (parent, args, context) => {
+        try {
+          const id = await UserModel.findOne({ accountId: args.accountId });
+          if (id) return { message: "user already have in your db", ok: true };
+          if (!id) {
+            let userData = await axios
+              .get(`https://accounts.koompi.com/user/${args.accountId}`)
+              .then((res) => {
+                return res.data;
+              });
+            // console.log(userData.fullname);
+            const newUser = await UserModel({
+              email: args.email,
+              accountId: args.accountId,
+              fullname: userData.fullname,
+            });
+            await newUser.save();
+            return { message: "Successully save new user", ok: false };
+          }
+        } catch (error) {
+          console.log(error);
+          return { message: "You have problem" };
+        }
+      },
+    },
 
     //================>test follow<======================
     // follow_test:{
