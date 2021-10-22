@@ -247,6 +247,8 @@ import React, { Fragment, useState, useEffect, useContext } from "react";
 import { useMutation } from "@apollo/client";
 import { VOTE_UP_DOWN, CHECK_TOP_NEWS } from "../../graphql/mutation";
 import { notification } from "antd";
+import { useAuth } from "../../layouts/layoutAuth";
+
 import {
   LikeOutlined,
   DislikeOutlined,
@@ -271,6 +273,7 @@ const NewsLike = ({
   const [vote, setVote] = useState({
     count: 0,
   });
+  const { isAuthenticated } = useAuth();
   // const { loggedIn } = useContext(AuthContext);
   const { loggedIn } = true;
   const router = useRouter();
@@ -467,7 +470,7 @@ const NewsLike = ({
         <label className="btn-news">{vote.count > 0 ? vote.count : "0"}</label>
         <button
           className="btn-news"
-          onClick={loggedIn ? handleLike : redirectLogin}
+          onClick={isAuthenticated ? handleLike : redirectLogin}
         >
           {state.like ? (
             <LikeFilled style={{ fontSize: "18px" }} />
@@ -477,7 +480,7 @@ const NewsLike = ({
         </button>
         <button
           className="btn-news"
-          onClick={loggedIn ? handleDislike : redirectLogin}
+          onClick={isAuthenticated ? handleDislike : redirectLogin}
         >
           {state.unlike ? (
             <DislikeFilled style={{ fontSize: "18px" }} />

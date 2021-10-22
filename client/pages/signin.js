@@ -5,8 +5,12 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { Form, Input, Button, Checkbox, message, Radio } from "antd";
 import api from "../services/api";
+import { ApolloProvider, useMutation } from "@apollo/client";
+import { LOGIN_NEW } from "../graphql/mutation";
+import client from "../libs/apollo-client";
 
 const Login = () => {
+  const [new_login] = useMutation(LOGIN_NEW);
   const router = useRouter();
   const server = process.env.API_SECRET;
   const server_local = process.env.API_SECRET_LOCAL;
@@ -20,51 +24,55 @@ const Login = () => {
 
   const onFinish = async (values) => {
     try {
-      // await api
-      //   .post(
-      //     "/login",
-      //     { ...values },
-      //     {
-      //       headers: { "Content-Type": "application/json" },
-      //       withCredentials: true,
-      //     }
-      //   )
-      //   .then(async (res) => {
-      //     setState({
-      //       loading: true,
-      //     });
-      //     const { access_token, refresh_token } = res.data;
-      // Cookie.set("access_token", access_token, { expires: 15 * 60 * 1000 });
-      // Cookie.set("refresh_token", refresh_token, { expires: 7 });
-      //     // localStorage.setItem("access_token", access_token);
-      //     // localStorage.setItem("refresh_token", refresh_token);
-      //     await message.success("Logged In Successfully");
-      //     window.location.replace("/");
-      //   });
-      const {
-        data: { refresh_token, access_token, success },
-      } = await api.post("login", {
-        email: values.email,
-        password: values.password,
-      });
-      if (success) {
-        setState({
-          loading: true,
+      await api
+        .post(
+          "/login",
+          { ...values },
+          {
+            headers: { "Content-Type": "application/json" },
+            withCredentials: true,
+          }
+        )
+        .then(async (res) => {
+          setState({
+            loading: true,
+          });
+          const { access_token, refresh_token, _id } = res.data;
+          new_login({
+            variables: {
+              ...values,
+              accountId: _id,
+            },
+          });
+          Cookie.set("access_token", access_token, { expires: 15 * 60 * 1000 });
+          Cookie.set("refresh_token", refresh_token, { expires: 7 });
+          // localStorage.setItem("access_token", access_token);
+          // localStorage.setItem("refresh_token", refresh_token);
+          await message.success("Logged In Successfully");
+          window.location.replace("/");
         });
-        // localStorage.setItem("access_token", access_token);
-        // localStorage.setItem("refresh_token", refresh_token);
-        Cookie.set("access_token", access_token, { expires: 15 * 60 * 1000 });
-        Cookie.set("refresh_token", refresh_token, { expires: 7 });
-        await message.success("Logged In Successfully");
-        // router.push("/");
-        window.location.replace("/");
-        // setTimeout(() => {
-        //   window.location.pathname('/')
-        //   setState({
-        //     loading: false,
-        //   });
-        // }, 1000);
-      }
+      // const {
+      //   data: { refresh_token, access_token, success },
+      // } = await api.post("login", {
+      //   email: values.email,
+      //   password: values.password,
+      // });
+      // if (success) {
+      //   setState({
+      //     loading: true,
+      //   });
+      // localStorage.setItem("access_token", access_token);
+      // localStorage.setItem("refresh_token", refresh_token);
+      // await message.success("Logged In Successfully");
+      //   // router.push("/");
+      //   window.location.replace("/");
+      //   // setTimeout(() => {
+      //   //   window.location.pathname('/')
+      //   //   setState({
+      //   //     loading: false,
+      //   //   });
+      //   // }, 1000);
+      // }
     } catch (error) {
       message.error("Invalid email or password");
     }
@@ -156,4 +164,8 @@ const Login = () => {
 };
 
 export default Login;
-Login.getLayout = (page) => <LayoutDefault>{page}</LayoutDefault>;
+Login.getLayout = (page) => (
+  <ApolloProvider client={client}>
+    <LayoutDefault>{page}</LayoutDefault>
+  </ApolloProvider>
+);
