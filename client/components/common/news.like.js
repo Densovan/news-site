@@ -247,7 +247,7 @@ import React, { Fragment, useState, useEffect, useContext } from "react";
 import { useMutation } from "@apollo/client";
 import { VOTE_UP_DOWN, CHECK_TOP_NEWS } from "../../graphql/mutation";
 import { notification } from "antd";
-import { useAuth } from "../../layouts/layoutAuth";
+// import { useAuth } from "../../layouts/layoutAuth";
 
 import {
   LikeOutlined,
@@ -256,8 +256,7 @@ import {
   DislikeFilled,
 } from "@ant-design/icons";
 import { useRouter } from "next/router";
-// import AuthContext from "../../contexts/salaKoompiAuth";
-import AuthContext from "../../contexts/authContext";
+import { useAuth } from "../../layouts/layoutAuth";
 const NewsLike = ({
   postId,
   ownerId,
@@ -274,8 +273,6 @@ const NewsLike = ({
     count: 0,
   });
   const { isAuthenticated } = useAuth();
-  // const { loggedIn } = useContext(AuthContext);
-  const { loggedIn } = true;
   const router = useRouter();
   useEffect(() => {
     vote_up_down.get_vote_up_down.map((get_vote_up_down) => {

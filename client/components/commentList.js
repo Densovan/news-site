@@ -362,12 +362,13 @@ const CommentList = ({ comments, articleId, reply, ownerId }) => {
                         ownerId={ownerId}
                         articleId={articleId}
                         getCheck={getCheck}
-                        commentId={comments.id}
+                        comments={comments}
+                        object={reply}
                         keyBtn="replyAnswer"
                         keyAdd="Answer"
                         getName={reply.user.fullname}
                         doReset={doReset}
-                        keySubmit="replyQuestion"
+                        keySubmit="replyAnswer"
                       />
                     )}
                 </div>

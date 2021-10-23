@@ -25,13 +25,17 @@ import Logout from "../actions/logout";
 import Notification from "../common/notification";
 import { useQuery, useMutation } from "@apollo/client";
 import { GET_NOTIFICATION } from "../../graphql/query";
+import { SHOW_NOTIFICATION } from "../../graphql/mutation";
 import { TiUser, TiUserAdd } from "react-icons/ti";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 const { Search } = Input;
 const { Header } = Layout;
 const GlobalHeader = () => {
-  const { data: notifications } = useQuery(GET_NOTIFICATION);
+  const { data: notifications } = useQuery(GET_NOTIFICATION, {
+    pollInterval: 1000,
+  });
+  const [showNotifications] = useMutation(SHOW_NOTIFICATION);
   const router = useRouter();
   const [hasMoreItems, setHasMoreItems] = useState(true);
   const [state, setState] = useState({
@@ -54,8 +58,9 @@ const GlobalHeader = () => {
   }, [user]);
   useEffect(() => {
     let cubes = [];
-    let sum = 0;
     let data = [];
+    let sum = 0;
+
     if (notifications) {
       notifications.get_news_notification.forEach((notification) => {
         if (notification.follow) {
@@ -72,6 +77,7 @@ const GlobalHeader = () => {
         }
       });
     }
+
     if (user) {
       for (let i = 0; i < cubes.length; i++) {
         var cube = cubes[i];
@@ -80,33 +86,18 @@ const GlobalHeader = () => {
             cube[j].user.fullname !== user.user.get_user.fullname ||
             cube[j].type === "follow"
           ) {
-            sum += cube[j].count;
             data.push(cube[j]);
+            const result = cube[j].notifications.filter(
+              (item) => item.user.accountId === user.user.get_user.accountId
+            );
+            console.log(result);
+            // sum += result[0].count;
           }
         }
       }
     }
-
     setState({ sum: sum, notifications: data });
   }, [notifications, user]);
-  // const timeAgo = (time) => {
-  //   var created_date = new Date(time * 1000).getTime()/1000;
-  //   return <div>{pretty.format(new Date(created_date))}</div>
-  // }
-  // for (let i = 0; i < cubes.length; i++){
-  //   var cube = cubes[i];
-  //   for (let j = 0; j < cube.length; j++){
-  //       if (cube[j].user.fullname !== user.user.get_user.fullname || cube[j].type === "follow") {
-  //         sum += cube[j].count;
-  //         data.push(cube[j])
-  //       }
-  //   }
-  // }
-
-  // var numArray = data;
-  // numArray.sort(function(a, b) {
-  //   return b.createdAt - a.createdAt;
-  // });
 
   const showDrawer = () => {
     setState({
@@ -191,6 +182,7 @@ const GlobalHeader = () => {
                       onClick={async () => {
                         try {
                           setVisible(true);
+                          showNotifications();
                         } catch (e) {
                           console.log(e);
                         }
@@ -240,7 +232,6 @@ const GlobalHeader = () => {
                                   <span className="name">
                                     {authenticate !== null &&
                                       authenticate.user.get_user.fullname}
-                                    {/* {user.get_user.fullname} */}
                                   </span>
                                 </a>
                               </div>
@@ -249,7 +240,6 @@ const GlobalHeader = () => {
                                   <span className="email">
                                     {authenticate !== null &&
                                       authenticate.user.get_user.email}
-                                    {/* {user.get_user.email} */}
                                   </span>
                                 </a>
                               </div>
@@ -299,7 +289,6 @@ const GlobalHeader = () => {
                     src={
                       authenticate !== null && authenticate.user.get_user.image
                     }
-                    // src={user.get_user.image}
                     shape="circle"
                     size="large"
                   />

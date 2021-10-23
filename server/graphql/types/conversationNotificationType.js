@@ -22,9 +22,10 @@ const ConversationNotificationType = new GraphQLObjectType({
     },
     ownerId: { type: GraphQLID },
     userId2: { type: GraphQLID },
-    read: { type: GraphQLBoolean },
-    count: { type: GraphQLInt },
     type: { type: GraphQLString },
+    notifications: {
+      type: new GraphQLList(objectNotification),
+    },
     createdAt: {
       type: GraphQLString,
     },
@@ -65,3 +66,4 @@ module.exports = ConversationNotificationType;
 //==========type==============
 const userType = require("./userType");
 const newsType = require("./newsType");
+const objectNotification = require("./objectNotificationType")

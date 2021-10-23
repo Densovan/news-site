@@ -59,7 +59,7 @@ const RootQuery = new GraphQLObjectType({
         id: { type: new GraphQLNonNull(GraphQLID) },
       },
       resolve(parent, args, context) {
-        return UserModel.findById({ _id: args.id });
+        return UserModel.findOne({ accountId: args.id });
       },
     },
 

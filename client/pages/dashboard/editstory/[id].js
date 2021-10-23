@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { Form, Button, Input, Upload, message, Select, Col, Row } from "antd";
 import {
   GET_NEWS,
@@ -11,7 +11,6 @@ import { EDIT_NEWS } from "../../../graphql/mutation";
 import { useQuery, useMutation } from "@apollo/client";
 import { useAuth } from "../../../layouts/layoutAuth";
 import Footer from "../../../components/Layouts/footer";
-import GlobalHeader from "../../../components/Layouts/globalHeader";
 import QuillNoSSRWrapper from "../../../components/Quill/textEditor";
 
 // const EditorJs = dynamic(
@@ -231,8 +230,6 @@ const Editstory = () => {
 
   return (
     <React.Fragment>
-      {/* <MainNavbar /> */}
-      <GlobalHeader />
       <br></br>
       {isAuthenticated === true && (
         <div className="container">

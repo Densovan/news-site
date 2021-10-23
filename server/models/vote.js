@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+
 const VoteSchema = new mongoose.Schema(
   {
     voteUp: {
@@ -31,10 +32,12 @@ const VoteSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    // Object: [{
-    //     type: mongoose.Schema.Types.Object.userId,
-    //     type: mongoose.Schema.Types.Object.type
-    // }]
+    notifications:[{
+      userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', require: true },
+      read: { type: Boolean, require: true},
+      hire: { type: Boolean, require: true},
+      count: { type: Number, require: true}
+    }],
   },
   { timestamps: true }
 );

@@ -121,7 +121,9 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
                 <Row gutter={[8, 8]}>
                   <Col xs={24} md={16} className="box-news">
                     <Link
-                      href={`/profile_detial/${res.user.id}#${res.user.fullname
+                      href={`/profile_detial/${
+                        res.user.accountId
+                      }#${res.user.fullname
                         .replace(
                           /[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g,
                           "-"
