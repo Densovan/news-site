@@ -88,7 +88,11 @@ const GlobalHeader = () => {
               data.push(cube[j])
               const result = cube[j].notifications.filter(item => item.user.accountId === user.user.get_user.accountId)
               console.log(result);
-              sum += result[0].count
+              if (result.length == 0) {
+                sum += 0
+              }else{
+                sum += result[0].count
+              }
             }
         }
       }
@@ -173,10 +177,13 @@ const GlobalHeader = () => {
                   >
                     <div
                       className="notifications"
-                      onClick={async () => {
+                      onClick={async (e) => {
+                        e.preventDefault();
                         try {
                           setVisible(true)
-                          showNotifications()
+                          showNotifications().then(response => {
+                            console.log(response);
+                          })
                         } catch (e) {
                           console.log(e);
                         }

@@ -57,14 +57,15 @@ const Notification = ({ notifications, user }) => {
                 <div className="box-notification">
                   <div className="avatar-notification">
                     {notification.read ? (
-                      <div>
-                        <CaretRightOutlined style={{ color: '#38a7c8' }} />
-                      </div>
-                    ) : (
-                      <div>
-                        <CaretRightOutlined style={{ color: 'transparent' }} />
-                      </div>
-                    )}
+                        <div>
+                          <CaretRightOutlined style={{ color: '#38a7c8' }} />
+                        </div>
+                      ) : (
+                        <div>
+                          <CaretRightOutlined style={{ color: 'transparent' }} />
+                        </div>
+                      )
+                    }
                     {item.type !== 'follow' ? (
                       <>
                         <div style={{ paddingRight: 8 }}>

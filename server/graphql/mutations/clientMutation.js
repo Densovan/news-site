@@ -1158,7 +1158,7 @@ const RootMutation = new GraphQLObjectType({
           })
           notificationConversation.map(async (item) => {
             await ConversationNotificationModel.findOneAndUpdate({
-              "postId": item.relateId, "userId": item.userId, "notifications.userId": context.id
+              "postId": item.relateId, "userId": item.userId, "notifications.userId": context.id , type: "reply"
             }, {
               $set: {
                 "notifications.$.count": 0
