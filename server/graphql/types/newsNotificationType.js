@@ -25,9 +25,9 @@ const NewsNotificationType = new GraphQLObjectType({
       type: GraphQLString,
     },
     type: { type: GraphQLString },
-    read: { type: GraphQLBoolean },
-    count: { type: GraphQLInt },
-    // checkNotifications: [Schema.Types.Mixed],
+    notifications: {
+      type: new GraphQLList(objectNotification),
+    },
     user: {
       type: userType,
       resolve: (parents, args) => {
@@ -49,3 +49,4 @@ module.exports = NewsNotificationType;
 //==========type==============
 const userType = require("./userType");
 const newsType = require("./newsType");
+const objectNotification = require("./objectNotificationType")

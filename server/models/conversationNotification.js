@@ -17,12 +17,12 @@ const conversationNotificationSchema = new mongoose.Schema(
     type: {
         type: String,
     },
-    read: {
-      type: Boolean,
-    },
-    count: {
-      type: Number,
-    },
+    notifications:[{
+      userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', require: true },
+      read: { type: Boolean, require: true},
+      hire: { type: Boolean, require: true},
+      count: { type: Number, require: true}
+    }],
   },
   { timestamps: true }
 );

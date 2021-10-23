@@ -14,12 +14,12 @@ const followSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    read: {
-      type: Boolean,
-    },
-    count: {
-      type: Number,
-    },
+    notifications:[{
+      userId: { type: mongoose.Schema.Types.ObjectId, require: true },
+      read: { type: Boolean, require: true},
+      hire: { type: Boolean, require: true},
+      count: { type: Number, require: true}
+    }],
     type: { type: String },
   },
   { timestamps: true }

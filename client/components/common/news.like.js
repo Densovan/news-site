@@ -254,8 +254,7 @@ import {
   DislikeFilled,
 } from "@ant-design/icons";
 import { useRouter } from "next/router";
-// import AuthContext from "../../contexts/salaKoompiAuth";
-import AuthContext from "../../contexts/authContext";
+import { useAuth } from "../../layouts/layoutAuth";
 const NewsLike = ({
   postId,
   ownerId,
@@ -271,8 +270,7 @@ const NewsLike = ({
   const [vote, setVote] = useState({
     count: 0,
   });
-  // const { loggedIn } = useContext(AuthContext);
-  const { loggedIn } = true;
+  const { isAuthenticated } = useAuth()
   const router = useRouter();
   useEffect(() => {
     vote_up_down.get_vote_up_down.map((get_vote_up_down) => {
@@ -467,7 +465,7 @@ const NewsLike = ({
         <label className="btn-news">{vote.count > 0 ? vote.count : "0"}</label>
         <button
           className="btn-news"
-          onClick={loggedIn ? handleLike : redirectLogin}
+          onClick={isAuthenticated ? handleLike : redirectLogin}
         >
           {state.like ? (
             <LikeFilled style={{ fontSize: "18px" }} />
@@ -477,7 +475,7 @@ const NewsLike = ({
         </button>
         <button
           className="btn-news"
-          onClick={loggedIn ? handleDislike : redirectLogin}
+          onClick={isAuthenticated ? handleDislike : redirectLogin}
         >
           {state.unlike ? (
             <DislikeFilled style={{ fontSize: "18px" }} />

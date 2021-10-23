@@ -33,7 +33,7 @@ const Login = () => {
         localStorage.setItem('refresh_token', refresh_token);
         await message.success('Logged In Successfully');
         setTimeout(() => {
-          window.location.pathname('/')
+          window.location.replace("/")
           setState({
             loading: false,
           });
@@ -130,4 +130,5 @@ const Login = () => {
 };
 
 export default Login;
+
 Login.getLayout = (page) => <LayoutDefault>{page}</LayoutDefault>;

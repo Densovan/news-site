@@ -82,7 +82,7 @@ const FilterNavbar = () => {
             </div>
         )
     }
-    console.log(selectKeyx[0]);
+    
     return(
        <div>
             <Menu style={{ backgroundColor: 'white', marginBottom: 8 }} 

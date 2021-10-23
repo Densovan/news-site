@@ -88,7 +88,27 @@ const FormComment = (props) => {
         } catch (e) {
           console.log(e);
         }
-      } else if (keySubmit === "editQuestion") {
+      }
+      else if (keySubmit === "replyAnswer") {
+        try {
+          replyComment({
+            variables: {
+              userId: user.get_user.accountId,
+              postId: articleId,
+              answer: values.comment,
+              questionId: comments.id,
+              ownerId: ownerId,
+              userIdTo: object.user.accountId,
+            },
+          }).then(async (data) => {
+            console.log(data);
+          });
+          props.getCheck("answerType", null);
+        } catch (e) {
+          console.log(e);
+        }
+      }
+      else if (keySubmit === "editQuestion") {
         try {
           editComment({
             variables: {

@@ -803,8 +803,16 @@ const GET_NOTIFICATION = gql`
           image
           accountId
         }
-        count
-        read
+        notifications{
+          id
+          user{
+            fullname
+            accountId
+          }
+          read
+          hire
+          count
+        }
         type
         createdAt
       }
@@ -812,14 +820,23 @@ const GET_NOTIFICATION = gql`
         news {
           title
           thumnail
+          slug
         }
         user {
           fullname
           image
           accountId
         }
-        count
-        read
+        notifications{
+          id
+          user{
+            fullname
+            accountId
+          }
+          read
+          hire
+          count
+        }
         type
         createdAt
       }
@@ -827,6 +844,17 @@ const GET_NOTIFICATION = gql`
         news {
           title
           thumnail
+          slug
+        }
+        notifications{
+          id
+          user{
+            fullname
+            accountId
+          }
+          read
+          hire
+          count
         }
         user {
           accountId
@@ -839,8 +867,6 @@ const GET_NOTIFICATION = gql`
           fullname
           image
         }
-        count
-        read
         type
         createdAt
       }
@@ -848,14 +874,23 @@ const GET_NOTIFICATION = gql`
         news {
           title
           thumnail
+          slug
         }
         user {
           fullname
           image
           accountId
         }
-        count
-        read
+        notifications{
+          id
+          user{
+            fullname
+            accountId
+          }
+          read
+          hire
+          count
+        }
         type
         createdAt
       }

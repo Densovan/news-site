@@ -271,6 +271,21 @@ const ADD_VOTE_COUNT = gql`
     }
   }
 `;
+const SHOW_NOTIFICATION = gql`
+  mutation{
+      show_notifications{
+          message
+      }
+  }
+`
+
+const READ_NOTIFICATION = gql`
+  mutation($id: ID!, $type: String!){
+    read_notification(id: $id, type: $type){
+      message
+    }
+  }
+`;
 
 export {
   // LIKE,
@@ -298,4 +313,6 @@ export {
   LIKE_COUNT_DOWN,
   VOTE_UP_DOWN,
   CHECK_TOP_NEWS,
+  SHOW_NOTIFICATION,
+  READ_NOTIFICATION
 };

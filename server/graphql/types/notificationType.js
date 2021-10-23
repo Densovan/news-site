@@ -3,7 +3,7 @@ const graphql = require("graphql");
 //=============model=============
 const NewsNotificationModel = require("../../models/newsNotification");
 const ConversationNotificationModel = require("../../models/conversationNotification");
-const VoteNotificationModel = require("../../models/voteNotification");
+const VoteModel = require("../../models/vote");
 const FollowModel = require("../../models/follow");
 const User = require("../../models/user");
 
@@ -99,11 +99,11 @@ const NotificationType = new GraphQLObjectType({
       },
     },
     vote: {
-      type: new GraphQLList(VoteNotificationType),
+      type: new GraphQLList(VoteType),
       resolve: async (parent, args, context) => {
         if (parent.type === "vote") {
           const data = [];
-          const vote = await VoteNotificationModel.find({
+          const vote = await VoteModel.find({
             postId: parent.relateId,
             userId: parent.userId,
           });
@@ -126,6 +126,6 @@ module.exports = NotificationType;
 //=============type===========
 const NewsNotificationType = require("./newsNotificationType");
 const ConversationNotificationType = require("./conversationNotificationType");
-const VoteNotificationType = require("./voteNotificationType");
+const VoteType = require("./voteType");
 const FollowType = require("./followType");
 const userType = require("./userType");

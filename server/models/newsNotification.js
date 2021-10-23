@@ -9,14 +9,8 @@ const newsNotificationSchema = new mongoose.Schema(
     postId: {
       type: String,
     },
-    read: {
-      type: Boolean,
-    },
-    count: {
-      type: Number,
-    },
-    checkNotification:[{
-      userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', require: true },
+    notifications:[{
+      userId: { type: mongoose.Schema.Types.ObjectId, require: true },
       read: { type: Boolean, require: true},
       hire: { type: Boolean, require: true},
       count: { type: Number, require: true}
