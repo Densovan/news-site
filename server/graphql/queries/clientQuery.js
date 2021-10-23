@@ -607,12 +607,12 @@ const RootQuery = new GraphQLObjectType({
       type: new GraphQLList(NotificationType),
       resolve: async (parents, args, context) => {
         const notificationConversation = await NotificationModel.find({
-          type: "conversation",
           ownerId: context.id,
+          type: "comment",
         });
         const notificationConversationTo = await NotificationModel.find({
           userId: context.id,
-          type: "conversation",
+          type: "reply",
         });
         const notificationVote = await NotificationModel.find({
           type: "vote",
@@ -629,9 +629,7 @@ const RootQuery = new GraphQLObjectType({
         const data = [];
         if (notificationConversation.length > 0) {
           notificationConversation.forEach((element) => {
-            if (element.userId !== context.id) {
-              data.push(element);
-            }
+            data.push(element);
           });
         }
         if (notificationVote.length > 0) {

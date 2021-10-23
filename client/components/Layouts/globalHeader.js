@@ -34,9 +34,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 const { Search } = Input;
 const { Header } = Layout;
 const GlobalHeader = () => {
-  const { data: notifications } = useQuery(GET_NOTIFICATION, {
-    pollInterval: 1000,
-  });
+  const { data: notifications } = useQuery(GET_NOTIFICATION);
   const [showNotifications] = useMutation(SHOW_NOTIFICATION);
   const router = useRouter();
   const [hasMoreItems, setHasMoreItems] = useState(true);
@@ -65,43 +63,41 @@ const GlobalHeader = () => {
 
     if(notifications){
       notifications.get_news_notification.forEach((notification) => {
+        console.log(notification);
         if(notification.follow){
-            cubes.push(notification.follow)
+          cubes.push(notification.follow)
         }
-        if (notification.conversation) {
-            cubes.push(notification.conversation)
+        else if (notification.comment) {
+            cubes.push(notification.comment)
         }
-        if(notification.vote){
+        else if(notification.reply){
+          cubes.push(notification.reply)
+        }
+        else if(notification.vote){
             cubes.push(notification.vote)
         }
-        if(notification.news){
+        else if(notification.news){
             cubes.push(notification.news)
         }
       });
-    }
-
-    if(user){
-      for (let i = 0; i < cubes.length; i++){
-        var cube = cubes[i];
-        for (let j = 0; j < cube.length; j++){  
-            if (cube[j].user.fullname !== user.user.get_user.fullname || cube[j].type === "follow") {
-              data.push(cube[j])
-              const result = cube[j].notifications.filter(item => item.user.accountId === user.user.get_user.accountId)
-              console.log(result);
-              if (result.length == 0) {
-                sum += 0
-              }else{
-                sum += result[0].count
-              }
+      if (user) {
+        for (let i = 0; i < cubes.length; i++){
+          var cube = cubes[i];
+          if (cube.user.fullname !== user.user.get_user.fullname || cube.type === "follow") {
+            data.push(cube)
+            const result = cube.notifications.filter(item => item.user.accountId === user.user.get_user.accountId)
+            if (result.length == 0) {
+              sum += 0
+            }else{
+              sum += result[0].count
             }
+          }
         }
       }
     }
     setState({ sum: sum, notifications: data })
 
   },[notifications, user])
-
-
   const showDrawer = () => {
     setState({
       visible: true,
@@ -181,9 +177,9 @@ const GlobalHeader = () => {
                         e.preventDefault();
                         try {
                           setVisible(true)
-                          showNotifications().then(response => {
-                            console.log(response);
-                          })
+                          if(state.sum > 0){
+                            showNotifications()
+                          }
                         } catch (e) {
                           console.log(e);
                         }

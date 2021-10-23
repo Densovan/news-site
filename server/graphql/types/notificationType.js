@@ -6,6 +6,8 @@ const ConversationNotificationModel = require("../../models/conversationNotifica
 const VoteModel = require("../../models/vote");
 const FollowModel = require("../../models/follow");
 const User = require("../../models/user");
+const QuestionModel = require("../../models/comment/question");
+const AnswerModel = require("../../models/comment/answer");
 
 const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLList } = graphql;
 
@@ -22,99 +24,66 @@ const NotificationType = new GraphQLObjectType({
       type: GraphQLString,
     },
     follow: {
-      type: new GraphQLList(FollowType),
+      type: FollowType,
       resolve: async (parent, args, context) => {
         if (parent.type === "follow") {
-          const data = [];
-          const follow = await FollowModel.find({
+          const follow = await FollowModel.findOne({
             followTo: context.id,
             followBy: parent.userId,
             createBy: parent.userId,
           });
-          if (follow.length > 0) {
-            follow.forEach((element) => {
-              data.push(element);
-            });
-          }
-          if (data.length > 0) {
-            return data;
-          }
+          return follow
         }
       },
     },
     news: {
-      type: new GraphQLList(NewsNotificationType),
+      type: NewsNotificationType,
       resolve: async (parent, args, context) => {
         if (parent.type === "follow") {
-          const data = [];
           if (parent.userId === context.id) {
-            const news = await NewsNotificationModel.find({
+            const news = await NewsNotificationModel.findOne({
               userId: parent.relateId,
             });
-            if (news.length > 0) {
-              news.forEach((element) => {
-                data.push(element);
-              });
-            }
-          }
-          if (data.length > 0) {
-            return data;
+            return news;
           }
         }
       },
     },
-    conversation: {
-      type: new GraphQLList(ConversationNotificationType),
+    comment: {
+      type: QuestionType,
       resolve: async (parent, args, context) => {
-        if (parent.type === "conversation") {
-          const conversationOwner = await ConversationNotificationModel.find({
+        if (parent.type === "comment") {
+          const question = await QuestionModel.findOne({
             postId: parent.relateId,
             userId: parent.userId,
+            type: "comment"
           });
-          const conversationTo = await ConversationNotificationModel.find({
-            userId2: context.id,
+          return question
+        }
+      },
+    },
+    reply:{
+      type: AnswerType,
+      resolve: async (parent, args, context) => {
+        if (parent.type === "reply") {
+          const answer = await AnswerModel.findOne({
+            userId: context.id,
             postId: parent.relateId,
+            type: "reply"
           });
-          if (conversationTo.length > 0) {
-            const data = [];
-            conversationTo.forEach((element) => {
-              if (element.ownerId !== context.id) {
-                data.push(element);
-              }
-            });
-            if (data.length > 0) {
-              return data;
-            }
-          }
-          if (conversationOwner.length > 0) {
-            const data = [];
-            conversationOwner.forEach((element) => {
-              data.push(element);
-            });
-            if (data.length > 0) {
-              return data;
-            }
-          }
+          return answer
         }
       },
     },
     vote: {
-      type: new GraphQLList(VoteType),
+      type: VoteType,
       resolve: async (parent, args, context) => {
         if (parent.type === "vote") {
-          const data = [];
-          const vote = await VoteModel.find({
+          const vote = await VoteModel.findOne({
             postId: parent.relateId,
             userId: parent.userId,
           });
-          if (vote.length > 0) {
-            vote.forEach((element) => {
-              data.push(element);
-            });
-          }
-          if (data.length > 0) {
-            return data;
-          }
+          return vote
         }
       },
     },
@@ -129,3 +98,6 @@ const ConversationNotificationType = require("./conversationNotificationType");
 const VoteType = require("./voteType");
 const FollowType = require("./followType");
 const userType = require("./userType");
+const QuestionType = require("./comment/questionType");
+const AnswerType = require("./comment/answerType")
+

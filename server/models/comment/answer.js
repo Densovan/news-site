@@ -24,6 +24,15 @@ const answerSchema = new mongoose.Schema(
     ownerId: {
       type: String,
     },
+    type: {
+      type: String,
+    },
+    notifications:[{
+      userId: { type: mongoose.Schema.Types.ObjectId, require: true },
+      read: { type: Boolean, require: true},
+      hire: { type: Boolean, require: true},
+      count: { type: Number, require: true}
+    }],
   },
   {
     timestamps: true,

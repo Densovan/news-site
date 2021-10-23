@@ -5,6 +5,7 @@ import { Avatar } from 'antd';
 import { CaretRightOutlined } from '@ant-design/icons';
 import pretty from 'pretty-date';
 import { useRouter } from 'next/router';
+import { message } from 'antd';
 
 const Notification = ({ notifications, user }) => {
   const server = process.env.API_SECRET;
@@ -28,25 +29,26 @@ const Notification = ({ notifications, user }) => {
   });
 
   const handleRead = (e, notificationId, type, slug) => {
-
     e.preventDefault();
     readNotification({ variables: { id: notificationId, type: type } }).then(
       () => {
-        router.push(`/detail/${slug}`);
+        slug !== null && router.push(`/detail/${slug}`);
       },
     );
   };
   return (
     <>
       {data.map((item) => {
+        console.log(item);
         return item.notifications.map((notification) => {
+          console.log(item);
           return (
             notification.user.accountId === user.user.get_user.accountId && (
               <div
                 key={item.createdAt}
                 className="container-box"
                 onClick={(e) =>
-                  notification.read ? handleRead(e, notification.id, item.type, item.news.slug) : (e.preventDefault(), router.push(`/detail/${item.news.slug}`))
+                  notification.read ? handleRead(e, notification.id, item.type, item.news != null ? item.news.slug : item.news) : (e.preventDefault(), item.news != null ? (router.push(`/detail/${item.news.slug}`)) : (message.error('This news not found!!!!!')))
                 }
                 style={
                   notification.read
@@ -106,11 +108,7 @@ const Notification = ({ notifications, user }) => {
                           ))}
                         {item.type === 'news' && ' have post: '}
                         {item.type === 'follow' && 'have following on you. '}
-                        {item.type !== 'follow'
-                          ? item.news.title.length <= 65
-                            ? item.news.title
-                            : item.news.title.substring(0, 65) + '...'
-                          : ''}
+                        {item.type !== 'follow' ? (item.news != null ? (item.news.title.length <= 65 ? item.news.title : item.news.title.substring(0, 65) + '...') : "404") : ''}
                       </li>
                       <li
                         style={{
@@ -126,7 +124,7 @@ const Notification = ({ notifications, user }) => {
                   {item.type !== 'follow' ? (
                     <div className="image-container">
                       <img
-                        src={`${URL_ACCESS}/public/uploads/${item.news.thumnail}`}
+                        src={`${URL_ACCESS}/public/uploads/${item.news != null && item.news.thumnail}`}
                       />
                     </div>
                   ) : (

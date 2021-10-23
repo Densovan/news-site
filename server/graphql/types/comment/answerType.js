@@ -4,7 +4,8 @@ const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLList } = graphql;
 //=========modell===============
 const question = require("../../../models/comment/question");
 const answer = require("../../../models/comment/answer");
-const user = require("../../../models/user");
+const User = require("../../../models/user");
+const News = require("../../../models/news");
 
 const AnswerType = new GraphQLObjectType({
   name: "answer",
@@ -12,13 +13,6 @@ const AnswerType = new GraphQLObjectType({
     id: { type: GraphQLID },
     message: {
       type: GraphQLString,
-    },
-    user: {
-      type: userType,
-      resolve: (parents, args) => {
-        // return User.findById(parents.userId);
-        return user.findOne({ accountId: parents.userId });
-      },
     },
     postId: {
       type: GraphQLString,
@@ -44,15 +38,32 @@ const AnswerType = new GraphQLObjectType({
     userIdTo: {
       type: GraphQLID,
     },
-    // user: {
-    //   type: userType,
-    //   resolve: (parent, args) => {
-    //     // return user.findById(parent.userId);
-    //     return user.findOne({ accoutId: parent.userId });
-    //   },
-    // },
+    type: { type: GraphQLString },
+    notifications: {
+      type: new GraphQLList(objectNotification),
+    },
+    user: {
+      type: userType,
+      resolve: (parents, args) => {
+        return User.findOne({ accountId: parents.userIdTo });
+      },
+    },
+    userTo: {
+      type: userType,
+      resolve: (parents, args) => {
+        return User.findOne({ accountId: parents.userId  });
+      },
+    },
+    news: {
+      type: newsType,
+      resolve: (parents, args) => {
+        return News.findById(parents.postId);
+      },
+    },
   }),
 });
 module.exports = AnswerType;
 const userType = require("../userType");
 const Question = require("../../../models/comment/question");
+const newsType = require("../newsType");
+const objectNotification = require("../objectNotificationType")

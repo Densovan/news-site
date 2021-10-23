@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
 
 const GET_USERS = gql`
   query {
@@ -793,104 +793,150 @@ const GET_NOTIFICATION = gql`
   query {
     get_news_notification {
       follow {
+        id
         user {
+          id
           fullname
           image
           accountId
         }
         userFollower {
+          id
           fullname
           image
           accountId
         }
         notifications{
-          id
-          user{
-            fullname
-            accountId
-          }
-          read
-          hire
-          count
+            user{
+                id
+                accountId
+                fullname
+                image
+            }
+            id
+            read
+            hire
+            count
         }
         type
         createdAt
       }
       news {
+        id
         news {
           title
           thumnail
           slug
         }
         user {
+          id
           fullname
           image
           accountId
         }
         notifications{
-          id
-          user{
-            fullname
-            accountId
-          }
-          read
-          hire
-          count
+            user{
+                id
+                accountId
+                fullname
+                image
+            }
+            id
+            read
+            hire
+            count
         }
         type
         createdAt
       }
-      conversation {
+      comment {
+        id
         news {
           title
           thumnail
           slug
         }
-        notifications{
+        user {
           id
-          user{
-            fullname
-            accountId
-          }
-          read
-          hire
-          count
+          fullname
+          image
+          accountId
+        }
+        notifications{
+            user{
+                id
+                accountId
+                fullname
+                image
+            }
+            id
+            read
+            hire
+            count
+        }
+        type
+        createdAt
+      }
+      reply{
+        id
+        news {
+          title
+          thumnail
+          slug
         }
         user {
-          accountId
+          id
           fullname
           image
           accountId
         }
         userTo {
-          accountId
+          id
           fullname
           image
+          accountId
+        }
+        notifications{
+            user{
+                id
+                accountId
+                fullname
+                image
+            }
+            id
+            read
+            hire
+            count
         }
         type
         createdAt
       }
       vote {
+        id
         news {
           title
           thumnail
           slug
         }
         user {
+          id
           fullname
           image
           accountId
         }
         notifications{
-          id
-          user{
-            fullname
-            accountId
-          }
-          read
-          hire
-          count
+            user{
+                id
+                accountId
+                fullname
+                image
+            }
+            id
+            read
+            hire
+            count
         }
+        count
         type
         createdAt
       }

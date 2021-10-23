@@ -24,18 +24,9 @@ const QuestionType = new GraphQLObjectType({
     updateAt: {
       type: GraphQLString,
     },
-    user: {
-      type: userType,
-      resolve: (parents, args) => {
-        // return User.findById(parents.userId);
-        return User.findOne({ accountId: parents.userId });
-      },
-    },
-    article: {
-      type: newsType,
-      resolve: (parents, args) => {
-        return News.findById(parents.postId);
-      },
+    type: { type: GraphQLString },
+    notifications: {
+      type: new GraphQLList(objectNotification),
     },
     postId: {
       type: GraphQLID,
@@ -46,9 +37,23 @@ const QuestionType = new GraphQLObjectType({
     answerId: {
       type: GraphQLID,
     },
+    news: {
+      type: newsType,
+      resolve: (parent, args) => {
+        return News.findById(parent.postId);
+      },
+    },
+    user: {
+      type: userType,
+      resolve: (parents, args) => {
+        // return User.findById(parents.userId);
+        return User.findOne({ accountId: parents.userId });
+      },
+    },
   }),
 });
 module.exports = QuestionType;
 
 const userType = require("../userType");
 const newsType = require("../newsType");
+const objectNotification = require("../objectNotificationType")
