@@ -45,13 +45,13 @@ const AnswerType = new GraphQLObjectType({
     user: {
       type: userType,
       resolve: (parents, args) => {
-        return User.findOne({ accountId: parents.userIdTo });
+        return User.findOne({ accountId: parents.userId });
       },
     },
     userTo: {
       type: userType,
       resolve: (parents, args) => {
-        return User.findOne({ accountId: parents.userId  });
+        return User.findOne({ accountId: parents.userIdTo  });
       },
     },
     news: {

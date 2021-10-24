@@ -54,7 +54,7 @@ const NotificationType = new GraphQLObjectType({
       resolve: async (parent, args, context) => {
         if (parent.type === "comment") {
           const question = await QuestionModel.findOne({
-            postId: parent.relateId,
+            _id: parent.relateId,
             userId: parent.userId,
             type: "comment"
           });
@@ -68,7 +68,7 @@ const NotificationType = new GraphQLObjectType({
         if (parent.type === "reply") {
           const answer = await AnswerModel.findOne({
             userId: context.id,
-            postId: parent.relateId,
+            _id: parent.relateId,
             type: "reply"
           });
           return answer
