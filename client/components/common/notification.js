@@ -1,21 +1,22 @@
-import React from 'react';
-import { useMutation } from '@apollo/client';
-import { READ_NOTIFICATION } from '../../graphql/mutation';
-import { Avatar } from 'antd';
-import { CaretRightOutlined } from '@ant-design/icons';
-import pretty from 'pretty-date';
-import { useRouter } from 'next/router';
+import React from "react";
+import { useMutation } from "@apollo/client";
+import { READ_NOTIFICATION } from "../../graphql/mutation";
+import { Avatar } from "antd";
+import { CaretRightOutlined } from "@ant-design/icons";
+import pretty from "pretty-date";
+import { useRouter } from "next/router";
 
 const Notification = ({ notifications, user }) => {
   const server = process.env.API_SECRET;
   const server_local = process.env.API_SECRET_LOCAL;
   const develop = process.env.NODE_ENV;
-  const URL_ACCESS = develop === 'development' ? server_local : server;
+  const URL_ACCESS = develop === "development" ? server_local : server;
 
   const router = useRouter();
   const [readNotification] = useMutation(READ_NOTIFICATION);
 
   let data = notifications;
+  console.log(data);
 
   const timeAgo = (time) => {
     var created_date = new Date(time * 1000).getTime() / 1000;
@@ -28,12 +29,11 @@ const Notification = ({ notifications, user }) => {
   });
 
   const handleRead = (e, notificationId, type, slug) => {
-
     e.preventDefault();
     readNotification({ variables: { id: notificationId, type: type } }).then(
       () => {
         router.push(`/detail/${slug}`);
-      },
+      }
     );
   };
   return (
@@ -46,26 +46,29 @@ const Notification = ({ notifications, user }) => {
                 key={item.createdAt}
                 className="container-box"
                 onClick={(e) =>
-                  notification.read ? handleRead(e, notification.id, item.type, item.news.slug) : (e.preventDefault(), router.push(`/detail/${item.news.slug}`))
+                  notification.read
+                    ? handleRead(e, notification.id, item.type, item.news.slug)
+                    : (e.preventDefault(),
+                      router.push(`/detail/${item.news.slug}`))
                 }
                 style={
                   notification.read
-                    ? { backgroundColor: '#f5f5f5' }
-                    : { backgroundColor: 'transparent' }
+                    ? { backgroundColor: "#f5f5f5" }
+                    : { backgroundColor: "transparent" }
                 }
               >
                 <div className="box-notification">
                   <div className="avatar-notification">
                     {notification.read ? (
                       <div>
-                        <CaretRightOutlined style={{ color: '#38a7c8' }} />
+                        <CaretRightOutlined style={{ color: "#38a7c8" }} />
                       </div>
                     ) : (
                       <div>
-                        <CaretRightOutlined style={{ color: 'transparent' }} />
+                        <CaretRightOutlined style={{ color: "transparent" }} />
                       </div>
                     )}
-                    {item.type !== 'follow' ? (
+                    {item.type !== "follow" ? (
                       <>
                         <div style={{ paddingRight: 8 }}>
                           <Avatar src={item.user.image} size={40} />
@@ -82,54 +85,54 @@ const Notification = ({ notifications, user }) => {
                   <div className="text-notification">
                     <div style={{ paddingRight: 8 }}>
                       <li>
-                        {item.type !== 'follow' ? (
+                        {item.type !== "follow" ? (
                           <>
-                            <strong>{item.user.fullname}</strong>{' '}
+                            <strong>{item.user.fullname}</strong>{" "}
                           </>
                         ) : (
                           <>
-                            <strong>{item.userFollower.fullname}</strong>{' '}
+                            <strong>{item.userFollower.fullname}</strong>{" "}
                           </>
                         )}
-                        {item.type === 'up' && 'like on your post: '}
-                        {item.type === 'comment' && 'comment on your post: '}
-                        {item.type === 'reply' &&
+                        {item.type === "up" && "like on your post: "}
+                        {item.type === "comment" && "comment on your post: "}
+                        {item.type === "reply" &&
                           (item.userTo.fullname ==
                           user.user.get_user.fullname ? (
-                            'mentioned you in a comment: '
+                            "mentioned you in a comment: "
                           ) : (
                             <>
-                              replied to <strong>{item.userTo.fullname}</strong>{' '}
-                              on your post:{' '}
+                              replied to <strong>{item.userTo.fullname}</strong>{" "}
+                              on your post:{" "}
                             </>
                           ))}
-                        {item.type === 'news' && ' have post: '}
-                        {item.type === 'follow' && 'have following on you. '}
-                        {item.type !== 'follow'
+                        {item.type === "news" && " have post: "}
+                        {item.type === "follow" && "have following on you. "}
+                        {item.type !== "follow"
                           ? item.news.title.length <= 65
                             ? item.news.title
-                            : item.news.title.substring(0, 65) + '...'
-                          : ''}
+                            : item.news.title.substring(0, 65) + "..."
+                          : ""}
                       </li>
                       <li
                         style={{
                           paddingTop: 4,
                           fontSize: 13,
-                          color: '#38a7c8',
+                          color: "#38a7c8",
                         }}
                       >
                         <strong>{timeAgo(item.createdAt)}</strong>
                       </li>
                     </div>
                   </div>
-                  {item.type !== 'follow' ? (
+                  {item.type !== "follow" ? (
                     <div className="image-container">
                       <img
                         src={`${URL_ACCESS}/public/uploads/${item.news.thumnail}`}
                       />
                     </div>
                   ) : (
-                    ''
+                    ""
                   )}
                 </div>
               </div>
