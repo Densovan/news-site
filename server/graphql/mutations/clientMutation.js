@@ -1062,6 +1062,7 @@ const RootMutation = new GraphQLObjectType({
       type: NotificationType,
       resolve: async (parent, args, context) =>  {
         try{
+
           const notificationNews = await NotificationModel.find({
             type: "follow",
           });
@@ -1075,15 +1076,26 @@ const RootMutation = new GraphQLObjectType({
             type: "vote"
           })
           notificationNews.map(async (item) => {
-            await NewsNotificationModel.findOneAndUpdate({
-              "userId": item.relateId, "notifications.userId": context.id
-            }, {
-              $set:{
-                "notifications.$.count": 0
+            const news = await NewsNotificationModel.find({
+              userId: item.relateId,
+              type: "news",
+            });
+            const follower = await FollowModel.findOne({ followTo: item.relateId });
+             const timeFollow = new Date(follower.createdAt).getTime()
+            news.map(async (item1) => {
+              const timeNews = new Date(item1.createdAt).getTime();
+              if (timeNews > timeFollow) {
+                await NewsNotificationModel.findOneAndUpdate({
+                  "_id": item1._id, "notifications.userId": context.id, type: "news"
+                }, {
+                  $set:{
+                    "notifications.$.count": 0
+                  }
+                })
               }
             })
             await FollowModel.findOneAndUpdate({ 
-              "followTo": context.id, "followBy": item.userId, "createBy": item.userId, "notifications.userId": context.id
+              "followTo": context.id, "followBy": item.userId, "createBy": item.userId, "notifications.userId": context.id, type: "follow"
              }, {
                $set: {
                 "notifications.$.count": 0

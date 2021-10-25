@@ -37,12 +37,19 @@ const NotificationType = new GraphQLObjectType({
       },
     },
     news: {
-      type: NewsNotificationType,
+      type: new GraphQLList(NewsNotificationType),
       resolve: async (parent, args, context) => {
         if (parent.type === "follow") {
+          const follower = await FollowModel.findOne({ followTo: parent.relateId });
+          const timeFollow = new Date(follower.createdAt).getTime()
           if (parent.userId === context.id) {
-            const news = await NewsNotificationModel.findOne({
-              userId: parent.relateId,
+            const news = [];
+            const data = await NewsNotificationModel.find({ userId: parent.relateId })
+            data.forEach(item => {
+              const timeNews = new Date(item.createdAt).getTime();
+              if (timeNews > timeFollow) {
+                news.push(item)
+              }
             });
             return news;
           }
