@@ -34,7 +34,9 @@ import InfiniteScroll from "react-infinite-scroll-component";
 const { Search } = Input;
 const { Header } = Layout;
 const GlobalHeader = () => {
-  const { data: notifications } = useQuery(GET_NOTIFICATION);
+  const { data: notifications } = useQuery(GET_NOTIFICATION, {
+    pollInterval: 500
+  });
   const [showNotifications] = useMutation(SHOW_NOTIFICATION);
   const router = useRouter();
   const [hasMoreItems, setHasMoreItems] = useState(true);
@@ -77,7 +79,9 @@ const GlobalHeader = () => {
             cubes.push(notification.vote)
         }
         else if(notification.news){
-            cubes.push(notification.news)
+          notification.news.map((item) =>{
+            cubes.push(item)
+          })
         }
       });
       if (user) {
@@ -85,6 +89,7 @@ const GlobalHeader = () => {
           var cube = cubes[i];
           if (cube.user.fullname !== user.user.get_user.fullname || cube.type === "follow") {
             data.push(cube)
+            console.log(cube);
             const result = cube.notifications.filter(item => item.user.accountId === user.user.get_user.accountId)
             if (result.length == 0) {
               sum += 0
