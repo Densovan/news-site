@@ -12,10 +12,7 @@ import { useAuth } from "../../layouts/layoutAuth";
 import Link from "next/link";
 import FormSave from "../../components/common/save";
 
-import {
-  HiOutlineShare,
-  HiOutlineBookmark,
-} from "react-icons/hi";
+import { HiOutlineShare, HiOutlineBookmark } from "react-icons/hi";
 
 import FormComment from "../../components/common/comment";
 import CommentList from "../../components/commentList";
@@ -26,7 +23,7 @@ const SinglePage = () => {
   const develop = process.env.NODE_ENV;
   const URL_ACCESS = develop === "development" ? server_local : server;
 
-  const { isAuthenticated } = useAuth()
+  const { isAuthenticated } = useAuth();
   const router = useRouter();
   const { slug } = router.query;
   const { loading, data, refetch } = useQuery(GET_NEWS_BY_SLUG, {
@@ -104,7 +101,7 @@ const SinglePage = () => {
                           type={type}
                           slug={slug}
                           myUser={myUser}
-                          createBy={user.id}
+                          createBy={user.accountId}
                           thumnail={thumnail}
                           save={save}
                         />
@@ -210,7 +207,14 @@ const SinglePage = () => {
                 </div>
 
                 <div>
-                  <Link href={`/profile_detial/${user.id}`}>
+                  <Link
+                    href={`/profile_detial/${user.accountId}#${user.fullname
+                      .replace(
+                        /[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g,
+                        "-"
+                      )
+                      .toLowerCase()}`}
+                  >
                     <div style={{ cursor: "pointer" }} className="pf_user">
                       <img src={user.image} />
 
@@ -277,7 +281,11 @@ const SinglePage = () => {
             </Col>
             <Col xs={24} md={6}>
               <div className="pf_pre">
-                <Link href={`/profile_detial/${user.id}`}>
+                <Link
+                  href={`/profile_detial/${user.accountId}#${user.fullname
+                    .replace(/[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g, "-")
+                    .toLowerCase()}`}
+                >
                   <div style={{ cursor: "pointer" }} className="pf_user">
                     <img src={user.image} />
                     <div className="name">

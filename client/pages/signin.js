@@ -101,8 +101,9 @@ const Login = () => {
             >
               <Input
                 size="large"
-                className="input"
-                placeholder="Email"
+                // className="input"
+                className="form-style"
+                placeholder="Input Your Email"
                 type="email"
               />
             </Form.Item>
@@ -121,14 +122,15 @@ const Login = () => {
                 },
               ]}
             >
-              <Input.Password
+              <Input
                 size="large"
-                className="input"
-                placeholder="Password"
+                // className="input"
+                className="form-style"
+                placeholder="Input Your Password"
                 type="password"
               />
             </Form.Item>
-            <Form.Item>
+            {/* <Form.Item>
               <Form.Item name="remember" valuePropName="checked" noStyle>
                 <Checkbox style={{ color: "white" }}>Remember me</Checkbox>
               </Form.Item>
@@ -136,7 +138,7 @@ const Login = () => {
               <a className="login-form-forgot" href="">
                 Forgot password
               </a>
-            </Form.Item>
+            </Form.Item> */}
             <Form.Item>
               <center>
                 <Button
