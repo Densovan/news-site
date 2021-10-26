@@ -23,7 +23,7 @@ const questionSchema = new mongoose.Schema(
     notifications:[{
       userId: { type: mongoose.Schema.Types.ObjectId, require: true },
       read: { type: Boolean, require: true},
-      hire: { type: Boolean, require: true},
+      hide: { type: Boolean, require: true},
       count: { type: Number, require: true}
     }],
   },

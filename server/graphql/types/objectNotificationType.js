@@ -8,7 +8,7 @@ const objectNotification = new GraphQLObjectType({
         id: { type: GraphQLID },
         userId: { type: GraphQLID },
         read: { type: GraphQLBoolean },
-        hire: { type: GraphQLBoolean },
+        hide: { type: GraphQLBoolean },
         count: { type:GraphQLInt },
         user: {
           type: userType,

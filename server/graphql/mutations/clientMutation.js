@@ -49,6 +49,7 @@ const NewsNotificationModel = require("../../models/newsNotification");
 const ConversationNotificationModel = require("../../models/conversationNotification");
 const VoteNotificationModel = require("../../models/voteNotification");
 const { pubsub } = require("../../subscription");
+const QuestionType = require("../types/comment/questionType");
 
 const RootMutation = new GraphQLObjectType({
   name: "RootMutationType",
@@ -82,7 +83,7 @@ const RootMutation = new GraphQLObjectType({
             await news.save().then((response) => {
               let followers = [];
               userFollower.map((follower) => {
-                followers.push({ userId: follower.followBy, read: true, hire: true, count: 1 })
+                followers.push({ userId: follower.followBy, read: true, hide: true, count: 1 })
               })
               const NewsNotification = NewsNotificationModel({
                 userId: context.id,
@@ -323,7 +324,7 @@ const RootMutation = new GraphQLObjectType({
             userId: context.id,
             ownerId: args.ownerId,
             type: "comment",
-            notifications: [{ userId: args.ownerId, read: true, hire: true, count: 1 }]
+            notifications: [{ userId: args.ownerId, read: true, hide: true, count: 1 }]
           });
           await question.save().then( async (response) => {
             if (context.id === args.ownerId) {
@@ -443,11 +444,11 @@ const RootMutation = new GraphQLObjectType({
             ownerId: args.ownerId,
             answer: args.answer,
             type: "reply",
-            notifications: [{ userId: context.id, read: true, hire: true, count: 1 }, { userId: args.userIdTo, read: true, hire: true, count: 1 }]
+            notifications: [{ userId: context.id, read: true, hide: true, count: 1 }, { userId: args.userIdTo, read: true, hide: true, count: 1 }]
           });
           await answer.save().then( async (response) => {
             let Notification = await NotificationModel({
-              userId: context.id,
+              userId: response.userIdTo,
               ownerId: args.ownerId,
               relateId: response._id,
               type: "reply",
@@ -770,7 +771,7 @@ const RootMutation = new GraphQLObjectType({
               createBy: context.id,
               followBy: context.id,
               type: "follow",
-              notifications: [{ userId: args.followTo, read: true, hire: true, count: 1 }]
+              notifications: [{ userId: args.followTo, read: true, hide: true, count: 1 }]
 
             });
             await follow.save();
@@ -935,7 +936,7 @@ const RootMutation = new GraphQLObjectType({
                 voteUp: 1,
                 count: args.count,
                 type: args.type,
-                notifications: [{ userId: args.ownerId, read: false, hire: false, count: 1 }]
+                notifications: [{ userId: args.ownerId, read: true, hide: true, count: 1 }]
               });
               await up.save();
 
@@ -947,7 +948,7 @@ const RootMutation = new GraphQLObjectType({
                 voteDown: 1,
                 count: args.count,
                 type: args.type,
-                notifications: [{ userId: args.ownerId, read: false, hire: false, count: 1 }]
+                notifications: [{ userId: args.ownerId, read: true, hide: true, count: 1 }]
               });
               await up.save();
               return { message: "add successfully" };
@@ -1062,7 +1063,6 @@ const RootMutation = new GraphQLObjectType({
       type: NotificationType,
       resolve: async (parent, args, context) =>  {
         try{
-
           const notificationNews = await NotificationModel.find({
             type: "follow",
           });
@@ -1104,7 +1104,7 @@ const RootMutation = new GraphQLObjectType({
           })
           notificationQuestion.map(async (item) => {
             await QuestionModel.findOneAndUpdate({
-              "postId": item.relateId, "userId": item.userId, "notifications.userId": context.id, type: "comment"
+              "_id": item.relateId, "userId": item.userId, "notifications.userId": context.id, type: "comment"
             }, {
               $set: {
                 "notifications.$.count": 0
@@ -1112,8 +1112,9 @@ const RootMutation = new GraphQLObjectType({
             })
           })
           notificationAnswer.map(async (item) => {
+            console.log(context.id);
             await AnswerModel.findOneAndUpdate({
-              "postId": item.relateId, "userId": context.id, "notifications.userId": context.id, type: "reply"
+              "_id": item.relateId, "userIdTo": context.id, "notifications.userId": context.id, type: "reply"
             }, {
               $set: {
                 "notifications.$.count": 0
@@ -1136,7 +1137,7 @@ const RootMutation = new GraphQLObjectType({
       }
     },
 
-    read_notification: {
+    readNotification: {
       type: NotificationType,
       args: { id: { type: GraphQLID }, type: {  type: GraphQLString } },
       resolve: async (parent, args, context) =>  {
@@ -1164,16 +1165,8 @@ const RootMutation = new GraphQLObjectType({
             }
             else if(args.type === "comment"){
               // comment
-              await ConversationNotificationModel.findOneAndUpdate({
-                "postId": item.relateId, "userId": item.userId, "notifications._id": args.id
-              }, {
-                $set: {
-                  "notifications.$.read": false
-                }
-              })
-              // reply
-              await ConversationNotificationModel.findOneAndUpdate({
-                "postId": item.relateId, "userId2": context.id, "notifications._id": args.id
+              await QuestionModel.findOneAndUpdate({
+                "_id": item.relateId, "userId": item.userId, "notifications._id": args.id, type: "comment"
               }, {
                 $set: {
                   "notifications.$.read": false
@@ -1182,18 +1175,28 @@ const RootMutation = new GraphQLObjectType({
             }
             else if(args.type === "reply"){
               // reply
-              await ConversationNotificationModel.findOneAndUpdate({
-                "postId": item.relateId, "userId2": context.id, "notifications._id": args.id
+              await AnswerModel.findOneAndUpdate({
+                "_id": item.relateId, "userIdTo": context.id, "notifications._id": args.id, type: "reply"
               }, {
                 $set: {
                   "notifications.$.read": false
                 }
               })
             }
-            else if (ags.type === "vote"){
+            else if (args.type === "up"){
               // vote
               await VoteModel.findOneAndUpdate({
-                "postId": item.relateId, "userId": item.userId, "notifications._id": args.id
+                "postId": item.relateId, "userId": item.userId, "notifications._id": args.id, type: args.type
+              }, {
+                $set: {
+                  "notifications.$.read": false
+                }
+              })
+            }
+            else if (args.type === "down"){
+              // vote
+              await VoteModel.findOneAndUpdate({
+                "postId": item.relateId, "userId": item.userId, "notifications._id": args.id, type: args.type
               }, {
                 $set: {
                   "notifications.$.read": false
@@ -1207,6 +1210,161 @@ const RootMutation = new GraphQLObjectType({
         }
       }
     },
+
+    hideNotification: {
+      type: NotificationType,
+      args: { 
+        id: { type: GraphQLID },
+        type: {  type: GraphQLString } 
+      },
+      resolve: async (parent, args, context) =>  {
+        try{
+          const notificationData = await NotificationModel.find({}); 
+          notificationData.map(async (item) => {
+            if(args.type === "news"){
+              // news
+              await NewsNotificationModel.findOneAndUpdate({
+                "userId": item.relateId, "notifications._id": args.id
+              }, {
+                $set:{
+                  "notifications.$.hide": false
+                }
+              })
+            }else if(args.type === "follow"){
+              // follow
+              await FollowModel.findOneAndUpdate({ 
+                "followTo": context.id, "followBy": item.userId, "createBy": item.userId, "notifications._id": args.id
+               }, {
+                 $set: {
+                  "notifications.$.hide": false
+                 }
+              })
+            }
+            else if(args.type === "comment"){
+              // comment
+              await QuestionModel.findOneAndUpdate({
+                "_id": item.relateId, "userId": item.userId, "notifications._id": args.id, type: args.type
+              }, {
+                $set: {
+                  "notifications.$.hide": false
+                }
+              })
+
+            }
+            else if(args.type === "reply"){
+              // reply
+              await AnswerModel.findOneAndUpdate({
+                "_id": item.relateId, "userIdTo": context.id, "notifications._id": args.id, type: args.type
+              }, {
+                $set: {
+                  "notifications.$.hide": false
+                }
+              })
+            }
+            else if (args.type === "up"){
+              // vote
+              await VoteModel.findOneAndUpdate({
+                "postId": item.relateId, "userId": item.userId, "notifications._id": args.id, type: args.type
+              }, {
+                $set: {
+                  "notifications.$.hide": false
+                }
+              })
+            }
+            else if (args.type === "down"){
+              // vote
+              await VoteModel.findOneAndUpdate({
+                "postId": item.relateId, "userId": item.userId, "notifications._id": args.id, type: args.type
+              }, {
+                $set: {
+                  "notifications.$.hide": false
+                }
+              })
+            }
+          })
+          return { message: "check successfully" }
+        }catch(error){
+          return { message: "check error" }
+        }
+      }
+    },
+    hideAllNotification: {
+      type: NotificationType,
+      resolve: async (parent, args, context) =>  {
+        try{
+
+          const notificationNews = await NotificationModel.find({
+            type: "follow",
+          });
+          const notificationQuestion = await NotificationModel.find({
+            type: "comment"
+          });
+          const notificationAnswer = await NotificationModel.find({
+            type: "reply"
+          });
+          const notificationVote = await NotificationModel.find({
+            type: "vote"
+          })
+          notificationNews.map(async (item) => {
+            const news = await NewsNotificationModel.find({
+              userId: item.relateId,
+              type: "news",
+            });
+            const follower = await FollowModel.findOne({ followTo: item.relateId });
+             const timeFollow = new Date(follower.createdAt).getTime()
+            news.map(async (item1) => {
+              const timeNews = new Date(item1.createdAt).getTime();
+              if (timeNews > timeFollow) {
+                await NewsNotificationModel.findOneAndUpdate({
+                  "_id": item1._id, "notifications.userId": context.id, type: "news"
+                }, {
+                  $set:{
+                    "notifications.$.hide": false
+                  }
+                })
+              }
+            })
+            await FollowModel.findOneAndUpdate({ 
+              "followTo": context.id, "followBy": item.userId, "createBy": item.userId, "notifications.userId": context.id, type: "follow"
+             }, {
+               $set: {
+                "notifications.$.hide": false
+               }
+             })
+          })
+          notificationQuestion.map(async (item) => {
+            await QuestionModel.findOneAndUpdate({
+              "_id": item.relateId, "userId": item.userId, "notifications.userId": context.id, type: "comment"
+            }, {
+              $set: {
+                "notifications.$.hide": false
+              }
+            })
+          })
+          notificationAnswer.map(async (item) => {
+            await AnswerModel.findOneAndUpdate({
+              "_id": item.relateId, "userIdTo": context.id, "notifications.userId": context.id, type: "reply"
+            }, {
+              $set: {
+                "notifications.$.hide": false
+              }
+            })
+          })
+          notificationVote.map(async (item) => {
+            await VoteModel.findOneAndUpdate({
+              "postId": item.relateId, "userId": item.userId, "notifications.userId": context.id
+            }, {
+              $set: {
+                "notifications.$.hide": false
+              }
+            })
+          })
+          return { message: "check successfully" }
+        }catch(error){
+          return { message: "check error" }
+        }
+      }
+    }
   },
 });
 module.exports = RootMutation;

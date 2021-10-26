@@ -74,7 +74,7 @@ const NotificationType = new GraphQLObjectType({
       resolve: async (parent, args, context) => {
         if (parent.type === "reply") {
           const answer = await AnswerModel.findOne({
-            userId: context.id,
+            userIdTo: context.id,
             _id: parent.relateId,
             type: "reply"
           });
