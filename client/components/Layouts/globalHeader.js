@@ -65,7 +65,6 @@ const GlobalHeader = () => {
 
     if(notifications){
       notifications.get_news_notification.forEach((notification) => {
-        console.log(notification);
         if(notification.follow){
           cubes.push(notification.follow)
         }
@@ -87,9 +86,8 @@ const GlobalHeader = () => {
       if (user) {
         for (let i = 0; i < cubes.length; i++){
           var cube = cubes[i];
-          if (cube.user.fullname !== user.user.get_user.fullname || cube.type === "follow") {
+          if (cube.user.fullname !== user.user.get_user.fullname || cube.type === "follow" || cube.type === "reply") {
             data.push(cube)
-            console.log(cube);
             const result = cube.notifications.filter(item => item.user.accountId === user.user.get_user.accountId)
             if (result.length == 0) {
               sum += 0
@@ -183,7 +181,9 @@ const GlobalHeader = () => {
                         try {
                           setVisible(true)
                           if(state.sum > 0){
-                            showNotifications()
+                            showNotifications().then((response) => {
+                              console.log(response);
+                            })
                           }
                         } catch (e) {
                           console.log(e);

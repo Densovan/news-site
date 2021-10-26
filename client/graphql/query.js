@@ -815,7 +815,7 @@ const GET_NOTIFICATION = gql`
             }
             id
             read
-            hire
+            hide
             count
         }
         type
@@ -843,7 +843,7 @@ const GET_NOTIFICATION = gql`
             }
             id
             read
-            hire
+            hide
             count
         }
         type
@@ -871,7 +871,7 @@ const GET_NOTIFICATION = gql`
             }
             id
             read
-            hire
+            hide
             count
         }
         type
@@ -905,7 +905,7 @@ const GET_NOTIFICATION = gql`
             }
             id
             read
-            hire
+            hide
             count
         }
         type
@@ -933,7 +933,7 @@ const GET_NOTIFICATION = gql`
             }
             id
             read
-            hire
+            hide
             count
         }
         count

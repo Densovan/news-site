@@ -117,7 +117,7 @@ const FilterNews = ({ handleChange, selectedTags }) => {
             >
               {types}
             </CheckableTag>
-          ))}
+          ))} 
         </div>
       </Card>
 
@@ -127,6 +127,7 @@ const FilterNews = ({ handleChange, selectedTags }) => {
         {allUsers.slice(0, 5).map((res) => {
           return (
             <Row
+              key={res.id}
               style={{ marginBottom: "12px" }}
               justify="space-between"
               align="middle"

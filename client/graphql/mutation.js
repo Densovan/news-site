@@ -281,7 +281,15 @@ const SHOW_NOTIFICATION = gql`
 
 const READ_NOTIFICATION = gql`
   mutation($id: ID!, $type: String!){
-    read_notification(id: $id, type: $type){
+    readNotification(id: $id, type: $type){
+      message
+    }
+  }
+`;
+
+const HIDE_NOTIFICATION = gql`
+  mutation($id: ID!, $type: String!){
+    hideNotification(id: $id, type: $type){
       message
     }
   }
@@ -314,5 +322,6 @@ export {
   VOTE_UP_DOWN,
   CHECK_TOP_NEWS,
   SHOW_NOTIFICATION,
-  READ_NOTIFICATION
+  READ_NOTIFICATION,
+  HIDE_NOTIFICATION
 };
