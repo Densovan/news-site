@@ -16,7 +16,7 @@ import GlobalHeader from "../components/Layouts/globalHeader";
 const About = () => {
   return (
     <React.Fragment>
-      <GlobalHeader />
+      {/* <GlobalHeader /> */}
       <div className="container">
         <br></br>
         <center>

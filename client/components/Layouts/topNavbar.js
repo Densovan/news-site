@@ -14,7 +14,7 @@ import {
 } from "react-icons/ti";
 import Link from "next/link";
 import { Popover } from "antd";
-import Logout from "../Layouts/logout";
+// import Logout from "../Layouts/logout";
 import { useQuery } from "@apollo/client";
 import { GET_USER } from "../../graphql/query";
 

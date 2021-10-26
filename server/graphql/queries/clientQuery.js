@@ -109,27 +109,45 @@ const RootQuery = new GraphQLObjectType({
     },
 
     //==============get_new_sort-top=================
+    // get_all_news_top: {
+    //   type: new GraphQLList(NewsType),
+    //   args: {
+    //     limit: {
+    //       name: "limit",
+    //       type: GraphQLInt,
+    //     },
+    //     offset: {
+    //       name: "offset",
+    //       type: GraphQLInt,
+    //     },
+    //   },
+    //   resolve: (parent, args, context) => {
+    //     const { limit = null, offset = null } = args;
+    //     return NewsModel.find({})
+    //       .limit(limit)
+    //       .skip(offset)
+    //       .sort({ createAt: -1 });
+    //     // .sort({ voteCount: -1 })
+    //   },
+    // },
     get_all_news_top: {
       type: new GraphQLList(NewsType),
       args: {
         limit: {
-          name: "limit",
+          // name: "limit",
           type: GraphQLInt,
         },
         offset: {
-          name: "offset",
+          // name: "offset",
           type: GraphQLInt,
         },
       },
-      resolve: (parent, args, context) => {
-        const { limit = null, offset = null } = args;
-        return (
-          NewsModel.find({})
-            .limit(limit)
-            .skip(offset)
-            // .sort({ createAt: -1 });
-            .sort({ voteCount: -1 })
-        );
+      resolve: (parent, { limit = 6, offset = 0 }) => {
+        return NewsModel.find({})
+          .limit(limit)
+          .skip(offset)
+          .sort({ voteCount: -1 });
+        // .sort({ createdAt: -1 });
       },
     },
 
