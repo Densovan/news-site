@@ -1,6 +1,7 @@
 import React from 'react';
 import { useMutation } from '@apollo/client';
 import { READ_NOTIFICATION, HIDE_NOTIFICATION } from '../../graphql/mutation';
+import { GET_NOTIFICATION } from '../../graphql/query';
 import { CaretRightOutlined } from '@ant-design/icons';
 import pretty from 'pretty-date';
 import { useRouter } from 'next/router';
@@ -32,7 +33,13 @@ const Notification = ({ notifications, user }) => {
 
   const handleRead = (e, notificationId, type, slug) => {
     e.preventDefault();
-    readNotification({ variables: { id: notificationId, type: type } }).then(
+    readNotification({ 
+      variables: { 
+          id: notificationId, 
+          type: type 
+        },
+        refetchQueries:[{ query: GET_NOTIFICATION }]
+      }).then(
       () => {
         slug !== null && router.push(`/detail/${slug}`);
       },
@@ -43,7 +50,8 @@ const Notification = ({ notifications, user }) => {
     hideNotification({ variables: { 
         id: notificationId, 
         type: type 
-      } 
+      },
+      refetchQueries:[{ query: GET_NOTIFICATION }]
     }).then( async (response) => {
       notification.open({
         closeIcon: true,

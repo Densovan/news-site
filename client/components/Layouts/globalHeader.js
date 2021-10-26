@@ -34,9 +34,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 const { Search } = Input;
 const { Header } = Layout;
 const GlobalHeader = () => {
-  const { data: notifications } = useQuery(GET_NOTIFICATION, {
-    pollInterval: 500
-  });
+  const { data: notifications } = useQuery(GET_NOTIFICATION);
   const [showNotifications] = useMutation(SHOW_NOTIFICATION);
   const router = useRouter();
   const [hasMoreItems, setHasMoreItems] = useState(true);
@@ -181,9 +179,7 @@ const GlobalHeader = () => {
                         try {
                           setVisible(true)
                           if(state.sum > 0){
-                            showNotifications().then((response) => {
-                              console.log(response);
-                            })
+                            showNotifications({refetchQueries:[{ query: GET_NOTIFICATION }]})
                           }
                         } catch (e) {
                           console.log(e);
