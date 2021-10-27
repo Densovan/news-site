@@ -33,6 +33,14 @@ export const AuthProvider = ({ children, token }) => {
                 if (error.response.status === 401 || error.response.status === 403) {
                     await localStorage.removeItem("access_token");
                     await localStorage.removeItem("refresh_token"); 
+                    setTimeout(() => {
+                        setState({
+                            loading: true
+                        })
+                    }, 1000)
+                    setState({
+                        loading: false
+                    })
                 }
             })
         }catch(error){
@@ -52,19 +60,6 @@ export const AuthProvider = ({ children, token }) => {
         if (!data) return
         else setUser({ user: data })
     },[data])
-
-    useEffect(() => {
-        if(state.auth == false){
-            setTimeout(() => {
-                setState({
-                    loading: true
-                })
-            }, 1000)
-            setState({
-                loading: false
-            })
-        }
-    },[])
 
     const logout = () => {
         localStorage.removeItem("access_token");

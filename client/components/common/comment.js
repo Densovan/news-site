@@ -1,18 +1,17 @@
-import React, { createElement, useEffect, useState } from "react";
+import React from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { Comment, Avatar, Form, Input, Button } from "antd";
-
+import { useAuth } from "../../layouts/layoutAuth";
+import { GET_NEWS_BY_SLUG , GET_USER} from '../../graphql/query';
+import { useRouter } from "next/router";
 import {
   COMMENT,
   REPLY_COMMENT,
   EDIT_COMMENT,
   EDIT_REPLY,
 } from "../../graphql/mutation";
-import { GET_USER } from "../../graphql/query";
-import { useRouter } from "next/router";
 
 const FormComment = (props) => {
-  const router = useRouter();
   const {
     articleId,
     ownerId,
@@ -25,18 +24,14 @@ const FormComment = (props) => {
     keyAdd,
     keySubmit,
   } = props;
-  const { loading: loading, data: user } = useQuery(GET_USER, {
-    pollInterval: 500,
-  });
+  const { user } = useAuth();
+  const router = useRouter();
+  const { slug } = router.query;
   const [addComment] = useMutation(COMMENT);
   const [replyComment] = useMutation(REPLY_COMMENT);
   const [editComment] = useMutation(EDIT_COMMENT);
   const [editReply] = useMutation(EDIT_REPLY);
 
-  if (loading) return <div>Loading...</div>;
-
-  // console.log(ownerId);
-  // return to reset data
   const handleReset = () => {
     if (keyBtn === "editReplyQuestion") {
       props.doReset("editReplyQuestion", null);
@@ -74,13 +69,14 @@ const FormComment = (props) => {
         try {
           replyComment({
             variables: {
-              userId: user.get_user.accountId,
+              userId: user.user.get_user.accountId,
               postId: articleId,
               answer: values.comment,
               questionId: comments.id,
               ownerId: ownerId,
               userIdTo: comments.user.accountId,
             },
+            refetchQueries:[{ query: GET_USER }]
           }).then(async (data) => {
             console.log(data);
           });
@@ -93,13 +89,14 @@ const FormComment = (props) => {
         try {
           replyComment({
             variables: {
-              userId: user.get_user.accountId,
+              userId: user.user.get_user.accountId,
               postId: articleId,
               answer: values.comment,
               questionId: comments.id,
               ownerId: ownerId,
               userIdTo: object.user.accountId,
             },
+            refetchQueries:[{ query: GET_USER }]
           }).then(async (data) => {
             console.log(data);
           });
@@ -113,10 +110,11 @@ const FormComment = (props) => {
           editComment({
             variables: {
               id: object.id,
-              userId: user.get_user.accountId,
+              userId: user.user.get_user.accountId,
               postId: articleId,
               question: values.comment,
             },
+            refetchQueries:[{ query: GET_USER }]
           }).then(async (data) => {
             console.log(data);
             props.getCheck("question", null);
@@ -129,11 +127,11 @@ const FormComment = (props) => {
           editReply({
             variables: {
               id: object.id,
-              userId: user.get_user.id,
+              userId: user.user.get_user.id,
               answer: values.comment,
             },
+            refetchQueries:[{ query: GET_USER }]
           }).then(async (data) => {
-            console.log(data);
             props.getCheck("answer", null);
           });
         } catch (e) {
@@ -147,8 +145,8 @@ const FormComment = (props) => {
               question: values.comment,
               ownerId: ownerId,
             },
+            refetchQueries:[{ query: GET_USER }]
           }).then(async (data) => {
-            console.log(data);
             form.resetFields();
           });
         } catch (e) {
@@ -186,7 +184,7 @@ const FormComment = (props) => {
   };
   return (
     <Comment
-      avatar={<Avatar src={user.get_user.image} />}
+      avatar={<Avatar src={user.user.get_user.image} />}
       content={
         <Form form={form} name="control-ref" onFinish={onFinish}>
           <Form.Item
