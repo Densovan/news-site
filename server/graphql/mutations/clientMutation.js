@@ -985,14 +985,13 @@ const RootMutation = new GraphQLObjectType({
             } else if (existingVote.voteUp === 0 && args.type === "up") {
               await VoteModel.findOneAndUpdate(
                 { postId: args.postId, userId: context.id },
-                { type: args.type, voteUp: 1, voteDown: 0, count: args.count }
-              );
-
+                { type: args.type, voteUp: 1, voteDown: 0, count: args.count, notifications: [{ userId: args.ownerId, read: true, hide: true, count: 1 }] }
+              );          
               return { message: "add successfully" };
             } else if (existingVote.voteDown === 0 && args.type === "down") {
               await VoteModel.findOneAndUpdate(
                 { postId: args.postId, userId: context.id },
-                { type: args.type, voteDown: 1, voteUp: 0, count: args.count }
+                { type: args.type, voteDown: 1, voteUp: 0, count: args.count, notifications: [{ userId: args.ownerId, read: true, hide: true, count: 1 }], }
               );
               return { message: "add successfully" };
             } else {
@@ -1112,7 +1111,6 @@ const RootMutation = new GraphQLObjectType({
             })
           })
           notificationAnswer.map(async (item) => {
-            console.log(context.id);
             await AnswerModel.findOneAndUpdate({
               "_id": item.relateId, "userIdTo": context.id, "notifications.userId": context.id, type: "reply"
             }, {

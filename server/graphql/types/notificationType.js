@@ -42,6 +42,7 @@ const NotificationType = new GraphQLObjectType({
         if (parent.type === "follow") {
           const follower = await FollowModel.findOne({ followTo: parent.relateId });
           const timeFollow = new Date(follower.createdAt).getTime()
+          console.log(parent, context.id);
           if (parent.userId === context.id) {
             const news = [];
             const data = await NewsNotificationModel.find({ userId: parent.relateId })

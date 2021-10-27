@@ -67,6 +67,7 @@ const Notification = ({ notifications, user }) => {
   let sum = 0;
   data.map((item) => {
     item.notifications.map((notification) => {
+      console.log(notification);
       if (notification.hide) {
         sum += 1
       }else{
@@ -74,6 +75,7 @@ const Notification = ({ notifications, user }) => {
       }
     })
   })
+  console.log(sum);
   return (
     <>
       {sum > 0 ? 
