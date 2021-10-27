@@ -17,20 +17,13 @@ const { CheckableTag } = Tag;
 
 const FilterNews = ({ handleChange, selectedTags }) => {
   const { isAuthenticated } = useAuth()
-  const { loading: usersLoading, data: usersData } = useQuery(GET_USERS, {
-    pollInterval: 1000,
-  });
-  const { loading: userLoading, data: user } = useQuery(GET_USER, {
-    pollInterval: 1000,
-    // context: { clientName: "private" },
-  });
+  const { loading: usersLoading, data: usersData } = useQuery(GET_USERS);
+  const { loading: userLoading, data: user } = useQuery(GET_USER);
   const {
     data: follows,
     loading: follow_loading,
     refetch: follow_refetch,
-  } = useQuery(GET_FOLLOWS, {
-    pollInterval: 1000,
-  });
+  } = useQuery(GET_FOLLOWS);
   const { loading, data } = useQuery(GET_CATEGORIES);
   const { loading: loadingType, data: types } = useQuery(GET_TYPES);
   if (loading || loadingType || usersLoading || follow_loading || userLoading)
@@ -118,7 +111,7 @@ const FilterNews = ({ handleChange, selectedTags }) => {
             >
               {types}
             </CheckableTag>
-          ))}
+          ))} 
         </div>
       </Card>
 
@@ -128,6 +121,7 @@ const FilterNews = ({ handleChange, selectedTags }) => {
         {allUsers.slice(0, 5).map((res) => {
           return (
             <Row
+              key={res.id}
               style={{ marginBottom: "12px" }}
               justify="space-between"
               align="middle"

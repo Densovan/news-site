@@ -2596,6 +2596,24 @@ body {
   padding: 12px 2px 12px 2px;
   cursor: pointer;
 }
+.item {
+  color: #000;
+  padding: 6px 0px 6px 4px;
+  cursor: pointer;
+}
+.item-link {
+  display: flex;
+  align-items: center;
+  padding-left: 4px;
+}
+.item-link:hover {
+  background-color: #f5f5f5;
+}
+.container-empty {
+  text-align: center;
+  justify-content: center;
+  width: 100%;
+}
 .avatar-notification {
   display: flex;
   align-items: center;
@@ -2622,7 +2640,7 @@ body {
 }
 .container-box .icon-menu {
   position: absolute;
-  top: 25%;
+  top: 30%;
   right: 10px;
   opacity: 0;
 }
@@ -2804,6 +2822,7 @@ body {
   padding-top: 3px;
   padding-right: 2px;
 }
+
 .ant-row .ant-menu-horizontal {
   line-height: 0px !important;
   padding-left: 0px !important;

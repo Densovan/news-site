@@ -42,20 +42,10 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
     data: news,
     fetchMore,
     refetch,
-  } = useQuery(GET_ALL_NEWS, {
-    // variables: { limit: 6, offset: 0 },
-    pollInterval: 1000,
-  });
-  const { loading: userLoading, data: userData } = useQuery(GET_USER);
-  const { data: vote_up_down, loading: vote_up_down_loading } =
-    useQuery(GET_VOTE_UP_DOWN);
-  const { data: get_all_vote, loading: loading_all_vote } = useQuery(
-    GET_ALL_VOTE_UP_DOWN,
-    {
-      pollInterval: 1000,
-    }
-  );
-  if (loading || userLoading || vote_up_down_loading || loading_all_vote)
+  } = useQuery(GET_ALL_NEWS);
+  const { data: vote_up_down, loading: vote_up_down_loading } = useQuery(GET_VOTE_UP_DOWN);
+  const { data: get_all_vote, loading: loading_all_vote } = useQuery(GET_ALL_VOTE_UP_DOWN);
+  if (loading || vote_up_down_loading || loading_all_vote)
     return (
       <div>
         <Medium />

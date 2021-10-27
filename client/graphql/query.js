@@ -796,104 +796,150 @@ const GET_NOTIFICATION = gql`
   query {
     get_news_notification {
       follow {
+        id
         user {
+          id
           fullname
           image
           accountId
         }
         userFollower {
+          id
           fullname
           image
           accountId
         }
         notifications {
-          id
           user {
-            fullname
+            id
             accountId
+            fullname
+            image
           }
+          id
           read
-          hire
+          hide
           count
         }
         type
         createdAt
       }
       news {
+        id
         news {
           title
           thumnail
           slug
         }
         user {
+          id
           fullname
           image
           accountId
         }
         notifications {
-          id
           user {
-            fullname
+            id
             accountId
+            fullname
+            image
           }
+          id
           read
-          hire
+          hide
           count
         }
         type
         createdAt
       }
-      conversation {
+      comment {
+        id
         news {
           title
           thumnail
           slug
         }
-        notifications {
+        user {
           id
+          fullname
+          image
+          accountId
+        }
+        notifications {
           user {
-            fullname
+            id
             accountId
+            fullname
+            image
           }
+          id
           read
-          hire
+          hide
           count
         }
+        type
+        createdAt
+      }
+      reply {
+        id
+        news {
+          title
+          thumnail
+          slug
+        }
         user {
-          accountId
+          id
           fullname
           image
           accountId
         }
         userTo {
-          accountId
+          id
           fullname
           image
+          accountId
+        }
+        notifications {
+          user {
+            id
+            accountId
+            fullname
+            image
+          }
+          id
+          read
+          hide
+          count
         }
         type
         createdAt
       }
       vote {
+        id
         news {
           title
           thumnail
           slug
         }
         user {
+          id
           fullname
           image
           accountId
         }
         notifications {
-          id
           user {
-            fullname
+            id
             accountId
+            fullname
+            image
           }
+          id
           read
-          hire
+          hide
           count
         }
+        count
         type
         createdAt
       }
