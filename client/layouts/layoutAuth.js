@@ -100,7 +100,7 @@ export const AuthProvider = ({ children, token }) => {
           {children}
         </AuthContext.Provider>
       ) : (
-        <>loading.......</>
+        <></>
       )}
     </>
   );

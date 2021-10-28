@@ -10,11 +10,13 @@ import {
 } from "@ant-design/icons";
 import { HiDotsHorizontal } from "react-icons/hi";
 import FormComment from "../components/common/comment";
-import { useQuery, useMutation } from "@apollo/client";
-import { GET_USER } from "../graphql/query";
+import { useMutation } from "@apollo/client";
 import { DELETE_COMMENT, DELETE_REPLY } from "../graphql/mutation";
+import { GET_USER } from "../graphql/query";
+import { useAuth } from "../layouts/layoutAuth";
 
 const CommentList = ({ comments, articleId, reply, ownerId }) => {
+  const { user } = useAuth();
   const [likes, setLikes] = useState(0);
   const [dislikes, setDislikes] = useState(0);
   const [action, setAction] = useState(null);
@@ -26,13 +28,8 @@ const CommentList = ({ comments, articleId, reply, ownerId }) => {
   const [idEditCm, setIdEditCm] = useState(null);
   const [idEditQ, setIdEditQ] = useState(null);
 
-  const { data: user, loading } = useQuery(GET_USER, {
-    pollInterval: 500,
-  });
   const [deleteQuestion] = useMutation(DELETE_COMMENT);
   const [deleteAnswer] = useMutation(DELETE_REPLY);
-
-  if (loading) return <div>loading...</div>;
 
   const like = () => {
     setLikes(1);
@@ -48,10 +45,20 @@ const CommentList = ({ comments, articleId, reply, ownerId }) => {
 
   const handleDelete = (key, id) => {
     if (key === "question") {
-      deleteQuestion({ variables: { id: id } });
+      deleteQuestion({ 
+        variables: { 
+          id: id 
+        },
+        refetchQueries:[{ query: GET_USER }] 
+      });
     }
     if (key === "answer") {
-      deleteAnswer({ variables: { id: id } });
+      deleteAnswer({ 
+        variables: { 
+          id: id 
+        },
+        refetchQueries:[{ query: GET_USER }] 
+      });
     }
   };
   const handleEdit = (key, id) => {
@@ -151,7 +158,7 @@ const CommentList = ({ comments, articleId, reply, ownerId }) => {
                       <Dropdown
                         overlay={
                           <Menu style={{ width: "120px" }}>
-                            {comments.user.id === user.get_user.id && (
+                            {comments.user.id === user.user.get_user.id && (
                               <Menu.Item key="0">
                                 <a
                                   onClick={() =>
@@ -162,7 +169,7 @@ const CommentList = ({ comments, articleId, reply, ownerId }) => {
                                 </a>
                               </Menu.Item>
                             )}
-                            {comments.user.id === user.get_user.id && (
+                            {comments.user.id === user.user.get_user.id && (
                               <Menu.Item key="1">
                                 <a
                                   onClick={() =>
@@ -292,7 +299,7 @@ const CommentList = ({ comments, articleId, reply, ownerId }) => {
                           <Dropdown
                             overlay={
                               <Menu style={{ width: "120px" }}>
-                                {reply.user.id === user.get_user.id && (
+                                {reply.user.id === user.user.get_user.id && (
                                   <Menu.Item key="0">
                                     <a
                                       onClick={() =>
@@ -303,7 +310,7 @@ const CommentList = ({ comments, articleId, reply, ownerId }) => {
                                     </a>
                                   </Menu.Item>
                                 )}
-                                {reply.user.id === user.get_user.id && (
+                                {reply.user.id === user.user.get_user.id && (
                                   <Menu.Item key="1">
                                     <a
                                       onClick={() =>

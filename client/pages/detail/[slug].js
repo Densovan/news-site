@@ -23,19 +23,16 @@ const SinglePage = () => {
   const develop = process.env.NODE_ENV;
   const URL_ACCESS = develop === "development" ? server_local : server;
 
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
   const router = useRouter();
   const { slug } = router.query;
-  const { loading, data, refetch } = useQuery(GET_NEWS_BY_SLUG, {
+  const { loading, data } = useQuery(GET_NEWS_BY_SLUG, {
     variables: { slug },
-    pollInterval: 1000,
+    // pollInterval: 1000,
   });
-  const { data: follows, loading: follow_loading } = useQuery(GET_FOLLOWS, {
-    pollInterval: 1000,
-  });
-  const { loading: userLoadin, data: myUser } = useQuery(GET_USER);
+  const { data: follows, loading: follow_loading } = useQuery(GET_FOLLOWS);
 
-  if (loading || userLoadin || follow_loading)
+  if (loading || follow_loading)
     return (
       <div className="container">
         <center style={{ marginTop: "100px" }}>
@@ -48,7 +45,6 @@ const SinglePage = () => {
     title,
     thumnail,
     des,
-    user,
     createdAt,
     comment,
     reply,
@@ -67,14 +63,6 @@ const SinglePage = () => {
                 <div className="nav_left">
                   <Row gutter={[32, 32]}>
                     <Col xs={8} md={24}>
-                      {/* <FormLike
-                        articleId={id}
-                        dataLike={like}
-                        myUser={myUser}
-                        ownPostuserId={user.id}
-                      /> */}
-                    </Col>
-                    <Col xs={8} md={24}>
                       <div className="btn_box">
                         <button
                           style={{ cursor: "pointer" }}
@@ -87,12 +75,6 @@ const SinglePage = () => {
                     </Col>
                     <Col xs={8} md={24}>
                       <div className="btn_box">
-                        {/* <button
-                          style={{ cursor: "pointer" }}
-                          className="save-bg"
-                        >
-                          <HiOutlineBookmark className="save" size={23} />
-                        </button> */}
                         <FormSave
                           news_id={id}
                           title={title}
@@ -100,8 +82,8 @@ const SinglePage = () => {
                           category={category}
                           type={type}
                           slug={slug}
-                          myUser={myUser}
-                          createBy={user.accountId}
+                          myUser={user.user}
+                          createBy={data.get_news_by_slug.user.accountId}
                           thumnail={thumnail}
                           save={save}
                         />
@@ -109,53 +91,11 @@ const SinglePage = () => {
                     </Col>
                   </Row>
                 </div>
-                // <div>
-                //   <center style={{ marginTop: "23px" }}>
-                //     <div className="nav_left">
-                //       <Row gutter={[32, 32]}>
-                //         <Col span={8}>
-                //           <FormLike
-                //             articleId={id}
-                //             dataLike={like}
-                //             myUser={myUser}
-                //             ownPostuserId={user.id}
-                //           />
-                //         </Col>
-                //         <Col span={8}>
-                //           <div className="btn_box">
-                //             <button
-                //               style={{ cursor: "pointer" }}
-                //               className="share-bg"
-                //             >
-                //               <HiOutlineShare className="share" size={23} />
-                //             </button>
-                //             <div className="tt_share">31</div>
-                //           </div>
-                //         </Col>
-                //         <Col span={8}>
-                //           {" "}
-                //           <div className="btn_box">
-                //             <button
-                //               style={{ cursor: "pointer" }}
-                //               className="save-bg"
-                //             >
-                //               <HiOutlineBookmark className="save" size={23} />
-                //             </button>
-                //             <div className="tt_share">1</div>
-                //           </div>
-                //         </Col>
-                //       </Row>
-                //     </div>
-                //   </center>
-                // </div>
               )}
             </Col>
             <Col xs={24} md={16}>
               <div>
                 <div className="arcticle-div">
-                  {/* <div className="thumail">
-                  <img src={`${URL_ACCESS}/public/uploads/` + thumnail} />
-                </div> */}
                   <div
                     className="thumail-article"
                     style={{
@@ -163,52 +103,18 @@ const SinglePage = () => {
                     }}
                   ></div>
                 </div>
-                {/* <center style={{ marginTop: "23px" }}>
-                  {loggedIn === true && (
-                    <div className="nav_left-mobile">
-                      <Row gutter={[32, 32]}>
-                        <Col span={8}>
-                          <FormLike
-                            articleId={id}
-                            dataLike={like}
-                            myUser={myUser}
-                            ownPostuserId={user.id}
-                          />
-                        </Col>
-                        <Col span={8}>
-                          <div className="btn_box">
-                            <button
-                              style={{ cursor: "pointer" }}
-                              className="share-bg"
-                            >
-                              <HiOutlineShare className="share" size={23} />
-                            </button>
-                            <div className="tt_share">31</div>
-                          </div>
-                        </Col>
-                        <Col span={8}>
-                          {" "}
-                          <div className="btn_box">
-                            <button
-                              style={{ cursor: "pointer" }}
-                              className="save-bg"
-                            >
-                              <HiOutlineBookmark className="save" size={23} />
-                            </button>
-                            <div className="tt_share">1</div>
-                          </div>
-                        </Col>
-                      </Row>
-                    </div>
-                  )}
-                </center> */}
                 <div className="article_title">
                   <h1>{title}</h1>
                 </div>
 
                 <div>
+                  {/* <Link
+                    href={`/profile_detial/${data.get_news_by_slug.user.accountId}`}
+                  > */}
                   <Link
-                    href={`/profile_detial/${user.accountId}#${user.fullname
+                    href={`/profile_detial/${
+                      data.get_news_by_slug.user.accountId
+                    }#${data.get_news_by_slug.user.fullname
                       .replace(
                         /[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g,
                         "-"
@@ -216,10 +122,10 @@ const SinglePage = () => {
                       .toLowerCase()}`}
                   >
                     <div style={{ cursor: "pointer" }} className="pf_user">
-                      <img src={user.image} />
+                      <img src={data.get_news_by_slug.user.image} />
 
                       <div className="name">
-                        <label>{user.fullname}</label>
+                        <label>{data.get_news_by_slug.user.fullname}</label>
                         <div className="time">
                           <label>
                             {moment.unix(createdAt / 1000).format("DD-MM-YYYY")}{" "}
@@ -239,17 +145,17 @@ const SinglePage = () => {
                       <h3>Comment({reply.length + comment.length})</h3>
                       <div>
                         <FormComment
-                          user={user}
+                          user={data.get_news_by_slug.user}
                           articleId={id}
                           // ownerId={user.id}
-                          ownerId={user.accountId}
+                          ownerId={data.get_news_by_slug.user.accountId}
                         />
                         <CommentList
                           articleId={id}
                           comments={comment}
                           reply={reply}
-                          fullname={user.fullname}
-                          ownerId={user.accountId}
+                          fullname={data.get_news_by_slug.user.fullname}
+                          ownerId={data.get_news_by_slug.user.accountId}
                           // ownerId={user.id}
                         />
                       </div>
@@ -267,13 +173,6 @@ const SinglePage = () => {
                           src="/assets/images/Login-rafiki.png"
                         />
                       </center>
-                      {/* <FormComment user={user} articleId={id} myUser={myUser} />
-                      <CommentList
-                        articleId={id}
-                        comments={comment}
-                        reply={reply}
-                        fullname={user.fullname}
-                      /> */}
                     </div>
                   )}
                 </div>
@@ -281,27 +180,32 @@ const SinglePage = () => {
             </Col>
             <Col xs={24} md={6}>
               <div className="pf_pre">
+                {/* <Link
+                  href={`/profile_detial/${data.get_news_by_slug.user.accountId}`}
+                > */}
                 <Link
-                  href={`/profile_detial/${user.accountId}#${user.fullname
+                  href={`/profile_detial/${
+                    data.get_news_by_slug.user.accountId
+                  }#${data.get_news_by_slug.user.fullname
                     .replace(/[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g, "-")
                     .toLowerCase()}`}
                 >
                   <div style={{ cursor: "pointer" }} className="pf_user">
-                    <img src={user.image} />
+                    <img src={data.get_news_by_slug.user.image} />
                     <div className="name">
-                      <label>{user.fullname}</label>
-                      <p>{user.email}</p>
+                      <label>{data.get_news_by_slug.user.fullname}</label>
+                      <p>{data.get_news_by_slug.user.email}</p>
                     </div>
                   </div>
                 </Link>
                 <div className="pf_desc">
                   <center>
-                    <p>{user.bio}</p>
+                    <p>{data.get_news_by_slug.user.bio}</p>
                   </center>
                 </div>
                 {isAuthenticated ? (
                   <center>
-                    {user.id === myUser.get_user.id ? (
+                    {data.get_news_by_slug.user.id === user.user.get_user.id ? (
                       <center>
                         <Link href="/dashboard/profile">
                           <button className="btn-follow">My Account</button>
@@ -309,18 +213,13 @@ const SinglePage = () => {
                       </center>
                     ) : (
                       <Follow
-                        articleUser={user}
+                        articleUser={data.get_news_by_slug.user}
                         follows={follows}
-                        user={myUser}
+                        user={user.user}
                       />
                     )}
                   </center>
                 ) : (
-                  // <center>
-                  //   <Link href="/signin">
-                  //     <button className="btn-follow">Follow</button>
-                  //   </Link>
-                  // </center>
                   ""
                 )}
 
@@ -363,7 +262,11 @@ const SinglePage = () => {
                     >
                       Join
                     </Divider>
-                    <h4>{moment.unix(user.createdAt / 1000).format("LL")}</h4>
+                    <h4>
+                      {moment
+                        .unix(data.get_news_by_slug.user.createdAt / 1000)
+                        .format("LL")}
+                    </h4>
                   </div>
                 </div>
               </div>

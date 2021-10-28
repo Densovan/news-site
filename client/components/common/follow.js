@@ -58,6 +58,7 @@ const Follow = ({ articleUser, user, follows }) => {
           variables: {
             followTo: articleUser.accountId,
           },
+          refetchQueries:[{ query: GET_FOLLOWS }]
         }).then((response) => {
           notification.open({
             closeIcon: true,
@@ -97,18 +98,6 @@ const Follow = ({ articleUser, user, follows }) => {
           ? "Following"
           : "Follow"}
       </button>
-      {/* <button
-        className={state.loading ? "disabled btn-follow" : "btn-follow"}
-        onClick={handleFollow}
-      >
-        {state.loading
-          ? state.follow
-            ? "Follow..."
-            : "Following..."
-          : state.follow
-          ? "Following"
-          : "Follow"}
-      </button> */}
     </div>
   );
 };
