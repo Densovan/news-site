@@ -4,7 +4,7 @@ import FilterNews from "./filterNews";
 import Main from "./main";
 import Footer from "../../components/Layouts/footer";
 import { useAuth } from "../../layouts/layoutAuth";
-import Link from 'next/link';
+import Link from "next/link";
 import FilterNavbar from "../../components/Layouts/filterNavbar";
 
 const index = () => {
@@ -14,6 +14,7 @@ const index = () => {
   });
 
   const { isAuthenticated, user } = useAuth();
+  console.log(isAuthenticated);
   const handleChange = (tag, checked) => {
     const { selectedTags } = state;
     const nextSelectedTags = checked
@@ -39,10 +40,10 @@ const index = () => {
                       style={{
                         height: 35,
                         width: 35,
-                        cursor: 'pointer',
-                        border: 'solid 2px #ffffff9d',
+                        cursor: "pointer",
+                        border: "solid 2px #ffffff9d",
                       }}
-                      src={user && user.user.get_user.image }
+                      src={user && user.user.get_user.image}
                       shape="circle"
                     />
                   </center>
@@ -54,7 +55,7 @@ const index = () => {
                 </Col>
               </Row>
             )}
-            <FilterNavbar/>
+            <FilterNavbar />
             <Main
               selectedTags={state.selectedTags}
               loadingFilter={state.loading}

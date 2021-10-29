@@ -95,8 +95,8 @@ const Profile_detail = () => {
     <React.Fragment>
       {isAuthenticated === true && (
         <div>
-          {data.get_user_by_id.id === currentData.get_user.id &&
-            window.location.replace("/dashboard/profile")}
+          {data.get_user_by_id.accountId === currentData.get_user.accountId &&
+            window.location.replace("/dashboard/allstories")}
         </div>
       )}
       <div className="brand-bg"></div>

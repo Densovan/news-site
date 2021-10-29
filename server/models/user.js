@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema(
     },
     passwordHash: {
       type: String,
-      required: true,
+      // required: true,
     },
     fullname: {
       type: String,
@@ -42,39 +42,16 @@ const userSchema = new mongoose.Schema(
     //   type: Boolean,
     //   default: false,
     // },
-    // following: [
+    // followings: [
     //   {
-    //     email: {
+    //     followingsId: {
     //       type: String,
-    //       // required: true,
-    //     },
-    //     fullname: {
-    //       type: String,
-    //       // required: true,
-    //     },
-    //     followingId: {
-    //       type: String,
-    //     },
-    //     image: {
-    //       type: String,
-    //       // default: "",
     //     },
     //   },
     // ],
-    // follower: [
+    // followers: [
     //   {
-    //     email: {
-    //       type: String,
-    //       // required: true,
-    //     },
-    //     fullname: {
-    //       type: String,
-    //       // required: true,
-    //     },
-    //     followerId: {
-    //       type: String,
-    //     },
-    //     image: {
+    //     followersId: {
     //       type: String,
     //     },
     //   },

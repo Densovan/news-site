@@ -18,15 +18,13 @@ import {
   Popconfirm,
   Affix,
 } from "antd";
-import { HiOutlineBell, HiBell } from 'react-icons/hi';
+import { HiOutlineBell, HiBell } from "react-icons/hi";
 import Link from "next/link";
 import { useAuth } from "../../layouts/layoutAuth";
 import Logout from "../actions/logout";
 import Notification from "../common/notification";
 import { useQuery, useMutation } from "@apollo/client";
-import {
-  GET_NOTIFICATION
-} from "../../graphql/query";
+import { GET_NOTIFICATION } from "../../graphql/query";
 import { SHOW_NOTIFICATION } from "../../graphql/mutation";
 import { TiUser, TiUserAdd } from "react-icons/ti";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -42,63 +40,64 @@ const GlobalHeader = () => {
     visible: false,
     sum: 0,
     loading: false,
-    notifications: null
+    notifications: null,
   });
   const [visible, setVisible] = useState(false);
-  const handleVisibleChange = visible => {
+  const handleVisibleChange = (visible) => {
     setVisible(visible);
-  }
-  const { isAuthenticated, user } = useAuth()
-  const [authenticate, setAuthenticate] = useState(null)
+  };
+  const { isAuthenticated, user } = useAuth();
+  // console.log(isAuthenticated);
+  const [authenticate, setAuthenticate] = useState(null);
   useEffect(() => {
     if (user) {
-      setAuthenticate(user)
+      setAuthenticate(user);
     }
-  },[user])
-
+  }, [user]);
   useEffect(() => {
     let cubes = [];
     let data = [];
     let sum = 0;
 
-    if(notifications){
+    if (notifications) {
       notifications.get_news_notification.forEach((notification) => {
-        if(notification.follow){
-          cubes.push(notification.follow)
-        }
-        else if (notification.comment) {
-            cubes.push(notification.comment)
-        }
-        else if(notification.reply){
-          cubes.push(notification.reply)
-        }
-        else if(notification.vote){
-            cubes.push(notification.vote)
-        }
-        else if(notification.news){
-          notification.news.map((item) =>{
-            cubes.push(item)
-          })
+        if (notification.follow) {
+          cubes.push(notification.follow);
+        } else if (notification.comment) {
+          cubes.push(notification.comment);
+        } else if (notification.reply) {
+          cubes.push(notification.reply);
+        } else if (notification.vote) {
+          cubes.push(notification.vote);
+        } else if (notification.news) {
+          notification.news.map((item) => {
+            cubes.push(item);
+          });
         }
       });
       if (user) {
-        for (let i = 0; i < cubes.length; i++){
+        for (let i = 0; i < cubes.length; i++) {
           var cube = cubes[i];
-          if (cube.user.fullname !== user.user.get_user.fullname || cube.type === "follow" || cube.type === "reply") {
-            data.push(cube)
-            const result = cube.notifications.filter(item => item.user.accountId === user.user.get_user.accountId)
+          if (
+            cube.user.fullname !== user.user.get_user.fullname ||
+            cube.type === "follow" ||
+            cube.type === "reply"
+          ) {
+            data.push(cube);
+            const result = cube.notifications.filter(
+              (item) => item.user.accountId === user.user.get_user.accountId
+            );
             if (result.length == 0) {
-              sum += 0
-            }else{
-              sum += result[0].count
+              sum += 0;
+            } else {
+              sum += result[0].count;
             }
           }
         }
       }
     }
-    setState({ sum: sum, notifications: data })
-
-  },[notifications, user])
+    setState({ sum: sum, notifications: data });
+  }, [notifications, user]);
   const showDrawer = () => {
     setState({
       visible: true,
@@ -159,11 +158,16 @@ const GlobalHeader = () => {
                             className="header-notification"
                           >
                             <Col>
-                              <Typography.Title level={5}>Notifications</Typography.Title>
+                              <Typography.Title level={5}>
+                                Notifications
+                              </Typography.Title>
                             </Col>
                           </Row>
                           <Row>
-                            <Notification notifications={state.notifications} user={authenticate}/>
+                            <Notification
+                              notifications={state.notifications}
+                              user={authenticate}
+                            />
                           </Row>
                         </div>
                       </div>
@@ -177,36 +181,40 @@ const GlobalHeader = () => {
                       onClick={async (e) => {
                         e.preventDefault();
                         try {
-                          setVisible(true)
-                          if(state.sum > 0){
-                            showNotifications({refetchQueries:[{ query: GET_NOTIFICATION }]})
+                          setVisible(true);
+                          if (state.sum > 0) {
+                            showNotifications({
+                              refetchQueries: [{ query: GET_NOTIFICATION }],
+                            });
                           }
                         } catch (e) {
                           console.log(e);
                         }
                       }}
                     >
-                      {visible ? <>
-                        <HiBell
-                        style={{
-                          height: 26,
-                          paddingLeft: 2,
-                          fontSize: 24,
-                          color: '#38a7c8',
-                        }}
-                      />
-                      </>
-                      :
-                      <>
-                        <HiOutlineBell
-                        style={{
-                          height: 26,
-                          paddingLeft: 2,
-                          fontSize: 24,
-                          color: '#ffffff',
-                        }}
-                      />
-                      </>}
+                      {visible ? (
+                        <>
+                          <HiBell
+                            style={{
+                              height: 26,
+                              paddingLeft: 2,
+                              fontSize: 24,
+                              color: "#38a7c8",
+                            }}
+                          />
+                        </>
+                      ) : (
+                        <>
+                          <HiOutlineBell
+                            style={{
+                              height: 26,
+                              paddingLeft: 2,
+                              fontSize: 24,
+                              color: "#ffffff",
+                            }}
+                          />
+                        </>
+                      )}
                     </div>
                   </Popover>
                 </Badge>
@@ -226,14 +234,16 @@ const GlobalHeader = () => {
                               <div>
                                 <a>
                                   <span className="name">
-                                  {authenticate !== null && authenticate.user.get_user.fullname}
+                                    {authenticate !== null &&
+                                      authenticate.user.get_user.fullname}
                                   </span>
                                 </a>
                               </div>
                               <div>
                                 <a href="#">
                                   <span className="email">
-                                    {authenticate !== null && authenticate.user.get_user.email}
+                                    {authenticate !== null &&
+                                      authenticate.user.get_user.email}
                                   </span>
                                 </a>
                               </div>
@@ -280,7 +290,9 @@ const GlobalHeader = () => {
                       cursor: "pointer",
                       border: "solid 2px #ffffff9d",
                     }}
-                    src={authenticate !== null && authenticate.user.get_user.image}
+                    src={
+                      authenticate !== null && authenticate.user.get_user.image
+                    }
                     shape="circle"
                     size="large"
                   />

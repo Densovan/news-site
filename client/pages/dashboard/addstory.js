@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Form, Button, Input, Upload, message, Select, Row, Col } from "antd";
 import { GET_CATEGORIES, GET_TYPES, GET_OWN_NEWS } from "../../graphql/query";
-import { ADD_NEWS } from "../../graphql/mutation";
+import { ADD_NEWS, LOGIN_NEW } from "../../graphql/mutation";
 import { useQuery, useMutation } from "@apollo/client";
 import dynamic from "next/dynamic";
 import Footer from "../../components/Layouts/footer";
@@ -20,7 +20,7 @@ const Addstory = () => {
   const server_local = process.env.API_SECRET_LOCAL;
   const develop = process.env.NODE_ENV;
   const URL_ACCESS = develop === "development" ? server_local : server;
-
+  const [new_login] = useMutation(LOGIN_NEW);
   const { isAuthenticated, user } = useAuth();
   const [editor, setEditor] = useState(null);
   const [title, setTitle] = useState("");

@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useRouter } from "next/router";
-import moment from 'moment';
+import moment from "moment";
 import {
   Drawer,
   Affix,
@@ -14,8 +14,8 @@ import {
   Avatar,
   Button,
   Badge,
-  List, 
-  Typography
+  List,
+  Typography,
 } from "antd";
 import {
   HiOutlineCog,
@@ -24,7 +24,7 @@ import {
   HiOutlineBookOpen,
   HiOutlinePencil,
   HiOutlineUser,
-  HiOutlineBell
+  HiOutlineBell,
 } from "react-icons/hi";
 const { SubMenu } = Menu;
 const { Header } = Layout;
@@ -32,9 +32,13 @@ import Link from "next/link";
 import ActiveLink from "../../components/activeLink";
 import { HiMenu } from "react-icons/hi";
 import AuthContext from "../../contexts/authContext";
-import Logout from "../Layouts/logout";
+// import Logout from "../Layouts/logout";
 import { useQuery } from "@apollo/client";
-import { GET_NOTIFICATION_BY_USER, GET_NOTIFICATION_CHECK_BY_USER, GET_USER } from "../../graphql/query";
+import {
+  GET_NOTIFICATION_BY_USER,
+  GET_NOTIFICATION_CHECK_BY_USER,
+  GET_USER,
+} from "../../graphql/query";
 import { TiUser, TiUserAdd } from "react-icons/ti";
 
 const MainNavbar = () => {
@@ -44,8 +48,11 @@ const MainNavbar = () => {
 
   const { loggedIn } = useContext(AuthContext);
   const { loading, data, error } = useQuery(GET_USER);
-  const { loading:laoding_notification, data:notification } = useQuery(GET_NOTIFICATION_BY_USER);
-  const { loading: loading_check_notification, data:check_notification } = useQuery(GET_NOTIFICATION_CHECK_BY_USER)
+  const { loading: laoding_notification, data: notification } = useQuery(
+    GET_NOTIFICATION_BY_USER
+  );
+  const { loading: loading_check_notification, data: check_notification } =
+    useQuery(GET_NOTIFICATION_CHECK_BY_USER);
   if (loading || laoding_notification || loading_check_notification) return "";
 
   const showDrawer = () => {
@@ -150,45 +157,99 @@ const MainNavbar = () => {
                 </ActiveLink>
               </Menu.Item>
               <Menu.Item key="5">
-                <Badge count={notification.get_notification_by_user.length} overflowCount={10} style={{ marginTop:6, marginLeft: -10 }}>
-                  <Popover placement="bottom" content={
-                    <div className="contain-notification">
-                    <div className="drop-notification">
-                      <Row justify="space-between" align="middle" className="header-notification">
-                        <Col>
-                          <Typography.Title level={5}>Notifications</Typography.Title>
-                        </Col>
-                        <Col>
-                          <Link href="/notifications">
-                            <Button>Show All</Button>
-                          </Link>
-                        </Col>
-                      </Row>
-                      <Row>
-                        {check_notification.get_notification_check_by_user.map((notifications)=> {
-                          return(
-                            <List.Item style={{ width: '100%', height: '90%' }} className="box-notification">
-                              <List.Item.Meta
-                                className="card_notification"
-                                style={{ paddingLeft:8,paddingRight:8, borderRadius: 8 }}
-                                avatar={<Avatar src={notifications.user.image} size={60}/>}
-                                description={
-                                  <div>
-                                    <div><strong>{notifications.user.fullname} </strong> {notifications.type} {notifications.news.title}</div>
-                                    <div>
-                                      <strong style={{ fontSize: 12, color: 'red' }}>{moment(parseInt(notifications.createdAt)).fromNow()}</strong>
-                                    </div>
-                                  </div>}
-                              />
-                            </List.Item>
-                          )
-                        })}
-                      </Row>
-                    </div>
-                    </div>
-                  } trigger="click">
+                <Badge
+                  count={notification.get_notification_by_user.length}
+                  overflowCount={10}
+                  style={{ marginTop: 6, marginLeft: -10 }}
+                >
+                  <Popover
+                    placement="bottom"
+                    content={
+                      <div className="contain-notification">
+                        <div className="drop-notification">
+                          <Row
+                            justify="space-between"
+                            align="middle"
+                            className="header-notification"
+                          >
+                            <Col>
+                              <Typography.Title level={5}>
+                                Notifications
+                              </Typography.Title>
+                            </Col>
+                            <Col>
+                              <Link href="/notifications">
+                                <Button>Show All</Button>
+                              </Link>
+                            </Col>
+                          </Row>
+                          <Row>
+                            {check_notification.get_notification_check_by_user.map(
+                              (notifications) => {
+                                return (
+                                  <List.Item
+                                    style={{ width: "100%", height: "90%" }}
+                                    className="box-notification"
+                                  >
+                                    <List.Item.Meta
+                                      className="card_notification"
+                                      style={{
+                                        paddingLeft: 8,
+                                        paddingRight: 8,
+                                        borderRadius: 8,
+                                      }}
+                                      avatar={
+                                        <Avatar
+                                          src={notifications.user.image}
+                                          size={60}
+                                        />
+                                      }
+                                      description={
+                                        <div>
+                                          <div>
+                                            <strong>
+                                              {notifications.user.fullname}{" "}
+                                            </strong>{" "}
+                                            {notifications.type}{" "}
+                                            {notifications.news.title}
+                                          </div>
+                                          <div>
+                                            <strong
+                                              style={{
+                                                fontSize: 12,
+                                                color: "red",
+                                              }}
+                                            >
+                                              {moment(
+                                                parseInt(
+                                                  notifications.createdAt
+                                                )
+                                              ).fromNow()}
+                                            </strong>
+                                          </div>
+                                        </div>
+                                      }
+                                    />
+                                  </List.Item>
+                                );
+                              }
+                            )}
+                          </Row>
+                        </div>
+                      </div>
+                    }
+                    trigger="click"
+                  >
                     {/* <Avatar icon={<HiOutlineBell style={{  fontSize: '24px', color: '#08c' }}/>} shape='circle' size={38}/> */}
-                    <Button shape="circle" icon={<HiOutlineBell style={{  fontSize: '24px', color: '#08c' }}/>} size="large" />
+                    <Button
+                      shape="circle"
+                      icon={
+                        <HiOutlineBell
+                          style={{ fontSize: "24px", color: "#08c" }}
+                        />
+                      }
+                      size="large"
+                    />
                   </Popover>
                 </Badge>
               </Menu.Item>
@@ -256,7 +317,11 @@ const MainNavbar = () => {
                     trigger="click"
                   >
                     {/* <img className="avatar-mobile" src={data.get_user.image} /> */}
-                    <Avatar src={data.get_user.image} shape='circle' size="large"/>
+                    <Avatar
+                      src={data.get_user.image}
+                      shape="circle"
+                      size="large"
+                    />
                   </Popover>
                 </div>
               </Menu.Item>

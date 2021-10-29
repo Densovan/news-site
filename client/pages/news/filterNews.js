@@ -68,6 +68,7 @@ const FilterNews = ({ handleChange, selectedTags }) => {
   // }
 
   const allUsers = usersData.get_users.map((x) => x);
+  // console.log(allusers)
 
   return (
     <React.Fragment>

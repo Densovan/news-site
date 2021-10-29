@@ -21,6 +21,14 @@ const ADD_NEWS = gql`
   }
 `;
 
+const LOGIN_NEW = gql`
+  mutation ($email: String, $accountId: ID, $fullname: String) {
+    new_login(email: $email, accountId: $accountId, fullname: $fullname) {
+      message
+    }
+  }
+`;
+
 const DELETE_NEWS = gql`
   mutation ($id: ID!) {
     delete_news(id: $id) {
@@ -101,11 +109,7 @@ const UNFOLLOW = gql`
 
 const COMMENT = gql`
   mutation ($postId: ID, $question: String, $ownerId: ID) {
-    comment(
-      postId: $postId
-      question: $question
-      ownerId: $ownerId
-    ) {
+    comment(postId: $postId, question: $question, ownerId: $ownerId) {
       message
     }
   }
@@ -272,24 +276,24 @@ const ADD_VOTE_COUNT = gql`
   }
 `;
 const SHOW_NOTIFICATION = gql`
-  mutation{
-      show_notifications{
-          message
-      }
+  mutation {
+    show_notifications {
+      message
+    }
   }
-`
+`;
 
 const READ_NOTIFICATION = gql`
-  mutation($id: ID!, $type: String!){
-    readNotification(id: $id, type: $type){
+  mutation ($id: ID!, $type: String!) {
+    readNotification(id: $id, type: $type) {
       message
     }
   }
 `;
 
 const HIDE_NOTIFICATION = gql`
-  mutation($id: ID!, $type: String!){
-    hideNotification(id: $id, type: $type){
+  mutation ($id: ID!, $type: String!) {
+    hideNotification(id: $id, type: $type) {
       message
     }
   }
@@ -321,7 +325,8 @@ export {
   LIKE_COUNT_DOWN,
   VOTE_UP_DOWN,
   CHECK_TOP_NEWS,
+  LOGIN_NEW,
   SHOW_NOTIFICATION,
   READ_NOTIFICATION,
-  HIDE_NOTIFICATION
+  HIDE_NOTIFICATION,
 };

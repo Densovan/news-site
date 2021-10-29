@@ -3,6 +3,8 @@ import { useMutation } from "@apollo/client";
 import { VOTE_UP_DOWN, CHECK_TOP_NEWS } from "../../graphql/mutation";
 import { GET_VOTE_UP_DOWN } from "../../graphql/query";
 import { notification } from "antd";
+// import { useAuth } from "../../layouts/layoutAuth";
+
 import {
   LikeOutlined,
   DislikeOutlined,
@@ -26,7 +28,7 @@ const NewsLike = ({
   const [vote, setVote] = useState({
     count: 0,
   });
-  const { isAuthenticated } = useAuth()
+  const { isAuthenticated } = useAuth();
   const router = useRouter();
   useEffect(() => {
     vote_up_down.get_vote_up_down.map((get_vote_up_down) => {

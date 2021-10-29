@@ -12,10 +12,7 @@ import { useAuth } from "../../layouts/layoutAuth";
 import Link from "next/link";
 import FormSave from "../../components/common/save";
 
-import {
-  HiOutlineShare,
-  HiOutlineBookmark,
-} from "react-icons/hi";
+import { HiOutlineShare, HiOutlineBookmark } from "react-icons/hi";
 
 import FormComment from "../../components/common/comment";
 import CommentList from "../../components/commentList";
@@ -86,7 +83,7 @@ const SinglePage = () => {
                           type={type}
                           slug={slug}
                           myUser={user.user}
-                          createBy={data.get_news_by_slug.user.id}
+                          createBy={data.get_news_by_slug.user.accountId}
                           thumnail={thumnail}
                           save={save}
                         />
@@ -111,7 +108,19 @@ const SinglePage = () => {
                 </div>
 
                 <div>
-                  <Link href={`/profile_detial/${data.get_news_by_slug.user.id}`}>
+                  {/* <Link
+                    href={`/profile_detial/${data.get_news_by_slug.user.accountId}`}
+                  > */}
+                  <Link
+                    href={`/profile_detial/${
+                      data.get_news_by_slug.user.accountId
+                    }#${data.get_news_by_slug.user.fullname
+                      .replace(
+                        /[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g,
+                        "-"
+                      )
+                      .toLowerCase()}`}
+                  >
                     <div style={{ cursor: "pointer" }} className="pf_user">
                       <img src={data.get_news_by_slug.user.image} />
 
@@ -171,7 +180,16 @@ const SinglePage = () => {
             </Col>
             <Col xs={24} md={6}>
               <div className="pf_pre">
-                <Link href={`/profile_detial/${data.get_news_by_slug.user.id}`}>
+                {/* <Link
+                  href={`/profile_detial/${data.get_news_by_slug.user.accountId}`}
+                > */}
+                <Link
+                  href={`/profile_detial/${
+                    data.get_news_by_slug.user.accountId
+                  }#${data.get_news_by_slug.user.fullname
+                    .replace(/[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g, "-")
+                    .toLowerCase()}`}
+                >
                   <div style={{ cursor: "pointer" }} className="pf_user">
                     <img src={data.get_news_by_slug.user.image} />
                     <div className="name">
@@ -244,7 +262,11 @@ const SinglePage = () => {
                     >
                       Join
                     </Divider>
-                    <h4>{moment.unix(data.get_news_by_slug.user.createdAt / 1000).format("LL")}</h4>
+                    <h4>
+                      {moment
+                        .unix(data.get_news_by_slug.user.createdAt / 1000)
+                        .format("LL")}
+                    </h4>
                   </div>
                 </div>
               </div>

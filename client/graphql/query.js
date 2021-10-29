@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 const GET_USERS = gql`
   query {
@@ -8,6 +8,7 @@ const GET_USERS = gql`
       image
       email
       role
+      accountId
       id
       gender
       createdAt
@@ -39,6 +40,7 @@ const GET_USER_BY_ID = gql`
       role
       id
       gender
+      accountId
       createdAt
       news {
         voteCount
@@ -54,6 +56,7 @@ const GET_USER_BY_ID = gql`
           fullname
           image
           id
+          accountId
         }
         types {
           name
@@ -806,17 +809,17 @@ const GET_NOTIFICATION = gql`
           image
           accountId
         }
-        notifications{
-            user{
-                id
-                accountId
-                fullname
-                image
-            }
+        notifications {
+          user {
             id
-            read
-            hide
-            count
+            accountId
+            fullname
+            image
+          }
+          id
+          read
+          hide
+          count
         }
         type
         createdAt
@@ -834,17 +837,17 @@ const GET_NOTIFICATION = gql`
           image
           accountId
         }
-        notifications{
-            user{
-                id
-                accountId
-                fullname
-                image
-            }
+        notifications {
+          user {
             id
-            read
-            hide
-            count
+            accountId
+            fullname
+            image
+          }
+          id
+          read
+          hide
+          count
         }
         type
         createdAt
@@ -862,22 +865,22 @@ const GET_NOTIFICATION = gql`
           image
           accountId
         }
-        notifications{
-            user{
-                id
-                accountId
-                fullname
-                image
-            }
+        notifications {
+          user {
             id
-            read
-            hide
-            count
+            accountId
+            fullname
+            image
+          }
+          id
+          read
+          hide
+          count
         }
         type
         createdAt
       }
-      reply{
+      reply {
         id
         news {
           title
@@ -896,17 +899,17 @@ const GET_NOTIFICATION = gql`
           image
           accountId
         }
-        notifications{
-            user{
-                id
-                accountId
-                fullname
-                image
-            }
+        notifications {
+          user {
             id
-            read
-            hide
-            count
+            accountId
+            fullname
+            image
+          }
+          id
+          read
+          hide
+          count
         }
         type
         createdAt
@@ -924,17 +927,17 @@ const GET_NOTIFICATION = gql`
           image
           accountId
         }
-        notifications{
-            user{
-                id
-                accountId
-                fullname
-                image
-            }
+        notifications {
+          user {
             id
-            read
-            hide
-            count
+            accountId
+            fullname
+            image
+          }
+          id
+          read
+          hide
+          count
         }
         count
         type

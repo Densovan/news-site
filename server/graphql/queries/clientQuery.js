@@ -15,14 +15,12 @@ const Category = require("../../models/category");
 const Types = require("../../models/type");
 const NotificationModel = require("../../models/notification");
 const LikeModel = require("../../models/like");
-const NotiModel = require("../../models/notifications");
 const NotiCheckModel = require("../../models/notiCheck");
 const FollowModel = require("../../models/follow");
 const SaveNewsModel = require("../../models/saveNews");
 const LikeTopDownModel = require("../../models/likeTopDown");
 const VoteModel = require("../../models/vote");
 const ChatModel = require("../../models/chat");
-const NowsNotificationModel = require("../../models/newsNotification");
 
 //================Type Sections==================
 const CategoryType = require("../types/categoryType");
@@ -33,12 +31,10 @@ const NotificationType = require("../types/notificationType");
 const NotiType = require("../types/notiType");
 const NotiCheckType = require("../types/notiCheckType");
 const FollowType = require("../types/followType");
-const saveNews = require("../types/saveNewsType");
 const SaveNewsType = require("../types/saveNewsType");
 const likeTopDownType = require("../types/likeTopDownType");
 const voteType = require("../types/voteType");
 const ChatType = require("../types/chat");
-const NewsNotificationType = require("../types/newsNotificationType");
 
 const RootQuery = new GraphQLObjectType({
   name: "RootQueryType",
@@ -63,7 +59,7 @@ const RootQuery = new GraphQLObjectType({
         id: { type: new GraphQLNonNull(GraphQLID) },
       },
       resolve(parent, args, context) {
-        return UserModel.findById({ _id: args.id });
+        return UserModel.findOne({ accountId: args.id });
       },
     },
 
@@ -113,27 +109,45 @@ const RootQuery = new GraphQLObjectType({
     },
 
     //==============get_new_sort-top=================
+    // get_all_news_top: {
+    //   type: new GraphQLList(NewsType),
+    //   args: {
+    //     limit: {
+    //       name: "limit",
+    //       type: GraphQLInt,
+    //     },
+    //     offset: {
+    //       name: "offset",
+    //       type: GraphQLInt,
+    //     },
+    //   },
+    //   resolve: (parent, args, context) => {
+    //     const { limit = null, offset = null } = args;
+    //     return NewsModel.find({})
+    //       .limit(limit)
+    //       .skip(offset)
+    //       .sort({ createAt: -1 });
+    //     // .sort({ voteCount: -1 })
+    //   },
+    // },
     get_all_news_top: {
       type: new GraphQLList(NewsType),
       args: {
         limit: {
-          name: "limit",
+          // name: "limit",
           type: GraphQLInt,
         },
         offset: {
-          name: "offset",
+          // name: "offset",
           type: GraphQLInt,
         },
       },
-      resolve: (parent, args, context) => {
-        const { limit = null, offset = null } = args;
-        return (
-          NewsModel.find({})
-            .limit(limit)
-            .skip(offset)
-            // .sort({ createAt: -1 });
-            .sort({ voteCount: -1 })
-        );
+      resolve: (parent, { limit = 6, offset = 0 }) => {
+        return NewsModel.find({})
+          .limit(limit)
+          .skip(offset)
+          .sort({ voteCount: -1 });
+        // .sort({ createdAt: -1 });
       },
     },
 
@@ -652,6 +666,7 @@ const RootQuery = new GraphQLObjectType({
             data.push(element);
           });
         }
+        // console.log(data);
         return data;
       },
     },
