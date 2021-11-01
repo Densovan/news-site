@@ -83,7 +83,7 @@ const Login = () => {
         <div className="background-signin">
           <div className="register-box">
             <center>
-              <h1>LOGIN</h1>
+              <h1>SIGN IN</h1>
             </center>
             <Form.Item
               label={
@@ -155,10 +155,15 @@ const Login = () => {
             <center>
               <span style={{ color: "white" }}>Do not have an account?</span>
               <span style={{ paddingLeft: "12px", fontWeight: "900" }}>
-                <Link href="/register">Create new account</Link>
+                {/* <Link href="/register">Create new account</Link> */}
+                {/* <span style={{ color: "white" }}>Create With </span> */}
+                <a target="_blank" href="https://sala.koompi.com/user/register">
+                  SALA-KOOMPI
+                </a>
               </span>
             </center>
           </div>
+          <center>hello world</center>
         </div>
       </Form>
     </React.Fragment>
