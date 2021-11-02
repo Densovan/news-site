@@ -67,7 +67,8 @@ const RootMutation = new GraphQLObjectType({
       resolve: async (parents, args, context) => {
         try {
           const existingSlug = await NewsModel.findOne({ title: args.title });
-          const userFollower = await FollowModel.find({ followTo: context.id });
+          const userFollower = await FollowModel.find({ followTo: context.id, type: "follow" });
+          
           if (existingSlug) {
             return { message: "This Title already exist!", status: 400 };
           } else {

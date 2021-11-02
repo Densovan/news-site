@@ -2,7 +2,6 @@ const graphql = require("graphql");
 
 //=============model=============
 const NewsNotificationModel = require("../../models/newsNotification");
-const ConversationNotificationModel = require("../../models/conversationNotification");
 const VoteModel = require("../../models/vote");
 const FollowModel = require("../../models/follow");
 const User = require("../../models/user");
@@ -42,7 +41,6 @@ const NotificationType = new GraphQLObjectType({
         if (parent.type === "follow") {
           const follower = await FollowModel.findOne({ followTo: parent.relateId });
           const timeFollow = new Date(follower.createdAt).getTime()
-          console.log(parent, context.id);
           if (parent.userId === context.id) {
             const news = [];
             const data = await NewsNotificationModel.find({ userId: parent.relateId })
@@ -102,7 +100,6 @@ module.exports = NotificationType;
 
 //=============type===========
 const NewsNotificationType = require("./newsNotificationType");
-const ConversationNotificationType = require("./conversationNotificationType");
 const VoteType = require("./voteType");
 const FollowType = require("./followType");
 const userType = require("./userType");
