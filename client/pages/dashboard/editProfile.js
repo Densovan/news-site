@@ -14,6 +14,7 @@ import { FiCamera } from "react-icons/fi";
 import { LoadingOutlined } from "@ant-design/icons";
 import { useQuery, useMutation } from "@apollo/client";
 import { UPDATE_USER } from "../../graphql/mutation";
+import { GET_USER } from "../../graphql/query";
 import Footer from "../../components/Layouts/footer";
 import { useAuth } from "../../layouts/layoutAuth";
 import ImgCrop from "antd-img-crop";
@@ -34,6 +35,7 @@ const ChangeProfilePicture = () => {
 
   //=========== update Userdata ============
   const [update_user] = useMutation(UPDATE_USER);
+  const { refetch } = useQuery(GET_USER);
 
   const onPreview = async (file) => {
     let src = file.url;
@@ -66,7 +68,7 @@ const ChangeProfilePicture = () => {
     }
     if (info.file.status === "done") {
       await update_user({
-        variables: { ...data.get_user, image: info.file.response.data },
+        variables: { ...user, image: info.file.response.data },
       }).then(() => {
         message.success("Profile Image Changed Successful");
         refetch();
@@ -75,26 +77,31 @@ const ChangeProfilePicture = () => {
     }
   };
   const onFinish = (values) => {
+    console.log("click");
     setIsLoading(true);
     update_user({
       variables: {
-        ...data.get_user,
+        // ...data.get_user,
+        ...user,
         ...values,
       },
     }).then(async (res) => {
       setIsLoading(false);
-      if (res.data.update_user.message === "The password is invalid!") {
-        message.error(res.data.update_user.message);
-      } else if (
-        res.data.update_user.message === "The password does not match!"
-      ) {
-        message.error(res.data.update_user.message);
-      } else {
-        await message.success(res.data.update_user.message, 2);
-        window.location.replace("/dashboard/profile");
-      }
+      await message.success(res.data.update_user.message, 2);
+      window.location.replace("/dashboard/profile");
+      // if (res.data.update_user.message === "The password is invalid!") {
+      //   message.error(res.data.update_user.message);
+      // } else if (
+      //   res.data.update_user.message === "The password does not match!"
+      // ) {
+      //   message.error(res.data.update_user.message);
+      // } else {
+      //   await message.success(res.data.update_user.message, 2);
+      //   window.location.replace("/dashboard/profile");
+      // }
     });
   };
+  // console.log(user);
 
   return (
     <React.Fragment>
@@ -182,9 +189,7 @@ const ChangeProfilePicture = () => {
                     </label>
                   }
                 >
-                  <Radio.Group
-                    defaultValue={user && user.user.get_user.bio}
-                  >
+                  <Radio.Group defaultValue={user && user.user.get_user.bio}>
                     <Radio value="male">Male</Radio>
                     <Radio value="female">Female</Radio>
                   </Radio.Group>

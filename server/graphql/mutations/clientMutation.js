@@ -179,6 +179,7 @@ const RootMutation = new GraphQLObjectType({
         bio: { type: GraphQLString },
         gender: { type: GraphQLString },
         ban: { type: GraphQLBoolean },
+        accountId: { type: GraphQLID },
       },
       resolve: async (root, args, context) => {
         const {
@@ -186,6 +187,7 @@ const RootMutation = new GraphQLObjectType({
           passwordHash,
           newPassword,
           confirmPassword,
+          accountId,
           fullname,
           bio,
           gender,
@@ -194,42 +196,42 @@ const RootMutation = new GraphQLObjectType({
         } = args;
         try {
           const user = await UserModel.findOne({ email });
-          if (passwordHash) {
-            const isPassword = await bcrypt.compare(
-              passwordHash,
-              user.passwordHash
-            );
-            if (isPassword) {
-              if (newPassword === confirmPassword) {
-                const saltRounds = await bcrypt.genSalt(10);
-                const hashPassword = await bcrypt.hash(newPassword, saltRounds);
-                await UserModel.findByIdAndUpdate(
-                  { _id: context.id },
-                  { ...args, passwordHash: hashPassword }
-                );
-                return {
-                  message: "Your info updated with successfully.",
-                };
-              }
-              return {
-                message: "The password does not match!",
-              };
+          // if (passwordHash) {
+          //   const isPassword = await bcrypt.compare(
+          //     passwordHash,
+          //     user.passwordHash
+          //   );
+          //   if (isPassword) {
+          //     if (newPassword === confirmPassword) {
+          //       const saltRounds = await bcrypt.genSalt(10);
+          //       const hashPassword = await bcrypt.hash(newPassword, saltRounds);
+          //       await UserModel.findOneAndUpdate(
+          //         { accountId: context.id },
+          //         { ...args, passwordHash: hashPassword }
+          //       );
+          //       return {
+          //         message: "Your info updated with successfully.",
+          //       };
+          //     }
+          //     return {
+          //       message: "The password does not match!",
+          //     };
+          //   }
+          //   return {
+          //     message: "The password is invalid!",
+          //   };
+          // } else {
+          await UserModel.findOneAndUpdate(
+            { accountId: context.id },
+            {
+              ...args,
+              // passwordHash: user.passwordHash,
             }
-            return {
-              message: "The password is invalid!",
-            };
-          } else {
-            await UserModel.findOneAndUpdate(
-              { accountId: context.id },
-              {
-                ...args,
-                passwordHash: user.passwordHash,
-              }
-            );
-            return {
-              message: "Your info update with successfully.",
-            };
-          }
+          );
+          return {
+            message: "Your info update with successfully.",
+          };
+          // }
         } catch (error) {
           console.log(error);
           throw error;
