@@ -60,7 +60,8 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
       pollInterval: 500,
     }
   );
-  if (loading || vote_up_down_loading || loading_all_vote) return <div className="container">login...</div>;
+  if (loading || vote_up_down_loading || loading_all_vote)
+    return <div className="container">loading...</div>;
   return (
     <React.Fragment>
       <Profile />

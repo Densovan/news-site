@@ -93,8 +93,11 @@ app.use(
     // const user = jwt.decode(token, process.env.JWTSECRET);
     // const authorization = req.headers["x-access-token"].split(" ");
     // const access_token = authorization[1];
-    const access_token = req.headers["authorization"].split(" ")[1];
-    const user = jwt.decode(access_token, process.env.PRIVATE_KEY);
+    let user;
+    if (req.headers["authorization"]) {
+      const access_token = req.headers["authorization"].split(" ")[1];
+      user = jwt.decode(access_token, process.env.PRIVATE_KEY);
+    }
     // console.log(user, "hello");
     return {
       context: user,
