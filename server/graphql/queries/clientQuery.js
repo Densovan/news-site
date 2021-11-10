@@ -84,6 +84,26 @@ const RootQuery = new GraphQLObjectType({
       },
     },
 
+    get_news_like: {
+      type: new GraphQLList(NewsType),
+      args: {
+        limit: {
+          // name: "limit",
+          type: GraphQLInt,
+        },
+        offset: {
+          // name: "offset",
+          type: GraphQLInt,
+        },
+      },
+      resolve: (parent, { limit = 6, offset = 0 }) => {
+        return NewsModel.find({})
+          .limit(limit)
+          .skip(offset)
+          .sort({ likerId: -1 });
+      },
+    },
+
     //=============get news created at least 24h===================
     get_all_news_today: {
       type: new GraphQLList(NewsType),

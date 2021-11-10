@@ -1154,7 +1154,7 @@ const RootMutation = new GraphQLObjectType({
             );
           });
           notificationAnswer.map(async (item) => {
-            console.log(context.id);
+            // console.log(context.id);
             await AnswerModel.findOneAndUpdate(
               {
                 _id: item.relateId,

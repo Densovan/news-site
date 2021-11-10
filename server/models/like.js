@@ -2,18 +2,18 @@ const mongoose = require("mongoose");
 
 const likeSchema = new mongoose.Schema(
   {
-    count: {
-      type: Number,
-      require: true
-    },
-    userId: {
-      type: String,
-      required: true,
-    },
-    ownerId: {
-      type: String,
-    },
-    postId: {
+    // count: {
+    //   type: Number,
+    //   require: true
+    // },
+    // ownerId: {
+    //   type: String,
+    // },
+    // postId: {
+    //   type: String,
+    //   required: true,
+    // },
+    likerId: {
       type: String,
       required: true,
     },

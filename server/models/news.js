@@ -51,6 +51,11 @@ const newsSchema = new mongoose.Schema(
       require: true,
       default: 0,
     },
+    liker: [
+      {
+        likerId: { type: String },
+      },
+    ],
     liker_id: {
       type: String,
     },
