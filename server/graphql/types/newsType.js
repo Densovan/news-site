@@ -52,6 +52,16 @@ const NewsType = new GraphQLObjectType({
     voteDown: {
       type: GraphQLInt,
     },
+    likers: {
+      type: GraphQLString,
+    },
+    dislikers: {
+      type: GraphQLString,
+    },
+    count_like: {
+      type: GraphQLInt,
+    },
+    postId: { type: GraphQLString },
     categories: {
       type: categoryType,
       resolve: (parents, args) => {

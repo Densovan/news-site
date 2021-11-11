@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
-const newsSchema = new mongoose.Schema(
+const newsSchema = new Schema(
   {
     title: {
       type: String,
@@ -51,17 +52,28 @@ const newsSchema = new mongoose.Schema(
       require: true,
       default: 0,
     },
-    liker: [
+    likers: [
       {
-        likerId: { type: String },
+        user: { type: Schema.Types.ObjectId, ref: "User" },
       },
     ],
-    liker_id: {
-      type: String,
+    // liker_id: {
+    //   type: String,
+    // },
+    count_like: {
+      type: Number,
     },
+    dislikers: [
+      {
+        user: { type: Schema.Types.ObjectId, ref: "User" },
+      },
+    ],
     like_type: {
       type: String,
     },
+  },
+  {
+    versionKey: false, // set to false then it wont create in mongodb
   },
   {
     timestamps: true,

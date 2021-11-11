@@ -49,6 +49,7 @@ const VoteNotificationModel = require("../../models/voteNotification");
 const { pubsub } = require("../../subscription");
 const { default: axios } = require("axios");
 const QuestionType = require("../types/comment/questionType");
+const { post } = require("../../routes/userRouter");
 
 const RootMutation = new GraphQLObjectType({
   name: "RootMutationType",
@@ -1555,6 +1556,102 @@ const RootMutation = new GraphQLObjectType({
           return { message: "check successfully" };
         } catch (error) {
           return { message: "check error" };
+        }
+      },
+    },
+
+    likes: {
+      type: NewsType,
+      args: {
+        postId: { type: GraphQLString },
+        count_like: { type: GraphQLString },
+      },
+      resolve: async (parent, args, context) => {
+        try {
+          const post_id = await NewsModel.findById(args.postId);
+          //check if the post has already been liker
+          if (
+            post_id.likers.some((like) => like.user.toString() === context.id)
+          ) {
+            post_id.likers = post_id.likers.filter(
+              (like) => like.user.toString() !== context.id
+            );
+            const like = post_id.likers.length;
+            const dis_like = post_id.dislikers.length;
+            const like_count = like - dis_like;
+            if (like_count < 0) {
+              await post_id.$set({ count_like: 0 });
+            } else {
+              await post_id.$set({ count_like: like_count });
+            }
+            // await post_id.$set({ count_like: like_count });
+            await post_id.save();
+            return { message: "delete like", post_id: post_id };
+          } else {
+            await post_id.likers.unshift({ user: context.id });
+            const like = post_id.likers.length;
+            const dis_like = post_id.dislikers.length;
+            const like_count = like - dis_like;
+            if (like_count < 0) {
+              await post_id.$set({ count_like: 0 });
+            } else {
+              await post_id.$set({ count_like: like_count });
+            }
+            // await post_id.$set({ count_like: like_count });
+            await post_id.save();
+            return { message: "add like", post_id: post_id };
+          }
+        } catch (error) {
+          console.log(error);
+          return { message: "You have problem" };
+        }
+      },
+    },
+    dislikes: {
+      type: NewsType,
+      args: {
+        postId: { type: GraphQLString },
+        count_like: { type: GraphQLString },
+      },
+      resolve: async (parent, args, context) => {
+        try {
+          const post_id = await NewsModel.findById(args.postId);
+          //check if the post has already been liker
+          if (
+            post_id.dislikers.some(
+              (like) => like.user.toString() === context.id
+            )
+          ) {
+            post_id.dislikers = post_id.dislikers.filter(
+              (like) => like.user.toString() !== context.id
+            );
+            const like = post_id.likers.length;
+            const dis_like = post_id.dislikers.length;
+            const like_count = like - dis_like;
+            if (like_count < 0) {
+              await post_id.$set({ count_like: 0 });
+            } else {
+              await post_id.$set({ count_like: like_count });
+            }
+            await post_id.save();
+            return { message: "delete like", post_id: post_id };
+          } else {
+            await post_id.dislikers.unshift({ user: context.id });
+            const like = post_id.likers.length;
+            const dis_like = post_id.dislikers.length;
+            const like_count = like - dis_like;
+            if (like_count < 0) {
+              await post_id.$set({ count_like: 0 });
+            } else {
+              await post_id.$set({ count_like: like_count });
+            }
+            // await post_id.$set({ count_like: like_count });
+            await post_id.save();
+            return { message: "add like", post_id: post_id };
+          }
+        } catch (error) {
+          console.log(error);
+          return { message: "You have problem" };
         }
       },
     },

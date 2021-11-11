@@ -96,11 +96,22 @@ const RootQuery = new GraphQLObjectType({
           type: GraphQLInt,
         },
       },
-      resolve: (parent, { limit = 6, offset = 0 }) => {
-        return NewsModel.find({})
+      resolve: async (parent, { limit = 6, offset = 0 }) => {
+        // console.log(likerId);
+        const like = await NewsModel.find({})
           .limit(limit)
           .skip(offset)
           .sort({ likerId: -1 });
+        // console.log(like.length);
+        // const like1 = like.length;
+        // const like2 = like.length;
+        // const like3 = like1 + like2;
+        // console.log(like3);
+        return like;
+        // return NewsModel.find({})
+        //   .limit(limit)
+        //   .skip(offset)
+        //   .sort({ likerId: -1 });
       },
     },
 
