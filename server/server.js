@@ -30,6 +30,10 @@ const { SubscriptionServer } = require("subscriptions-transport-ws");
 
 dotenv.config();
 const app = express();
+
+// Making plain HTTP server for Websocket usage
+const server = createServer(app);
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -84,28 +88,35 @@ app.get("/auth/logouts", (req, res) => {
     res.send("done");
   }
 });
-//===========client API================
+// //===========client API================
+// app.use(
+//   "/api",
+//   graphqlHTTP(async (req, res) => {
+//     const access_token = req.headers["authorization"].split(" ")[1];
+//     const user = jwt.decode(access_token, process.env.PRIVATE_KEY);
+//     return {
+//       context: user,
+//       graphiql: true,
+//       schema: clientSchema,
+//     };
+//   })
+// );
 app.use(
   "/api",
-  //   Auth,
-  graphqlHTTP(async (req, res) => {
-    // const token = req.cookies.token;
-    // const user = jwt.decode(token, process.env.JWTSECRET);
-    // const authorization = req.headers["x-access-token"].split(" ");
-    // const access_token = authorization[1];
-    const access_token = req.headers["authorization"].split(" ")[1];
-    const user = jwt.decode(access_token, process.env.PRIVATE_KEY);
-    // console.log(user, "hello");
+  graphqlHTTP(async (req) => {
+    let user;
+    if (req.headers.cookie.split("=")) {
+      const authorization = req.headers.cookie.split("=")
+      const access_token = authorization[2];
+      user = jwt.decode(access_token, process.env.PRIVATE_KEY);
+    }
     return {
       context: user,
       graphiql: true,
-      // graphiql: {
-      //   headerEditorEnabled: true,
-      // },
       schema: clientSchema,
     };
   })
-);
+)
 
 //===========admin API================z
 app.use(
@@ -127,6 +138,16 @@ app.get("/test", (req, res) => {
 });
 
 connectDB();
+
+/** GraphQL Websocket definition **/
+SubscriptionServer.create({
+  clientSchema,
+  execute,
+  subscribe,
+}, {
+  server: server,
+  path: '/api/subscriptions',
+}, );
 
 const PORT = process.env.PORT || 3500;
 app.listen(PORT, console.log(`Server Running on Port ${PORT}`.cyan.bold));

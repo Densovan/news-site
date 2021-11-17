@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useContext } from "react";
+import React, { useState, Fragment, useContext } from 'react';
 import {
   Row,
   Col,
@@ -9,22 +9,24 @@ import {
   Tooltip,
   Result,
   Input,
-} from "antd";
-import parse from "html-react-parser";
-import { CaretRightOutlined } from "@ant-design/icons";
-import Link from "next/link";
-import { useQuery } from "@apollo/client";
-import { useAuth } from "../../layouts/layoutAuth";
+} from 'antd';
+import parse from 'html-react-parser';
+import pretty from "pretty-date";
+import { CaretRightOutlined } from '@ant-design/icons';
+import Link from 'next/link';
+import { useQuery } from '@apollo/client';
+import { useAuth } from '../../layouts/layoutAuth';
 import {
   GET_ALL_NEWS,
   GET_USER,
   GET_VOTE_UP_DOWN,
   GET_ALL_VOTE_UP_DOWN,
-} from "../../graphql/query";
-import moment from "moment";
-import Medium from "../../components/loaders/newsLoader";
-import InfiniteScroll from "react-infinite-scroll-component";
-import NewLike from "../../components/common/news.like";
+} from '../../graphql/query';
+import moment from 'moment';
+import Medium from '../../components/loaders/newsLoader';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import NewLike from '../../components/common/news.like';
+import NewsVote from '../../components/common/news.vote';
 
 const { Content } = Layout;
 
@@ -33,18 +35,15 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
   const server = process.env.API_SECRET;
   const server_local = process.env.API_SECRET_LOCAL;
   const develop = process.env.NODE_ENV;
-  const URL_ACCESS = develop === "development" ? server_local : server;
+  const URL_ACCESS = develop === 'development' ? server_local : server;
 
   const [hasMoreItems, setHasMoreItems] = useState(true);
   //=============get last News===========
-  const {
-    loading,
-    data: news,
-    fetchMore,
-    refetch,
-  } = useQuery(GET_ALL_NEWS);
-  const { data: vote_up_down, loading: vote_up_down_loading } = useQuery(GET_VOTE_UP_DOWN);
-  const { data: get_all_vote, loading: loading_all_vote } = useQuery(GET_ALL_VOTE_UP_DOWN);
+  const { loading, data: news, fetchMore, refetch } = useQuery(GET_ALL_NEWS);
+  const { data: vote_up_down, loading: vote_up_down_loading } =
+    useQuery(GET_VOTE_UP_DOWN);
+  const { data: get_all_vote, loading: loading_all_vote } =
+    useQuery(GET_ALL_VOTE_UP_DOWN);
   if (loading || vote_up_down_loading || loading_all_vote)
     return (
       <div>
@@ -60,11 +59,11 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
     } else {
       let selectedTag = [];
       selectedTags.forEach((element) => {
-        if (element === "All") {
+        if (element === 'All') {
           selectedTag.push(element);
         }
       });
-      if (selectedTag[0] == "All") {
+      if (selectedTag[0] == 'All') {
         news.get_all_news.map((news) => {
           result.push(news);
         });
@@ -82,12 +81,16 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
       }
     }
   }
+  const timeAgo = (time) => {
+    var created_date = new Date(time * 1000).getTime() / 1000;
+    return <>{pretty.format(new Date(created_date))}</>;
+  };
   return (
     <React.Fragment>
       {loadingFilter ? (
         <div>
-          {" "}
-          <Medium />{" "}
+          {' '}
+          <Medium />{' '}
         </div>
       ) : (
         <Fragment>
@@ -109,14 +112,26 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
                 key={index}
               >
                 <Row gutter={[8, 8]}>
-                  <Col xs={24} md={16} className="box-news">
+                  <Col xs={24} md={7}>
+                    <div
+                      className="image-news-style"
+                      style={{
+                        backgroundImage: `url(${URL_ACCESS}/public/uploads//${res.thumnail})`,
+                      }}
+                    ></div>
+                  </Col>
+                  <Col
+                    xs={24}
+                    md={16}
+                    className="box-news"
+                  >
                     <Link
                       href={`/profile_detial/${
                         res.user.accountId
                       }#${res.user.fullname
                         .replace(
                           /[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g,
-                          "-"
+                          '-',
                         )
                         .toLowerCase()}`}
                     >
@@ -144,29 +159,30 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
                             }
                             className="card-name"
                           >
-                            <li style={{ cursor: "pointer" }}>
+                            <li style={{ cursor: 'pointer' }}>
                               {res.user.fullname}
                             </li>
                           </Tooltip>
                           <li className="news-name">
-                            {moment
+                            {timeAgo(res.createdAt)}
+                            {/* {moment
                               .unix(res.createdAt / 1000)
-                              .format("DD-MM-YYYY")}
+                              .format('DD-MM-YYYY')} */}
                           </li>
                         </div>
                       </div>
                     </Link>
                     <div className="news-content">
                       <div className="title-text-card">
-                        {res.title.length <= 50
+                        {res.title.length <= 48
                           ? res.title
-                          : res.title.substring(0, 50) + " ..."}
+                          : res.title.substring(0, 48) + ' ...'}
                       </div>
                       <div className="text-content-card">
                         {parse(
-                          res.des.length <= 70
+                          res.des.length <= 120
                             ? res.des
-                            : res.des.substring(0, 70) + "..."
+                            : res.des.substring(0, 120) + '...',
                         )}
                       </div>
                     </div>
@@ -175,8 +191,8 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
                         <button className="type-category">
                           {res.types.name}
                           <span>
-                            <CaretRightOutlined style={{ fontSize: "10px" }} />
-                          </span>{" "}
+                            <CaretRightOutlined style={{ fontSize: '10px' }} />
+                          </span>{' '}
                           {res.categories.name}
                         </button>
                         <Link href={`/detail/${res.slug}`}>
@@ -185,7 +201,7 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
                           </button>
                         </Link>
                       </div>
-                      <NewLike
+                      {/* <NewLike
                         postId={res.id}
                         ownerId={res.user.accountId}
                         voteCount={res.voteCount}
@@ -193,22 +209,19 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
                         get_all_vote={get_all_vote}
                         title={res.title.substring(0, 80) + " ..."}
                         refetch={refetch}
-                      />
-                    </div>
-                  </Col>
-                  <Col xs={24} md={8}>
-                    <div
-                      className="image-news-style"
-                      style={{
-                        backgroundImage: `url(${URL_ACCESS}/public/uploads//${res.thumnail})`,
-                      }}
-                    >
-                      {/* <img
-                        height="100%"
-                        width="200"
-                        src={`${URL_ACCESS}/public/uploads//${res.thumnail}`}
                       /> */}
                     </div>
+                  </Col>
+                  <Col xs={24} md={1} style={{ position: 'relative' }}>
+                    <NewsVote
+                      postId={res.id}
+                      ownerId={res.user.accountId}
+                      voteCount={res.voteCount}
+                      vote_up_down={vote_up_down}
+                      get_all_vote={get_all_vote}
+                      title={res.title.substring(0, 80) + " ..."}
+                      refetch={refetch}
+                    />
                   </Col>
                 </Row>
               </Card>
@@ -239,7 +252,7 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
             }}
             hasMore={hasMoreItems}
             loader={
-              <Content style={{ marginTop: "15px" }}>
+              <Content style={{ marginTop: '15px' }}>
                 <center>
                   <Spin></Spin>
                 </center>

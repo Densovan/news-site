@@ -31,6 +31,12 @@ const index = () => {
       <div className="container">
         <br></br>
         <Row gutter={[16, 16]}>
+          <Col xs={24} md={8}>
+            <FilterNews
+              handleChange={handleChange}
+              selectedTags={state.selectedTags}
+            />
+          </Col>
           <Col xs={24} md={16}>
             {isAuthenticated === true && (
               <Row className="status-style">
@@ -59,12 +65,6 @@ const index = () => {
             <Main
               selectedTags={state.selectedTags}
               loadingFilter={state.loading}
-            />
-          </Col>
-          <Col xs={24} md={8}>
-            <FilterNews
-              handleChange={handleChange}
-              selectedTags={state.selectedTags}
             />
           </Col>
         </Row>

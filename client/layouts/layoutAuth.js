@@ -2,6 +2,7 @@ import React, { createContext, useState, useContext, useEffect } from "react";
 import { GET_USER } from "../graphql/query";
 import { useQuery } from "@apollo/client";
 import GlobalHeader from "../components/Layouts/globalHeader";
+import Header from "../components/Globals/Header";
 import Cookies from "js-cookie";
 
 import api from "../services/api";
@@ -91,7 +92,7 @@ export const AuthProvider = ({ children, token }) => {
             logout,
           }}
         >
-          <GlobalHeader />
+          <Header />
           {children}
         </AuthContext.Provider>
       ) : (

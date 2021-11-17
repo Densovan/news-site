@@ -36,6 +36,7 @@ const AnswerModel = require("../../models/comment/answer");
 const LikeModel = require("../../models/like");
 const NotificationModel = require("../../models/notification");
 const FollowModel = require("../../models/follow");
+const Test = require("../../models/test");
 // const NotiModel = require("../../models/notifications");
 const NoticheckModel = require("../../models/notiCheck");
 const SaveNewsModel = require("../../models/saveNews");
@@ -46,9 +47,10 @@ const Chat = require("../../models/chat");
 const NewsNotificationModel = require("../../models/newsNotification");
 const ConversationNotificationModel = require("../../models/conversationNotification");
 const VoteNotificationModel = require("../../models/voteNotification");
-const { pubsub } = require("../../subscription");
+const { pubSub } = require("../../helper/PubSub");
 const { default: axios } = require("axios");
 const QuestionType = require("../types/comment/questionType");
+const TestType = require("../types/typeTest");
 
 const RootMutation = new GraphQLObjectType({
   name: "RootMutationType",
@@ -1556,6 +1558,29 @@ const RootMutation = new GraphQLObjectType({
         }
       },
     },
+    createTest: {
+      type: TestType,
+      args: {
+        name: { type: GraphQLString }
+      },
+      resolve: async (parents, args, context) => {
+        return new Promise(async (resolve, reject) => {
+          const newTest = new Test({
+            ...args,
+          })
+          await newTest
+            .save()
+            .then(data => {
+              pubSub.publish('NEW_TEST', {
+                newTest: data
+              })
+    
+              resolve(data)
+            })
+            .catch(errors => reject(errors))
+        })  
+      }
+    }
   },
 });
 module.exports = RootMutation;

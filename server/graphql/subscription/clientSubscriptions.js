@@ -1,34 +1,20 @@
 const { PubSub } = require("graphql-subscriptions");
 const graphql = require("graphql");
+const { compare } = require("bcryptjs");
 const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLList, GraphQLInt } = graphql;
+const TestType = require("../types/typeTest")
 
-const pubsub = new PubSub();
-
-const ChatType = require("../../graphql/types/chat");
-const ChatModel = require("../../models/chat")
+const pubSub = new PubSub();
 
 const Subscription = new GraphQLObjectType({
   name: "Subscription",
   fields: {
-    chats: {
-      type: GraphQLList(ChatType),
-      // resolve: (payload) => {
-      //   return {
-      //     customData: payload,
-      //   };
-      // },
+    newTest: {
+      type: TestType,
       subscribe: () => {
-        return pubsub.asyncIterator("chat");
+        return pubSub.asyncIterator("NEW_TEST");
       }
     },
-    // messages: {
-    //   subscribe: (parent, args) => {
-    //     const channel = Math.random().toString(36).slice(2, 15);
-    //     onMessagesUpdates(() => pubsub.publish(channel, { messages }));
-    //     setTimeout(() => pubsub.publish(channel, { messages }), 0);
-    //     return pubsub.asyncIterator(channel);
-    //   },
-    // },
   },
 });
 

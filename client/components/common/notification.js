@@ -1,15 +1,15 @@
-import React from "react";
+import React, {Fragment } from "react";
 import { useMutation } from "@apollo/client";
 import { READ_NOTIFICATION, HIDE_NOTIFICATION } from "../../graphql/mutation";
 import { GET_NOTIFICATION } from "../../graphql/query";
 import { CaretRightOutlined } from "@ant-design/icons";
 import pretty from "pretty-date";
 import { useRouter } from "next/router";
-import { message, Button, Avatar, Popover, notification } from "antd";
+import { message, Button, Avatar, Popover, notification, Menu } from "antd";
 import { EllipsisOutlined, CloseSquareOutlined } from "@ant-design/icons";
 import { HiOutlineBell, HiBell } from "react-icons/hi";
 
-const Notification = ({ notifications, user }) => {
+const Notification = ({ notifications, user, handleMenuClick }) => {
   const server = process.env.API_SECRET;
   const server_local = process.env.API_SECRET_LOCAL;
   const develop = process.env.NODE_ENV;
@@ -20,7 +20,6 @@ const Notification = ({ notifications, user }) => {
   const [hideNotification] = useMutation(HIDE_NOTIFICATION);
 
   let data = notifications;
-  console.log(data);
 
   const timeAgo = (time) => {
     var created_date = new Date(time * 1000).getTime() / 1000;
@@ -69,7 +68,6 @@ const Notification = ({ notifications, user }) => {
   let sum = 0;
   data.map((item) => {
     item.notifications.map((notification) => {
-      console.log(notification);
       if (notification.hide) {
         sum += 1;
       } else {
@@ -85,7 +83,6 @@ const Notification = ({ notifications, user }) => {
             return (
               notification.user.accountId === user.user.get_user.accountId &&
               notification.hide && (
-                // <div key={item.createdAt} className="container-notification">
                 <div
                   key={item.createdAt}
                   className="container-box"
@@ -106,9 +103,11 @@ const Notification = ({ notifications, user }) => {
                             item.news != null ? item.news.slug : item.news
                           )
                         : (e.preventDefault(),
+                          handleMenuClick(false),
                           item.news != null
                             ? router.push(`/detail/${item.news.slug}`)
                             : message.error("This news not found!!!!!"))
+
                     }
                   >
                     <div className="avatar-notification">

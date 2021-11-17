@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Menu, Button } from "antd";
+import { Menu, Button, Space } from "antd";
 import {
   AiOutlineHome,
   AiFillRocket,
@@ -92,13 +92,13 @@ const FilterNavbar = () => {
   return (
     <div>
       <Menu
-        style={{ backgroundColor: "white", marginBottom: 8 }}
+        style={{ display: "flex", height: '46px', alignItems: "center"}}
         onClick={handleClick}
         defaultSelectedKeys={selectKeyx}
         defaultOpenKeys={openKeyx}
         mode="horizontal"
       >
-        <Menu.Item key="1">
+        <Menu.Item key="1" style={{ paddingRight: '4px' }}>
           <Link href="/">
             {text(
               "Home",
@@ -111,7 +111,7 @@ const FilterNavbar = () => {
             )}
           </Link>
         </Menu.Item>
-        <Menu.Item key="2">
+        <Menu.Item key="2" style={{ paddingRight: '4px' }}>
           <Link href="/topnews">
             {text(
               "Top",

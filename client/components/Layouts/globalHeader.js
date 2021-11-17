@@ -47,7 +47,6 @@ const GlobalHeader = () => {
     setVisible(visible);
   };
   const { isAuthenticated, user } = useAuth();
-  // console.log(isAuthenticated);
   const [authenticate, setAuthenticate] = useState(null);
   useEffect(() => {
     if (user) {
@@ -108,7 +107,6 @@ const GlobalHeader = () => {
       return;
     }
     router.replace(`/search?keyword=${value}`);
-    // setSearch(false);
   };
   const onClose = () => {
     setState({
