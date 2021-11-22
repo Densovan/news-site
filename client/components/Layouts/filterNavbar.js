@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Menu, Button, Space } from "antd";
+import { Menu, Button, Space, Spin } from "antd";
 import {
   AiOutlineHome,
   AiFillRocket,
@@ -8,11 +8,12 @@ import {
   AiOutlineCarryOut,
   AiFillCarryOut,
 } from "react-icons/ai";
+import { LoadingOutlined } from '@ant-design/icons';
 import Link from "next/link";
 import { useRouter } from "next/router";
 import pathToolURl from "../_utils/pathTool";
 
-const FilterNavbar = () => {
+const FilterNavbar = ({ loadingMenu }) => {
   const [alert, setAlert] = useState(false);
   const mounted = useRef(true);
   const [state, setState] = useState({
@@ -20,6 +21,7 @@ const FilterNavbar = () => {
     openKey: [],
   });
 
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   useEffect(() => {
     try {
@@ -34,11 +36,22 @@ const FilterNavbar = () => {
               setState({
                 selectKey: url[0],
               });
+              setTimeout(() => {
+                setLoading(true)
+              },1000)
+              
+              setLoading(false)
+        
             } else if (url.length === 3) {
               setState({
                 selectKey: url[0],
                 openKey: url[2],
               });
+              setTimeout(() => {
+                setLoading(true)
+              },1000)
+
+              setLoading(false)
             }
           }
         });
@@ -49,15 +62,28 @@ const FilterNavbar = () => {
     }
   }, [alert, state.selectKey, state.openKey]);
   const handleClick = (e) => {
-    if (e.keyPath.length === 2)
+    if (e.keyPath.length === 2){
       setState({
         selectKey: e.keyPath[0],
         openKey: e.keyPath[1],
-      });
-    else if (e.keyPath.length === 1)
+      })
+      setTimeout(() => {
+        setLoading(true)
+      },1000)
+
+      setLoading(false)
+    }
+      
+    else if (e.keyPath.length === 1){
       setState({
         selectKey: e.keyPath[0],
       });
+      setTimeout(() => {
+        setLoading(true)
+      },1000)
+      
+      setLoading(false)
+    }
   };
   const selectKeyx = [];
   const openKeyx = [];
@@ -89,6 +115,7 @@ const FilterNavbar = () => {
     );
   };
 
+  loadingMenu(loading);
   return (
     <div>
       <Menu
@@ -126,15 +153,19 @@ const FilterNavbar = () => {
         </Menu.Item>
         <Menu.Item key="3">
           <Link href="/today">
-            {text(
-              "Today",
-              selectKeyx[0] == 3 ? (
-                <AiFillCarryOut style={{ fontSize: 20 }} />
-              ) : (
-                <AiOutlineCarryOut style={{ fontSize: 20 }} />
-              ),
-              3
-            )}
+            {loading ?
+              text(
+                "Today",
+                selectKeyx[0] == 3 ? (
+                  <AiFillCarryOut style={{ fontSize: 20 }} />
+                ) : (
+                  <AiOutlineCarryOut style={{ fontSize: 20 }} />
+                ),
+                3
+              )
+            :
+              <LoadingOutlined style={{ fontSize: 24 }} spin />
+            }
           </Link>
         </Menu.Item>
       </Menu>

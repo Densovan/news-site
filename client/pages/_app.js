@@ -12,7 +12,6 @@ axios.defaults.withCredentials = true;
 function MyApp({ Component, pageProps }) {
   const [token, setToken] = useState(null);
   useEffect(() => {
-    // const token = localStorage.getItem("access_token");
     const token = Cookies.get("access_token");
     setToken(token);
   }, []);
@@ -23,6 +22,7 @@ function MyApp({ Component, pageProps }) {
         <AuthProvider token={token}>{page}</AuthProvider>
       </ApolloProvider>
     ));
+  const Layout = Component.Layout ? Component.Layout : React.Fragment;
   return getLayout(
     <ProtectRoute>
       <Component {...pageProps} />

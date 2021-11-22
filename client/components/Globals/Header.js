@@ -12,16 +12,19 @@ import {
   Row,
   Col,
   Typography,
+  Avatar,
+  Divider
 } from 'antd';
 import { useRouter } from 'next/router';
+import Link from "next/link";
 import { useAuth } from '../../layouts/layoutAuth';
 import { MdNotificationsNone, MdArrowDropDown } from 'react-icons/md';
 import { useQuery, useMutation } from '@apollo/client';
 import { GET_NOTIFICATION } from '../../graphql/query';
 import { SHOW_NOTIFICATION } from '../../graphql/mutation';
-import FilterNavbar from '../Layouts/filterNavbar';
+import Logout from "../actions/logout";
 import Notification from '../common/notification';
-import Profile from '../common/profile';
+import { TiUser, TiUserAdd } from "react-icons/ti";
 
 const Header = () => {
   //notification
@@ -33,7 +36,7 @@ const Header = () => {
     visible: false,
     sum: 0,
     loading: false,
-    notifications: null,
+    notifications: [],
   });
 
   const [visible, setVisible] = useState(false);
@@ -97,8 +100,11 @@ const Header = () => {
   const handleProfileClick = () => {
     console.log('hello');
   };
-  const onSearch = () => {
-    console.log('search');
+  const onSearch = (value) => {
+    if (value === "") {
+      return;
+    }
+    router.replace(`/search?keyword=${value}`);
   };
   const handleMenuClick = (visible) => {
     setVisible(visible);
@@ -115,9 +121,11 @@ const Header = () => {
           }}
         >
           <div className="navbar-container">
-            <div className="logo">
-              <img src="/assets/images/logo_koompi.png" height="100%" />
-            </div>
+            <Link href="/">
+              <div className="logo">
+                  <img src="/assets/images/logo_koompi.png" height="100%" />
+              </div>
+            </Link>
             <div className="center">
               <div>
                 <Input.Search
@@ -130,6 +138,18 @@ const Header = () => {
               </div>
             </div>
             <div className="right">
+              {!isAuthenticated && (
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <div className="top-nav-rigth">
+                    <TiUser className="gmail-top-nav" />
+                    <Link href="/signin">Sign in</Link>
+                    <Divider className="devider-top-nav" type="vertical" />
+                    <TiUserAdd size={19} className="gmail-top-nav" />
+                    <Link href="/register">Register</Link>
+                  </div>
+                </div>
+              )}
+              {isAuthenticated && (
               <Space size={12}>
                 <div>
                   <Badge count={state.sum} overflowCount={99}>
@@ -185,7 +205,54 @@ const Header = () => {
                   <Dropdown
                     onClick={handleProfileClick}
                     placement="bottomRight"
-                    overlay={<Profile />}
+                    overlay={
+                      <Menu style={{ padding: '8px' }}>
+                        <Menu.Item>
+                          <a onClick={(e) => {e.preventDefault(), router.push('/dashboard/allstories')}}>
+                          <div className="control-avatar">
+                            <Avatar
+                                className="avatar-1"
+                                size="large"
+                                src={authenticate !== null &&
+                                  authenticate.user.get_user.image
+                                }
+                              />
+                            <div>
+                              <div>
+                                <a>
+                                  <span className="name">
+                                    {authenticate !== null &&
+                                      authenticate.user.get_user.fullname}
+                                  </span>
+                                </a>
+                              </div>
+                              <div>
+                                <a href="#">
+                                  <span className="email">
+                                    {authenticate !== null &&
+                                      authenticate.user.get_user.email}
+                                  </span>
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+                          </a>
+                        </Menu.Item>
+                        <Menu.Item>
+                          <a onClick={(e) => {e.preventDefault(), router.push('/dashboard/addstory')}}>
+                            <span>Write a story</span>
+                          </a>
+                        </Menu.Item>
+                        <Menu.Item>
+                          <a onClick={(e) => {e.preventDefault(), router.push('/dashboard/editProfile')}}>
+                            <span>Settings</span>
+                          </a>
+                        </Menu.Item>
+                        <Menu.Item>
+                          <Logout />
+                        </Menu.Item>
+                      </Menu>
+                    }
                     trigger={['click']}
                   >
                     <div className="dropdownBox">
@@ -203,6 +270,7 @@ const Header = () => {
                   </Dropdown>
                 </div>
               </Space>
+              )}
             </div>
           </div>
         </Layout.Header>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { useRouter } from "next/router";
 import News from "../components/newsSearch/index";
 import { useQuery } from "@apollo/client";
@@ -11,54 +11,48 @@ import {
 import Medium from "../components/loaders/newsLoader";
 import CategoryLoader from "../components/loaders/categoryLoader";
 import { Row, Col } from "antd";
+import Content from "../components/globals/Content";
+import { useAuth } from '../layouts/layoutAuth';
 
 const search = () => {
   const { query } = useRouter();
 
-  const { data, loading, fetchMore } = useQuery(GET_NEWS_SEARCH, {
+  const { data, loading, fetchMore, refetch } = useQuery(GET_NEWS_SEARCH, {
     variables: { search: query.keyword },
   });
-  const { loading: userLoading, data: userData } = useQuery(GET_USER);
-  const { data: vote_up_down, loading: vote_up_down_loading } =
-    useQuery(GET_VOTE_UP_DOWN);
-  const { data: get_all_vote, loading: loading_all_vote } = useQuery(
-    GET_ALL_VOTE_UP_DOWN,
-    {
-      pollInterval: 500,
-    }
-  );
-  if (
-    loading ||
-    !data ||
-    userLoading ||
-    vote_up_down_loading ||
-    loading_all_vote
-  ) {
-    return (
-      <div className="container">
-        <br></br>
-        <Row gutter={[16, 16]}>
-          <Col xs={24} md={16}>
-            <Medium />
-          </Col>
-          <Col xs={24} md={8}>
-            <CategoryLoader />
-          </Col>
-        </Row>
-      </div>
-    );
-  }
-  // console.log(data);
+  // if (
+  //   loading ||
+  //   !data ||
+  //   userLoading ||
+  //   vote_up_down_loading ||
+  //   loading_all_vote
+  // ) {
+  //   return (
+  //     <div className="container">
+  //       <br></br>
+  //       <Row gutter={[16, 16]}>
+  //         <Col xs={24} md={16}>
+  //           <Medium />
+  //         </Col>
+  //         <Col xs={24} md={8}>
+  //           <CategoryLoader />
+  //         </Col>
+  //       </Row>
+  //     </div>
+  //   );
+  // }
+  const { selected, loadingFilter } = useAuth();
   return (
-    <div>
-      <News
-        data={data}
+    <Fragment>
+      <Content
+        selectedTags={selected}
+        loadingFilter={loadingFilter}
+        news={data!=null && data.search_news_title}
+        loadingNews={loading}
+        refetch={refetch}
         fetchMore={fetchMore}
-        userData={userData}
-        vote_up_down={vote_up_down}
-        get_all_vote={get_all_vote}
       />
-    </div>
+    </Fragment>
   );
 };
 

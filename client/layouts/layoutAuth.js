@@ -1,30 +1,41 @@
-import React, { createContext, useState, useContext, useEffect } from "react";
-import { GET_USER } from "../graphql/query";
-import { useQuery } from "@apollo/client";
-import GlobalHeader from "../components/Layouts/globalHeader";
-import Header from "../components/Globals/Header";
-import Cookies from "js-cookie";
+import React, { createContext, useState, useContext, useEffect } from 'react';
+import { GET_USER } from '../graphql/query';
+import { useQuery } from '@apollo/client';
+import GlobalHeader from '../components/Layouts/globalHeader';
+import Header from '../components/Globals/Header';
+import Cookies from 'js-cookie';
+import { Row, Col, Avatar, Input } from 'antd';
+import Link from 'next/link';
+import Filter from '../components/globals/Filter';
+import Suggestion from '../components/globals/Suggestion';
+import FilterNavbar from '../components/Layouts/filterNavbar';
+import { useRouter } from 'next/router';
 
-import api from "../services/api";
+
+import api from '../services/api';
 
 const AuthContext = createContext({});
 
 export const AuthProvider = ({ children, token }) => {
+  const { pathname } = useRouter();
   const [state, setState] = useState({
     auth: false,
     loading: false,
   });
-  const [user, setUser] = useState(null);
-
+  const [user, setUser] = useState([]);
+  const [selected, setSelected] = useState(['All'])
+  const [loadingFilter, setLoadingFilter] = useState(false)
+  
+  console.log(pathname);
   useEffect(async () => {
     try {
       api.defaults.headers.Authorization = `Bearer ${Cookies.get(
-        "refresh_token"
+        'refresh_token',
       )}`;
       await api
-        .get("verify-token")
+        .get('verify-token')
         .then(async (response) => {
-          await Cookies.set("access_token", response.data.access_token);
+          await Cookies.set('access_token', response.data.access_token);
           setTimeout(() => {
             setState({
               loading: true,
@@ -38,8 +49,8 @@ export const AuthProvider = ({ children, token }) => {
           if (error.response.status === 401 || error.response.status === 403) {
             // await localStorage.removeItem("access_token");
             // await localStorage.removeItem("refresh_token");
-            await Cookies.remove("access_token");
-            await Cookies.remove("refresh_token");
+            await Cookies.remove('access_token');
+            await Cookies.remove('refresh_token');
             setTimeout(() => {
               setState({
                 loading: true,
@@ -57,7 +68,7 @@ export const AuthProvider = ({ children, token }) => {
 
   useEffect(() => {
     // const token = localStorage.getItem("access_token");
-    const token = Cookies.get("access_token");
+    const token = Cookies.get('access_token');
     if (token) setState({ auth: true });
     else return setState({ auth: false }), setState({ loading: false });
   }, []);
@@ -72,14 +83,31 @@ export const AuthProvider = ({ children, token }) => {
   const logout = () => {
     // localStorage.removeItem("access_token");
     // localStorage.removeItem("refresh_token");
-    Cookies.remove("access_token");
-    Cookies.remove("refresh_token");
+    Cookies.remove('access_token');
+    Cookies.remove('refresh_token');
     setState({
       user: null,
     });
     // delete api.defaults.headers.Authorization
-    window.location.pathname = "/";
+    window.location.pathname = '/';
   };
+
+  const handleChange = (tag, checked) => {
+    const nextSelectedTags = checked
+      ? [...selected, tag]
+      : selected.filter((t) => t !== tag);
+    setSelected(nextSelectedTags);
+    setLoadingFilter(true)
+    setTimeout(() => {
+      setSelected(nextSelectedTags);
+      setLoadingFilter(false)
+    }, 1000);
+  };
+
+  const loadingMenu = (loading) => {
+    // setLoadingFilter(loading);
+    // console.log(loading);
+  }
 
   return (
     <>
@@ -90,10 +118,54 @@ export const AuthProvider = ({ children, token }) => {
             user: user !== null && user,
             loading: state.loading,
             logout,
+            selected: selected,
+            loadingFilter: loadingFilter
           }}
         >
           <Header />
-          {children}
+          {pathname == '/' || pathname == '/search' || pathname == '/topnews' || pathname == '/today'? 
+          <div className="container">
+          <br></br>
+          <Row gutter={[16, 16]}>
+            <Col xs={24} md={8}>
+              <Filter
+                handleChange={handleChange}
+                selectedTags={selected}
+              />
+              <Suggestion user={user} isAuthenticated={!!token} />
+            </Col>
+            <Col xs={24} md={16}>
+              {!!token === true && (
+                <Row className="status-style">
+                  <Col span={2}>
+                    <center>
+                      <Avatar
+                        style={{
+                          height: 35,
+                          width: 35,
+                          cursor: 'pointer',
+                          border: 'solid 2px #ffffff9d',
+                        }}
+                        src={user && user.user.get_user.image}
+                        shape="circle"
+                      />
+                    </center>
+                  </Col>
+                  <Col span={22}>
+                    <Link href="/dashboard/addstory">
+                      <Input size="middle" placeholder="Write your story" />
+                    </Link>
+                  </Col>
+                </Row>
+              )}
+              <FilterNavbar loadingMenu={loadingMenu} />
+              {children}
+            </Col>
+          </Row>
+        </div>
+        :
+          <>{children}</>
+        }
         </AuthContext.Provider>
       ) : (
         <></>
