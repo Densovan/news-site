@@ -112,10 +112,10 @@ const userType = new GraphQLObjectType({
     userId: {
       type: GraphQLID,
     },
-    followings: {
-      type: GraphQLList(followingsType),
-    },
-    followers: { type: GraphQLList(followersType) },
+    // followings: {
+    //   type: GraphQLList(followingsType),
+    // },
+    // followers: { type: GraphQLList(followersType) },
 
     following: {
       type: GraphQLList(userType),
@@ -136,6 +136,13 @@ const userType = new GraphQLObjectType({
         return Follow.find({ followTo: parent.accountId });
       },
     },
+
+    followers: {
+      type: new GraphQLList(followers),
+    },
+    followings: {
+      type: new GraphQLList(followings),
+    },
   }),
 });
 
@@ -146,3 +153,5 @@ const followersType = require("./followersType");
 const newsType = require("./newsType");
 const usersType = require("./userType");
 const followType = require("./followType");
+const followers = require("./follows/followers");
+const followings = require("./follows/followings");

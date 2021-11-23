@@ -42,7 +42,7 @@ const SaveNewsModel = require("../../models/saveNews");
 const LikeTopDownModel = require("../../models/likeTopDown");
 const VoteModel = require("../../models/vote");
 const SaveNewsType = require("../types/saveNewsType");
-const Chat = require("../../models/chat");
+// const Chat = require("../../models/chat");
 const NewsNotificationModel = require("../../models/newsNotification");
 const ConversationNotificationModel = require("../../models/conversationNotification");
 const VoteNotificationModel = require("../../models/voteNotification");
@@ -50,6 +50,9 @@ const { pubsub } = require("../../subscription");
 const { default: axios } = require("axios");
 const QuestionType = require("../types/comment/questionType");
 const { post } = require("../../routes/userRouter");
+const Comments = require("../../models/comments/comments");
+const Notification = require("../../models/notifications/notification");
+const LikeNotificationModel = require("../../models/notifications/likeNotification");
 
 const RootMutation = new GraphQLObjectType({
   name: "RootMutationType",
@@ -1564,11 +1567,16 @@ const RootMutation = new GraphQLObjectType({
       type: NewsType,
       args: {
         postId: { type: GraphQLString },
-        count_like: { type: GraphQLString },
+        //===== add postUerId ====
+        postUserId: { type: GraphQLID },
       },
       resolve: async (parent, args, context) => {
         try {
           const post_id = await NewsModel.findById(args.postId);
+          const post_id1 = await LikeNotificationModel.findOne({
+            postId: args.postId,
+            userId: context.id,
+          });
           //check if the post has already been liker
           if (
             post_id.likers.some((like) => like.user.toString() === context.id)
@@ -1576,29 +1584,49 @@ const RootMutation = new GraphQLObjectType({
             post_id.likers = post_id.likers.filter(
               (like) => like.user.toString() !== context.id
             );
-            const like = post_id.likers.length;
-            const dis_like = post_id.dislikers.length;
-            const like_count = like - dis_like;
-            if (like_count < 0) {
-              await post_id.$set({ count_like: 0 });
-            } else {
-              await post_id.$set({ count_like: like_count });
-            }
+            // const like = post_id.likers.length;
+            // const dis_like = post_id.dislikers.length;
+            // const like_count = like - dis_like;
+            // if (like_count < 0) {
+            //   await post_id.$set({ count_like: 0 });
+            // } else {
+            //   await post_id.$set({ count_like: like_count });
+            // }
             // await post_id.$set({ count_like: like_count });
+
             await post_id.save();
+            if (post_id1) {
+              await LikeNotificationModel.findOneAndDelete({
+                postId: args.postId,
+                userId: context.id,
+              });
+            }
             return { message: "delete like", post_id: post_id };
           } else {
             await post_id.likers.unshift({ user: context.id });
-            const like = post_id.likers.length;
-            const dis_like = post_id.dislikers.length;
-            const like_count = like - dis_like;
-            if (like_count < 0) {
-              await post_id.$set({ count_like: 0 });
-            } else {
-              await post_id.$set({ count_like: like_count });
-            }
-            // await post_id.$set({ count_like: like_count });
+            const noti = new LikeNotificationModel({
+              userId: context.id,
+              ...args,
+            });
+            const notification = new Notification({
+              userId: context.id,
+              type: "like",
+              read: false,
+              ...args,
+            });
+
+            // const like = post_id.likers.length;
+            // const dis_like = post_id.dislikers.length;
+            // const like_count = like - dis_like;
+            // if (like_count < 0) {
+            //   await post_id.$set({ count_like: 0 });
+            // } else {
+            //   await post_id.$set({ count_like: like_count });
+            // }
+            await notification.save();
+            await noti.save();
             await post_id.save();
+
             return { message: "add like", post_id: post_id };
           }
         } catch (error) {
@@ -1653,6 +1681,82 @@ const RootMutation = new GraphQLObjectType({
           console.log(error);
           return { message: "You have problem" };
         }
+      },
+    },
+
+    //====================follow================================
+
+    followUser: {
+      type: userType,
+      args: {
+        userId: { type: GraphQLID },
+      },
+      resolve: async (parent, args, context) => {
+        try {
+          const userId = await UserModel.findOne({ accountId: context.id });
+          const userId1 = await UserModel.findOne({ accountId: args.userId });
+          if (
+            userId.followings.some(
+              (follow) => follow.user.toString() === args.userId
+            )
+          ) {
+            userId.followings = userId.followings.filter(
+              (follow) => follow.user.toString() !== args.userId
+            );
+            userId1.followers = userId1.followers.filter(
+              (follow) => follow.user.toString() !== context.id
+            );
+            await userId.save();
+            await userId1.save();
+            console.log("Delete");
+          } else {
+            await userId.followings.unshift({ user: args.userId });
+            await userId1.followers.unshift({ user: context.id });
+            await userId.save();
+            await userId1.save();
+            console.log("add");
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      },
+    },
+
+    //===============comments===============
+    comments: {
+      type: NewsType,
+      args: {
+        user: { type: GraphQLID },
+        tag: { type: GraphQLID },
+        reply: { type: GraphQLID },
+        postId: { type: GraphQLID },
+        postUserId: { type: GraphQLID },
+        content: { type: GraphQLString },
+      },
+      resolve: async (parent, args, context) => {
+        const post = await NewsModel.findById({ _id: args.postId });
+        if (!post) {
+          return { message: "This Post does not exit" };
+        }
+        // if (reply) {
+        //   const cm = await Comments.findById({ _id: args.reply });
+        //   if (!cm) {
+        //     return { message: "This comment does not exit" };
+        //   }
+        // }
+        const newComment = new Comments({
+          user: context.id,
+          // reply: args.reply,
+          ...args,
+        });
+        await NewsModel.findOneAndUpdate(
+          { _id: args.postId },
+          {
+            $push: { comments: newComment._id },
+          }
+        );
+        await newComment.save();
+        return { message: "successfull" };
       },
     },
   },

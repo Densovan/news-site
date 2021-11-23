@@ -52,6 +52,7 @@ const newsSchema = new Schema(
       require: true,
       default: 0,
     },
+    comments: [{ type: Schema.Types.ObjectId, ref: "comment" }],
     likers: [
       {
         user: { type: Schema.Types.ObjectId, ref: "User" },
@@ -60,14 +61,14 @@ const newsSchema = new Schema(
     // liker_id: {
     //   type: String,
     // },
-    count_like: {
-      type: Number,
-    },
-    dislikers: [
-      {
-        user: { type: Schema.Types.ObjectId, ref: "User" },
-      },
-    ],
+    // count_like: {
+    //   type: Number,
+    // },
+    // dislikers: [
+    //   {
+    //     user: { type: Schema.Types.ObjectId, ref: "User" },
+    //   },
+    // ],
     like_type: {
       type: String,
     },

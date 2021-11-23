@@ -1,11 +1,12 @@
 const { PubSub } = require("graphql-subscriptions");
 const graphql = require("graphql");
-const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLList, GraphQLInt } = graphql;
+const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLList, GraphQLInt } =
+  graphql;
 
 const pubsub = new PubSub();
 
 const ChatType = require("../../graphql/types/chat");
-const ChatModel = require("../../models/chat")
+// const ChatModel = require("../../models/chat")
 
 const Subscription = new GraphQLObjectType({
   name: "Subscription",
@@ -19,7 +20,7 @@ const Subscription = new GraphQLObjectType({
       // },
       subscribe: () => {
         return pubsub.asyncIterator("chat");
-      }
+      },
     },
     // messages: {
     //   subscribe: (parent, args) => {

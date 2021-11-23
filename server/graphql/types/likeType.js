@@ -3,18 +3,26 @@ const graphql = require("graphql");
 //=============model=================
 const User = require("../../models/user");
 const News = require("../../models/news");
-const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLList, GraphQLInt } = graphql;
+const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLList, GraphQLInt } =
+  graphql;
 
 const LikeType = new GraphQLObjectType({
   name: "like",
   fields: () => ({
-    id: { type: GraphQLID },
+    // id: { type: GraphQLID },
+    // user: { type: GraphQLID },
+    // users: {
+    //   type: userType,
+    //   resolve: (parent, args) => {
+    //     return User.findOne({ accountId: parent.user });
+    //   },
+    // },
     userId: { type: GraphQLID },
     createdAt: {
       type: GraphQLString,
     },
-    count:{
-      type: GraphQLInt
+    count: {
+      type: GraphQLInt,
     },
     postId: {
       type: GraphQLID,
@@ -36,7 +44,7 @@ const LikeType = new GraphQLObjectType({
       resolve: (parents, args) => {
         return News.findById(parents.postId);
       },
-    }
+    },
   }),
 });
 

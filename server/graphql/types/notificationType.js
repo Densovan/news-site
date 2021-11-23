@@ -32,7 +32,7 @@ const NotificationType = new GraphQLObjectType({
             followBy: parent.userId,
             createBy: parent.userId,
           });
-          return follow
+          return follow;
         }
       },
     },
@@ -40,15 +40,19 @@ const NotificationType = new GraphQLObjectType({
       type: new GraphQLList(NewsNotificationType),
       resolve: async (parent, args, context) => {
         if (parent.type === "follow") {
-          const follower = await FollowModel.findOne({ followTo: parent.relateId });
-          const timeFollow = new Date(follower.createdAt).getTime()
+          const follower = await FollowModel.findOne({
+            followTo: parent.relateId,
+          });
+          const timeFollow = new Date(follower.createdAt).getTime();
           if (parent.userId === context.id) {
             const news = [];
-            const data = await NewsNotificationModel.find({ userId: parent.relateId })
-            data.forEach(item => {
+            const data = await NewsNotificationModel.find({
+              userId: parent.relateId,
+            });
+            data.forEach((item) => {
               const timeNews = new Date(item.createdAt).getTime();
               if (timeNews > timeFollow) {
-                news.push(item)
+                news.push(item);
               }
             });
             return news;
@@ -63,22 +67,22 @@ const NotificationType = new GraphQLObjectType({
           const question = await QuestionModel.findOne({
             _id: parent.relateId,
             userId: parent.userId,
-            type: "comment"
+            type: "comment",
           });
-          return question
+          return question;
         }
       },
     },
-    reply:{
+    reply: {
       type: AnswerType,
       resolve: async (parent, args, context) => {
         if (parent.type === "reply") {
           const answer = await AnswerModel.findOne({
             userIdTo: context.id,
             _id: parent.relateId,
-            type: "reply"
+            type: "reply",
           });
-          return answer
+          return answer;
         }
       },
     },
@@ -90,7 +94,7 @@ const NotificationType = new GraphQLObjectType({
             postId: parent.relateId,
             userId: parent.userId,
           });
-          return vote
+          return vote;
         }
       },
     },
@@ -106,5 +110,4 @@ const VoteType = require("./voteType");
 const FollowType = require("./followType");
 const userType = require("./userType");
 const QuestionType = require("./comment/questionType");
-const AnswerType = require("./comment/answerType")
-
+const AnswerType = require("./comment/answerType");

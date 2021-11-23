@@ -6,8 +6,8 @@ const notificationSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    ownerId: { type: String, required: true}, // kind id of relate with userId or ownerId
-    relateId: { type: String, required: true},
+    ownerId: { type: String, required: true }, // kind id of relate with userId or ownerId
+    relateId: { type: String, required: true },
     type: {
       type: String,
       required: true,

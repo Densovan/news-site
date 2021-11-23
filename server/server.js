@@ -96,12 +96,19 @@ app.use(
       const authorization = req.headers.cookie.split("=");
       const access_token = authorization[2];
       user = jwt.decode(access_token, process.env.PRIVATE_KEY);
-      // console.log(user);
     }
-
+    // else {
+    //   const access_token = req.headers["authorization"].split(" ")[1];
+    //   user = jwt.decode(access_token, process.env.PRIVATE_KEY);
+    // }
     return {
       context: user,
       // graphiql: true,
+      playground: {
+        settings: {
+          "editor.theme": "dark",
+        },
+      },
       graphiql: {
         headerEditorEnabled: true,
       },

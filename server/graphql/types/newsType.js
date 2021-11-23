@@ -53,7 +53,7 @@ const NewsType = new GraphQLObjectType({
       type: GraphQLInt,
     },
     likers: {
-      type: GraphQLString,
+      type: new GraphQLList(likeType),
     },
     dislikers: {
       type: GraphQLString,
@@ -94,7 +94,7 @@ const NewsType = new GraphQLObjectType({
       },
     },
     like: {
-      type: GraphQLList(likeType),
+      type: GraphQLList(LikeType),
       resolve: (parent, args) => {
         return Like.find({ postId: parent.id });
       },
@@ -122,5 +122,6 @@ const type = require("./type");
 const userType = require("./userType");
 const questionType = require("./comment/questionType");
 const answerType = require("./comment/answerType");
-const likeType = require("./likeType");
+const likeType = require("../types/likes/likeArticleType");
+const LikeType = require("../types/likeType");
 const saveType = require("./saveNewsType");

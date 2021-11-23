@@ -34,6 +34,16 @@ const userSchema = new mongoose.Schema(
       default:
         "https://backend.beecolony.org/public/uploads/file-b361e38f-41f1-4f49-864b-a29717decebc.png",
     },
+    followers: [
+      {
+        user: { type: mongoose.Types.ObjectId, ref: "User" },
+      },
+    ],
+    followings: [
+      {
+        user: { type: mongoose.Types.ObjectId, ref: "User" },
+      },
+    ],
     // googleId: {
     //   type: String,
     //   require: true,

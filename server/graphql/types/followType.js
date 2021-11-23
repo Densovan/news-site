@@ -23,8 +23,8 @@ const FollowType = new GraphQLObjectType({
     createdAt: {
       type: GraphQLString,
     },
-    notifications: { 
-      type: new GraphQLList(objectNotification)
+    notifications: {
+      type: new GraphQLList(objectNotification),
     },
     user: {
       type: userType,
