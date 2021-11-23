@@ -1,49 +1,46 @@
-import React, { useState, Fragment, useContext } from 'react';
+import { Fragment, useState } from 'react';
 import {
+  Card,
   Row,
   Col,
-  Layout,
-  Spin,
-  Card,
-  Avatar,
   Tooltip,
   Result,
-  Input,
+  Layout,
+  Avatar,
+  Spin,
+  center,
 } from 'antd';
-import parse from 'html-react-parser';
-import pretty from "pretty-date";
-import { CaretRightOutlined } from '@ant-design/icons';
-import Link from 'next/link';
+import NewsVote from '../common/news.vote';
 import { useQuery } from '@apollo/client';
-import { useAuth } from '../../layouts/layoutAuth';
+import parse from 'html-react-parser';
+import pretty from 'pretty-date';
+import { CaretRightOutlined } from '@ant-design/icons';
 import {
   GET_ALL_NEWS,
-  GET_USER,
   GET_VOTE_UP_DOWN,
   GET_ALL_VOTE_UP_DOWN,
 } from '../../graphql/query';
-import moment from 'moment';
-import Medium from '../../components/loaders/newsLoader';
+import Link from 'next/dist/client/link';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import NewsVote from '../../components/common/news.vote';
+import Medium from '../loaders/newsLoader';
 
-const { Content } = Layout;
-
-const AllNews = ({ selectedTags, loadingFilter }) => {
-  const { isAuthenticated } = useAuth();
+const Content = ({
+  selectedTags,
+  loadingFilter,
+  news,
+  loadingNews,
+  refetch
+}) => {
   const server = process.env.API_SECRET;
   const server_local = process.env.API_SECRET_LOCAL;
   const develop = process.env.NODE_ENV;
   const URL_ACCESS = develop === 'development' ? server_local : server;
 
-  const [hasMoreItems, setHasMoreItems] = useState(true);
-  //=============get last News===========
-  const { loading, data: news, fetchMore, refetch } = useQuery(GET_ALL_NEWS);
   const { data: vote_up_down, loading: vote_up_down_loading } =
     useQuery(GET_VOTE_UP_DOWN);
   const { data: get_all_vote, loading: loading_all_vote } =
     useQuery(GET_ALL_VOTE_UP_DOWN);
-  if (loading || vote_up_down_loading || loading_all_vote)
+  if (loadingNews || vote_up_down_loading || loading_all_vote || loadingFilter)
     return (
       <div>
         <Medium />
@@ -52,7 +49,7 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
   const result = [];
   if (!loadingFilter) {
     if (selectedTags.length === 0) {
-      news.get_all_news.map((news) => {
+      news.map((news) => {
         result.push(news);
       });
     } else {
@@ -63,11 +60,11 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
         }
       });
       if (selectedTag[0] == 'All') {
-        news.get_all_news.map((news) => {
+        news.map((news) => {
           result.push(news);
         });
       } else {
-        news.get_all_news.filter((news) => {
+        news.filter((news) => {
           return selectedTags.map((selectedTag) => {
             if (
               news.categories.name === selectedTag ||
@@ -85,14 +82,17 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
     return <>{pretty.format(new Date(created_date))}</>;
   };
   return (
-    <React.Fragment>
-      {loadingFilter ? (
-        <div>
-          {' '}
-          <Medium />{' '}
-        </div>
-      ) : (
-        <Fragment>
+    // <Fragment>
+    //   {loadingFilter ? (
+    //     <div>
+    //       {' '}
+    //       <Medium />{' '}
+    //     </div>
+    //   ) : (
+        
+    //   )}
+    // </Fragment>
+    <Fragment>
           {result.length === 0 && (
             <div>
               <Result
@@ -103,13 +103,8 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
             </div>
           )}
           {result.map((res, index) => {
-            // console.log(res.user.accountId, "accountId");
             return (
-              <Card
-                // style={{ padding: "-10px" }}
-                className="card-article"
-                key={index}
-              >
+              <Card className="card-article" key={index}>
                 <Row gutter={[8, 8]}>
                   <Col xs={24} md={7}>
                     <div
@@ -119,11 +114,7 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
                       }}
                     ></div>
                   </Col>
-                  <Col
-                    xs={24}
-                    md={16}
-                    className="box-news"
-                  >
+                  <Col xs={24} md={16} className="box-news">
                     <Link
                       href={`/profile_detial/${
                         res.user.accountId
@@ -164,9 +155,6 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
                           </Tooltip>
                           <li className="news-name">
                             {timeAgo(res.createdAt)}
-                            {/* {moment
-                              .unix(res.createdAt / 1000)
-                              .format('DD-MM-YYYY')} */}
                           </li>
                         </div>
                       </div>
@@ -209,7 +197,7 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
                       voteCount={res.voteCount}
                       vote_up_down={vote_up_down}
                       get_all_vote={get_all_vote}
-                      title={res.title.substring(0, 80) + " ..."}
+                      title={res.title.substring(0, 80) + ' ...'}
                       refetch={refetch}
                     />
                   </Col>
@@ -217,43 +205,8 @@ const AllNews = ({ selectedTags, loadingFilter }) => {
               </Card>
             );
           })}
-          <InfiniteScroll
-            dataLength={news.get_all_news.length}
-            next={async () => {
-              await fetchMore({
-                variables: {
-                  offset: news.get_all_news.length,
-                },
-                updateQuery: (prev, { fetchMoreResult }) => {
-                  if (!fetchMoreResult) return prev;
-
-                  if (fetchMoreResult.get_all_news.length < 6) {
-                    setHasMoreItems(false);
-                  }
-
-                  return Object.assign({}, prev, {
-                    get_all_news: [
-                      ...prev.get_all_news,
-                      ...fetchMoreResult.get_all_news,
-                    ],
-                  });
-                },
-              });
-            }}
-            hasMore={hasMoreItems}
-            loader={
-              <Content style={{ marginTop: '15px' }}>
-                <center>
-                  <Spin></Spin>
-                </center>
-              </Content>
-            }
-            endMessage={null}
-          ></InfiniteScroll>
         </Fragment>
-      )}
-    </React.Fragment>
   );
 };
 
-export default AllNews;
+export default Content;

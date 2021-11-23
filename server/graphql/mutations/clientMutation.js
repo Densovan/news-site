@@ -25,9 +25,9 @@ const saveNews = require("../types/saveNewsType");
 const likeTopDownType = require("../types/likeTopDownType");
 const voteType = require("../types/voteType");
 const chattype = require("../types/chat");
-const NewsNotificationType = require("../types/newsNotificationType");
-const ConversationNotificationType = require("../types/conversationNotificationType");
-const VoteNotificationType = require("../types/voteNotificationType");
+// const NewsNotificationType = require("../types/newsNotificationType");
+// const ConversationNotificationType = require("../types/conversationNotificationType");
+// const VoteNotificationType = require("../types/voteNotificationType");
 //===============model===============
 const NewsModel = require("../../models/news");
 const UserModel = require("../../models/user");
@@ -36,6 +36,7 @@ const AnswerModel = require("../../models/comment/answer");
 const LikeModel = require("../../models/like");
 const NotificationModel = require("../../models/notification");
 const FollowModel = require("../../models/follow");
+const Test = require("../../models/test");
 // const NotiModel = require("../../models/notifications");
 const NoticheckModel = require("../../models/notiCheck");
 const SaveNewsModel = require("../../models/saveNews");
@@ -44,12 +45,8 @@ const VoteModel = require("../../models/vote");
 const SaveNewsType = require("../types/saveNewsType");
 // const Chat = require("../../models/chat");
 const NewsNotificationModel = require("../../models/newsNotification");
-const ConversationNotificationModel = require("../../models/conversationNotification");
-const VoteNotificationModel = require("../../models/voteNotification");
-const { pubsub } = require("../../subscription");
+const { pubSub } = require("../../helper/PubSub");
 const { default: axios } = require("axios");
-const QuestionType = require("../types/comment/questionType");
-const { post } = require("../../routes/userRouter");
 const Comments = require("../../models/comments/comments");
 const Notification = require("../../models/notifications/notification");
 const LikeNotificationModel = require("../../models/notifications/likeNotification");
@@ -71,7 +68,11 @@ const RootMutation = new GraphQLObjectType({
       resolve: async (parents, args, context) => {
         try {
           const existingSlug = await NewsModel.findOne({ title: args.title });
-          const userFollower = await FollowModel.find({ followTo: context.id });
+          const userFollower = await FollowModel.find({
+            followTo: context.id,
+            type: "follow",
+          });
+
           if (existingSlug) {
             return { message: "This Title already exist!", status: 400 };
           } else {
@@ -1011,14 +1012,29 @@ const RootMutation = new GraphQLObjectType({
             } else if (existingVote.voteUp === 0 && args.type === "up") {
               await VoteModel.findOneAndUpdate(
                 { postId: args.postId, userId: context.id },
-                { type: args.type, voteUp: 1, voteDown: 0, count: args.count }
+                {
+                  type: args.type,
+                  voteUp: 1,
+                  voteDown: 0,
+                  count: args.count,
+                  notifications: [
+                    { userId: args.ownerId, read: true, hide: true, count: 1 },
+                  ],
+                }
               );
-
               return { message: "add successfully" };
             } else if (existingVote.voteDown === 0 && args.type === "down") {
               await VoteModel.findOneAndUpdate(
                 { postId: args.postId, userId: context.id },
-                { type: args.type, voteDown: 1, voteUp: 0, count: args.count }
+                {
+                  type: args.type,
+                  voteDown: 1,
+                  voteUp: 0,
+                  count: args.count,
+                  notifications: [
+                    { userId: args.ownerId, read: true, hide: true, count: 1 },
+                  ],
+                }
               );
               return { message: "add successfully" };
             } else {

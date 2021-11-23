@@ -47,7 +47,7 @@ const NewsNotificationType = new GraphQLObjectType({
 module.exports = NewsNotificationType;
 
 //==========type==============
-const checknotificationType = require("./checkNotifications");
+
 const userType = require("./userType");
 const newsType = require("./newsType");
 const objectNotification = require("./objectNotificationType");

@@ -1,17 +1,22 @@
-import React, { useState } from "react";
-import { Breadcrumb, Row, Col } from "antd";
-// import MainNavbar from "../../components/Layouts/mainNavbar";
-// import Categories from "../categories/news";
-import FilterNews from "./filterNews";
-import Main from "./main";
-import Footer from "../../components/Layouts/footer";
+import React, { useState } from 'react';
+import { Breadcrumb, Row, Col, Avatar, Input } from 'antd';
+import FilterNews from './filterNews';
+import Main from './main';
+import Footer from '../../components/Layouts/footer';
+import FilterNavbar from '../Layouts/filterNavbar';
+import { useAuth } from '../../layouts/layoutAuth';
+import Link from 'next/link';
+import Content from '../globals/Content';
+import Filter from '../globals/Filter';
+import Suggestion from '../globals/Suggestion';
 
 const index = ({ data, fetchMore, userData, vote_up_down, get_all_vote }) => {
   const [state, setState] = useState({
-    selectedTags: ["All"],
+    selectedTags: ['All'],
     loading: false,
   });
 
+  const { isAuthenticated, user } = useAuth();
   const handleChange = (tag, checked) => {
     const { selectedTags } = state;
     const nextSelectedTags = checked
@@ -26,31 +31,45 @@ const index = ({ data, fetchMore, userData, vote_up_down, get_all_vote }) => {
   return (
     <React.Fragment>
       <div className="container">
-        {/* <center>
-          <h1 className="top-title-allNews">News</h1>
-          <Breadcrumb style={{ marginTop: "-24px" }}>
-            <Breadcrumb.Item>Home</Breadcrumb.Item>
-            <Breadcrumb.Item>News</Breadcrumb.Item>
-          </Breadcrumb>
-        </center> */}
         <br></br>
         <Row gutter={[16, 16]}>
-          <Col xs={24} md={16}>
-            <Main
-              data={data}
-              vote_up_down={vote_up_down}
-              get_all_vote={get_all_vote}
-              userData={userData}
-              fetchMore={fetchMore}
-              selectedTags={state.selectedTags}
-              loadingFilter={state.loading}
-              get_all_vote={get_all_vote}
-            />
-          </Col>
           <Col xs={24} md={8}>
-            <FilterNews
+            <Filter 
               handleChange={handleChange}
               selectedTags={state.selectedTags}
+            />
+            <Suggestion user={user} isAuthenticated={isAuthenticated}/>
+          </Col>
+          <Col xs={24} md={16}>
+            {isAuthenticated === true && (
+              <Row className="status-style">
+                <Col span={2}>
+                  <center>
+                    <Avatar
+                      style={{
+                        height: 35,
+                        width: 35,
+                        cursor: 'pointer',
+                        border: 'solid 2px #ffffff9d',
+                      }}
+                      src={user && user.user.get_user.image}
+                      shape="circle"
+                    />
+                  </center>
+                </Col>
+                <Col span={22}>
+                  <Link href="/dashboard/addstory">
+                    <Input size="middle" placeholder="Write your story" />
+                  </Link>
+                </Col>
+              </Row>
+            )}
+            <FilterNavbar />
+            <Content 
+              selectedTags={state.selectedTags}
+              loadingFilter={state.loading}
+              news={data.search_news_title}
+              loadingNews={state.loading}
             />
           </Col>
         </Row>

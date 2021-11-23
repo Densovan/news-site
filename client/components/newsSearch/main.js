@@ -1,4 +1,5 @@
 import React, { useState, Fragment, useContext } from "react";
+import pretty from "pretty-date";
 import {
   Row,
   Col,
@@ -17,9 +18,8 @@ import { useQuery } from "@apollo/client";
 import moment from "moment";
 import Medium from "../../components/loaders/newsLoader";
 import InfiniteScroll from "react-infinite-scroll-component";
-import SmallNavbar from "../../components/Layouts/smallNavbar";
 import { useAuth } from "../../layouts/layoutAuth";
-import NewLike from "../../components/common/news.like";
+import NewsVote from '../common/news.vote';
 
 const { Content } = Layout;
 
@@ -28,6 +28,7 @@ const AllNews = ({
   loadingFilter,
   data,
   fetchMore,
+  refetch,
   userData,
   vote_up_down,
   get_all_vote,
@@ -72,53 +73,16 @@ const AllNews = ({
       }
     }
   }
+  const timeAgo = (time) => {
+    var created_date = new Date(time * 1000).getTime() / 1000;
+    return <>{pretty.format(new Date(created_date))}</>;
+  };
   return (
     <React.Fragment>
-      {isAuthenticated === true && (
-        <Row className="status-style">
-          <Col span={2}>
-            <center>
-              <Avatar
-                style={{
-                  height: 35,
-                  width: 35,
-                  // paddingTop: 0,
-                  // marginLeft: 18,
-                  cursor: "pointer",
-                  border: "solid 2px #ffffff9d",
-                }}
-                src={userData.get_user.image}
-                shape="circle"
-                // size="large"
-              />
-            </center>
-          </Col>
-          <Col span={22}>
-            <Link href="/dashboard/addstory">
-              <Input size="middle" placeholder="Write your story" />
-            </Link>
-          </Col>
-          {/* <Col span={4}>
-          <div className="icon-small-navbar">
-            <div className="icon1-small-navbar">
-              <Link href="/dashboard/addstory">
-                <AiOutlinePicture size={20} />
-              </Link>
-            </div>
-            <div className="icon1-small-navbar">
-              <Link href="/dashboard/addstory">
-                <AiOutlineLink size={20} />
-              </Link>
-            </div>
-          </div>
-        </Col> */}
-        </Row>
-      )}
-      <SmallNavbar />
       {loadingFilter ? (
         <div>
-          {" "}
-          <Medium />{" "}
+          {' '}
+          <Medium />{' '}
         </div>
       ) : (
         <Fragment>
@@ -132,55 +96,85 @@ const AllNews = ({
             </div>
           )}
           {result.map((res, index) => {
+            // console.log(res.user.accountId, "accountId");
             return (
-              <Card className="card-article" key={index}>
-                <Row>
-                  <Col xs={24} md={16} className="box-news">
-                    <div className="header-card-article">
-                      <Avatar src={res.user.image} />
-                      <div className="profile-name-time">
-                        <Tooltip
-                          placement="right"
-                          title={
-                            <div style={{ padding: 8 }}>
-                              <div className="header-card-article">
-                                <Avatar src={res.user.image} />
-                                <div
-                                  className="card-name"
-                                  style={{ marginLeft: 4 }}
-                                >
-                                  {res.user.fullname}
+              <Card
+                // style={{ padding: "-10px" }}
+                className="card-article"
+                key={index}
+              >
+                <Row gutter={[8, 8]}>
+                  <Col xs={24} md={7}>
+                    <div
+                      className="image-news-style"
+                      style={{
+                        backgroundImage: `url(${URL_ACCESS}/public/uploads//${res.thumnail})`,
+                      }}
+                    ></div>
+                  </Col>
+                  <Col
+                    xs={24}
+                    md={16}
+                    className="box-news"
+                  >
+                    <Link
+                      href={`/profile_detial/${
+                        res.user.accountId
+                      }#${res.user.fullname
+                        .replace(
+                          /[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g,
+                          '-',
+                        )
+                        .toLowerCase()}`}
+                    >
+                      <div className="header-card-article">
+                        <Avatar src={res.user.image} />
+
+                        <div className="profile-name-time">
+                          <Tooltip
+                            placement="right"
+                            title={
+                              <div style={{ padding: 8 }}>
+                                <div className="header-card-article">
+                                  <Avatar src={res.user.image} />
+                                  <div
+                                    className="card-name"
+                                    style={{ marginLeft: 4 }}
+                                  >
+                                    {res.user.fullname}
+                                  </div>
+                                </div>
+                                <div style={{ paddingTop: 4 }}>
+                                  {res.user.bio}
                                 </div>
                               </div>
-                              <div style={{ paddingTop: 4 }}>
-                                {res.user.bio}
-                              </div>
-                            </div>
-                          }
-                          className="card-name"
-                        >
-                          <li style={{ cursor: "pointer" }}>
-                            {res.user.fullname}
+                            }
+                            className="card-name"
+                          >
+                            <li style={{ cursor: 'pointer' }}>
+                              {res.user.fullname}
+                            </li>
+                          </Tooltip>
+                          <li className="news-name">
+                            {timeAgo(res.createdAt)}
+                            {/* {moment
+                              .unix(res.createdAt / 1000)
+                              .format('DD-MM-YYYY')} */}
                           </li>
-                        </Tooltip>
-                        <li className="news-name">
-                          {moment
-                            .unix(res.createdAt / 1000)
-                            .format("DD-MM-YYYY")}
-                        </li>
+                        </div>
                       </div>
-                    </div>
+                    </Link>
                     <div className="news-content">
                       <div className="title-text-card">
-                        {res.title.length <= 50
+                        {res.title.length <= 48
                           ? res.title
-                          : res.title.substring(0, 50) + " ..."}
+                          : res.title.substring(0, 48) + ' ...'}
                       </div>
                       <div className="text-content-card">
                         {parse(
-                          res.des.length <= 70
+                          res.des.length <= 120
                             ? res.des
-                            : res.des.substring(0, 70) + "..."
+                            : res.des.substring(0, 120) + '...',
                         )}
                       </div>
                     </div>
@@ -189,8 +183,8 @@ const AllNews = ({
                         <button className="type-category">
                           {res.types.name}
                           <span>
-                            <CaretRightOutlined style={{ fontSize: "10px" }} />
-                          </span>{" "}
+                            <CaretRightOutlined style={{ fontSize: '10px' }} />
+                          </span>{' '}
                           {res.categories.name}
                         </button>
                         <Link href={`/detail/${res.slug}`}>
@@ -199,28 +193,18 @@ const AllNews = ({
                           </button>
                         </Link>
                       </div>
-                      <NewLike
-                        postId={res.id}
-                        ownerId={res.user.id}
-                        voteCount={res.voteCount}
-                        vote_up_down={vote_up_down}
-                        get_all_vote={get_all_vote}
-                      />
                     </div>
                   </Col>
-                  <Col xs={24} md={8}>
-                    <div
-                      className="image-news-style"
-                      style={{
-                        backgroundImage: `url(${URL_ACCESS}/public/uploads//${res.thumnail})`,
-                      }}
-                    >
-                      {/* <img
-                        height="100%"
-                        width="200"
-                        src={`${URL_ACCESS}/public/uploads//${res.thumnail}`}
-                      /> */}
-                    </div>
+                  <Col xs={24} md={1} style={{ position: 'relative' }}>
+                    <NewsVote
+                      postId={res.id}
+                      ownerId={res.user.accountId}
+                      voteCount={res.voteCount}
+                      vote_up_down={vote_up_down}
+                      get_all_vote={get_all_vote}
+                      title={res.title.substring(0, 80) + " ..."}
+                      refetch={refetch}
+                    />
                   </Col>
                 </Row>
               </Card>
@@ -231,7 +215,7 @@ const AllNews = ({
             next={async () => {
               await fetchMore({
                 variables: {
-                  offset: data.search_news_title.length,
+                  offset: data.search_news_title.get_all_news.length,
                 },
                 updateQuery: (prev, { fetchMoreResult }) => {
                   if (!fetchMoreResult) return prev;
@@ -241,7 +225,7 @@ const AllNews = ({
                   }
 
                   return Object.assign({}, prev, {
-                    search_news_title: [
+                    get_all_news: [
                       ...prev.search_news_title,
                       ...fetchMoreResult.search_news_title,
                     ],
@@ -251,7 +235,7 @@ const AllNews = ({
             }}
             hasMore={hasMoreItems}
             loader={
-              <Content style={{ marginTop: "15px" }}>
+              <Content style={{ marginTop: '15px' }}>
                 <center>
                   <Spin></Spin>
                 </center>

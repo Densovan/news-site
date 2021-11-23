@@ -2,7 +2,6 @@ const graphql = require("graphql");
 
 //=============model=============
 const NewsNotificationModel = require("../../models/newsNotification");
-const ConversationNotificationModel = require("../../models/conversationNotification");
 const VoteModel = require("../../models/vote");
 const FollowModel = require("../../models/follow");
 const User = require("../../models/user");
@@ -105,7 +104,6 @@ module.exports = NotificationType;
 
 //=============type===========
 const NewsNotificationType = require("./newsNotificationType");
-const ConversationNotificationType = require("./conversationNotificationType");
 const VoteType = require("./voteType");
 const FollowType = require("./followType");
 const userType = require("./userType");
