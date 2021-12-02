@@ -699,8 +699,26 @@ const RootQuery = new GraphQLObjectType({
 
     get_notificationss: {
       type: new GraphQLList(NotificationssType),
-      resolve: (parent, args, context) => {
-        const data = NotificationssModel.find();
+      resolve: async (parent, args, context) => {
+        const datalike = await NotificationssModel.find({
+          postUserId: context.id,
+          type: "like",
+        });
+        const datafollow = await NotificationssModel.find({
+          followingId: context.id,
+          type: "follow",
+        });
+        const data = [];
+        if (datalike.length > 0) {
+          datalike.forEach((e) => {
+            data.push(e);
+          });
+        }
+        if (datafollow.length > 0) {
+          datafollow.forEach((e) => {
+            data.push(e);
+          });
+        }
         return data;
       },
     },

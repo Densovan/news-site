@@ -189,7 +189,7 @@ const GET_TYPES = gql`
 `;
 
 const GET_OWN_NEWS = gql`
-  query ($limit: Int!, $offset: Int!) {
+  query ($limit: Int, $offset: Int) {
     get_own_news(limit: $limit, offset: $offset) {
       voteCount
       title

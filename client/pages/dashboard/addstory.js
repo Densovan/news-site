@@ -197,6 +197,7 @@ const Addstory = () => {
     add_news({
       variables: {
         ...values,
+        // des: JSON.stringify(des),
         des: des,
         thumnail: state.imageUrl,
         // des: JSON.stringify(saveDescription),

@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useState, useEffect } from "react";
 
 import {
   Layout,
@@ -13,17 +13,17 @@ import {
   Col,
   Typography,
   Avatar,
-  Divider
-} from 'antd';
-import { useRouter } from 'next/router';
+  Divider,
+} from "antd";
+import { useRouter } from "next/router";
 import Link from "next/link";
-import { useAuth } from '../../layouts/layoutAuth';
-import { MdNotificationsNone, MdArrowDropDown } from 'react-icons/md';
-import { useQuery, useMutation } from '@apollo/client';
-import { GET_NOTIFICATION } from '../../graphql/query';
-import { SHOW_NOTIFICATION } from '../../graphql/mutation';
+import { useAuth } from "../../layouts/layoutAuth";
+import { MdNotificationsNone, MdArrowDropDown } from "react-icons/md";
+import { useQuery, useMutation } from "@apollo/client";
+import { GET_NOTIFICATION } from "../../graphql/query";
+import { SHOW_NOTIFICATION } from "../../graphql/mutation";
 import Logout from "../actions/logout";
-import Notification from '../common/notification';
+import Notification from "../common/notification";
 import { TiUser, TiUserAdd } from "react-icons/ti";
 
 const Header = () => {
@@ -76,12 +76,12 @@ const Header = () => {
           var cube = cubes[i];
           if (
             cube.user.fullname !== user.user.get_user.fullname ||
-            cube.type === 'follow' ||
-            cube.type === 'reply'
+            cube.type === "follow" ||
+            cube.type === "reply"
           ) {
             data.push(cube);
             const result = cube.notifications.filter(
-              (item) => item.user.accountId === user.user.get_user.accountId,
+              (item) => item.user.accountId === user.user.get_user.accountId
             );
             if (result.length == 0) {
               sum += 0;
@@ -98,7 +98,7 @@ const Header = () => {
   }, [notifications, user]);
 
   const handleProfileClick = () => {
-    console.log('hello');
+    console.log("hello");
   };
   const onSearch = (value) => {
     if (value === "") {
@@ -112,44 +112,44 @@ const Header = () => {
 
   return (
     <Fragment>
-        <Layout.Header
-          className="header"
-          style={{
-            backgroundColor: '#EDEDED',
-            height: '64px',
-            lineHeight: '64px',
-          }}
-        >
-          <div className="navbar-container">
-            <Link href="/">
-              <div className="logo">
-                  <img src="/assets/images/logo_koompi.png" height="100%" />
-              </div>
-            </Link>
-            <div className="center">
-              <div>
-                <Input.Search
-                  className="inputSearch"
-                  placeholder="input search text"
-                  onSearch={onSearch}
-                  size="large"
-                  enterButton
-                />
-              </div>
+      <Layout.Header
+        className="header"
+        style={{
+          backgroundColor: "#EDEDED",
+          height: "64px",
+          lineHeight: "64px",
+        }}
+      >
+        <div className="navbar-container">
+          <Link href="/">
+            <div className="logo">
+              <img src="/assets/images/logo_koompi.png" height="100%" />
             </div>
-            <div className="right">
-              {!isAuthenticated && (
-                <div style={{ display: "flex", alignItems: "center" }}>
-                  <div className="top-nav-rigth">
-                    <TiUser className="gmail-top-nav" />
-                    <Link href="/signin">Sign in</Link>
-                    <Divider className="devider-top-nav" type="vertical" />
-                    <TiUserAdd size={19} className="gmail-top-nav" />
-                    <Link href="/register">Register</Link>
-                  </div>
+          </Link>
+          <div className="center">
+            <div>
+              <Input.Search
+                className="inputSearch"
+                placeholder="input search text"
+                onSearch={onSearch}
+                size="large"
+                enterButton
+              />
+            </div>
+          </div>
+          <div className="right">
+            {!isAuthenticated && (
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <div className="top-nav-rigth">
+                  <TiUser className="gmail-top-nav" />
+                  <Link href="/signin">Sign in</Link>
+                  <Divider className="devider-top-nav" type="vertical" />
+                  <TiUserAdd size={19} className="gmail-top-nav" />
+                  <Link href="/register">Register</Link>
                 </div>
-              )}
-              {isAuthenticated && (
+              </div>
+            )}
+            {isAuthenticated && (
               <Space size={12}>
                 <div>
                   <Badge count={state.sum} overflowCount={99}>
@@ -157,7 +157,7 @@ const Header = () => {
                       onClick={handleProfileClick}
                       placement="bottomRight"
                       overlay={
-                        <Menu style={{ backgroundColor: 'white' }}>
+                        <Menu style={{ backgroundColor: "white" }}>
                           <div className="contain-notification">
                             <div className="drop-notification">
                               <Row
@@ -166,7 +166,13 @@ const Header = () => {
                                 className="header-notification"
                               >
                                 <Col>
-                                  <div style={{ color: 'black', fontWeight: "bold", fontSize: "18px"}}>
+                                  <div
+                                    style={{
+                                      color: "black",
+                                      fontWeight: "bold",
+                                      fontSize: "18px",
+                                    }}
+                                  >
                                     Notifications
                                   </div>
                                 </Col>
@@ -182,19 +188,19 @@ const Header = () => {
                           </div>
                         </Menu>
                       }
-                      trigger={['click']}
+                      trigger={["click"]}
                       onVisibleChange={handleVisibleChange}
                       visible={visible}
                     >
                       <div className="dropdownBox">
                         <MdNotificationsNone
                           style={{
-                            color: '#C1C1C1',
-                            fontSize: '24px',
-                            position: 'absolute',
-                            top: '50%',
-                            left: '50%',
-                            transform: ' translate(-50%,-50%)',
+                            color: "#C1C1C1",
+                            fontSize: "24px",
+                            position: "absolute",
+                            top: "50%",
+                            left: "50%",
+                            transform: " translate(-50%,-50%)",
                           }}
                         />
                       </div>
@@ -206,45 +212,61 @@ const Header = () => {
                     onClick={handleProfileClick}
                     placement="bottomRight"
                     overlay={
-                      <Menu style={{ padding: '8px' }}>
+                      <Menu style={{ padding: "8px" }}>
                         <Menu.Item>
-                          <a onClick={(e) => {e.preventDefault(), router.push('/dashboard/allstories')}}>
-                          <div className="control-avatar">
-                            <Avatar
+                          <a
+                            onClick={(e) => {
+                              e.preventDefault(),
+                                router.push("/dashboard/allstories");
+                            }}
+                          >
+                            <div className="control-avatar">
+                              {/* <Avatar
                                 className="avatar-1"
                                 size="large"
-                                src={authenticate !== null &&
+                                src={
+                                  authenticate !== null &&
                                   authenticate.user.get_user.image
                                 }
-                              />
-                            <div>
+                              /> */}
                               <div>
-                                <a>
-                                  <span className="name">
-                                    {authenticate !== null &&
-                                      authenticate.user.get_user.fullname}
-                                  </span>
-                                </a>
-                              </div>
-                              <div>
-                                <a href="#">
-                                  <span className="email">
-                                    {authenticate !== null &&
-                                      authenticate.user.get_user.email}
-                                  </span>
-                                </a>
+                                <div>
+                                  <a>
+                                    <span className="name">
+                                      {authenticate !== null &&
+                                        authenticate.user.get_user.fullname}
+                                    </span>
+                                  </a>
+                                </div>
+                                <div>
+                                  <a href="#">
+                                    <span className="email">
+                                      {authenticate !== null &&
+                                        authenticate.user.get_user.email}
+                                    </span>
+                                  </a>
+                                </div>
                               </div>
                             </div>
-                          </div>
                           </a>
                         </Menu.Item>
                         <Menu.Item>
-                          <a onClick={(e) => {e.preventDefault(), router.push('/dashboard/addstory')}}>
+                          <a
+                            onClick={(e) => {
+                              e.preventDefault(),
+                                router.push("/dashboard/addstory");
+                            }}
+                          >
                             <span>Write a story</span>
                           </a>
                         </Menu.Item>
                         <Menu.Item>
-                          <a onClick={(e) => {e.preventDefault(), router.push('/dashboard/editProfile')}}>
+                          <a
+                            onClick={(e) => {
+                              e.preventDefault(),
+                                router.push("/dashboard/editProfile");
+                            }}
+                          >
                             <span>Settings</span>
                           </a>
                         </Menu.Item>
@@ -253,27 +275,27 @@ const Header = () => {
                         </Menu.Item>
                       </Menu>
                     }
-                    trigger={['click']}
+                    trigger={["click"]}
                   >
                     <div className="dropdownBox">
                       <MdArrowDropDown
                         style={{
-                          color: '#C1C1C1',
-                          fontSize: '24px',
-                          position: 'absolute',
-                          top: '50%',
-                          left: '50%',
-                          transform: ' translate(-50%,-50%)',
+                          color: "#C1C1C1",
+                          fontSize: "24px",
+                          position: "absolute",
+                          top: "50%",
+                          left: "50%",
+                          transform: " translate(-50%,-50%)",
                         }}
                       />
                     </div>
                   </Dropdown>
                 </div>
               </Space>
-              )}
-            </div>
+            )}
           </div>
-        </Layout.Header>
+        </div>
+      </Layout.Header>
     </Fragment>
   );
 };

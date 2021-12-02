@@ -73,9 +73,9 @@ const newsSchema = new Schema(
       type: String,
     },
   },
-  {
-    versionKey: false, // set to false then it wont create in mongodb
-  },
+  // {
+  //   versionKey: false, // set to false then it wont create in mongodb
+  // },
   {
     timestamps: true,
   }

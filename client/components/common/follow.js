@@ -58,7 +58,7 @@ const Follow = ({ articleUser, user, follows }) => {
           variables: {
             followTo: articleUser.accountId,
           },
-          refetchQueries:[{ query: GET_FOLLOWS }]
+          refetchQueries: [{ query: GET_FOLLOWS }],
         }).then((response) => {
           notification.open({
             closeIcon: true,

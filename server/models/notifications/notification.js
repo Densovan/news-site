@@ -14,6 +14,12 @@ const Notification = new mongoose.Schema(
     type: {
       type: String,
     },
+    followingId: {
+      type: String, // foreign key ID from User
+    },
+    followerId: {
+      type: String, // foreign key ID from User
+    },
     read: {
       type: Boolean,
       default: false,

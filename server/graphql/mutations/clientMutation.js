@@ -50,6 +50,7 @@ const { default: axios } = require("axios");
 const Comments = require("../../models/comments/comments");
 const Notification = require("../../models/notifications/notification");
 const LikeNotificationModel = require("../../models/notifications/likeNotification");
+const FollowNotification = require("../../models/notifications/followNotification");
 
 const RootMutation = new GraphQLObjectType({
   name: "RootMutationType",
@@ -1592,6 +1593,7 @@ const RootMutation = new GraphQLObjectType({
           const post_id1 = await LikeNotificationModel.findOne({
             postId: args.postId,
             userId: context.id,
+            postUserId: args.postUserId,
           });
           //check if the post has already been liker
           if (
@@ -1614,7 +1616,14 @@ const RootMutation = new GraphQLObjectType({
             if (post_id1) {
               await LikeNotificationModel.findOneAndDelete({
                 postId: args.postId,
+                postUserId: args.postUserId,
                 userId: context.id,
+              });
+              await Notification.findOneAndDelete({
+                postId: args.postId,
+                userId: context.id,
+                postUserId: args.postUserId,
+                type: "like",
               });
             }
             return { message: "delete like", post_id: post_id };
@@ -1706,11 +1715,20 @@ const RootMutation = new GraphQLObjectType({
       type: userType,
       args: {
         userId: { type: GraphQLID },
+        // followingId: { type: GraphQLID },
+        // followerId: { type: GraphQLID },
       },
       resolve: async (parent, args, context) => {
         try {
           const userId = await UserModel.findOne({ accountId: context.id });
           const userId1 = await UserModel.findOne({ accountId: args.userId });
+          const notification = await Notification.findOne({
+            userId: context.id,
+            type: "follow",
+          });
+          const follownotification = await FollowNotification.findOne({
+            userId: context.id,
+          });
           if (
             userId.followings.some(
               (follow) => follow.user.toString() === args.userId
@@ -1722,12 +1740,36 @@ const RootMutation = new GraphQLObjectType({
             userId1.followers = userId1.followers.filter(
               (follow) => follow.user.toString() !== context.id
             );
+            if (notification) {
+              await Notification.findOneAndDelete({
+                type: "follow",
+                userId: context.id,
+              });
+            }
+            if (follownotification) {
+              await FollowNotification.findOneAndDelete({
+                userId: context.id,
+              });
+            }
             await userId.save();
             await userId1.save();
             console.log("Delete");
           } else {
             await userId.followings.unshift({ user: args.userId });
             await userId1.followers.unshift({ user: context.id });
+            const followNoti = new FollowNotification({
+              userId: context.id,
+              followerId: context.id,
+              followingId: args.userId,
+            });
+            const noti = new Notification({
+              userId: context.id,
+              followerId: context.id,
+              followingId: args.userId,
+              type: "follow",
+            });
+            await followNoti.save();
+            await noti.save();
             await userId.save();
             await userId1.save();
             console.log("add");

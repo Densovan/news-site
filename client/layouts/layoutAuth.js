@@ -145,7 +145,7 @@ export const AuthProvider = ({ children, token }) => {
                               cursor: "pointer",
                               border: "solid 2px #ffffff9d",
                             }}
-                            src={user && user.user.get_user.image}
+                            // src={user && user.user.get_user.image}
                             shape="circle"
                           />
                         </center>

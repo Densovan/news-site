@@ -89,11 +89,27 @@ app.get("/auth/logouts", (req, res) => {
   }
 });
 // //===========client API================
+// app.use(
+//   "/api",
+//   graphqlHTTP(async (req, res) => {
+//     const access_token = req.headers["authorization"].split(" ")[1];
+//     const user = jwt.decode(access_token, process.env.PRIVATE_KEY);
+//     return {
+//       context: user,
+//       graphiql: true,
+//       schema: clientSchema,
+//     };
+//   })
+// );
 app.use(
   "/api",
-  graphqlHTTP(async (req, res) => {
-    const access_token = req.headers["authorization"].split(" ")[1];
-    const user = jwt.decode(access_token, process.env.PRIVATE_KEY);
+  graphqlHTTP(async (req) => {
+    let user;
+    if (req.headers.cookie.split("=")) {
+      const authorization = req.headers.cookie.split("=");
+      const access_token = authorization[2];
+      user = jwt.decode(access_token, process.env.PRIVATE_KEY);
+    }
     return {
       context: user,
       graphiql: true,
@@ -101,22 +117,6 @@ app.use(
     };
   })
 );
-// app.use(
-//   "/api",
-//   graphqlHTTP(async (req) => {
-//     let user;
-//     if (req.headers.cookie.split("=")) {
-//       const authorization = req.headers.cookie.split("=")
-//       const access_token = authorization[2];
-//       user = jwt.decode(access_token, process.env.PRIVATE_KEY);
-//     }
-//     return {
-//       context: user,
-//       graphiql: true,
-//       schema: clientSchema,
-//     };
-//   })
-// )
 
 //===========admin API================z
 app.use(

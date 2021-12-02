@@ -6,7 +6,7 @@ const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLList, GraphQLInt } =
 const User = require("../../../models/user");
 
 const LikeNotification = new GraphQLObjectType({
-  name: "notificationType",
+  name: "likenotificationType",
   fields: () => ({
     id: { type: GraphQLID },
     userId: { type: GraphQLID },
