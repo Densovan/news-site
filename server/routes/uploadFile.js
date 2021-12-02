@@ -51,8 +51,8 @@ router.post("/upload/profile", upload.single("file"), (req, res) => {
         // .resize(104, 104)
         .toFile("./" + req.file.path, () => {
           return res.json({
-            data: `https://backend.beecolony.org/public/uploads/${req.file.filename}`,
-            // data: `http://localhost:3500/public/uploads/${req.file.filename}`,
+            // data: `https://backend.beecolony.org/public/uploads/${req.file.filename}`,
+            data: `http://localhost:3500/public/uploads/${req.file.filename}`,
           });
         });
     })
@@ -69,8 +69,8 @@ router.post("/upload/image/editorjs", upload.single("image"), (req, res) => {
         return res.json({
           success: 1,
           file: {
-            url: `https://backend.beecolony.org/${req.file.path}`,
-            // url: `http://localhost:3500/${req.file.path}`,
+            // url: `https://backend.beecolony.org/${req.file.path}`,
+            url: `http://localhost:3500/${req.file.path}`,
           },
         });
       });

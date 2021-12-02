@@ -39,6 +39,7 @@ const ChangeProfilePicture = () => {
 
   const onPreview = async (file) => {
     let src = file.url;
+    console.log("preview",src);
     if (!src) {
       src = await new Promise((resolve) => {
         const reader = new FileReader();
@@ -59,6 +60,7 @@ const ChangeProfilePicture = () => {
 
   //===== Upload File Function =====
   const handleChange = async (info) => {
+    console.log(info);
     if (info.file.status === "uploading") {
       setState({ loading: true });
       return;
@@ -67,11 +69,13 @@ const ChangeProfilePicture = () => {
       console.log(info.file);
     }
     if (info.file.status === "done") {
+      console.log(info.file.response.data);
       await update_user({
         variables: { ...user, image: info.file.response.data },
+        refetchQueries: [{ query: GET_USER }],
       }).then(() => {
         message.success("Profile Image Changed Successful");
-        refetch();
+        // refetch();
         setState({ loading: false });
       });
     }
@@ -88,7 +92,7 @@ const ChangeProfilePicture = () => {
     }).then(async (res) => {
       setIsLoading(false);
       await message.success(res.data.update_user.message, 2);
-      window.location.replace("/dashboard/profile");
+      // window.location.replace("/dashboard/profile");
       // if (res.data.update_user.message === "The password is invalid!") {
       //   message.error(res.data.update_user.message);
       // } else if (
@@ -214,7 +218,7 @@ const ChangeProfilePicture = () => {
           </div>
         </div>
       )}
-      {!isAuthenticated && window.location.replace("/")}
+      {/* {!isAuthenticated && window.location.replace("/")} */}
       <br></br>
       <Footer />
     </React.Fragment>

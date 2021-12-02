@@ -18,7 +18,7 @@ import {
 import { useRouter } from 'next/router';
 import Link from "next/link";
 import { useAuth } from '../../layouts/layoutAuth';
-import { MdNotificationsNone, MdArrowDropDown } from 'react-icons/md';
+import { MdNotificationsNone, MdArrowDropDown, MdNotifications } from 'react-icons/md';
 import { useQuery, useMutation } from '@apollo/client';
 import { GET_NOTIFICATION } from '../../graphql/query';
 import { SHOW_NOTIFICATION } from '../../graphql/mutation';
@@ -41,6 +41,13 @@ const Header = () => {
 
   const [visible, setVisible] = useState(false);
   const handleVisibleChange = (visible) => {
+    if (visible==true) {
+      if (state.sum > 0) {
+        showNotifications({
+          refetchQueries: [{ query: GET_NOTIFICATION }],
+        });
+      }
+    }
     setVisible(visible);
   };
   const { isAuthenticated, user } = useAuth();
@@ -96,11 +103,8 @@ const Header = () => {
       setState({ sum: sum, notifications: data });
     }
   }, [notifications, user]);
-
-  const handleProfileClick = () => {
-    console.log('hello');
-  };
   const onSearch = (value) => {
+    console.log(value);
     if (value === "") {
       return;
     }
@@ -110,12 +114,21 @@ const Header = () => {
     setVisible(visible);
   };
 
+  const typeSearch = (event, text) => {
+    if (event.key === "Enter") {
+      if (text === "") {
+        return;
+      }
+      router.replace(`/search?keyword=${text}`);
+    }
+  }
+
   return (
     <Fragment>
         <Layout.Header
           className="header"
           style={{
-            backgroundColor: '#EDEDED',
+            backgroundColor: '#fff',
             height: '64px',
             lineHeight: '64px',
           }}
@@ -128,12 +141,17 @@ const Header = () => {
             </Link>
             <div className="center">
               <div>
-                <Input.Search
+                {/* <Input.Search
                   className="inputSearch"
-                  placeholder="input search text"
+                  placeholder="Search Content"
                   onSearch={onSearch}
                   size="large"
                   enterButton
+                /> */}
+                <input 
+                  className="inputSearch"
+                  placeholder="Search Content"
+                  onKeyUp={(event) => {typeSearch(event, event.currentTarget.value)}}
                 />
               </div>
             </div>
@@ -154,8 +172,7 @@ const Header = () => {
                 <div>
                   <Badge count={state.sum} overflowCount={99}>
                     <Dropdown
-                      onClick={handleProfileClick}
-                      placement="bottomRight"
+                      placement="bottomLeft"
                       overlay={
                         <Menu style={{ backgroundColor: 'white' }}>
                           <div className="contain-notification">
@@ -186,24 +203,36 @@ const Header = () => {
                       onVisibleChange={handleVisibleChange}
                       visible={visible}
                     >
-                      <div className="dropdownBox">
+                      <div className="dropdownBox" style={{ backgroundColor: '#f5f5f5' }}>
+                        {visible ? 
+                         <MdNotifications
+                           style={{
+                             color: '#262e3c',
+                             fontSize: '24px',
+                             position: 'absolute',
+                             top: '50%',
+                             left: '50%',
+                             transform: ' translate(-50%,-50%)',
+                           }}
+                         />
+                       :
                         <MdNotificationsNone
-                          style={{
-                            color: '#C1C1C1',
-                            fontSize: '24px',
-                            position: 'absolute',
-                            top: '50%',
-                            left: '50%',
-                            transform: ' translate(-50%,-50%)',
-                          }}
-                        />
+                        style={{
+                          color: '#262e3c',
+                          fontSize: '24px',
+                          position: 'absolute',
+                          top: '50%',
+                          left: '50%',
+                          transform: ' translate(-50%,-50%)',
+                        }}
+                      />
+                      }
                       </div>
                     </Dropdown>
                   </Badge>
                 </div>
                 <div>
                   <Dropdown
-                    onClick={handleProfileClick}
                     placement="bottomRight"
                     overlay={
                       <Menu style={{ padding: '8px' }}>
@@ -255,10 +284,32 @@ const Header = () => {
                     }
                     trigger={['click']}
                   >
-                    <div className="dropdownBox">
-                      <MdArrowDropDown
+                    <div className="dropdownBox" style={{ backgroundColor: '#f5f5f5' }}>
+                      {/* <MdArrowDropDown
                         style={{
-                          color: '#C1C1C1',
+                          color: '#262e3c',
+                          fontSize: '24px',
+                          position: 'absolute',
+                          top: '50%',
+                          left: '50%',
+                          transform: ' translate(-50%,-50%)',
+                        }}
+                      /> */}
+                      {visible ? 
+                         <MdArrowDropDown
+                           style={{
+                             color: '#262e3c',
+                             fontSize: '24px',
+                             position: 'absolute',
+                             top: '50%',
+                             left: '50%',
+                             transform: ' translate(-50%,-50%)',
+                           }}
+                         />
+                       :
+                        <MdArrowDropDown
+                        style={{
+                          color: '#262e3c',
                           fontSize: '24px',
                           position: 'absolute',
                           top: '50%',
@@ -266,6 +317,7 @@ const Header = () => {
                           transform: ' translate(-50%,-50%)',
                         }}
                       />
+                      }
                     </div>
                   </Dropdown>
                 </div>

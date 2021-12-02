@@ -30,7 +30,7 @@ const NewsType = new GraphQLObjectType({
     search: {
       type: GraphQLString,
     },
-    updateAt: {
+    updatedAt: {
       type: GraphQLString,
     },
     followTo: { type: GraphQLString },

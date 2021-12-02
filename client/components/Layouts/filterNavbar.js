@@ -14,8 +14,6 @@ import { useRouter } from "next/router";
 import pathToolURl from "../_utils/pathTool";
 
 const FilterNavbar = ({ loadingMenu }) => {
-  const [alert, setAlert] = useState(false);
-  const mounted = useRef(true);
   const [state, setState] = useState({
     selectKey: [],
     openKey: [],
@@ -25,64 +23,58 @@ const FilterNavbar = ({ loadingMenu }) => {
   const router = useRouter();
   useEffect(() => {
     try {
-      if (state.selectKey.length || (state.openKey.length && !alert)) {
+      if (state.selectKey.length || (state.openKey.length)) {
         return null;
       }
-      mounted.current = true;
-      if (mounted.current) {
-        pathToolURl.forEach((url) => {
-          if (router.pathname === url[1]) {
-            if (url.length === 2) {
-              setState({
-                selectKey: url[0],
-              });
-              setTimeout(() => {
-                setLoading(true)
-              },1000)
-              
-              setLoading(false)
-        
-            } else if (url.length === 3) {
-              setState({
-                selectKey: url[0],
-                openKey: url[2],
-              });
-              setTimeout(() => {
-                setLoading(true)
-              },1000)
-
-              setLoading(false)
-            }
+      pathToolURl.forEach((url) => {
+        if (router.pathname === url[1]) {
+          if (url.length === 2) {
+            setState({
+              selectKey: url[0],
+            });
+            
+          } else if (url.length === 3) {
+            setState({
+              selectKey: url[0],
+              openKey: url[2],
+            });
           }
-        });
-      }
-      return () => (mounted.current = false);
+          setLoading(true)
+          setTimeout(() => {
+            setLoading(false)
+          },1000)
+        }
+      });
     } catch (e) {
       console.log("Sorry for have problem");
     }
-  }, [alert, state.selectKey, state.openKey]);
+  }, [state.selectKey, state.openKey]);
   const handleClick = (e) => {
+    
+    const path =  e.keyPath[0];
     if (e.keyPath.length === 2){
       setState({
         selectKey: e.keyPath[0],
         openKey: e.keyPath[1],
       })
-      setTimeout(() => {
-        setLoading(true)
-      },1000)
-
-      setLoading(false)
     }
-      
+  
     else if (e.keyPath.length === 1){
       setState({
         selectKey: e.keyPath[0],
       });
-      setTimeout(() => {
+      if (e.keyPath[0] == path) {
         setLoading(true)
+        setTimeout(() => {
+          setLoading(false)  
+        },1000)
+      }
+    }
+    else{
+      setLoading(true)
+      setTimeout(() => {
+        setLoading(false)  
       },1000)
-      
-      setLoading(false)
     }
   };
   const selectKeyx = [];
@@ -114,12 +106,12 @@ const FilterNavbar = ({ loadingMenu }) => {
       </div>
     );
   };
-
   loadingMenu(loading);
   return (
     <div>
       <Menu
         style={{ display: "flex", height: '46px', alignItems: "center"}}
+        className="cardItem"
         onClick={handleClick}
         defaultSelectedKeys={selectKeyx}
         defaultOpenKeys={openKeyx}
@@ -153,7 +145,7 @@ const FilterNavbar = ({ loadingMenu }) => {
         </Menu.Item>
         <Menu.Item key="3">
           <Link href="/today">
-            {loading ?
+            {
               text(
                 "Today",
                 selectKeyx[0] == 3 ? (
@@ -163,8 +155,6 @@ const FilterNavbar = ({ loadingMenu }) => {
                 ),
                 3
               )
-            :
-              <LoadingOutlined style={{ fontSize: 24 }} spin />
             }
           </Link>
         </Menu.Item>

@@ -66,6 +66,7 @@ const RootMutation = new GraphQLObjectType({
         slug: { type: GraphQLString },
       },
       resolve: async (parents, args, context) => {
+        console.log(args.des);
         try {
           const existingSlug = await NewsModel.findOne({ title: args.title });
           const userFollower = await FollowModel.find({

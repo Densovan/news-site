@@ -16,7 +16,7 @@ const Suggestion = ({ user, isAuthenticated }) => {
 
   const users = data.get_users.map((x) => x);
   return (
-    <Card>
+    <Card className="cardItem">
       <Typography.Title level={5}>Suggestions For You</Typography.Title>
       <Divider style={{ marginBottom: 20, marginTop: 16 }} />
       {users.slice(0, 5).map((res) => {

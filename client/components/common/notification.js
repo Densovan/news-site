@@ -33,6 +33,7 @@ const Notification = ({ notifications, user, handleMenuClick }) => {
 
   const handleRead = (e, notificationId, type, slug) => {
     e.preventDefault();
+    handleMenuClick(false),
     readNotification({
       variables: {
         id: notificationId,

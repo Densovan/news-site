@@ -203,11 +203,10 @@ const FormComment = (props) => {
               {...sharedProps}
             />
           </Form.Item>
-          <div style={{ display: "flex" }}>
+          <div className="control-btn" style={{ display: "flex" }}>
             <Form.Item shouldUpdate>
               {() => (
                 <Button
-                  className="btn-comment"
                   htmlType="submit"
                   disabled={
                     !form.isFieldsTouched(true) ||
@@ -222,9 +221,9 @@ const FormComment = (props) => {
             </Form.Item>
             <Form.Item>
               {btnCancel[0] === "Cancel" && (
-                <button className="btn-reset" onClick={handleReset}>
+                <Button className="btn-reset" onClick={handleReset}>
                   Cancel
-                </button>
+                </Button>
               )}
             </Form.Item>
           </div>

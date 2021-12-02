@@ -25,7 +25,6 @@ export const AuthProvider = ({ children, token }) => {
   const [selected, setSelected] = useState(["All"]);
   const [loadingFilter, setLoadingFilter] = useState(false);
 
-  console.log(pathname);
   useEffect(async () => {
     try {
       api.defaults.headers.Authorization = `Bearer ${Cookies.get(
@@ -105,11 +104,10 @@ export const AuthProvider = ({ children, token }) => {
 
   const loadingMenu = (loading) => {
     // setLoadingFilter(loading);
-    // console.log(loading);
   };
 
   return (
-    <>
+    <div className="wrapper">
       {state.loading ? (
         <AuthContext.Provider
           value={{
@@ -129,19 +127,20 @@ export const AuthProvider = ({ children, token }) => {
             <div className="container">
               <br></br>
               <Row gutter={[16, 16]}>
-                <Col xs={24} md={8}>
+                <Col xs={24} md={8} style={{ overflowY:'hidden', height:'90vh' }}>
                   <Filter handleChange={handleChange} selectedTags={selected} />
                   <Suggestion user={user} isAuthenticated={!!token} />
                 </Col>
-                <Col xs={24} md={16}>
+                <Col xs={24} md={16} style={{ overflowY:'auto', height:'90vh' }}>
+                  <FilterNavbar loadingMenu={loadingMenu} />
                   {!!token === true && (
-                    <Row className="status-style">
+                    <Row className="status-style cardItem">
                       <Col span={2}>
                         <center>
                           <Avatar
                             style={{
-                              height: 35,
-                              width: 35,
+                              height: 38,
+                              width: 38,
                               cursor: "pointer",
                               border: "solid 2px #ffffff9d",
                             }}
@@ -152,12 +151,11 @@ export const AuthProvider = ({ children, token }) => {
                       </Col>
                       <Col span={22}>
                         <Link href="/dashboard/addstory">
-                          <Input size="middle" placeholder="Write your story" />
+                          <Input style={{ borderRadius: '20px' }} size="middle" placeholder="Write your story" />
                         </Link>
                       </Col>
                     </Row>
                   )}
-                  <FilterNavbar loadingMenu={loadingMenu} />
                   {children}
                 </Col>
               </Row>
@@ -169,7 +167,7 @@ export const AuthProvider = ({ children, token }) => {
       ) : (
         <></>
       )}
-    </>
+    </div>
   );
 };
 

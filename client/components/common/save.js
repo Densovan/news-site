@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { HiOutlineShare, HiOutlineBookmark } from "react-icons/hi";
-import { useMutation } from "@apollo/client";
-import { SAVE_NEWS } from "../../graphql/mutation";
+import React, { useEffect, useState } from 'react';
+import { MdBookmarkBorder, MdBookmark } from 'react-icons/md';
+import { useMutation } from '@apollo/client';
+import { SAVE_NEWS } from '../../graphql/mutation';
+import { GET_NEWS_BY_SLUG } from '../../graphql/query';
 
 const save = ({
   news_id,
@@ -14,6 +15,7 @@ const save = ({
   slug,
   save,
   myUser,
+  refetch
 }) => {
   const [save_news] = useMutation(SAVE_NEWS);
   const [saves, setSave] = useState(false);
@@ -39,15 +41,17 @@ const save = ({
           thumnail,
           slug,
         },
+        refetchQueries: [{ query: GET_NEWS_BY_SLUG, variables:{slug} }],
       }).then(async (res) => {
-        let check = res.data.save_news.message.split(" ");
-        if (check[0] === "successful") {
+        let check = res.data.save_news.message.split(' ');
+        console.log(check);
+        // refetch({variables: slug})
+        if (check[0] === 'Successfully') {
           setSave(true);
         }
-        if (check[0] === "delete") {
+        if (check[0] === 'delete') {
           setSave(false);
         }
-        console.log(res.data);
       });
     } catch (error) {
       console.log(error);
@@ -55,17 +59,39 @@ const save = ({
   };
 
   return (
-    <div>
-      <button
-        onClick={handleSave}
-        style={{ cursor: "pointer" }}
-        // className="save-bg"
-        className={saves ? "save-bg" : "no-save-bg"}
-      >
-        <HiOutlineBookmark className={saves ? "save" : "no-save"} size={23} />
-      </button>
-      <div className="tt_share">{save.length}</div>
-    </div>
+      <div className="boxSave">
+        {saves ? 
+            <><li onClick={handleSave} className="save-icon-save">
+              <MdBookmark
+                size={24}
+                style={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: ' translate(-50%,-50%)',
+                }}
+              />
+            </li>
+            <li style={{ paddingTop: '4px', width: '48px' }}>
+              <span>{save.length}</span>
+            </li></>
+          : 
+            <><li onClick={handleSave} className="icon-save">
+              <MdBookmarkBorder
+                size={24}
+                style={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: ' translate(-50%,-50%)',
+                }}
+              />
+            </li>
+            <li style={{ paddingTop: '4px', width: '48px' }}>
+              <span>{save.length}</span>
+            </li></>
+        }
+      </div>
   );
 };
 

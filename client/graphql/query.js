@@ -192,6 +192,7 @@ const GET_OWN_NEWS = gql`
   query ($limit: Int!, $offset: Int!) {
     get_own_news(limit: $limit, offset: $offset) {
       voteCount
+      updatedAt
       title
       createdAt
       id
@@ -221,6 +222,7 @@ const GET_NEWS = gql`
     get_news(id: $id) {
       title
       createdAt
+      updatedAt
       id
       category
       thumnail
@@ -245,6 +247,7 @@ const GET_ALL_NEWS = gql`
   query ($limit: Int, $offset: Int) {
     get_all_news(limit: $limit, offset: $offset) {
       title
+      updatedAt
       createdAt
       id
       category
@@ -275,6 +278,7 @@ const GET_ALL_NEWS_TOP = gql`
   query ($limit: Int, $offset: Int) {
     get_all_news_top(limit: $limit, offset: $offset) {
       title
+      updatedAt
       createdAt
       id
       category
@@ -305,6 +309,7 @@ const GET_ALL_NEWS_TODAY = gql`
   query ($limit: Int, $offset: Int) {
     get_all_news_today(limit: $limit, offset: $offset) {
       voteCount
+      updatedAt
       title
       createdAt
       id
@@ -334,6 +339,7 @@ const GET_NEWS_SEARCH = gql`
       voteCount
       title
       createdAt
+      updatedAt
       id
       category
       thumnail

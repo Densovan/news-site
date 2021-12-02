@@ -6,7 +6,6 @@ import CategoryLoader from '../loaders/categoryLoader';
 const { CheckableTag } = Tag;
 
 const Filter = ({ handleChange, selectedTags }) => {
-  console.log(selectedTags);
   const { loading: loadingCategory, data: categories } =
     useQuery(GET_CATEGORIES);
   const { loading: loadingType, data: types } = useQuery(GET_TYPES);
@@ -22,7 +21,7 @@ const Filter = ({ handleChange, selectedTags }) => {
     typeData.push(element.name);
   });
   return (
-    <Card className="card-article">
+    <Card className="cardItem">
       <Typography.Title level={5}>Recommended Topics</Typography.Title>
       <Divider style={{ marginBottom: 20, marginTop: 16 }} />
       <div>

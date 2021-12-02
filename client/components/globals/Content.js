@@ -82,16 +82,6 @@ const Content = ({
     return <>{pretty.format(new Date(created_date))}</>;
   };
   return (
-    // <Fragment>
-    //   {loadingFilter ? (
-    //     <div>
-    //       {' '}
-    //       <Medium />{' '}
-    //     </div>
-    //   ) : (
-        
-    //   )}
-    // </Fragment>
     <Fragment>
           {result.length === 0 && (
             <div>
@@ -104,7 +94,7 @@ const Content = ({
           )}
           {result.map((res, index) => {
             return (
-              <Card className="card-article" key={index}>
+              <Card className="cardItem" key={index}>
                 <Row gutter={[8, 8]}>
                   <Col xs={24} md={7}>
                     <div
